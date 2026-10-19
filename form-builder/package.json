@@ -1,0 +1,19 @@
+{
+  "name": "form-builder-assets",
+  "version": "0.1.0",
+  "description": "Lint and test tooling for the browser assets shipped inside the gov.irs::form-builder jar (the theme and the flow runtime). Not a published package — form-builder is consumed as a Scala artifact; this exists only so the JS under src/main/resources/form-builder/website-static/ is held to the same standard as the rest of the repo's client code.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "lint": "eslint",
+    "format": "eslint --fix"
+  },
+  "devDependencies": {
+    "eslint": "^10.9.0",
+    "eslint-plugin-security": "^4.0.1",
+    "globals": "^17.11.0",
+    "neostandard": "^0.14.0-next.1"
+  }
+}

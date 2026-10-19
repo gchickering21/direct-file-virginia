@@ -1,0 +1,45 @@
+name: Security Scan
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+# Cancel redundant runs on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # do not cancel redundant runs on main or release branches
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/') }}
+
+env:
+  SEMGREP_VERSION: 1.151.0
+
+jobs:
+
+  semgrep:
+    name: Semgrep static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Install Semgrep
+        run: python -m pip install --disable-pip-version-check semgrep==${{ env.SEMGREP_VERSION }}
+
+      # p/scala covers src/main/scala; p/javascript covers the browser assets shipped in the jar.
+      - name: Scan
+        run: |
+          semgrep scan --metrics off --severity WARNING --error \
+            --exclude target --exclude project/target --exclude node_modules \
+            --config p/security-audit \
+            --config p/scala \
+            --config p/javascript

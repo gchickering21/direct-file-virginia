@@ -1,0 +1,86 @@
+name: Quality Checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+# Cancel redundant runs on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # do not cancel redundant runs on main or release branches
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/') }}
+
+env:
+  JAVA_VERSION: 21
+  SBT_VERSION: 1.11.4
+  NODE_VERSION: 22.16.0
+
+jobs:
+
+  check-emails:
+    name: Commit email policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check commit author emails
+        uses: IRSDigitalService/shared-actions/.github/actions/check-commit-emails@d39382f7b23cb52c0762b5e321f29f2ed66e8189
+        with:
+          repo_path: form-builder
+          base_ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || 'main' }}
+
+  javascript:
+    name: JavaScript lint and tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+
+      - name: Install Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install the lint and test tooling
+        run: npm ci
+
+      - name: Lint the theme and flow-runtime assets
+        run: npm run lint
+
+      - name: Run the JavaScript unit tests
+        run: npm test
+
+  scala-format:
+    name: Scala format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+
+      - name: Install sbt via shared action
+        uses: IRSDigitalService/shared-actions/.github/actions/setup_sbt_coursier@d39382f7b23cb52c0762b5e321f29f2ed66e8189
+        with:
+          java_version: ${{ env.JAVA_VERSION }}
+          sbt_version: ${{ env.SBT_VERSION }}
+
+      - name: Check Scala formatting
+        run: sbt scalafmtCheckAll
+
+  schemas:
+    name: RELAX NG schemas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4
+
+      - name: Install xmllint
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-utils
+
+      - name: Check the shipped schemas parse
+        run: xmllint --noout src/main/resources/form-builder/schema/*.rng
