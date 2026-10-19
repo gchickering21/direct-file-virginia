@@ -1,0 +1,30 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return.
+  See docs/adr/001-virginia-state-return.md. Every figure below names its source. This module
+  reads federal facts only through what the federal return already exports to states
+  (stateSystems="true") or to MeF (mef="true"); the residency fact gates, it does not compute.
+  Authority: Va. Code Title 58.1, Chapter 3 (https://law.lis.virginia.gov/vacode/title58.1/),
+  and the 2024 Form 760 instructions (Virginia Department of Taxation).
+-->
+<FactDictionaryModule>
+  <Facts>
+
+    <!-- ============ Residency: the gate. Reads the federal residency answer. ============ -->
+
+    <Fact path="/vaIsResident">
+      <Name>Virginia resident</Name>
+      <Description>The filer lived in Virginia for all of the tax year, as answered on the federal
+        residence question (/filerResidenceAndIncomeState, with 'va' added to the federal
+        /scopedStateOptions). Part-year and nonresident returns (Forms 760PY and 763) are out of
+        scope. This fact gates the Virginia screens; it is not an export.</Description>
+      <Derived>
+        <Equal>
+          <Left><Dependency module="filers" path="/filerResidenceAndIncomeState" /></Left>
+          <Right><Enum optionsPath="/scopedStateOptions">va</Enum></Right>
+        </Equal>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>
