@@ -1,0 +1,94 @@
+# Generated website files
+out/
+
+# Application checkouts, and the compose fragments that mount them into Fact Explorer: other
+# people's repositories, and absolute paths on one machine. Each directory's README is kept —
+# they are what explain the directory to someone who finds it empty.
+/apps/*
+!/apps/README.md
+/docker-compose.apps.d/*
+!/docker-compose.apps.d/README.md
+
+# sbt
+target/
+project/target/
+
+# node
+node_modules/
+
+# Metals
+.bsp/
+.bloop/
+.metals/
+.scala-build
+metals.sbt
+
+# Jetbrains products
+.idea
+.idea_modules
+/.worksheet/
+*.iml
+
+# vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/fg-helpers.code-snippets
+
+# macOS
+.DS_Store
+
+# NO AI FILES ARE COMMITTED
+
+.agents/
+.cursor/
+.codex/
+.codex-plugins/
+.gemini/
+
+# --- Anthropic / Claude Code ---
+.claude/
+.claude/config.json
+.claudecode/
+*.claudelog
+.claudemdexcludes
+.claudeignore
+CLAUDE.MD
+SKILLS.MD
+
+# --- Cursor ---
+.cursor/
+.cursor/rules/  
+.cursor_history/
+.cursorrules.local       
+
+# --- Codeium Windsurf & Cascade ---
+.windsurf/
+.windsurf/rules/         
+.windsurf/memories/      
+.windsurf_history/
+
+# --- Cline & Roo Code ---
+.cline/
+.roocode/
+.clinerules.local       
+
+# --- GitHub Copilot & Chat ---
+.copilot-history/
+.github/copilot-instructions.local.md
+
+# --- Aider (Terminal AI Pair Programmer) ---
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.*
+
+# --- Open-Hands / All-Hands (SWE-Agent variants) ---
+.openhands/
+.openhands_cache/
+.swe-agent/
+swe-agent.log
+
+# --- General Multi-Agent Tools & Context Indexes ---
+.ai-context/
+.ai-index/
+.llm-cache/
+ai-instructions.local.md

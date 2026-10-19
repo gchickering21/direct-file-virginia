@@ -1,0 +1,51 @@
+services:
+  fact-explorer:
+    profiles: ["explorer"]
+    build:
+      # The repo root, because Fact Explorer is one package of an npm workspace: `taxpert` resolves
+      # to packages/ui through the root lockfile, so the root manifest and both packages have to be
+      # in scope.
+      context: ${TAXPERT_REPO:?set TAXPERT_REPO to a taxpert checkout}
+      dockerfile: packages/fact-explorer/Dockerfile
+    # The build bakes no registry it can trust for you: the container rescans /apps at start and
+    # serves whatever descriptors it finds. Mount one directory per app.
+    volumes:
+      - ${TAXPERT_APP_DIR:?set TAXPERT_APP_DIR to your app repo root}/fact-explorer.app.json:/apps/app/fact-explorer.app.json:ro
+    ports:
+      - "${TAXPERT_FACT_EXPLORER_PORT:-5180}:80"
+    restart: unless-stopped
+
+  chromadb:
+    profiles: ["ai"]
+    # Docker Hub, and pinned to match the chromadb Python client in services/assistant/uv.lock.
+    image: chromadb/chroma:1.5.9
+    volumes:
+      - taxpert-chroma-data:/data
+    restart: unless-stopped
+
+  assistant:
+    profiles: ["ai"]
+    build:
+      context: ${TAXPERT_REPO:?set TAXPERT_REPO to a taxpert checkout}/services/assistant
+      dockerfile: Dockerfile
+    environment:
+      CHROMA_HOST: chromadb
+      CHROMA_PORT: "8000"
+      CHROMA_COLLECTION: irs_publications
+      # Your app serves its own fact dictionary; the assistant reads it at startup.
+      FACT_DICTIONARY_URL: ${TAXPERT_APP_HOST:?set TAXPERT_APP_HOST}/resources/fact-dictionary.xml
+      # Browser origins allowed to call this backend: your app, and Fact Explorer.
+      FRONTEND_ORIGIN: ${TAXPERT_FRONTEND_ORIGIN:-http://localhost:3000,http://localhost:5180}
+      # Ollama runs natively on the host, never containerized.
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://host.docker.internal:11434}
+      DOMAIN_PACK: ${TAXPERT_ASSISTANT_PACK:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${TAXPERT_ASSISTANT_PORT:-8000}:8000"
+    depends_on:
+      - chromadb
+    restart: unless-stopped
+
+volumes:
+  taxpert-chroma-data:
