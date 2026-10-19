@@ -7,10 +7,14 @@ TOOLCHAIN := . stack/toolchain.sh &&
 COMPOSE := docker compose --project-directory $(IRS) -f $(IRS)/docker-compose.yaml -f stack/overrides.yaml
 SERVICES := api csp-simulator
 
-.PHONY: help port-bootstrap port-dev port-site port-smoke port-validate port-test stack-up stack-build stack-down stack-logs stack-ps client
+.PHONY: help virginia-check port-bootstrap port-dev port-site port-smoke port-validate port-test stack-up stack-build stack-down stack-logs stack-ps client
 
 help:
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
+
+virginia-check: ## validate the XML, then check that facts/virginia.xml reads only federal facts the state API exported
+	$(TOOLCHAIN) $(MAKE) -C $(PORT) validate-xml
+	python3 $(PORT)/scripts/check-virginia-exports.py
 
 port-bootstrap: ## once: compile and publish fact-graph and form-builder, install the port's npm deps, vendor assets
 	$(TOOLCHAIN) npm --prefix taxpert/packages/ui install

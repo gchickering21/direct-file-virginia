@@ -129,3 +129,30 @@ What this means:
   page errors. That scenario is the candidate Virginia household.
 - **Port build times:** fact-graph 13 s, form-builder 23 s, the port's own compile and
   727-screen site generation 30 s, all with sbt warm. The watcher regenerates on edit.
+
+## 2026-10-19 the first Virginia rules compute
+
+- **Hand check, household 1 ("Single 33k No Credits" as a Virginia resident):** federal AGI
+  $34,333; no age deduction (born 1997); no Social Security; Line 9 VAGI $34,333, above
+  the $11,950 threshold; Line 11 standard deduction $8,500; Line 12 exemptions 1 × $930;
+  Line 15 taxable $24,903; Line 16 tax = $720 + 5.75% × ($24,903 − $17,000) = $720 +
+  $454.42 = $1,174.42 → **$1,174**. The engine, through the port's summary page: AGI
+  $34,333, age deduction $0, VAGI $34,333, standard deduction $8,500, exemptions $930,
+  taxable $24,903, **tax $1,174**. Line for line.
+- **What it took:** one fact module (`facts/virginia.xml`, 27 facts, every one citing its
+  section of Va. Code Title 58.1), one flow module of two pages, `va` added to the federal
+  state enum and the residence question, one line in `flow/index.xml`. Both XML files
+  validate against the IRS's RELAX NG schemas unchanged. The engine, Form Builder and the
+  federal facts were not touched. The watcher regenerated the 140-page site in 22 s.
+- **The port's generated `locales/flow_en.yaml` picks up the Virginia strings** on its own;
+  it is build output the IRS commits, so we commit it too.
+- **Hand check, household 2** (same scenario, born 1955-05-05, wages $56,000): federal AGI
+  $57,000; AFAGI $57,000; age deduction $12,000 − ($57,000 − $50,000) = $5,000; VAGI
+  $52,000; standard deduction $8,500; exemptions $930 + $800 = $1,730; taxable $41,770;
+  tax $720 + 5.75% × $24,770 = $2,144.28 → **$2,144**. Engine: $5,000 / $52,000 / $8,500 /
+  $1,730 / $41,770 / **$2,144**.
+- **The export check caught a real violation on its first run:** `/claimedDependentsCount`
+  is derived inside the federal dictionary and not exported, so a state would never have
+  received it. Virginia must count dependents from the per-dependent facts the export does
+  carry. The rule is worth having precisely because it is easy to break by reaching for
+  the convenient federal fact.
