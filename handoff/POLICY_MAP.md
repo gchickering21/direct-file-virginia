@@ -3,7 +3,7 @@
 Written for a Virginia policy analyst or engineer. One row per rule the prototype
 implements. Tax year 2024. Fact paths are in
 `form-builder-examples/direct-file/src/main/resources/direct-file/facts/virginia.xml`;
-the Virginia screens are in `flow/virginia.xml` beside it. "Federal facts read" names what
+the Virginia screens are in `flow/your-taxes-virginia.xml` beside it. "Federal facts read" names what
 the rule consumes from the federal return, and how the federal return exports it to a
 state: **MeF** (in the Form 1040 XML) or **state systems** (the state API's enriched JSON).
 

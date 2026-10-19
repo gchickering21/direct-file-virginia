@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <?xml-model href="./FlowConfig.rng"?>
-<!-- Hand-written, unlike the federal modules beside it, which are transpiler output. The Virginia
+<!-- Hand-written, unlike the federal modules beside it, which are transpiler output. Named
+     {category}-{subcategory}.xml like them, under the 'your-taxes' category, so the port's FlowSpec
+     conventions hold: routes start /your-taxes/virginia/. The Virginia
      screens show only to a filer who answered Virginia on the federal residence question. Every
      figure comes from facts/virginia.xml; see docs/adr/001-virginia-state-return.md. -->
 <FlowConfig>
-  <page title="Your Virginia return" route="/virginia/intro/virginia-intro">
+  <page title="Your Virginia return" route="/your-taxes/virginia/virginia-intro">
     <section>
       <div class="df-screen" condition="/vaIsResident" operator="isTrue">
         <h2>Your Virginia return</h2>
@@ -14,7 +16,7 @@
       </div>
     </section>
   </page>
-  <page title="Form 760, computed from your federal return" route="/virginia/summary/virginia-summary">
+  <page title="Form 760, computed from your federal return" route="/your-taxes/virginia/virginia-summary">
     <section>
       <div class="df-screen" condition="/vaIsResident" operator="isTrue">
         <h2>Form 760, computed from your federal return</h2>

@@ -23,8 +23,10 @@ Add a Virginia resident return to this application as **two XML files beside the
 ones**, plus the smallest federal touch that lets a Virginia resident through the door:
 
 1. `facts/virginia.xml`: a fact module deriving Form 760 lines from federal facts.
-2. `flow/virginia.xml`: a flow module of screens, registered in `flow/index.xml` after the
-   federal modules and shown only to Virginia residents.
+2. `flow/your-taxes-virginia.xml`: a flow module of screens under the port's "your taxes"
+   category (its tests require `{category}-{subcategory}.xml` and matching routes),
+   registered in `flow/index.xml` after the federal modules and shown only to Virginia
+   residents.
 3. `va` added to the federal `/scopedStateOptions` enum in `facts/constants.xml` and to
    the residence question's options in the about-you flow. Without it the federal
    knockout `/flowKnockoutUnsupportedState` ends the interview for a Virginia resident.
