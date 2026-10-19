@@ -120,3 +120,12 @@ What this means:
   `file:` npm dependency does not install the dependency's dev dependencies, so the step
   fails on a fresh clone until `npm install` has been run inside `taxpert/packages/ui`.
   Our `make port-bootstrap` does that first.
+- **Gate B3 passed (2026-10-19, late).** The IRS's port runs natively (`make port-dev`,
+  http://localhost:3008/app/direct-file) with the Taxpert workspace: Product Experience,
+  Path Mode, Browse All, Scenario modal (161 saved fact graphs, filterable by filing
+  status, topic and source), Fact Inspector. Loading "Single 33k No Credits" and opening
+  the amount pages shows the engine computing in the browser: AGI $34,333, standard
+  deduction $14,600, taxable income $19,733, tentative tax $2,135, balance due $901. No
+  page errors. That scenario is the candidate Virginia household.
+- **Port build times:** fact-graph 13 s, form-builder 23 s, the port's own compile and
+  727-screen site generation 30 s, all with sbt warm. The watcher regenerates on edit.
