@@ -104,3 +104,19 @@ What this means:
   those plus the MeF XML to a state's filing software. A Virginia module that depends only
   on those facts is one that the real export would have fed. That is the design rule for
   the integration half of the project, and a test can enforce it.
+
+## 2026-10-19 standing up the IRS port of Direct File (Form Builder)
+
+- **Homebrew is the wrong way to get a JDK on this Mac.** On macOS 13 Homebrew has no
+  prebuilt bottles left, so `brew install openjdk@21` compiles the JDK and OpenSSL from
+  source, hours on a 2017 machine. Prebuilt Temurin 21 and the sbt launcher zip, unpacked
+  under `~/.dpi-toolchain`, took two minutes (`stack/toolchain.sh`). The IRS's own
+  onboarding suggests coursier or SDKMAN for the same reason.
+- **The port's bootstrap compiles in under a minute each** for fact-graph (JVM + Scala.js)
+  and form-builder once sbt has its own dependencies. Far lighter than the archived app's
+  Maven build.
+- **One gap in the IRS quickstart:** the port's `make bootstrap` runs the Taxpert UI's
+  build script, which imports `rolldown`, a dev dependency of the Taxpert package; a
+  `file:` npm dependency does not install the dependency's dev dependencies, so the step
+  fails on a fresh clone until `npm install` has been run inside `taxpert/packages/ui`.
+  Our `make port-bootstrap` does that first.

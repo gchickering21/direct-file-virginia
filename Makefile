@@ -13,6 +13,7 @@ help:
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
 
 port-bootstrap: ## once: compile and publish fact-graph and form-builder, install the port's npm deps, vendor assets
+	$(TOOLCHAIN) npm --prefix taxpert/packages/ui install
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) bootstrap
 
 port-dev: ## run the port with hot reload at http://localhost:3008/app/direct-file/
