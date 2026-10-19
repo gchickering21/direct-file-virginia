@@ -13,15 +13,21 @@ Repository: github.com/gchickering21/direct-file-virginia (private until handoff
 
 ## 1. The argument
 
-**Government code published in the public domain is reusable public infrastructure.**
-The IRS published Direct File's source (public domain in the US, CC0 worldwide) and then
-suspended the service. A state with an income tax and no free filing option could take
-that code and stand up its own filer. We show it with Virginia: residents have no free
-state option, Virginia never joined Direct File, and nothing in the code is Virginia's.
+**Government code published in the public domain is reusable public infrastructure, and
+the IRS has shown it itself.** The IRS published Direct File's source (public domain in the
+US, CC0 worldwide), suspended the service, and then kept the reusable part: the Fact Graph
+rules engine became a standalone library (3.1), a declarative presentation layer (Form
+Builder) grew out of it, two live irs.gov tools were rebuilt on it in 2026, and the IRS
+ported Direct File's whole interview onto that stack as a reference application. A state
+with an income tax and no free filing option could build its own filer on that maintained
+toolchain today. We show it with Virginia: residents have no free state option, Virginia
+never joined Direct File, and nothing in the code is Virginia's.
 
-The proposed change to the existing product is a Virginia state return computed inside
-Direct File's own interview and rules engine. The benefit to users is a free, guided,
-plain-language way to file a Virginia return where none exists today.
+The proposed change to the existing product is a Virginia state return added to the
+IRS's own port of Direct File on Form Builder: one Virginia fact module beside the 3,030
+federal facts, one Virginia flow module beside the federal screens. The benefit to users
+is a free, guided, plain-language way to file a Virginia return where none exists today.
+The archived 2025 application, which we also run, is the "before" and the product history.
 
 ## 2. Deliverables
 
@@ -29,10 +35,10 @@ plain-language way to file a Virginia return where none exists today.
 |---|---|---|
 | Report | ~15 double-spaced pages organised around the five key questions, APA 7 citations | Questions 1–4: teammates. Question 5 and the build sections: Graham |
 | Executive summary | One single-spaced page, written last | Whole group |
-| The "before" | The real 2025 federal Direct File running locally from the public code | Graham |
-| The "after" | The same app with a Virginia return added, in the same codebase | Graham |
-| The diff | The git difference between the two, plus screenshots at fixed points | Graham |
-| The explainer | The static demo (`demo/`) with its rule explorer, used for figures and for the technology question | Graham |
+| The "before" | The real 2025 federal Direct File running locally from the archived code (done 2026-10-19), and the IRS's port of it on Form Builder | Graham |
+| The "after" | The port with a Virginia return added: a Virginia fact module and flow module | Graham |
+| The diff | The git difference on the port, plus screenshots at fixed points in the archived app and the port | Graham |
+| The explainer | The IRS's own tools over the port: Browse All, Fact Explorer, Author Mode. They draw the federal and Virginia facts in one graph, which is the figure for the technology question | Graham |
 
 ## 3. The five questions and what answers them
 
@@ -67,28 +73,43 @@ chosen so that serving one never costs the others:
 | Virginia's Chief Transformation Officer (Graham has the contact) | to see whether the state could actually use this, and to hand it to their own engineers | the handoff package below |
 
 ```
-direct-file/   IRS-Public/direct-file at e365f9f, squashed subtree. The real app.
-               Virginia changes are ordinary commits here, so `git diff a469349 -- direct-file`
-               is the change set.
-demo/          The static explainer. Builds from ../direct-file into demo/site/.
-report/        Course material only: this plan, sources, figures, drafts.
-handoff/       The state-facing package (§5G). Written for a state engineering team.
-deploy/        Later. What any host needs to serve each piece. Generic, never FDSW-specific.
+direct-file/            IRS-Public/direct-file at e365f9f, squashed subtree. The archived 2025
+                        app: the "before". Never modified.
+fact-graph/             IRS-Public/fact-graph, squashed subtree at a pinned commit. The engine.
+form-builder/           IRS-Public/form-builder, pinned. Flow XML + dictionary → static site.
+taxpert/                IRS-Public/taxpert, pinned. Fact Explorer, Browse All, Author Mode.
+form-builder-examples/  IRS-Public/form-builder-examples, pinned. Its direct-file/ is the
+                        IRS's port of Direct File. ALL Virginia work is commits inside
+                        form-builder-examples/direct-file/, so the change set is
+                        `git diff <squash> -- form-builder-examples/direct-file`.
+stack/ + Makefile       How we run the archived app (overrides outside its tree).
+report/                 Course material only: this plan, notes, sources, figures, drafts.
+handoff/                The state-facing package (§5G). Written for a state engineering team.
+deploy/                 Later. What any host needs to serve each piece. Never FDSW-specific.
 ```
+
+The five IRS repositories sit as siblings at the root because that is the layout the
+IRS's own Makefiles, Dockerfiles and compose files resolve against (`../../fact-graph`
+from inside an example application). Each is a squashed subtree at a pinned commit, so a
+clean clone builds without network and the IRS's fast-moving `main` cannot change our
+result underneath us. Moving a pin is a deliberate commit.
 
 ### The plug-in contract (FDSW)
 
-- `demo/site/` is one static folder, relative URLs, no assumed root, built by one command
-  from a clean clone with no network. FDSW today builds the demo from sources inside its
-  own repo; the future shape is a Dockerfile stage that clones this repo at a pinned
-  commit, runs that command, and copies `demo/site/`. FDSW then holds a pin and a route.
-- The full Virginia filer (Spring Boot API, three Postgres databases, Redis, the client) is
-  a separately deployable stack. If it goes live it is its own service, linked from the
-  explainer, never embedded. `deploy/` is written only when that is decided.
+- The Virginia filer on Form Builder is **static HTML plus the engine in the browser**:
+  one output folder from one build, no API, no database, no login. That is what FDSW
+  would serve, behind a path, from a Dockerfile stage that clones this repo at a pinned
+  commit and runs the port's build. FDSW then holds a pin and a route.
+- The archived 2025 app (Spring Boot, Postgres, Redis, the simulator) is never deployed;
+  it is the local "before" only.
+- The IRS's inspection tools (Fact Explorer, Browse All) can be served the same way or
+  linked. `deploy/` is written only when that is decided.
 - Nothing in this repo names or imports FDSW. The contract is one-directional: FDSW
   knows about this repo, this repo knows nothing about FDSW.
 
-Decision taken: static explainer embedded, full app linked.
+Decision taken 2026-10-19 (revised): the static Form Builder output is what gets embedded; the
+archived app is never deployed; the static explainer in `demo/` was retired in favour of
+the IRS's own tools.
 
 ### The handoff contract (Virginia)
 
@@ -96,15 +117,16 @@ The Virginia work must be separable from everything else here with no loss, so t
 state team receives the IRS's code plus a small, readable set of changes and nothing
 about our course or our other project.
 
-- **The change set is portable.** Every Virginia change is a commit under `direct-file/`
-  on top of the squash commit, touching only the IRS tree. `handoff/export.sh` runs
-  `git format-patch` over those commits so they apply to a fresh clone of
-  IRS-Public/direct-file at e365f9f. A state team never needs our repository, our
-  subtree, or our history; they take the IRS repo they would start from anyway and apply
-  the patches. `git subtree split` is the alternative when they want the history.
-- **No entanglement.** The Virginia commits do not reference `demo/`, `report/` or
-  FDSW. The explainer reads the Virginia module; the module never knows the explainer
-  exists.
+- **The change set is portable.** Every Virginia change is a commit under
+  `form-builder-examples/direct-file/` on top of that subtree's squash commit, touching
+  only the IRS tree. `handoff/export.sh` runs `git format-patch` over those commits so
+  they apply to a fresh clone of IRS-Public/form-builder-examples at the pinned commit. A
+  state team never needs our repository; they take the IRS repositories they would start
+  from anyway (the five above, at the pins we record) and apply the patches. Better
+  still, the Virginia fact module and flow module are two XML files a state could drop
+  into an application generated from `form-builder-template`.
+- **No entanglement.** The Virginia commits do not reference `report/`, `stack/` or
+  FDSW.
 - **Licence they can accept.** The IRS code is CC0. Everything we add is CC0 too, stated
   in `LICENSE` at the root and repeated in `handoff/README.md`, so a state attorney has
   nothing to negotiate.
@@ -112,8 +134,9 @@ about our course or our other project.
   screen says on the screen that it is a demonstration. Figures are labelled with the tax
   year and the instructions they came from.
 - **Runs in fifteen minutes from a clean clone**, with no secrets and no dependency on
-  any of our machines: the IRS's own compose stack plus the patches. The hand-computed
-  Form 760 check (§5C) ships with it as the acceptance test.
+  any of our machines: the IRS's own `make up` on the port, plus the patches. Static
+  output; a state can open it from a file share. The hand-computed Form 760 check (§5C)
+  ships with it as the acceptance test.
 - **Honest about the gap.** `handoff/README.md` says plainly what a state would still have
   to build: identity for residents, submission into the state's revenue system, the rest
   of Form 760, Spanish, accessibility verification, and that filing the federal return
@@ -153,23 +176,44 @@ gross income to Virginia tax owed: filing status, Virginia AGI, standard deducti
 personal exemption, the rate schedule.** No credits, no itemizing, no dependents, tax
 year 2024 (the year the repo's rules model: `CURRENT_TAX_YEAR = '2024'`).
 
-Mechanically:
+Mechanically, all inside `form-builder-examples/direct-file/`:
 
-1. One new fact module `virginia.xml` beside the federal modules in
-   `direct-file/direct-file/backend/src/main/resources/tax/` (symlinked into the client
-   as `fact-dictionary/generate-src/xml-src/`). It reads federal AGI and filing status
-   and derives the Virginia lines.
-2. One flow chunk of screens in `df-client/df-client-app/src/flow/flow-chunks/`,
-   gated so it appears after the federal review for Virginia residents.
-3. Wording in `locales/en.yaml` (Spanish deferred; note it as a gap).
-4. A Virginia summary screen showing the computed lines.
-5. One hand-computed Form 760 for the chosen test scenario, checked against the engine.
-   This is the acceptance test.
+1. One new fact module `facts/virginia.xml` beside the federal modules (the port carries
+   Direct File's dictionary over unchanged: 3,030 facts in 36 modules). It reads federal
+   AGI and filing status and derives the Virginia lines. It is written to the Fact
+   Dictionary 3.1 specification (`fact-graph/docs/fact-dictionary-specification-3.1.md`)
+   and validates against the `FactDictionaryModule.rng` schema the port ships.
+2. One flow module `flow/virginia.xml` in Flow XML, registered in `flow/index.xml` after
+   the federal modules and gated on Virginia residency with the residency facts the
+   dictionary already has. The port's generated flow is transpiler output and is never
+   hand-edited; our module is hand-written and sits beside it, which the port's own docs
+   say is the intended next step.
+3. Wording in the locale YAML (English; Spanish is a build-time generated file in the
+   port, so it may come for free: check, and note it either way).
+4. A Virginia summary page showing the computed lines, plus the lines in Browse All.
+5. One hand-computed Form 760 for the chosen test scenario, checked against the engine
+   through the port's scenario mode. This is the acceptance test.
 
 Findings to write up regardless of how far the build gets: Virginia must consume the
 federal computation (why states depended on the federal export); identity and
-submission are the two layers a state must supply itself; the engine and interview are
-tax-agnostic and carried over untouched.
+submission are the two layers a state must supply itself, and the IRS's port leaves them
+out on purpose; the engine, the dictionary format and the flow format are tax-agnostic
+(the IRS's own SNAP/Medicaid example proves it) and carried over untouched.
+
+Done 2026-10-19: the archived app runs end to end (`make stack-up`, `make client`,
+login at http://localhost:5000/df/file). Four rotted pieces are fixed in
+`stack/overrides.yaml`; see `report/NOTES.md` and `CONTRIBUTING.md`.
+
+### B3. Stand up the IRS's port of Direct File on Form Builder (Graham, the new gate)
+
+From `form-builder-examples/direct-file/`: `make up` (Docker; builds fact-graph and
+form-builder inside the image, generates the site, serves it with a regenerating watcher)
+or the native path (JDK 21, sbt 1.11, Node 22, xmllint; `make bootstrap && make dev`).
+Four surfaces: the flow at `/app/direct-file/`, Browse All at `/all-screens/`, Author
+Mode at `/author/`, and Fact Explorer from the taxpert stack. Done when one federal
+scenario walks through the port and Fact Explorer shows the federal facts. The Docker
+path needs the Docker VM enlarged first (it was at 4 GB free after the archived app's
+build); the native path needs a JDK 21 and sbt on the Mac. Decide which on the day.
 
 ### B2. Contributor setup (Graham, right after B)
 
@@ -181,19 +225,21 @@ how to load a test scenario, and the branch convention (one branch per policy co
 rebased onto main before merge, §9.4). Checked by one teammate on a clean Mac before
 week 2.
 
-### D. The explainer (Graham, small, alongside B)
+### D. The explainer (retired 2026-10-19)
 
-Repoint `demo/scripts/paths.mjs` at `../direct-file`, drop the fetch script and the
-`vendor/` ignore, confirm `npm run build` and `npm test` pass in the new home. Later, if
-C lands early, load `virginia.xml` into the rule explorer so one figure shows federal and
-state facts in a single dependency graph.
+The static explainer in `demo/` was built, moved here and verified, then retired the same
+day when the IRS's own tools turned out to do its job better: Browse All shows every
+screen, Fact Explorer draws the dependency graph, Author Mode edits the flow in place.
+The published page stays at its artifact link as history
+(https://claude.ai/artifact/TsyR5k7s8uc4DmyWQZrkHZ). Figures for question 3 come from
+Fact Explorer with the Virginia module loaded.
 
 ### E. Before and after capture (Graham)
 
-A scripted walkthrough of one backend test scenario through the stock app, then the same
-through the Virginia build. Screenshots at the same fixed points; the diff; a short
-screen recording, since there is a presentation and a recording is the fallback for a
-live demo.
+A scripted walkthrough (Playwright) of one scenario through the archived 2025 app, the
+same through the IRS's port, and the same through the port with Virginia. Screenshots at
+the same fixed points; the diff on the port; a short screen recording, since there is a
+presentation and a recording is the fallback for a live demo.
 
 ### G. The handoff package (Graham, after E)
 
@@ -212,8 +258,8 @@ Only after the report is drafted and only if the group wants it reachable from F
 
 | Weeks of | Build (Graham) | Report (teammates) |
 |---|---|---|
-| Oct 20 | B: stack up. B2: contributor guide. D: explainer repointed | Source list, citation style, outline; one teammate checks B2 on a clean Mac |
-| Oct 27 | C1–C2: fact module and screens | Questions 1 and 2 drafted |
+| Oct 20 | B3: the IRS port running; B2: contributor guide extended for it | Source list, citation style, outline; one teammate checks B2 on a clean Mac |
+| Oct 27 | C1–C2: fact module and Flow XML module | Questions 1 and 2 drafted |
 | Nov 3 | C3–C5: wording, summary, hand check | Questions 3 and 4 drafted |
 | Nov 10 | E: capture, diff, figures | Figures for Q3 from the explainer |
 | Nov 17 | Question 5 drafted; G: handoff package | Full draft assembled, peer read |
@@ -227,7 +273,14 @@ Only after the report is drafted and only if the group wants it reachable from F
 - State: Virginia (over Maryland, which had a 2025 integration to reconstruct, and
   Massachusetts, which already runs its own state filer; New Hampshire has no individual
   income tax since its interest-and-dividends tax ended).
-- Demo form: the real app modified in place. The diff is the evidence.
+- Demo form (revised 2026-10-19): the IRS's own port of Direct File on its maintained
+  Form Builder stack, modified in place. The diff is the evidence. The archived 2025 app
+  is the "before". Chosen over the archived app because the IRS itself has moved the
+  interview there, a state would start there today, and the result is static HTML a
+  state can run anywhere.
+- The static explainer is retired; the IRS's inspection tools replace it.
+- The four ecosystem repositories are pinned subtrees; moving a pin is a deliberate
+  commit, recorded in `IRS_PINS.md`.
 - Scope: the minimal slice above. Smaller is better; the claim is reuse, not completeness.
 - Tax year 2024, matching the repo.
 - Citation style APA 7 (assumption; change in `report/SOURCES.md` if the group prefers).
@@ -245,6 +298,8 @@ Only after the report is drafted and only if the group wants it reachable from F
 | A Virginia figure wrong on a slide | Hand-computed Form 760 as the acceptance test |
 | Scope creep into a full state return | Scope is fixed in §5C; anything beyond goes in a "future work" list |
 | Numbers cited from memory | Every figure in §5A has a primary source before it enters a draft |
+| The IRS stack is "draft and under-development", pushed weekly, with AI-generated portions disclosed | Pinned subtrees; we build against one commit; the report says what the IRS says about maturity (taxpert `docs/release-status.md`) |
+| The Docker path builds two Scala libraries inside the image and the VM is nearly full | Enlarge the Docker VM disk first, or take the native path (JDK 21, sbt) |
 | Virginia changes drift into course-only files and stop being portable | `handoff/export.sh` runs in the acceptance check; patches must apply to a bare IRS clone |
 
 ## 9. Engineering process for the Virginia work
@@ -256,10 +311,10 @@ changed, see which law each line of it comes from, run the proof, and decide.
 
 ### 9.1 Principles
 
-1. **The IRS's conventions are our conventions.** Their fact-module rules
-   (`docs/adr/adr-fact-modules.md`), their fact-dictionary tests
-   (`docs/adr/adr-fact-dictionary-tests.md`), their flow-chunk layout, their lint plugin,
-   their ADR format. A state engineer who has read the IRS repo should find nothing new
+1. **The IRS's conventions are our conventions.** The Fact Dictionary 3.1 specification,
+   the RELAX NG schemas for both XML formats, the port's `make validate-xml` and
+   `make ci`, Flow XML as the examples write it, the ADR format of the ecosystem's own
+   ADRs. A state engineer who has read the IRS repo should find nothing new
    to learn in ours. If we are tempted to do something the IRS tree does not already do,
    we write down why in an ADR first.
 2. **Every rule names its law.** No Virginia fact exists without a citation. A number
@@ -294,14 +349,13 @@ A commit is done when all of these hold:
 
 - **Traceable.** Every new fact has a `<Name>`, a `<Description>` with its citation, and
   a row in `POLICY_MAP.md`.
-- **Tested three ways, the IRS's ways.** A fact-dictionary unit test for each derived fact
-  (`src/fact-dictionary/tests/factDictionaryTests/`); a completeness test that the
-  Virginia screens can always be finished; one backend scenario JSON under
-  `backend/src/test/resources/scenarios/` for the chosen test household, with expected
-  Virginia lines from the hand-computed Form 760. The coverage reporter shows every
-  Virginia fact exercised.
-- **Regression-clean.** The IRS's existing client, fact-graph and backend suites pass
-  unchanged.
+- **Tested the IRS's ways.** Both XML files validate against their schemas
+  (`make validate-xml`); a ScalaTest for each derived Virginia fact in the port's test
+  tree, the way TWE and the EITC Assistant test theirs; one saved scenario for the chosen
+  household, loaded through scenario mode, with expected Virginia lines from the
+  hand-computed Form 760; the port's Playwright smoke (`make smoke`) still passes.
+- **Regression-clean.** The port's own build, validators and tests pass unchanged, and
+  every federal screen in Browse All is what it was.
 - **Gated correctly.** The Virginia screens appear only for a Virginia resident and only
   after the federal review; every other state's path is byte-for-byte what it was.
 - **Honest on screen.** Every Virginia screen says it is a demonstration. Nothing is
@@ -324,17 +378,18 @@ narrative:
   `feat(virginia): standard deduction by filing status (Va. Code § 58.1-322.03, 760 line 11)`.
 - No fix-up commits in the series. History is rewritten before export so each patch is
   the finished form of one idea.
-- The first commit in the series is an ADR in the IRS's own format,
-  `docs/adr/2026-..._virginia-state-return.md`, saying what we are adding, the scope, the
-  gating choice, and what we deliberately left out. The decision travels with the code.
+- The first commit in the series is an ADR in the ecosystem's own format, under the
+  port's `docs/`, saying what we are adding, the scope, the gating choice, and what we
+  deliberately left out. The decision travels with the code.
 
 ### 9.5 Documentation that ships with the patches
 
 Inside the IRS tree, so the state receives it without our repo:
 
-- `docs/states/virginia/README.md`: what the module does, how to run the scenario, the
-  gap list (identity, submission into Virginia's system, the rest of Form 760, Spanish,
-  accessibility verification, federal filing still needs the IRS).
+- `docs/virginia/README.md` in the port: what the two modules do, how to run the
+  scenario, the gap list (identity, submission into Virginia's system, the rest of Form
+  760, Spanish if not generated, accessibility verification, federal filing still needs
+  the IRS).
 - The ADR above.
 - `POLICY_MAP.md` is mirrored there from `handoff/` at export time.
 

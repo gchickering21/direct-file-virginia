@@ -1,5 +1,0 @@
-# Intermediate build files and the generated site data (npm run build makes them).
-node_modules/
-build/
-site/engine.js
-site/*.json
