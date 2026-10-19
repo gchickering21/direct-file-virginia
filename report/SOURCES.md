@@ -20,6 +20,27 @@ Citation style: APA 7. Every figure in the build and the report traces to a row 
 Note: a third-party guide gives $8,750 / $17,500 for 2024. That is the 2025 figure; the Code
 and the 2024 instructions agree on $8,500 / $17,000 for 2024.
 
+## Form 760 (TY2024) line map, from the instructions (pages 15–17)
+
+| Line | What | Our rule |
+|---|---|---|
+| 1 | Federal adjusted gross income | read from the federal graph (`/agi`, exported) |
+| 2 | Additions (Schedule ADJ) | out of scope: 0 |
+| 3 | Line 1 + Line 2 | derived |
+| 4 | Age deduction | § 58.1-322.03(5): born on or before 1939-01-01 → $12,000; born 1939-01-02 to 1960-01-01 → $12,000 reduced $1 per $1 of AFAGI over $50,000 (single); AFAGI = FAGI − taxable Social Security | the Virginia-specific example rule |
+| 5 | Taxable Social Security / Tier 1 benefits | § 58.1-322.02(3); our household has none: 0 |
+| 6 | State income tax refund included federally | § 58.1-322.02(5); 0 |
+| 7 | Other subtractions (Schedule ADJ) | out of scope: 0 |
+| 8 | Lines 4 + 5 + 6 + 7 | derived |
+| 9 | Virginia adjusted gross income = Line 3 − Line 8 | derived; if below the filing threshold (§ 58.1-321: $11,950 single, $23,900 married) the tax is $0 |
+| 10 | Itemized deductions | out of scope (federal standard-deduction filers only) |
+| 11 | Standard deduction | § 58.1-322.03(1)(b): $8,500 FS1 and FS3, $17,000 FS2; limited to earned income if claimable as a dependent |
+| 12 | Exemptions | § 58.1-322.03(2): $930 × exemptions + $800 × (65-or-older + blind); 65 or older means age 65 on or before 2025-01-01 |
+| 13 | Deductions (Schedule ADJ) | out of scope: 0 |
+| 14 | Lines 10 + 11 + 12 + 13 | derived |
+| 15 | Virginia taxable income = Line 9 − Line 14 | derived |
+| 16 | Tax from the rate schedule | § 58.1-320 |
+
 ## Direct File and the IRS ecosystem (primary)
 
 | What | Source |
