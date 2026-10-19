@@ -52,18 +52,28 @@ plain-language way to file a Virginia return where none exists today.
    before/after, what carried over from the federal code, what had to be written, and
    what a state could not do with the code alone (file federally, authenticate residents).
 
-## 4. Repository layout and the plug-in contract
+## 4. Three audiences, one repository
+
+The same work has to serve three readers who want different things, and the layout is
+chosen so that serving one never costs the others:
+
+| Reader | Wants | Gets |
+|---|---|---|
+| The course | the report and a demo of the proposed change | `report/`, `demo/`, the before/after |
+| Federal Data Sharing Watch (FDSW) | to embed the explainer on its homepage and link the running filer | the plug-in contract below |
+| Virginia's Chief Transformation Officer (Graham has the contact) | to see whether the state could actually use this, and to hand it to their own engineers | the handoff package below |
 
 ```
 direct-file/   IRS-Public/direct-file at e365f9f, squashed subtree. The real app.
                Virginia changes are ordinary commits here, so `git diff a469349 -- direct-file`
                is the change set.
 demo/          The static explainer. Builds from ../direct-file into demo/site/.
-report/        This plan, the source list, figures, drafts.
-deploy/        Later. What a host needs to serve each piece.
+report/        Course material only: this plan, sources, figures, drafts.
+handoff/       The state-facing package (§5G). Written for a state engineering team.
+deploy/        Later. What any host needs to serve each piece. Generic, never FDSW-specific.
 ```
 
-The contract that keeps a later Federal Data Sharing Watch (FDSW) integration cheap:
+### The plug-in contract (FDSW)
 
 - `demo/site/` is one static folder, relative URLs, no assumed root, built by one command
   from a clean clone with no network. FDSW today builds the demo from sources inside its
@@ -72,8 +82,39 @@ The contract that keeps a later Federal Data Sharing Watch (FDSW) integration ch
 - The full Virginia filer (Spring Boot API, three Postgres databases, Redis, the client) is
   a separately deployable stack. If it goes live it is its own service, linked from the
   explainer, never embedded. `deploy/` is written only when that is decided.
+- Nothing in this repo names or imports FDSW. The contract is one-directional: FDSW
+  knows about this repo, this repo knows nothing about FDSW.
 
 Decision taken: static explainer embedded, full app linked.
+
+### The handoff contract (Virginia)
+
+The Virginia work must be separable from everything else here with no loss, so that a
+state team receives the IRS's code plus a small, readable set of changes and nothing
+about our course or our other project.
+
+- **The change set is portable.** Every Virginia change is a commit under `direct-file/`
+  on top of the squash commit, touching only the IRS tree. `handoff/export.sh` runs
+  `git format-patch` over those commits so they apply to a fresh clone of
+  IRS-Public/direct-file at e365f9f. A state team never needs our repository, our
+  subtree, or our history; they take the IRS repo they would start from anyway and apply
+  the patches. `git subtree split` is the alternative when they want the history.
+- **No entanglement.** The Virginia commits do not reference `demo/`, `report/` or
+  FDSW. The explainer reads the Virginia module; the module never knows the explainer
+  exists.
+- **Licence they can accept.** The IRS code is CC0. Everything we add is CC0 too, stated
+  in `LICENSE` at the root and repeated in `handoff/README.md`, so a state attorney has
+  nothing to negotiate.
+- **No branding, no claims.** Nothing is styled as the IRS or Virginia Tax. Every proposed
+  screen says on the screen that it is a demonstration. Figures are labelled with the tax
+  year and the instructions they came from.
+- **Runs in fifteen minutes from a clean clone**, with no secrets and no dependency on
+  any of our machines: the IRS's own compose stack plus the patches. The hand-computed
+  Form 760 check (§5C) ships with it as the acceptance test.
+- **Honest about the gap.** `handoff/README.md` says plainly what a state would still have
+  to build: identity for residents, submission into the state's revenue system, the rest
+  of Form 760, Spanish, accessibility verification, and that filing the federal return
+  would still need the IRS. That list is the most useful page in the package.
 
 ## 5. Workstreams
 
@@ -140,6 +181,15 @@ A scripted walkthrough of one backend test scenario through the stock app, then 
 through the Virginia build. Screenshots at the same fixed points; the diff; a short
 screen recording if there is a presentation.
 
+### G. The handoff package (Graham, after E)
+
+`handoff/README.md` written for a state engineering team, not for the course: what this
+is, what it proves, how to run it, the acceptance test, and the gap list. `handoff/export.sh`
+producing the patch series. A one-page brief for the Chief Transformation Officer sits in
+`handoff/BRIEF.md` and borrows from the executive summary without the course framing. The
+package is reviewed by one teammate pretending to be a state engineer who has never seen
+our repo.
+
 ### F. Deployment (deferred)
 
 Only after the report is drafted and only if the group wants it reachable from FDSW.
@@ -152,7 +202,7 @@ Only after the report is drafted and only if the group wants it reachable from F
 | Oct 27 | C1–C2: fact module and screens | Questions 1 and 2 drafted |
 | Nov 3 | C3–C5: wording, summary, hand check | Questions 3 and 4 drafted |
 | Nov 10 | E: capture, diff, figures | Figures for Q3 from the explainer |
-| Nov 17 | Question 5 drafted | Full draft assembled, peer read |
+| Nov 17 | Question 5 drafted; G: handoff package | Full draft assembled, peer read |
 | Nov 24 | Revisions | Revisions |
 | Dec 1 | Executive summary, final read | Executive summary, final read |
 
@@ -169,6 +219,8 @@ Only after the report is drafted and only if the group wants it reachable from F
 - Citation style APA 7 (assumption; change in `report/SOURCES.md` if the group prefers).
 - Licence for what we write: CC0, matching the IRS code (assumption).
 - Nothing is branded as the IRS or Virginia Tax; "proposed" screens say so on the screen.
+- The Virginia change set must stay portable to a bare IRS clone (§4). A change that
+  needs `demo/` or `report/` to work is in the wrong place.
 
 ## 8. Risks
 
@@ -179,3 +231,4 @@ Only after the report is drafted and only if the group wants it reachable from F
 | A Virginia figure wrong on a slide | Hand-computed Form 760 as the acceptance test |
 | Scope creep into a full state return | Scope is fixed in §5C; anything beyond goes in a "future work" list |
 | Numbers cited from memory | Every figure in §5A has a primary source before it enters a draft |
+| Virginia changes drift into course-only files and stop being portable | `handoff/export.sh` runs in the acceptance check; patches must apply to a bare IRS clone |
