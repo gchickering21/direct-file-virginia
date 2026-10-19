@@ -1,0 +1,28 @@
+<div th:fragment="tool-dock" th:remove="tag">
+    <!--
+      The workspace tool panels: Inspect, Outcome tracker and Watchlist, opened from the global nav's
+      Tools button. Like the audit panel, this sits outside .app-container as a direct child of
+      <body>, because `.audit-mode` turns <body> into a flex row and the dock is one of its columns —
+      that is what makes the page content reflow beside it with no fixed positioning.
+
+      `hidden` mirrors the workspace toggle. The nav only offers the Tools button while the workspace
+      is on (`.tgn-tools` is hidden otherwise), so the panels it opens should not outlive it — and
+      the dock remembers which tools were on in localStorage, so without this they would come back on
+      a page where the button that closes them isn't there.
+    -->
+    <taxpert-tool-dock th:attr="hidden=${flags.auditMode} ? null : 'hidden'"></taxpert-tool-dock>
+
+    <script type="module">
+        // The nav owns the workspace switch; the dock and the audit panel both follow it. The panel's
+        // own enable()/disable() wiring is in the application's fragments/workspace-head.html, since
+        // it needs a path into taxpert and this library names none.
+        //
+        // Listened for on `document` rather than on the nav element: the event is dispatched with
+        // bubbles+composed, and this way the two listeners do not have to agree about which of the two
+        // elements parses first.
+        const dock = document.querySelector('taxpert-tool-dock')
+        document.addEventListener('workspace-toggle', (event) => {
+            dock?.toggleAttribute('hidden', !event.detail.on)
+        })
+    </script>
+</div>
