@@ -1,32 +1,38 @@
-# Direct File prototype
+# Direct File explainer
 
-A static page for a digital public infrastructure class. It runs code the IRS
-published for Direct File: the Fact Graph engine, the 3,030 facts of its tax rules,
-the 727-screen interview with its wording, and the test returns its engineers
-used. A visitor steps through a test return, changes answers, and watches the
-IRS's rules recalculate the Form 1040 and re-decide which questions come next.
+A static page that runs code the IRS published for Direct File: the Fact Graph engine,
+the 3,030 facts of its tax rules, the 727-screen interview with its wording, and the
+test returns its engineers used. A visitor steps through a test return, changes
+answers, and watches the IRS's rules recalculate the Form 1040 and re-decide which
+questions come next. It reads the IRS source from `../direct-file/` in this repository.
 
 Published (private until shared): https://claude.ai/artifact/TsyR5k7s8uc4DmyWQZrkHZ
 
 ## Build and run
 
-Needs Node 20+, git and network access for the first fetch.
+Needs Node 20+. No network: the IRS source is in the repository.
 
 ```bash
-cd prototypes/direct-file
+cd demo
 npm install
-npm run all      # fetch the IRS repo, build site/, run the smoke test
+npm run all      # build site/, run the smoke test
 npm run serve    # http://localhost:8765
 ```
 
 | Command | What it does |
 |---|---|
-| `npm run fetch` | Clones `IRS-Public/direct-file` into `vendor/` at the pinned commit in `scripts/fetch-irs.sh` |
-| `npm run build` | Writes the page's data into `site/` (below) |
+| `npm run build` | Writes the page's data into `site/` (below) from `../direct-file/direct-file/` |
 | `npm test` | Loads the page in jsdom with the real data. Checks each test return's refund or amount owed, steps through every screen, and checks a recalculation, a knockout, rule-driven answer choices, undo and the rule explorer |
 
-`vendor/`, `build/`, `node_modules/` and the generated files in `site/` are
-git-ignored. A clean checkout rebuilds them byte for byte.
+`build/`, `node_modules/` and the generated files in `site/` are git-ignored. A clean
+checkout rebuilds them byte for byte.
+
+## Embedding it elsewhere
+
+`site/` is one static folder with relative URLs and no assumed root. A host embeds it
+by cloning this repository at a pinned commit, running `npm ci && npm run all` in
+`demo/`, and serving `site/` under any path. Nothing in this folder knows about any
+host.
 
 ## What is in here
 
@@ -66,35 +72,7 @@ The Form 1040 lines in `site/app.js` follow the IRS's PDF field mapping,
 - **Answer choices** are read from the rules for this return (`enumChoices`), so a
   household that can't file jointly isn't offered that status.
 
-## Serving from the platform (temporary)
-
-To share it for a short while, the platform's web service serves it **to admins
-only** (a superuser or a member of the "admin" group) at
-
-    https://<the FDSW host>/prototypes/direct-file/
-
-Sign in to the site first. Anyone else, signed in or not, gets a 404, so the page
-doesn't reveal that it exists. It isn't linked from anywhere and carries `noindex`.
-
-How it ships:
-
-- **Build.** The `prototype-direct-file` stage in `_docker/Dockerfile` fetches the
-  IRS repository, builds `site/` and runs the smoke test.
-- **Placement.** The production stage copies the result to
-  `/app/prototypes/direct-file/site` and makes compressed copies. That is deliberately
-  outside `WHITENOISE_ROOT`: WhiteNoise answers before authentication, so anything
-  there would be public.
-- **Serving.** `web/backend/sorn_platform/prototypes.py` checks the session, then
-  serves each file, compressed when the browser accepts it.
-  `tests_integration/test_prototype_direct_file.py` checks the gate.
-- **Cost.** The build needs network access to github.com and adds about a minute.
-
-On the dev stack it is at http://localhost:5173/prototypes/direct-file/ once you sign in
-as an admin. Check it before deploying: `make prod-local`, sign in as an admin at
-http://localhost:8090/fdsw/, then open http://localhost:8090/prototypes/direct-file/.
-Deploy as usual (`docs/CLOUD_RESYNC.md`, "build, push, deploy").
-
-### Taking it down
+## Taking it down
 
 Every piece is marked TEMPORARY.
 
@@ -131,13 +109,7 @@ it, ask Claude to republish `prototypes/direct-file/site` to the URL above.
 
 ## Licences and data
 
-The IRS repository is a work of the US government, in the public domain (CC0),
-and archived. It is fetched at build time, not committed. The test returns are
-invented people and numbers. The page hides identifying numbers anyway. This
-folder's own code follows the repository licence (Apache-2.0).
-
-## Removing it
-
-Take it down from the platform first (above), if it is still served. Then delete
-`prototypes/direct-file/` and its row in `prototypes/README.md`. If it was the last
-prototype, delete `prototypes/` and the `prototypes` line in `.dockerignore`.
+The IRS repository is a work of the US government, in the public domain (CC0), and
+archived; a copy at the pinned commit is in `../direct-file/`. The test returns are
+invented people and numbers. The page hides identifying numbers anyway. This folder's
+own code is CC0 too.

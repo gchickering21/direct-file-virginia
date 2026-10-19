@@ -2,13 +2,12 @@
   "name": "direct-file-prototype",
   "private": true,
   "description": "Class prototype that runs the IRS's published Direct File engine, rules and interview in a static page.",
-  "license": "Apache-2.0",
+  "license": "CC0-1.0",
   "type": "module",
   "scripts": {
-    "fetch": "bash scripts/fetch-irs.sh",
     "build": "node scripts/dictionary.mjs && node scripts/flow.mjs && node scripts/engine.mjs && node scripts/site-data.mjs",
     "test": "node test/smoke.cjs",
-    "all": "npm run fetch && npm run build && npm test",
+    "all": "npm run build && npm test",
     "serve": "python3 -m http.server 8765 --directory site"
   },
   "devDependencies": {
