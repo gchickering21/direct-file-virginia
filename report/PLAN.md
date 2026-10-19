@@ -232,3 +232,120 @@ Only after the report is drafted and only if the group wants it reachable from F
 | Scope creep into a full state return | Scope is fixed in §5C; anything beyond goes in a "future work" list |
 | Numbers cited from memory | Every figure in §5A has a primary source before it enters a draft |
 | Virginia changes drift into course-only files and stop being portable | `handoff/export.sh` runs in the acceptance check; patches must apply to a bare IRS clone |
+
+## 9. Engineering process for the Virginia work
+
+The Virginia change set is written for a state engineering team as its first reader. The
+course and FDSW get what they need from the same work; the state is the one who would run
+it. Everything below exists so that a Virginia engineer can, in one sitting, read what we
+changed, see which law each line of it comes from, run the proof, and decide.
+
+### 9.1 Principles
+
+1. **The IRS's conventions are our conventions.** Their fact-module rules
+   (`docs/adr/adr-fact-modules.md`), their fact-dictionary tests
+   (`docs/adr/adr-fact-dictionary-tests.md`), their flow-chunk layout, their lint plugin,
+   their ADR format. A state engineer who has read the IRS repo should find nothing new
+   to learn in ours. If we are tempted to do something the IRS tree does not already do,
+   we write down why in an ADR first.
+2. **Every rule names its law.** No Virginia fact exists without a citation. A number
+   with no source is a bug, not a placeholder.
+3. **Build on what the IRS already modelled for states.** The tree already has
+   `/filerResidenceAndIncomeState`, `/hasStateFilingIntegration`,
+   `/hasNoStateIncomeTax` and the state knockouts. Virginia hooks into those; it does not
+   invent a second notion of residency.
+4. **Federal behaviour is unchanged, and we prove it.** The IRS's own test suites run
+   green before and after every Virginia commit. The Virginia work only adds.
+5. **Nothing is specific to us.** No path, host, name or dependency that belongs to our
+   machines, the course or FDSW appears in the IRS tree.
+
+### 9.2 Policy traceability
+
+`handoff/POLICY_MAP.md` is the table a Virginia policy analyst reads. One row per
+Virginia rule we implement:
+
+| Form 760 line | Virginia Code / instruction | Fact path | Screen | Test |
+|---|---|---|---|---|
+| e.g. Line 11, standard deduction | Va. Code § 58.1-322.03(1)(b); 2024 Form 760 instructions p. N | `/va/standardDeduction` | `va-deductions` | `virginia.test.ts: standard deduction by filing status` |
+
+Each fact in `virginia.xml` repeats the citation in its `<Description>` so the source
+travels with the code, not only with the table. Dollar figures and rates live in one
+constants block at the top of the module, stamped with the tax year and the instructions
+they came from, the way the federal `constants.xml` does. Changing a figure for a later
+year is one edit in one place.
+
+### 9.3 What "done" means for a Virginia change
+
+A commit is done when all of these hold:
+
+- **Traceable.** Every new fact has a `<Name>`, a `<Description>` with its citation, and
+  a row in `POLICY_MAP.md`.
+- **Tested three ways, the IRS's ways.** A fact-dictionary unit test for each derived fact
+  (`src/fact-dictionary/tests/factDictionaryTests/`); a completeness test that the
+  Virginia screens can always be finished; one backend scenario JSON under
+  `backend/src/test/resources/scenarios/` for the chosen test household, with expected
+  Virginia lines from the hand-computed Form 760. The coverage reporter shows every
+  Virginia fact exercised.
+- **Regression-clean.** The IRS's existing client, fact-graph and backend suites pass
+  unchanged.
+- **Gated correctly.** The Virginia screens appear only for a Virginia resident and only
+  after the federal review; every other state's path is byte-for-byte what it was.
+- **Honest on screen.** Every Virginia screen says it is a demonstration. Nothing is
+  styled as Virginia Tax.
+- **Portable.** `handoff/export.sh` produces patches that apply cleanly to a bare clone of
+  IRS-Public/direct-file at e365f9f and the tests pass there.
+- **Reviewed cold.** One teammate reviews the diff and `POLICY_MAP.md` with no context
+  from Graham, checking only: can I tell what this does, where it comes from, and how I
+  would know if it were wrong.
+
+### 9.4 Commit discipline
+
+The patch series is the document a state engineer reads first, so it must read as a
+narrative:
+
+- One policy concept per commit. Residency gate; Virginia AGI; standard deduction;
+  personal exemption; rate schedule; the summary screen. Never a commit that mixes two.
+- The subject names the rule; the body cites the law and the form line, states the figure
+  and its source, and says what the test proves. Conventional Commits:
+  `feat(virginia): standard deduction by filing status (Va. Code § 58.1-322.03, 760 line 11)`.
+- No fix-up commits in the series. History is rewritten before export so each patch is
+  the finished form of one idea.
+- The first commit in the series is an ADR in the IRS's own format,
+  `docs/adr/2026-..._virginia-state-return.md`, saying what we are adding, the scope, the
+  gating choice, and what we deliberately left out. The decision travels with the code.
+
+### 9.5 Documentation that ships with the patches
+
+Inside the IRS tree, so the state receives it without our repo:
+
+- `docs/states/virginia/README.md`: what the module does, how to run the scenario, the
+  gap list (identity, submission into Virginia's system, the rest of Form 760, Spanish,
+  accessibility verification, federal filing still needs the IRS).
+- The ADR above.
+- `POLICY_MAP.md` is mirrored there from `handoff/` at export time.
+
+Outside the IRS tree, for the handoff itself: `handoff/README.md` (how to take this),
+`handoff/BRIEF.md` (one page for the Chief Transformation Officer), `handoff/export.sh`.
+
+### 9.6 Confidence for the state
+
+- **The acceptance test is a tax return a person can check by hand.** One household, one
+  Form 760 filled from the 2024 instructions on paper, every line compared with the
+  engine's. The worked form ships in `handoff/` as a PDF or image beside the scenario.
+- **A second check against Virginia's own numbers** where one exists: Virginia Tax
+  publishes a tax calculator and rate tables; the scenario is run through those too and
+  the match recorded. (Verify that the calculator covers tax year 2024.)
+- **The explainer's rule explorer** is the walkthrough for a non-engineer at the state: it
+  shows the Virginia lines, which federal facts feed them, and the law behind each.
+
+### 9.7 Working with Virginia along the way
+
+The assignment allows collaboration with a public agency. An early, short conversation
+with the Chief Transformation Officer's office would tell us what Virginia would need to
+see to take this seriously (their identity provider, how returns enter their system, which
+Form 760 lines matter most to them) and would make the gap list theirs rather than ours.
+It also turns §9.6 from our checks into theirs.
+
+Decision for Graham: reach out before the build (shapes scope), after the first working
+slice (something to show), or at handoff only. The plan assumes after the first slice,
+around the week of November 3.
