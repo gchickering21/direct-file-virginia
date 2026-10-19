@@ -1,0 +1,13 @@
+<!--
+  The Taxpert Workspace panel, as TWE mounts it.
+
+  No api-base and no scenarios-base: this app serves no scenario JSONs and runs no chat backend, so
+  the panel falls through to config.endpoints, where both are empty. That is the only reason this
+  file exists rather than the scaffold's default — see fragments/taxpert-config.html.
+-->
+<taxpert-audit-panel id="audit-panel"
+   aria-label="Taxpert workspace"
+   th:attr="fact-dictionary-url=|${basePath}/resources/fact-dictionary.xml|"></taxpert-audit-panel>
+<script type="module" th:inline="javascript">
+   import /*[[|${basePath}/resources/vendor/taxpert/dist/js/taxpert.js|]]*/ ''
+</script>

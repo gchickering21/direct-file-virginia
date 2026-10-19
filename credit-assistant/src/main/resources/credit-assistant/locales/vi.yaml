@@ -1,0 +1,50 @@
+# This application's own strings. The chrome the scaffold's templates need
+# (components.*, errors.*, step-indicator.*, layout.banner.*, …) ships with the
+# scaffold; declare a key here to override any of it.
+title:
+  prefix: Trợ lý EITC
+  suffix: Sở Thuế vụ
+  format: '{0}'
+layout:
+  title: Trợ lý Tín dụng Thuế Thu nhập Kiếm được (EITC)
+  usgov:
+    name: Chính phủ Hoa Kỳ
+all-screens:
+  toolbar:
+    label: Thanh công cụ kiểm toán
+    show-conditions: Hiển thị điều kiện
+    section-label: Phần
+    section-all: Tất cả các phần
+    horizontal-layout: Bố cục ngang
+    scenario-label: Kịch bản
+    scenario-placeholder: Tải kịch bản…
+    scenario-clear: Xóa kịch bản
+  section:
+    about-you: Về bạn
+    filing-status: Tình trạng khai thuế
+    agi: Tổng thu nhập điều chỉnh
+    qualifying-children: Trẻ đủ điều kiện
+    results: Kết quả
+    other: Khác
+workspace:
+  flags:
+    ai-scenario-generation: Tạo kịch bản bằng AI
+    ai-fact-explanation: Giải thích dữ kiện bằng AI
+    author-mode: Chế độ tác giả
+  outcomes:
+    filing-status: Tình trạng khai thuế được suy ra
+    without-qualifying-child: Đủ điều kiện khi không có con hợp lệ
+    qualifying-child: Điều kiện về con hợp lệ
+    marital-status: Tình trạng hôn nhân
+    household-filing-intent: Hộ gia đình và ý định khai thuế
+    married-not-filing-jointly: Đã kết hôn nhưng không khai chung
+    age-without-qualifying-child: Độ tuổi khi không có con hợp lệ
+    age-with-qualifying-child: Độ tuổi khi có con hợp lệ
+    qualified: Đủ điều kiện
+    not-qualified: Không đủ điều kiện
+  filing-status:
+    single: Độc thân
+    married-filing-jointly: Kết hôn khai chung
+    married-filing-separately: Kết hôn khai riêng
+    head-of-household: Chủ hộ
+    qualified-surviving-spouse: Vợ hoặc chồng còn sống đủ điều kiện

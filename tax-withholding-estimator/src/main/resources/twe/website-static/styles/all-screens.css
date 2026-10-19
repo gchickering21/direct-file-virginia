@@ -1,0 +1,11 @@
+/* What this app adds to the Browse All / Path Mode page (the scaffold's all-screens.html links this
+   file). The page itself — section headers, screen cards, the two layout modes, Path Mode's
+   hide/show — is taxpert's, because the markup is the scaffold's and the classes that drive it are
+   the workspace's. Anything genuinely this app's own goes below the import and wins by ordinary
+   cascade order, the same shape as main.css over theme.css.
+
+   This file used to be a fork of the other app's copy, several rewrites behind it: no sections, no
+   toolbar, no Path Mode. It is the import now, and this app's own template override is gone with
+   it — the scaffold's is what both apps render. */
+
+@import "../vendor/taxpert/audit-panel/styles/all-screens-page.css";

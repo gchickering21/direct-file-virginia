@@ -1,0 +1,44 @@
+name: Security Scan
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # do not cancel redundant runs on main or release branches
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/') }}
+
+env:
+  SEMGREP_VERSION: 1.151.0
+
+jobs:
+
+  semgrep:
+    name: Semgrep static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Install Semgrep
+        run: python -m pip install --disable-pip-version-check semgrep==${{ env.SEMGREP_VERSION }}
+
+      - name: Scan
+        run: |
+          semgrep scan --metrics off --severity WARNING --error \
+            --exclude vendor --exclude node_modules --exclude out \
+            --exclude target --exclude project/target \
+            --config p/security-audit \
+            --config p/scala \
+            --config p/javascript

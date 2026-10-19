@@ -1,0 +1,50 @@
+# This application's own strings. The chrome the scaffold's templates need
+# (components.*, errors.*, step-indicator.*, layout.banner.*, …) ships with the
+# scaffold; declare a key here to override any of it.
+title:
+  prefix: Asistan EITC
+  suffix: Sèvis Revni Entèn
+  format: '{0}'
+layout:
+  title: Asistan EITC
+  usgov:
+    name: Gouvènman Etazini
+all-screens:
+  toolbar:
+    label: Bouton zouti odit
+    show-conditions: Montre kondisyon yo
+    section-label: Seksyon
+    section-all: Tout seksyon yo
+    horizontal-layout: Horizontal layout
+    scenario-label: Senaryo
+    scenario-placeholder: Chaje yon senaryo…
+    scenario-clear: Efase senaryo
+  section:
+    about-you: Sou ou
+    filing-status: Estati deklarasyon
+    agi: Revni brit ajiste
+    qualifying-children: Timoun ki kalifye
+    results: Rezilta
+    other: Lòt
+workspace:
+  flags:
+    ai-scenario-generation: Jenerasyon senaryo ak IA
+    ai-fact-explanation: Eksplikasyon done ak IA
+    author-mode: Mòd Otè
+  outcomes:
+    filing-status: Estati deklarasyon ki derive
+    without-qualifying-child: Kalifye san yon timoun ki kalifye
+    qualifying-child: Elijibilite pou timoun ki kalifye
+    marital-status: Estati matrimonyal
+    household-filing-intent: Fwaye ak entansyon pou deklare
+    married-not-filing-jointly: Marye men pa deklare ansanm
+    age-without-qualifying-child: Laj san yon timoun ki kalifye
+    age-with-qualifying-child: Laj ak yon timoun ki kalifye
+    qualified: Kalifye
+    not-qualified: Pa kalifye
+  filing-status:
+    single: Selibatè
+    married-filing-jointly: Marye k ap deklare ansanm
+    married-filing-separately: Marye k ap deklare separeman
+    head-of-household: Chèf fwaye
+    qualified-surviving-spouse: Konjwen sivivan ki kalifye

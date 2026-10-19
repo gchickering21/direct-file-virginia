@@ -1,0 +1,33 @@
+# Benefits Enrollment: the prod-like stack, in one command.
+#
+#   docker compose up --build                           # dev: hot reload (the overlay applies)
+#   docker compose -f docker-compose.yml up --build      # prod-like: ignore the overlay
+#
+# Open: http://localhost:3006/app/benefits/
+#
+# Every application in this repository has this same pair of compose files, differing only in the
+# service name, the published port and the watcher's flags. Learn one and you can run any of them.
+#
+# fact-graph, form-builder and taxpert are clones of three other repositories rather than parts of
+# this one, so each is its own named build context instead of a subdirectory of a shared parent.
+# Edit these paths here too if a sibling library moves.
+#
+# There is no server at runtime. The generated site is fully static, so this service is nginx over
+# the generator's ./out, and which developer surfaces exist was decided by SITE_FLAGS in the image.
+
+services:
+  benefits-enrollment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      additional_contexts:
+        fact_graph: ../../fact-graph
+        form-builder: ../../form-builder
+        taxpert: ../../taxpert/packages/ui
+    ports:
+      - "3006:80"
+    environment:
+      # The port the startup banner tells you to open. The container sees only its own :80, so this
+      # has to repeat the published port above — change both, or the printed address is wrong.
+      APP_PORT: "3006"
+    restart: unless-stopped
