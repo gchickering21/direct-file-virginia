@@ -1,0 +1,13 @@
+# Local-development overrides for the IRS compose file, kept outside the IRS tree so the
+# tree stays byte-for-byte upstream. Passed by the Makefile as a second -f file.
+services:
+  redis:
+    # The IRS file publishes Redis on the host at 6379, which collides with any other
+    # Redis on the machine. The API reaches Redis over the compose network; no host port
+    # is needed.
+    ports: !reset []
+  localstack:
+    # The IRS file pulls the floating 'latest' tag. Since late 2026 that image is a
+    # licensed product and exits with code 55 without a paid token. The newest 4.x
+    # community release, from LocalStack's free line, runs the init scripts as before.
+    image: localstack/localstack:4.12

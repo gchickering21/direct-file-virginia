@@ -31,3 +31,14 @@ sentence in the report or a line in the contributor guide; move it there when us
 - **Resource footprint on the build machine:** the Docker VM needs several GB free for
   the Maven and sbt layers; the MDI stack's startup pinned a core while the build ran, so
   stop other stacks during a first build.
+- **Two more things in the compose file have rotted, both fixed outside the IRS tree
+  (`stack/overrides.yaml`, applied by the root `Makefile`).** (1) `localstack` is pulled
+  by its floating `latest` tag; by October 2026 that image is a licensed product that
+  exits with code 55 without a paid token. The newest 4.x community release runs the
+  IRS init scripts unchanged. (2) Redis is published on the host at 6379 with no
+  variable to move it, so it collides with any other Redis on the machine; the API only
+  needs it on the compose network. For the report: an unpinned dependency is a promise
+  someone else can break, and the IRS's own guide could not have warned about either.
+- **Disk.** A first build of the API image left the Docker VM at 1.2 GB free (build
+  cache for the Maven and sbt stages, plus two LocalStack images). `docker builder
+  prune` reclaimed 2.3 GB afterwards. Budget 10 GB free for a first build.
