@@ -1,0 +1,6 @@
+# Fetched IRS repository, intermediate build files and the generated site data (npm run build makes them).
+node_modules/
+vendor/
+build/
+site/engine.js
+site/*.json
