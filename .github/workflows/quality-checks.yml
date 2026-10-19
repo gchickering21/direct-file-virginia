@@ -1,0 +1,78 @@
+name: Quality Checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+# Cancel redundant runs on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # do not cancel redundant runs on main or release branches
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/') }}
+
+env:
+  NODE_VERSION: 22.16.0
+  BLACK_VERSION: 26.5.1
+
+jobs:
+
+  check-emails:
+    name: Commit email policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check commit author emails
+        uses: IRSDigitalService/shared-actions/.github/actions/check-commit-emails@d39382f7b23cb52c0762b5e321f29f2ed66e8189
+        with:
+          repo_path: taxpert
+          base_ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || 'main' }}
+
+  javascript:
+    name: JavaScript lint and tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install the workspaces
+        run: npm ci
+
+      - name: Lint every workspace
+        run: npm run lint
+
+      - name: Check fact-explorer source formatting
+        run: npx --prefix packages/fact-explorer prettier --check "packages/fact-explorer/src/**/*.{js,jsx,css,scss}"
+
+      - name: Run the JavaScript unit tests
+        run: npm test
+
+  python:
+    name: Python format
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/assistant
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Install black
+        run: python -m pip install --disable-pip-version-check "black[jupyter]==${{ env.BLACK_VERSION }}"
+
+      - name: Check formatting
+        run: black --check src/ tests/

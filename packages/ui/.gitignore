@@ -1,0 +1,8 @@
+node_modules/
+*.log
+.DS_Store
+
+# The bundled build (`npm run build`). src/ is the source of truth and stays committed. This is a
+# generated artifact, like every other mirror in these repos. `make copy-shared-ui` in each
+# application builds it before vendoring it. See docs/internals/bundled-build.md.
+dist/
