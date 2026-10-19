@@ -1,0 +1,35 @@
+# Generated website files
+out/
+
+# sbt
+target/
+projects/*/
+
+# node
+node_modules/
+
+# Generated mirror of taxpert/src, written by `make copy-shared-ui` (a prerequisite of
+# every build target). It is a copy, never a source: edit /taxpert/ and re-run the target.
+# `make check-shared-ui` fails the build if this drifts from the package.
+src/main/resources/twe/website-static/vendor/taxpert/
+
+# Metals
+.bsp/
+.bloop/
+.metals/
+.scala-build
+metals.sbt
+
+# Jetbrains products
+.idea
+.idea_modules
+/.worksheet/
+*.iml
+
+# vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/fg-helpers.code-snippets
+
+# macOS
+.DS_STORE

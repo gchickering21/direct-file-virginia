@@ -1,0 +1,50 @@
+# This application's own strings. The chrome the scaffold's templates need
+# (components.*, errors.*, step-indicator.*, layout.banner.*, …) ships with the
+# scaffold; declare a key here to override any of it.
+title:
+  prefix: Помощник по EITC
+  suffix: Налоговое управление США
+  format: '{0}'
+layout:
+  title: Помощник по EITC
+  usgov:
+    name: Правительство США
+all-screens:
+  toolbar:
+    label: Панель аудита
+    show-conditions: Показать условия
+    section-label: Раздел
+    section-all: Все разделы
+    horizontal-layout: Горизонтальный вид
+    scenario-label: Сценарий
+    scenario-placeholder: Загрузить сценарий…
+    scenario-clear: Очистить сценарий
+  section:
+    about-you: О вас
+    filing-status: Статус подачи
+    agi: Скорректированный валовой доход
+    qualifying-children: Дети, дающие право
+    results: Результаты
+    other: Прочее
+workspace:
+  flags:
+    ai-scenario-generation: Генерация сценариев с ИИ
+    ai-fact-explanation: Объяснение фактов с ИИ
+    author-mode: Режим автора
+  outcomes:
+    filing-status: Производный налоговый статус
+    without-qualifying-child: Соответствие без ребёнка, дающего право
+    qualifying-child: Соответствие по ребёнку, дающему право
+    marital-status: Семейное положение
+    household-filing-intent: Домохозяйство и намерение подачи
+    married-not-filing-jointly: В браке, но подаёт не совместно
+    age-without-qualifying-child: Возраст без ребёнка, дающего право
+    age-with-qualifying-child: Возраст с ребёнком, дающим право
+    qualified: Соответствует
+    not-qualified: Не соответствует
+  filing-status:
+    single: Не в браке
+    married-filing-jointly: В браке, подают совместно
+    married-filing-separately: В браке, подают раздельно
+    head-of-household: Глава домохозяйства
+    qualified-surviving-spouse: Соответствующий требованиям вдовец или вдова

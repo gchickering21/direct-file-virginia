@@ -1,0 +1,9 @@
+/* Audit-panel debug stylesheet. Loaded via the toggled <link id="audit-panel-styles" disabled>
+   in fragments/head.html and split here into feature files, mirroring main.css's @import model.
+   A disabled parent <link> keeps its @imports disabled too, so the runtime disabled=false toggle
+   in panel-shell.js still gates the whole tree (ADR-004 isolation). Cascade order matches the
+   original single file: shell → fact inspector → dashboards → chat. */
+@import "audit-panel/panel-shell.css";
+@import "audit-panel/fact-inspector.css";
+@import "audit-panel/dashboards.css";
+@import "audit-panel/chat.css";

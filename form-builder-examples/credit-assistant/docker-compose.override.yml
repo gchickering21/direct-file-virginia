@@ -1,0 +1,109 @@
+# Development overlay. Docker Compose auto-merges this on top of docker-compose.yml.
+#
+#   docker compose up --build                           # this file applies
+#   docker compose -f docker-compose.yml up --build      # ignore it, build the prod-like image
+#
+# Edit source on the host and the site regenerates inside the container, then refresh the browser.
+#
+# WHY THIS IS TWO SERVICES. The static-site generator has no browser hot-module-reload. There is no
+# dev server, only a directory of HTML. So the job is split: nginx serves whatever is in the shared
+# `out` volume, and a second container runs `sbt ~run` writing into that same volume on every source
+# edit. Neither half works alone. Adding the volume without the watcher leaves nginx serving an
+# empty directory, which looks like a broken build rather than a missing service.
+#
+# macOS bind mounts do not emit filesystem events, so sbt's watcher is left on its polling default
+# rather than relying on native notifications.
+
+services:
+  # nginx now serves a live-regenerated volume instead of the site baked into the image.
+  credit-assistant:
+    volumes:
+      - app-out:/usr/share/nginx/html
+
+  # The watcher. `target: build` stops at the stage that has sbt, the sibling libraries in the local
+  # Ivy cache and the vendored assets already in place, so the first `~run` here is seconds rather
+  # than minutes.
+  #
+  # The flags mirror `make dev-author` minus --serve: the in-process site server binds localhost
+  # inside the container and would not be reachable through a published port, so nginx above does
+  # the serving. Keep the two in step. A flag added to `make dev-author` and not here is a surface
+  # that exists natively and silently does not exist in Docker.
+  #
+  # --authorMode is on HERE and not in the image's SITE_FLAGS, and the asymmetry is the point. Author
+  # Mode is a static shell that edits the source XML through a live API; the prod-like image is nginx
+  # over a baked ./out with neither a source tree nor a running JVM, so generating the shell there
+  # would ship a page that can never connect. This overlay has both. `docker compose -f
+  # docker-compose.yml up` therefore has no Authoring Suite at all — its nav entry is gated on the
+  # same build flag, so the menu is honest about it rather than offering a 404.
+  credit-assistant-watch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+      additional_contexts:
+        fact_graph: ../../fact-graph
+        form-builder: ../../form-builder
+        taxpert: ../../taxpert/packages/ui
+    working_dir: /build/credit-assistant
+    environment:
+      # -Dsmol.port is NOT about serving — no --serve flag is passed, nginx does that. It is read a
+      # second time by AuthoringServer.appOrigin, which is the origin the Author Mode API reflects
+      # in Access-Control-Allow-Origin. Without it that falls back to Main.scala's
+      # `defaultPort = 3002`, and every fetch from the page nginx serves on :3003 is blocked by CORS.
+      #
+      # -Dsmol.author.host=0.0.0.0 because the API binds loopback by default — it patches source XML
+      # on disk, so it is not something to expose — and loopback inside a container is unreachable
+      # from the published port below. The port mapping keeps it bound to the host's loopback, which
+      # is the trade FormBuilder.run's own comment describes.
+      SBT_OPTS: "-Xmx2g -Dsmol.port=3003 -Dsmol.author.host=0.0.0.0 -Dsmol.author.port=3004"
+    command: ["sbt", "~run --auditMode --allScreens --scenarioMode --authorMode"]
+    # The Author Mode editing API, same port `make dev-author` uses natively. It belongs to the
+    # watcher and not to nginx: the API needs the source tree (bind-mounted below) and regenerates
+    # into the out volume in-process. benefits-enrollment's is on 3007 rather than a second 3004,
+    # since `make run-all-docker` in the parent runs both at once.
+    ports:
+      - "127.0.0.1:3004:3004"
+    volumes:
+      # This application's own source, live. sbt's watcher picks up a host edit immediately.
+      - .:/build/credit-assistant
+      - app-out:/build/credit-assistant/out
+      # Named, so a rebuild does not re-download every dependency.
+      - sbt-cache:/root/.cache/coursier
+
+      # Live shared-UI source over the baked-in `make copy-shared-ui` mirror, so an edit in
+      # ../../taxpert/packages/ui shows up here without an image rebuild. One mount of the whole
+      # tree rather than one per bundle: a per-bundle list is a copy of that package's directory
+      # listing that nothing keeps in step, and a bundle missing from it is invisible until someone
+      # wonders why their edits do nothing.
+      - ../../taxpert/packages/ui/src:/build/credit-assistant/src/main/resources/credit-assistant/website-static/vendor/taxpert
+
+      # TX-3: the workspace bundle, which the mount above does NOT bring with it — dist/ is a
+      # build artifact and is gitignored, so a bind mount of it would create an empty directory
+      # on a fresh clone and the workspace would 404 on the only script it loads. A named volume
+      # seeded from the image instead, exactly as the two below are and for the same reason: the
+      # image builds it (Dockerfile stage 1b) and `make up` needs no host toolchain.
+      #
+      # The trade-off, stated because it is a real one: an edit to taxpert's src/ shows up live
+      # in the mirror above but NOT in the bundle the page actually loads. Work on the package
+      # with `make dev` natively, where copy-shared-ui rebuilds it; on this stack it takes a
+      # `make rebuild`.
+      #
+      # The parent bind mount above is deliberately NOT :ro: this volume nests inside it, and
+      # mounting a volume at a path requires creating that mountpoint directory first. taxpert's
+      # src/ has no dist/ on the host, so with a read-only parent the create fails with "read-only
+      # file system" before the container ever starts. Nothing in this container writes into
+      # vendor/taxpert otherwise — the watcher only runs `sbt ~run`.
+      - taxpert-dist:/build/credit-assistant/src/main/resources/credit-assistant/website-static/vendor/taxpert/dist
+
+    restart: unless-stopped
+
+  # fact-graph and form-builder are NOT live-mounted: sbt resolves them out of /root/.ivy2, which
+  # stage 1 baked into the image. Editing either one still needs `docker compose build`.
+  #
+  # The Fact Graph browser bundle needs no volume either. Every application here commits its
+  # factgraph-3.1.0.js, so the bind mount of this repository carries a working engine in.
+
+volumes:
+  app-out:
+  sbt-cache:
+  taxpert-dist:

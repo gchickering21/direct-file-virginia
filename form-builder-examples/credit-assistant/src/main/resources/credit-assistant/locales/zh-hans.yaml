@@ -1,0 +1,50 @@
+# This application's own strings. The chrome the scaffold's templates need
+# (components.*, errors.*, step-indicator.*, layout.banner.*, …) ships with the
+# scaffold; declare a key here to override any of it.
+title:
+  prefix: EITC 助手
+  suffix: 美国国家税务局
+  format: '{0}'
+layout:
+  title: 劳动所得税抵免 (EITC) 助手
+  usgov:
+    name: 美国政府
+all-screens:
+  toolbar:
+    label: 审核工具栏
+    show-conditions: 显示条件
+    section-label: 部分
+    section-all: 所有部分
+    horizontal-layout: 横向布局
+    scenario-label: 情景
+    scenario-placeholder: 加载情景…
+    scenario-clear: 清除情景
+  section:
+    about-you: 关于您
+    filing-status: 申报状态
+    agi: 调整后总收入
+    qualifying-children: 符合条件的子女
+    results: 结果
+    other: 其他
+workspace:
+  flags:
+    ai-scenario-generation: AI 场景生成
+    ai-fact-explanation: AI 事实说明
+    author-mode: 作者模式
+  outcomes:
+    filing-status: 推导出的申报身份
+    without-qualifying-child: 无合格子女时符合资格
+    qualifying-child: 合格子女资格
+    marital-status: 婚姻状况
+    household-filing-intent: 家庭与申报意向
+    married-not-filing-jointly: 已婚但不共同申报
+    age-without-qualifying-child: 无合格子女时的年龄
+    age-with-qualifying-child: 有合格子女时的年龄
+    qualified: 符合资格
+    not-qualified: 不符合资格
+  filing-status:
+    single: 单身
+    married-filing-jointly: 已婚共同申报
+    married-filing-separately: 已婚分别申报
+    head-of-household: 户主
+    qualified-surviving-spouse: 合格未亡配偶

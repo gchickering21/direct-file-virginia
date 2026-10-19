@@ -1,0 +1,231 @@
+<div th:fragment="taxpert-config" th:remove="tag">
+    <!--
+      Everything credit-assistant tells taxpert about itself.
+
+      The shared workspace — the global nav, the audit panel, the three tool panels — ships knowing
+      nothing about the application under it. It has no menu, no determinations, no feature flags and
+      no route prefix until a host calls configure(). This is that call, and it runs on every page
+      that mounts the workspace (fragments/head.html includes this file).
+
+      WHY A THYMELEAF FRAGMENT AND NOT A .js FILE. Everything here that a person reads and that
+      belongs to the *product* — the determination headings, the words an outcome is spoken in — is a
+      Thymeleaf message expression, resolved per locale at build time. (The nav labels are the
+      exception, and say why at `nav:` below: they name the workspace's own destinations, which the
+      workspace already names in English everywhere else.) website-static/js/** is served as static assets
+      and never passes through Thymeleaf, which is why scenario-filters.js is hard-coded English to
+      this day. Behaviour that cannot be a translated literal — the fact-graph port, and the fact
+      paths themselves — lives in website-static/js/taxpert/eitc-graph.js and is imported below.
+      (Each determination's `outcome` used to be there too, as a function. It is a declarative
+      descriptor now, which is what lets the Outcome tracker's content be edited from Workspace
+      settings; only the words it is spoken in still come from here.)
+
+      th:inline="javascript" is what makes those expressions resolve inside a script element; it
+      works on a type="module" script, and Thymeleaf JS-escapes each value as it substitutes it.
+      Note that message expressions are inlined inside comments too, which is why this one spells
+      none of them out.
+
+      ORDER DOES NOT MATTER. taxpert reads its configuration when an element *renders*, not when
+      it loads, and configure() dispatches `taxpert:config-changed` so anything already on screen
+      rebuilds. So this can land before or after the element modules in head.html.
+    -->
+    <script type="module" th:inline="javascript">
+        import { configure, configureFromUrl } from '/app/eitc/resources/vendor/taxpert/shared/js/config.js'
+        import { eitcGraph, eitcDeterminations } from '/app/eitc/resources/js/taxpert/eitc-graph.js'
+
+        // The build's locale, key by key. eitc-graph.js takes a lookup rather than the strings
+        // themselves because its outcome() functions choose a key at runtime, from a fact value
+        // nobody knows here.
+        const strings = new Map([
+            ['components.boolean.yes', [[#{components.boolean.yes}]]],
+            ['components.boolean.no', [[#{components.boolean.no}]]],
+            ['workspace.outcomes.filing-status', [[#{workspace.outcomes.filing-status}]]],
+            ['workspace.outcomes.without-qualifying-child', [[#{workspace.outcomes.without-qualifying-child}]]],
+            ['workspace.outcomes.qualifying-child', [[#{workspace.outcomes.qualifying-child}]]],
+            ['workspace.outcomes.marital-status', [[#{workspace.outcomes.marital-status}]]],
+            ['workspace.outcomes.household-filing-intent', [[#{workspace.outcomes.household-filing-intent}]]],
+            ['workspace.outcomes.married-not-filing-jointly', [[#{workspace.outcomes.married-not-filing-jointly}]]],
+            ['workspace.outcomes.age-without-qualifying-child', [[#{workspace.outcomes.age-without-qualifying-child}]]],
+            ['workspace.outcomes.age-with-qualifying-child', [[#{workspace.outcomes.age-with-qualifying-child}]]],
+            ['workspace.outcomes.qualified', [[#{workspace.outcomes.qualified}]]],
+            ['workspace.outcomes.not-qualified', [[#{workspace.outcomes.not-qualified}]]],
+            ['workspace.filing-status.single', [[#{workspace.filing-status.single}]]],
+            ['workspace.filing-status.married-filing-jointly', [[#{workspace.filing-status.married-filing-jointly}]]],
+            ['workspace.filing-status.married-filing-separately', [[#{workspace.filing-status.married-filing-separately}]]],
+            ['workspace.filing-status.head-of-household', [[#{workspace.filing-status.head-of-household}]]],
+            ['workspace.filing-status.qualified-surviving-spouse', [[#{workspace.filing-status.qualified-surviving-spouse}]]],
+        ])
+        const t = (key) => strings.get(key) ?? key
+
+        configure({
+            // storagePrefix is what stops this app and any other Form Builder app served from the same
+            // origin from sharing a watchlist, a panel layout or a set of display options. It was
+            // 'taxpert' — the package-wide default, i.e. not actually namespaced at all, which is the
+            // collision the option exists to prevent. It is this app's `appId` now, matching what the
+            // scaffold renders for the flow runtime in fragments/head.html, so one app means one
+            // prefix rather than one per layer.
+            //
+            // Adopting it costs a developer their stored watchlist and panel layout once, on the next
+            // load. That is the documented trade in taxpert's storage-keys.js: all of it is dev-tool
+            // state that takes seconds to recreate, and migration code for it would outlive its use.
+            app: { id: 'eitc', brand: 'Taxpert', storagePrefix: 'credit-assistant' },
+
+            // The app switcher. `id` is what a page passes as the nav's `active` attribute, and what
+            // toolsByDestination below names; `href` is a real link, so the menu navigates with no
+            // JavaScript at all. Path Mode is its own destination rather than a mode of Browse All:
+            // it happens to be served by the same generated page, told apart by `?mode=path`.
+            //
+            // These labels are English literals, not #{workspace.nav.*} message expressions, and
+            // that is the one deliberate exception to this file's "everything a person reads is a
+            // message expression" rule. The language switcher is the *product's* control: picking
+            // Kreyòl asks for the questionnaire in Kreyòl. It was also translating the workspace
+            // around it, which put two names on one destination in a single view — the sub-nav under
+            // the bar reads "Product Experience" (taxpert's own markup, English everywhere), while
+            // the menu item pointing at it read "Eksperyans pwodwi a". The workspace is one surface
+            // in one language; the product underneath it is the thing that translates. `apps.items`
+            // below names the same destinations and follows the same rule.
+            nav: {
+                menu: [
+                    {
+                        id: 'experience-explorer',
+                        label: 'Experience Explorer',
+                        children: [
+                            { id: 'product-experience', label: 'Product Experience', href: '/app/eitc/' },
+                            { id: 'path-mode', label: 'Path Mode', href: '/app/eitc/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: '/app/eitc/all-screens/' },
+                        ],
+                    },
+                    // The app id is part of the URL: Fact Explorer holds every app beside it, so a
+                    // bare /fact-explorer would land on whichever one is default rather than this one.
+                    //
+                    // A `//` comment, not an HTML one. `<!-- … -->` is legal in a classic script and a
+                    // *syntax error* in a module — "HTML comments are not allowed in modules" — which
+                    // takes down this whole file, and with it configure(): the nav renders with no
+                    // menu, Workspace settings lists no feature flags, and no tool buttons appear.
+                    // Everything else in here is already a JS comment; keep it that way.
+                    { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/credit-assistant' },
+                    { id: 'authoring-suite', label: 'Authoring Suite', href: '/app/eitc/author/', ff: 'author-mode' },
+                ],
+
+                // Where each tool button in the bar applies. Scenario belongs to the destinations
+                // that walk a scenario — the product experience, Path Mode, and the Fact Explorer,
+                // which loads a scenario onto its graph. Browse All lists every screen
+                // unconditionally, so there is no scenario there to manage. Display is about how the
+                // workspace renders, a question on every Experience Explorer destination. Tools acts
+                // on a rendered flow, which the Fact Explorer has no notion of. On the Authoring
+                // Suite no tool applies and the bar stays bare.
+                toolsByDestination: [
+                    { id: 'scenario', label: 'Scenario', icon: 'tune', destinations: ['product-experience', 'path-mode', 'fact-explorer'] },
+                    { id: 'display', label: 'Display', icon: 'visibility', destinations: ['product-experience', 'path-mode', 'browse-all'] },
+                    { id: 'tools', label: 'Tools', icon: 'build', destinations: ['product-experience', 'path-mode'] },
+                ],
+            },
+
+            // The other Form Builder applications this workspace can be pointed at — the "Applications"
+            // section of Workspace settings (the nav's gear). Switching keeps the destination you
+            // are on: Browse All here goes to Browse All there.
+            //
+            // Each sibling's destinations are written out because only this page knows them: the
+            // workspace ships no notion of what 'browse-all' means as a URL, and a sibling served
+            // from another origin cannot be derived from a base path. This is the same act as
+            // writing `nav.menu` above, for one more application.
+            //
+            // Our own entries are root-relative so they keep working when this site is read through
+            // Fact Explorer's dev proxy; the sibling's are absolute because nginx here serves
+            // only this application, so a relative path to it would 404.
+            //
+            // Fact Explorer holds the same list, built from the fact-explorer.app.json descriptors —
+            // there is no shared source for these two because an application must not have to fetch
+            // a registry from another origin to know its own menu.
+            apps: {
+                current: 'credit-assistant',
+                items: [
+                    {
+                        id: 'credit-assistant',
+                        label: 'EITC Assistant',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: '/app/eitc/' },
+                            { id: 'path-mode', label: 'Path Mode', href: '/app/eitc/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: '/app/eitc/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/credit-assistant' },
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: '/app/eitc/author/' },
+                        ],
+                    },
+                    {
+                        id: 'twe',
+                        label: 'Tax Withholding Estimator',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3000/app/tax-withholding-estimator/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3000/app/tax-withholding-estimator/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3000/app/tax-withholding-estimator/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/twe' },
+                        ],
+                    },
+                    {
+                        id: 'benefits-enrollment',
+                        label: 'Benefits Enrollment',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3006/app/benefits/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3006/app/benefits/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3006/app/benefits/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/benefits-enrollment' },
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: 'http://localhost:3006/app/benefits/author/' },
+                        ],
+                    },
+                    {
+                        id: 'direct-file',
+                        label: 'Direct File',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3008/app/direct-file/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3008/app/direct-file/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3008/app/direct-file/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/direct-file' },
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: 'http://localhost:3008/app/direct-file/author/' },
+                        ],
+                    },
+                ],
+            },
+
+            endpoints: {
+                apiBase: 'http://localhost:8000',
+                scenariosBase: '/app/eitc/resources/scenarios',
+                factDictionaryUrl: '/app/eitc/resources/fact-dictionary.xml',
+            },
+
+            // The two AI features are separately flagged because they ship on separate timelines:
+            // generation writes a whole Fact Graph from a prompt, explanation only reads facts back.
+            // authorMode is a third, unrelated to either: it gates the "Authoring Suite" nav item
+            // (nav.menu's `ff: 'author-mode'` above) rather than anything inside the audit panel.
+            // Each one's build-time default is the matching `*-default` attribute on
+            // <taxpert-audit-panel> (see fragments/audit-panel.html); Workspace settings overrides
+            // it at runtime in localStorage.
+            //
+            // `label` is the wording on that modal's row: it renders one row per entry here, so a
+            // flag is declared in exactly one place and a host with none gets an empty state rather
+            // than another application's features.
+            featureFlags: [
+                { name: 'aiScenarioGeneration', kebab: 'ai-scenario-generation', label: [[#{workspace.flags.ai-scenario-generation}]] },
+                { name: 'aiFactExplanation', kebab: 'ai-fact-explanation', label: [[#{workspace.flags.ai-fact-explanation}]] },
+                { name: 'authorMode', kebab: 'author-mode', label: [[#{workspace.flags.author-mode}]] },
+            ],
+
+            // Inspect pins a cue to every rendered unit. `/taxYear` is printed as chrome on page
+            // after page and a cue on each one is noise, so it is exempt — an application fact, and
+            // therefore ours to name rather than the library's.
+            flowDom: { uncuedPaths: ['/taxYear'] },
+
+            graph: eitcGraph,
+            determinations: eitcDeterminations(t),
+        })
+
+        // The per-deployment layer: the same configuration as data, in a file this deployment
+        // serves. It lands after the call above — it is fetched — and configure() merges, so a
+        // deployment's file wins over the build's own values while a person's Workspace-settings
+        // overrides still win over both.
+        //
+        // The shipped file is `{}`: this deployment overrides nothing. Edit it to change what the
+        // workspace tracks, offers, or points at without touching a template — the change is then
+        // reviewable in git, which a localStorage override never is. Anything a person *reads*
+        // belongs above rather than in it: the file is served once and is not per-locale.
+        configureFromUrl('/app/eitc/resources/taxpert.config.json')
+    </script>
+</div>

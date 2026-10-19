@@ -1,0 +1,86 @@
+# fact-graph/, form-builder/ and taxpert/ are deliberately NOT listed. All three live beside this
+# repository rather than inside it (see README), and a clone that lands here anyway is the failure
+# mode that cost us a day: a second form-builder republishes `gov.irs::form-builder` over the good
+# one, and a second taxpert is a second packages/ui for copy-shared-ui to mirror. Left un-ignored,
+# any of them shows up in `git status` instead of hiding.
+
+# Generated mirrors of taxpert's packages/ui/src, written by `make copy-shared-ui` (a prerequisite of
+# every build target here). Kept out of git so they can never drift from the taxpert source they
+# mirror; `make check-shared-ui` fails the build if they do.
+#
+# Matched by shape rather than named per application, so an application added to this repository is
+# covered without an edit here — the same reason the root Makefile discovers its APPS.
+**/website-static/vendor/taxpert/
+
+# Scala.js sourcemaps vendored by `make copy-fg`
+**/vendor/fact-graph/*.map
+
+.env
+out/
+
+
+target/
+project/target/
+.bsp/
+.bloop/
+.metals/
+.scala-build
+metals.sbt
+
+node_modules/
+
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+!.vscode/fg-helpers.code-snippets
+
+.DS_Store
+
+# --- Anthropic / Claude Code ---
+.claude/
+.claude/config.json
+.claudecode/
+*.claudelog
+.claudemdexcludes
+.claudeignore
+CLAUDE.MD
+SKILLS.MD
+
+# --- Cursor ---
+.cursor/
+.cursor/rules/
+.cursor_history/
+.cursorrules.local
+
+# --- Codeium Windsurf & Cascade ---
+.windsurf/
+.windsurf/rules/
+.windsurf/memories/
+.windsurf_history/
+
+# --- Cline & Roo Code ---
+.cline/
+.roocode/
+.clinerules.local
+
+# --- GitHub Copilot & Chat ---
+.copilot-history/
+.github/copilot-instructions.local.md
+
+# --- Aider (Terminal AI Pair Programmer) ---
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.*
+
+# --- Open-Hands / All-Hands (SWE-Agent variants) ---
+.openhands/
+.openhands_cache/
+.swe-agent/
+swe-agent.log
+
+# --- General Multi-Agent Tools & Context Indexes ---
+.ai-context/
+.ai-index/
+.llm-cache/
+ai-instructions.local.md

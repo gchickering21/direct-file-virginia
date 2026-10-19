@@ -1,0 +1,34 @@
+/* U.S. Web Design System (vendor-compiled) */
+@import "../vendor/uswds-3.13.0/styles/uswds.min.css";
+
+/* The Form Builder theme: design tokens, page layout, and the styling for every element the scaffold
+   generates. This used to be sixteen files here, byte-identical to another Form Builder app's copies of
+   them. Anything this app genuinely styles differently goes *below* this import and wins by ordinary
+   cascade order.
+
+   Not vendored by npm like the imports below it — the scaffold extracts this out of its own jar into
+   resources/vendor/form-builder/ when it generates the site, so it needs no build step here. */
+@import "../vendor/form-builder/theme/styles/theme.css";
+
+/* Shared UI components (vendored from taxpert).
+
+   TX-3: one flattened stylesheet in place of two @import roots and the eighteen files below
+   them. CSS @import is discovered only after the importing sheet parses, so each level was a
+   serial round trip of render-blocking work; taxpert now ships this pre-flattened and
+   `make copy-shared-ui` vendors it beside the source it was built from.
+
+   The audit panel's stylesheet is deliberately NOT in here. It stays a separate file behind
+   the toggled <link id="audit-panel-styles" disabled> in fragments/workspace-head.html,
+   because its rules restructure the product page and must not apply with the workspace off. */
+@import "../vendor/taxpert/dist/styles/taxpert.css";
+
+/* This app's own: the custom flow node it registers, and its overrides of the theme. */
+@import "components/fg-withholding-adjustment.css";
+@import "components/twe-overrides.css";
+
+/* Utilities — generated from this app's own flow conditions, so not part of the theme. */
+@import "utilities/display-conditions.css";
+
+@view-transition {
+  navigation: auto;
+}
