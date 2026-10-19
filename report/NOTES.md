@@ -97,3 +97,10 @@ What this means:
 - **For the build, a decision (see PLAN):** keep the Virginia return inside the archived
   app as planned, move it onto the maintained stack (the ported Direct File plus a Virginia
   fact module and flow module), or do the fact module once and run it in both.
+
+- **The federal-to-state contract is in the dictionary.** 57 facts across 9 modules carry
+  `<Export stateSystems="true"/>` (names, dates of birth, relationships, residency
+  durations, dependents' status, educator expenses, and so on); the state API exported
+  those plus the MeF XML to a state's filing software. A Virginia module that depends only
+  on those facts is one that the real export would have fed. That is the design rule for
+  the integration half of the project, and a test can enforce it.

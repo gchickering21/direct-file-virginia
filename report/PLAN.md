@@ -13,6 +13,11 @@ Repository: github.com/gchickering21/direct-file-virginia (private until handoff
 
 ## 1. The argument
 
+In one sentence (Graham, 2026-10-19): **we are not recreating federal filing; we are
+leveraging what the federal government built, showing how Virginia could implement its
+own state return on it and integrate with the federal filing system if it ever came
+back, with a few pieces of Virginia tax code as prototype examples.**
+
 **Government code published in the public domain is reusable public infrastructure, and
 the IRS has shown it itself.** The IRS published Direct File's source (public domain in the
 US, CC0 worldwide), suspended the service, and then kept the reusable part: the Fact Graph
@@ -171,10 +176,24 @@ and after. Weaker diff argument, project still whole.
 
 ### C. The Virginia return (Graham)
 
-Scope, fixed now: **a single filer with W-2 wages only. Form 760 from federal adjusted
-gross income to Virginia tax owed: filing status, Virginia AGI, standard deduction,
-personal exemption, the rate schedule.** No credits, no itemizing, no dependents, tax
-year 2024 (the year the repo's rules model: `CURRENT_TAX_YEAR = '2024'`).
+Scope, fixed now: **a few prototype rules, not a return.** A single filer with W-2
+wages, tax year 2024 (the year the dictionary models). Form 760 from federal adjusted
+gross income to Virginia tax owed: filing status, Virginia AGI, the standard deduction,
+the personal exemption, the rate schedule, and one Virginia-specific subtraction or
+deduction chosen because it shows state policy expressed in rules (candidates: the age
+deduction, or the subtraction for Virginia lottery prizes under $600). Each rule is an
+example; together they are not a filing.
+
+**The integration half.** The federal dictionary already marks which facts leave the
+federal return for a state: 57 facts in 9 modules carry `<Export stateSystems="true"/>`,
+and the state API sent exactly those (plus the MeF XML) to a state's software in 2024 and
+2025. The Virginia module therefore **depends only on exported federal facts**. That is
+the whole integration argument in one design rule: if Direct File came back, the state
+API's existing export would feed this module unchanged; and today, running inside the
+port, the same facts are read from the federal graph directly. A test enforces the rule
+(every `<Dependency>` in `virginia.xml` that crosses into a federal module names a fact
+with `stateSystems="true"`), and the policy map's "source" column says which export each
+Virginia line consumes.
 
 Mechanically, all inside `form-builder-examples/direct-file/`:
 
@@ -319,10 +338,12 @@ changed, see which law each line of it comes from, run the proof, and decide.
    we write down why in an ADR first.
 2. **Every rule names its law.** No Virginia fact exists without a citation. A number
    with no source is a bug, not a placeholder.
-3. **Build on what the IRS already modelled for states.** The tree already has
+3. **Build on what the IRS already modelled for states.** The dictionary already has
    `/filerResidenceAndIncomeState`, `/hasStateFilingIntegration`,
-   `/hasNoStateIncomeTax` and the state knockouts. Virginia hooks into those; it does not
-   invent a second notion of residency.
+   `/hasNoStateIncomeTax`, the state knockouts, and the 57 facts flagged
+   `stateSystems="true"` for export. Virginia hooks into those and reads only exported
+   facts; it does not invent a second notion of residency or reach into federal
+   internals the state API would never have sent.
 4. **Federal behaviour is unchanged, and we prove it.** The IRS's own test suites run
    green before and after every Virginia commit. The Virginia work only adds.
 5. **Nothing is specific to us.** No path, host, name or dependency that belongs to our
