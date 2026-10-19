@@ -1,12 +1,34 @@
-# The IRS stack and client, run from this repository's root. `make` lists the targets.
+# Run from this repository's root. `make` lists the targets.
+# `port-*` targets drive the IRS's port of Direct File on Form Builder (where the Virginia work lives);
+# `stack-*` and `client` run the archived 2025 application (the "before").
 IRS     := direct-file/direct-file
+PORT    := form-builder-examples/direct-file
+TOOLCHAIN := . stack/toolchain.sh &&
 COMPOSE := docker compose --project-directory $(IRS) -f $(IRS)/docker-compose.yaml -f stack/overrides.yaml
 SERVICES := api csp-simulator
 
-.PHONY: help stack-up stack-build stack-down stack-logs stack-ps client
+.PHONY: help port-bootstrap port-dev port-site port-smoke port-validate port-test stack-up stack-build stack-down stack-logs stack-ps client
 
 help:
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
+
+port-bootstrap: ## once: compile and publish fact-graph and form-builder, install the port's npm deps, vendor assets
+	$(TOOLCHAIN) $(MAKE) -C $(PORT) bootstrap
+
+port-dev: ## run the port with hot reload at http://localhost:3008/app/direct-file/
+	$(TOOLCHAIN) $(MAKE) -C $(PORT) dev
+
+port-site: ## build the port's static site into $(PORT)/out
+	$(TOOLCHAIN) $(MAKE) -C $(PORT) site
+
+port-smoke: ## the port's browser smoke test against ./out (after port-site)
+	$(TOOLCHAIN) $(MAKE) -C $(PORT) smoke
+
+port-validate: ## validate the port's flow and fact XML against their RELAX NG schemas
+	$(TOOLCHAIN) $(MAKE) -C $(PORT) validate-xml
+
+port-test: ## the port's ScalaTest suite
+	$(TOOLCHAIN) $(MAKE) -C $(PORT) test
 
 stack-up: ## start the API, its databases, localstack, Redis and the login simulator (builds only images that are missing)
 	$(COMPOSE) up -d $(SERVICES)
