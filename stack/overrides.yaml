@@ -11,3 +11,12 @@ services:
     # licensed product and exits with code 55 without a paid token. The newest 4.x
     # community release, from LocalStack's free line, runs the init scripts as before.
     image: localstack/localstack:4.12
+  csp-simulator:
+    # The simulator proxies to the client's Vite dev server on the host as
+    # host.docker.internal. Vite 5.4.12+ (a 2025 security fix) rejects any Host it was
+    # not told about, and this Vite has no way to add one from outside the IRS config.
+    # Vite does allow every *.localhost name, so the simulator reaches the host under one.
+    environment:
+      CSPSIM_CLIENT_BASE_URL: "http://client.localhost:${DF_FE_PORT:-3000}"
+    extra_hosts:
+      - "client.localhost:host-gateway"

@@ -42,3 +42,18 @@ sentence in the report or a line in the contributor guide; move it there when us
 - **Disk.** A first build of the API image left the Docker VM at 1.2 GB free (build
   cache for the Maven and sbt stages, plus two LocalStack images). `docker builder
   prune` reclaimed 2.3 GB afterwards. Budget 10 GB free for a first build.
+- **One more rot item, in the client path.** The login simulator proxies to the Vite dev
+  server on the host as `host.docker.internal`. Vite's January 2025 security fix
+  (5.4.12) rejects any Host header it was not configured to allow, and the IRS config
+  predates it. Vite allows every `*.localhost` name by default, so the override points
+  the simulator at the host as `client.localhost` with a compose `extra_hosts` entry.
+  Fourth item fixed outside the IRS tree; the tree is still byte-for-byte upstream.
+- **The gate is passed (2026-10-19 evening).** Through the simulator: login with any
+  email, the welcome page, the IRS data-import mock, the checklist, and the "About you"
+  interview with facts saved to the API (the URL carries the primary filer's collection
+  id). Driven by a Playwright script against `http://localhost:5000/df/file`; no server
+  errors and no page errors. The federal app as published runs.
+- **Trap: `docker compose up --build` after a cache prune rebuilds everything.** It
+  re-ran the full Maven and sbt build and pushed the VM to 2.6 GB free before it was
+  stopped. The Makefile's `stack-up` now builds only missing images; `stack-build`
+  rebuilds on purpose.
