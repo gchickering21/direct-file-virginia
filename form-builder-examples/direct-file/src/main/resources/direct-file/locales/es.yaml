@@ -34,6 +34,7 @@ all-screens:
     your-taxes-amount: Cantidad
     your-taxes-payment-method: Método de pago
     your-taxes-other-preferences: Otras preferencias
+    virginia: Su declaración de Virginia
     complete-review: Revisar y confirmar
     complete-sign-and-submit: Firma digital para la declaración del impuesto federal
     complete-print-and-mail: Imprimir y enviar por correo

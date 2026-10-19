@@ -47,6 +47,7 @@ all-screens:
     your-taxes-amount: Amount
     your-taxes-payment-method: Payment method
     your-taxes-other-preferences: Other preferences
+    virginia: Your Virginia return
     complete-review: Review and confirm
     complete-sign-and-submit: Federal tax return digital signature
     complete-print-and-mail: Print and mail

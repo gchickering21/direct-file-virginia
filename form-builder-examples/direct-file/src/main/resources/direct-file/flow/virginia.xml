@@ -14,4 +14,27 @@
       </div>
     </section>
   </page>
+  <page title="Form 760, computed from your federal return" route="/virginia/summary/virginia-summary">
+    <section>
+      <div class="df-screen" condition="/vaIsResident" operator="isTrue">
+        <h2>Form 760, computed from your federal return</h2>
+        <p><strong>Demonstration only.</strong> Tax year <fg-show path="/taxYear"/>. Each line names the law it comes from.</p>
+        <table class="usa-table usa-table--borderless">
+          <caption>Virginia Form 760</caption>
+          <tr><th scope="row">Line 1, federal adjusted gross income</th><td><fg-show path="/vaFederalAdjustedGrossIncome"/></td></tr>
+          <tr><th scope="row">Line 4, age deduction (§ 58.1-322.03(5))</th><td><fg-show path="/vaAgeDeduction"/></td></tr>
+          <tr><th scope="row">Line 5, taxable Social Security benefits (§ 58.1-322.02(3))</th><td><fg-show path="/vaTaxableSocialSecurityBenefits"/></td></tr>
+          <tr><th scope="row">Line 9, Virginia adjusted gross income</th><td><fg-show path="/vaAdjustedGrossIncome"/></td></tr>
+          <tr><th scope="row">Line 11, standard deduction (§ 58.1-322.03(1)(b))</th><td><fg-show path="/vaStandardDeduction"/></td></tr>
+          <tr><th scope="row">Line 12, exemptions (§ 58.1-322.03(2))</th><td><fg-show path="/vaExemptions"/></td></tr>
+          <tr><th scope="row">Line 15, Virginia taxable income</th><td><fg-show path="/vaTaxableIncome"/></td></tr>
+          <tr><th scope="row">Line 16, Virginia income tax (§ 58.1-320)</th><td><strong><fg-show path="/vaTax"/></strong></td></tr>
+        </table>
+        <div class="df-screen" condition="/vaIsBelowFilingThreshold" operator="isTrue">
+          <p>Your Virginia adjusted gross income is below the filing threshold for your filing status (§ 58.1-321), so your Virginia income tax is $0.</p>
+        </div>
+        <p>Lines not shown are out of scope for this prototype and taken as $0. Nothing here is filed.</p>
+      </div>
+    </section>
+  </page>
 </FlowConfig>
