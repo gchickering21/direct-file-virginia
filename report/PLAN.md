@@ -6,7 +6,10 @@ existing government product, and how it would benefit its users.** The report gi
 case-study depth by answering the course's five key questions, but the submission is a
 prototype of a proposed change, because Direct File itself was studied in class.
 
-Due: end of semester, early to mid December 2026. Written 2026-10-19.
+Due: end of semester, early to mid December 2026. A presentation also exists; Graham will
+plan it later. Written 2026-10-19.
+
+Repository: github.com/gchickering21/direct-file-virginia (private until handoff).
 
 ## 1. The argument
 
@@ -168,6 +171,16 @@ federal computation (why states depended on the federal export); identity and
 submission are the two layers a state must supply itself; the engine and interview are
 tax-agnostic and carried over untouched.
 
+### B2. Contributor setup (Graham, right after B)
+
+Teammates run the full stack, all on Macs. `CONTRIBUTING.md` at the root: the IRS
+onboarding steps that actually mattered on this machine, the three compose services to
+start (`api`, `csp-simulator`, `state-api`; the monitoring and email services are not
+needed), the Node version from `df-client/.nvmrc`, how to log in through the simulator,
+how to load a test scenario, and the branch convention (one branch per policy concept,
+rebased onto main before merge, §9.4). Checked by one teammate on a clean Mac before
+week 2.
+
 ### D. The explainer (Graham, small, alongside B)
 
 Repoint `demo/scripts/paths.mjs` at `../direct-file`, drop the fetch script and the
@@ -179,7 +192,8 @@ state facts in a single dependency graph.
 
 A scripted walkthrough of one backend test scenario through the stock app, then the same
 through the Virginia build. Screenshots at the same fixed points; the diff; a short
-screen recording if there is a presentation.
+screen recording, since there is a presentation and a recording is the fallback for a
+live demo.
 
 ### G. The handoff package (Graham, after E)
 
@@ -198,7 +212,7 @@ Only after the report is drafted and only if the group wants it reachable from F
 
 | Weeks of | Build (Graham) | Report (teammates) |
 |---|---|---|
-| Oct 20 | B: stack up. D: explainer repointed | Source list, citation style, outline |
+| Oct 20 | B: stack up. B2: contributor guide. D: explainer repointed | Source list, citation style, outline; one teammate checks B2 on a clean Mac |
 | Oct 27 | C1–C2: fact module and screens | Questions 1 and 2 drafted |
 | Nov 3 | C3–C5: wording, summary, hand check | Questions 3 and 4 drafted |
 | Nov 10 | E: capture, diff, figures | Figures for Q3 from the explainer |
