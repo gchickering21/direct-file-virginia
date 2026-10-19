@@ -343,8 +343,9 @@
     <Fact path="/vaPersonalExemptionCount">
       <Name>Exemptions claimed in the You, Spouse and Dependents boxes</Name>
       <Description>2024 Form 760 instructions, Exemptions Section A: yourself, your spouse on a
-        joint return, and the dependents claimed federally (/claimedDependentsCount, derived
-        from the dependents list the federal return exports to states).</Description>
+        joint return, and the dependents claimed federally, counted from each household member's
+        isClaimedDependent, which the federal return exports to states. (The federal
+        /claimedDependentsCount is not exported, so it is not read.)</Description>
       <Derived>
         <Add>
           <Int>1</Int>
@@ -358,7 +359,9 @@
               <Then><Int>0</Int></Then>
             </Case>
           </Switch>
-          <Dependency module="familyAndHousehold" path="/claimedDependentsCount" />
+          <Count>
+            <Dependency module="familyAndHousehold" path="/familyAndHousehold/*/isClaimedDependent" />
+          </Count>
         </Add>
       </Derived>
     </Fact>
