@@ -545,5 +545,87 @@
       </Derived>
     </Fact>
 
+
+    <!-- ============ Lines 19a to 28: what has already been paid, and the result. ============ -->
+
+    <Fact path="/vaWithholding">
+      <Name>Form 760 Line 19a, Virginia income tax withheld</Name>
+      <Description>The sum of box 17 across the W-2s on the federal return (/formW2s/*/stateWithholding,
+        exported to MeF in each W-2). The employer files the same W-2 with Virginia. Line 19b (a spouse's
+        withholding) is folded in here; a joint return would split it.</Description>
+      <Derived>
+        <CollectionSum>
+          <Dependency module="formW2s" path="/formW2s/*/stateWithholding" />
+        </CollectionSum>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaEstimatedPayments">
+      <Name>Form 760 Line 20, estimated payments made for 2024</Name>
+      <Description>Virginia Tax received these and holds the record; a state-run filer would fill this
+        line from its own books. This prototype has no connection to those records, so the line is
+        writable and defaults to $0.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaPriorYearOverpaymentApplied">
+      <Name>Form 760 Line 21, last year's overpayment applied to 2024</Name>
+      <Description>From Virginia Tax's own record of the 2023 return. Writable here, default $0, for the
+        same reason as Line 20.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaExtensionPayments">
+      <Name>Form 760 Line 22, extension payments</Name>
+      <Description>Payments made with Form 760IP; Virginia Tax holds the record. Writable here, default
+        $0.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaTotalPayments">
+      <Name>Form 760 Line 26, total payments and credits</Name>
+      <Description>Lines 19a to 25. Lines 23 to 25 (the low-income credit or Virginia EIC, credit for tax
+        paid to another state, Schedule CR credits) are out of scope and taken as $0.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaWithholding" />
+          <Dependency path="/vaEstimatedPayments" />
+          <Dependency path="/vaPriorYearOverpaymentApplied" />
+          <Dependency path="/vaExtensionPayments" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTaxYouOwe">
+      <Name>Form 760 Line 27, tax you owe before use tax</Name>
+      <Description>Line 18 minus Line 26 when positive. Line 17 (the spouse tax adjustment) is out of
+        scope, so Line 18 equals Line 16.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/vaTax" /></Minuend>
+            <Subtrahends><Dependency path="/vaTotalPayments" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaOverpayment">
+      <Name>Form 760 Line 28, your tax overpayment</Name>
+      <Description>Line 26 minus Line 18 when positive.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/vaTotalPayments" /></Minuend>
+            <Subtrahends><Dependency path="/vaTax" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
   </Facts>
 </FactDictionaryModule>
