@@ -23,7 +23,7 @@ is in the walkthrough mockup only; **gap** means neither.
 | Social Security numbers, you and spouse | F | exported to MeF and state systems | not displayed (prototype hides TINs) |
 | First four letters of last name | D | from the name | gap |
 | Street, city, state, ZIP; "address changed" oval | F | `/address`, exported | mockup only |
-| **Locality code** | D from address, or Q | Virginia's county/city code; derivable from the address, but a ZIP can span localities, so confirm | gap, and a good Virginia-only question |
+| **Locality code** | Q, confirmed | Virginia's 3-digit code; the address alone cannot settle it (a ZIP can span localities; the date is January 1) | built: `virginiaLocalities.xml`, asked |
 | Birth dates, you and spouse | F | `/filers/*/dateOfBirth`, exported to state systems | built |
 | Deceased ovals; dates | F | Form 1040 carries a date of death | gap |
 | **Virginia driver's license number, issue date, customer ID** | V or Q | optional identity check; Virginia DMV already holds it | gap; a state could prefill from DMV with consent |
@@ -45,13 +45,13 @@ is in the walkthrough mockup only; **gap** means neither.
 | 4 | Age deduction | D from F | date of birth, filing status, AFAGI | built |
 | 5 | Taxable Social Security and Tier 1 Railroad | F | 1040 line 6b | built |
 | 6 | State income tax refund reported as income | F | 1040 Schedule 1 line 1 | gap (one fact) |
-| 7 | Subtractions, Schedule ADJ line 7 | Q, some F | lottery prizes under $600 (Q, mockup); disability income; military pay; others | mockup for the lottery; rest gap |
+| 7 | Subtractions, Schedule ADJ line 7 | Q, some F | lottery prizes under $600 (Q, built); disability income; military pay; others | built for the lottery; rest gap |
 | 8 | Lines 4 + 5 + 6 + 7 | D | | built |
 | 9 | Virginia AGI; the $11,950 / $23,900 threshold | D | | built |
 | 10 | Itemized deductions, Virginia Schedule A | F, then Q | federal itemizers must itemize in Virginia, starting from federal Schedule A | gap, out of scope |
 | 11 | Standard deduction | D from F | $8,500 / $17,000; limited for a claimable dependent | built |
 | 12 | Exemptions | D from F | | built |
-| 13 | Deductions, Schedule ADJ line 9 | Q | Virginia529 contributions (mockup), child and dependent care, teacher expenses, others | mockup for 529; rest gap |
+| 13 | Deductions, Schedule ADJ line 9 | Q | Commonwealth Savers contributions (built, capped, age-70 rule), child and dependent care, teacher expenses, others | built for 529; rest gap |
 | 14 | Lines 10 + 11 + 12 + 13 | D | | built |
 | 15 | Virginia taxable income | D | | built |
 
@@ -62,21 +62,21 @@ is in the walkthrough mockup only; **gap** means neither.
 | 16 | Tax from the rate schedule | D | § 58.1-320 | built |
 | 17 | Spouse tax adjustment, Status 2 only | D from F | needs each spouse's share of VAGI, which the federal return carries per filer | gap |
 | 18 | Net tax | D | | gap (trivial) |
-| 19a, 19b | **Virginia income tax withheld**, you and spouse | W | W-2 box 17, 1099 and W-2G state withholding; the employer also files these with Virginia | mockup (W-2 box 17) |
-| 20 | **Estimated payments made for 2024** | V | Virginia Tax received them | gap; the clearest "state already knows" line |
-| 21 | **Last year's overpayment applied** | V | Virginia Tax's own record | gap; same |
-| 22 | **Extension payments** | V | same | gap; same |
+| 19a, 19b | **Virginia income tax withheld**, you and spouse | W | W-2 box 17, 1099 and W-2G state withholding; the employer also files these with Virginia | built (W-2 box 17, all filers folded into 19a) |
+| 20 | **Estimated payments made for 2024** | V | Virginia Tax received them | built as a writable placeholder at $0; the clearest "state already knows" line |
+| 21 | **Last year's overpayment applied** | V | Virginia Tax's own record | built as a placeholder |
+| 22 | **Extension payments** | V | same | built as a placeholder |
 | 23 | Low-income credit or Virginia EIC, Schedule ADJ | D from F and Q | needs family VAGI and federal EIC | gap, out of scope |
 | 24 | Credit for tax paid to another state, Schedule OSC | Q | needs the other state's return | gap |
 | 25 | Credits, Schedule CR | Q | | gap |
-| 26 | Lines 19a to 25 | D | | gap (trivial) |
-| 27 / 28 | Tax you owe / overpayment | D | | mockup ("you owe" line) |
+| 26 | Lines 19a to 25 | D | | built |
+| 27 / 28 | Tax you owe / overpayment | D | | built |
 | 29 | Overpayment to apply to next year | Q | a choice | gap |
 | 30 | Commonwealth Savers (529 and ABLE) contributions, Schedule VAC | Q | a voluntary contribution of the refund, distinct from the Line 13 deduction | gap |
 | 31 | Other voluntary contributions, Schedule VAC | Q | | gap |
 | 32 | Addition to tax, penalty, interest | D and V | underpayment computed from Lines 20–21 and the federal AGI; Virginia knows the payment dates | gap |
-| 33 | **Consumer's use tax** on untaxed purchases; "none due" oval | Q | only the filer knows | gap; a pure Virginia-only question every filer must answer |
-| 34, 35, 36 | Totals, amount you owe, your refund | D | | mockup |
+| 33 | **Consumer's use tax** on untaxed purchases; "none due" oval | Q | only the filer knows; the rate comes from the locality | built; the question every filer must answer |
+| 34, 35, 36 | Totals, amount you owe, your refund | D | | built (34 is the use tax alone) |
 | Direct deposit: routing, account, checking/savings | F or Q | the federal return's refund account can be offered; the filer may want a different one | gap |
 | Signatures, date, phones; preparer; ID theft PIN; 1099-G election; discuss-with-preparer consent | Q and V | the declaration under penalty of law is the filer's; the ID theft PIN is issued by Virginia | mockup (declaration) |
 

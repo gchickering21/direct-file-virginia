@@ -8,10 +8,11 @@ Written for a state engineering team as much as for the class that built it.
 
 | File | What it is |
 |---|---|
-| `src/main/resources/direct-file/facts/virginia.xml` | 27 facts: Form 760 lines 1–16 for a single W-2 filer, tax year 2024. Every fact names its section of Va. Code Title 58.1 and its line of the 2024 Form 760 instructions. Tax-year figures sit in one block at the top. |
-| `src/main/resources/direct-file/flow/your-taxes-virginia.xml` | Two screens, shown only to a filer who answered Virginia on the federal residence question: what the prototype is, and the computed lines with their citations. |
+| `src/main/resources/direct-file/facts/virginia.xml` | 49 facts: Form 760 from Line 1 to Line 36 for a single W-2 filer, tax year 2024: the deductions and exemptions, the age deduction, the rate schedule, withholding, the payments Virginia Tax holds, the lottery subtraction, the Commonwealth Savers deduction, the use tax, and the amount owed or refunded. Every fact names its section of Va. Code Title 58.1 and its line of the 2024 Form 760 instructions. Tax-year figures sit in one block at the top. |
+| `src/main/resources/direct-file/facts/virginiaLocalities.xml` | Virginia's 133 cities and counties with the 3-digit locality code and the consumer's use tax rate (5.3%, 6%, 6.3%, 7%) from the 2024 instructions. Virginia has no local income tax; locality enters the return only here. |
+| `src/main/resources/direct-file/flow/your-taxes-virginia.xml` | Seven screens, shown only to a filer who answered Virginia on the federal residence question: what the prototype is; what is already known, grouped by source (the federal return, the W-2s the employer filed with the IRS and with Virginia, Virginia Tax's own records); the four questions no one reports (locality on January 1, lottery prizes under $600, Commonwealth Savers contributions, untaxed purchases); the return, Line 1 to Line 36, with the declaration language. |
 | `facts/constants.xml`, `flow/you-and-your-family-about-you.xml` | The one federal touch: `va` added to `/scopedStateOptions` and to the residence question, the change the IRS made whenever a state joined. |
-| `scenarios/virginia_demo_1_riley_rappahannock_single_33k.json`, `scenarios/virginia_demo_2_morgan_shenandoah_age_65_56k.json` | The two hand-checked households as fictional Virginians (names, addresses and employers invented), loadable from the Scenario menu as **Virginia Demo 1** and **Virginia Demo 2**. |
+| `scenarios/virginia_demo_1_riley_rappahannock_single_33k.json`, `scenarios/virginia_demo_2_morgan_shenandoah_age_65_56k.json` | The two hand-checked households as fictional Virginians (names, addresses and employers invented) with their four answers, loadable from the Scenario menu as **Virginia Demo 1** and **Virginia Demo 2**. |
 | `scripts/check-virginia-exports.py` | Fails if the Virginia module reads a federal fact the federal return does not export to a state (see "The integration rule"). |
 | `locales/virginia_es.yaml`, `scripts/merge-virginia-es.py` | Spanish for the two Virginia screens, hand-written, merged into the generated `flow_es.yaml` (which `make transpile-es` reseeds from Direct File's Spanish and so would otherwise drop). Keys are content-addressed on the English text: change the English, re-copy the key. |
 
@@ -37,16 +38,23 @@ the gate working, not a missing page.
 
 | | Household 1 | Household 2 |
 |---|---|---|
-| Filer | Riley Rappahannock (fictional), Richmond; single, born 1997-10-03, wages $33,333 | Morgan Shenandoah (fictional), Charlottesville; single, born 1955-05-05, wages $56,000 |
+| Filer | Riley Rappahannock (fictional), Richmond City (locality 760); single, born 1997-10-03, wages $33,333, $300 withheld | Morgan Shenandoah (fictional), Charlottesville City (540); single, born 1955-05-05, wages $56,000, $300 withheld |
+| Their answers | a $450 lottery prize; no 529; $400 of untaxed purchases | no prize; $3,000 into a Commonwealth Savers account; nothing untaxed |
 | Line 1 federal AGI | $34,333 | $57,000 |
 | Line 4 age deduction (§ 58.1-322.03(5)) | $0 | $12,000 − ($57,000 − $50,000) = $5,000 |
-| Line 9 Virginia AGI | $34,333 | $52,000 |
+| Line 7 lottery prizes under $600 (§ 58.1-322.02(7)) | $450 | $0 |
+| Line 9 Virginia AGI | $33,883 | $52,000 |
 | Line 11 standard deduction (§ 58.1-322.03(1)(b)) | $8,500 | $8,500 |
 | Line 12 exemptions (§ 58.1-322.03(2)) | $930 | $930 + $800 = $1,730 |
-| Line 15 taxable income | $24,903 | $41,770 |
-| Line 16 tax (§ 58.1-320) | $720 + 5.75% × $7,903 = **$1,174** | $720 + 5.75% × $24,770 = **$2,144** |
+| Line 13 Commonwealth Savers deduction (§ 58.1-322.03(7)) | $0 | $3,000 (under the $4,000 cap) |
+| Line 15 taxable income | $24,453 | $38,770 |
+| Line 16 tax (§ 58.1-320) | $720 + 5.75% × $7,453 = $1,148.55 → **$1,149** | $720 + 5.75% × $21,770 = $1,971.78 → **$1,972** |
+| Line 19a withheld (W-2 box 17) | $300 | $300 |
+| Line 27 tax you owe | $849 | $1,672 |
+| Line 33 use tax | $400 × 6% (Central Virginia region) = $24 | $0 |
+| Line 35 amount you owe | **$873** | **$1,672** |
 
-The engine returns exactly these on the summary page.
+The engine returns exactly these on the summary page, in English and in Spanish.
 
 ## The integration rule
 
@@ -79,12 +87,15 @@ python3 scripts/virginia-cases.py /tmp/va-cases && CASES=/tmp/va-cases node scri
 
 In rough order of size:
 
-1. **The rest of Form 760.** Itemized deductions and Virginia Schedule A; every Schedule ADJ
-   addition, subtraction and deduction beyond Social Security and the age deduction; every
-   credit, including the Credit for Low-Income Individuals and the Virginia EITC, whose
-   interaction with the age deduction the instructions describe; a spouse's age deduction
-   and exemptions; married filing separately on a combined return; part-year (760PY) and
-   nonresident (763) returns; withholding, estimated payments and the amount due or refund.
+1. **The rest of Form 760.** Itemized deductions and Virginia Schedule A; the Schedule ADJ
+   additions, subtractions and deductions beyond the five here; every credit, including the
+   Credit for Low-Income Individuals and the Virginia EITC, whose interaction with the age
+   deduction the instructions describe; the spouse tax adjustment, a spouse's age deduction
+   and exemptions, and Line 19b; married filing separately on a combined return; part-year
+   (760PY) and nonresident (763) returns; the carryforward of excess 529 contributions;
+   penalties and interest; voluntary contributions; direct deposit.
+1a. **A live connection to Virginia Tax's records.** Lines 20 to 22 are the state's own
+   figures; here they are writable placeholders at $0.
 2. **Identity.** Direct File authenticated through ID.me and Login.gov. This port has no
    login at all; it is a static site with the engine in the browser.
 3. **Submission.** Nothing here files anything. A state return has to enter the state's

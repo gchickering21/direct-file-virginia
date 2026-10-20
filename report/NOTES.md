@@ -189,3 +189,23 @@ What this means:
   because the generated Spanish locale file only knows federal keys. The two Virginia screens
   now carry hand-written Spanish, merged by a script that also fails if the English (and so
   the content-addressed keys) changed underneath it. The Spanish summary computes $1,174.
+
+## 2026-10-20 the prepopulate-and-ask design, built
+
+- Form 760 now runs Line 1 to Line 36 in the port: withholding from the W-2s (box 17),
+  the three lines that are Virginia Tax's own records (writable placeholders here),
+  the two Schedule ADJ items a filer must be asked about (lottery prizes under $600,
+  Commonwealth Savers contributions with the $4,000 cap and the age-70 rule), the locality
+  code (133 cities and counties, asked and confirmed) and the consumer's use tax at the
+  locality's rate (5.3 / 6 / 6.3 / 7%). Facts: 49 in `virginia.xml`, 4 in
+  `virginiaLocalities.xml`. Seven screens, in English and Spanish. Riley owes $873; Morgan
+  owes $1,672; both match the hand math line for line, and all thirteen harness households
+  pass against the extended independent model.
+- **Design rule confirmed in code:** every federal fact the Virginia module reads is
+  exported (the W-2's state withholding is in the MeF W-2), and the export check now treats
+  our own modules as ours. The one thing a state would plug in is the three Virginia-records
+  lines.
+- **The mockup's correction screens are not built.** A correction in the real app is made on
+  the federal screen that holds the fact, and the Virginia lines recompute; the "what
+  changed" diff is a presentation feature the port does not have, and stays in the mockup
+  as the proposed design.
