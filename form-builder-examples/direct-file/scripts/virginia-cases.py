@@ -12,9 +12,15 @@ def load(n): return json.load(open(SC / n))
 def facts(d): return d.get("facts", d)
 def primary(f):
     return [k.split("/")[2].lstrip("#") for k in f if k.startswith("/filers/#") and k.endswith("/isPrimaryFiler") and f[k]["item"]][0]
-def mod(d, *, state="va", wages=None, dob=None, blind=None, claimable=None):
+def enum(v, opts): return {"$type": "gov.irs.factgraph.persisters.EnumWrapper", "item": {"value": v, "enumOptionsPath": opts}}
+def boolean(v): return {"$type": "gov.irs.factgraph.persisters.BooleanWrapper", "item": v}
+def dollar(v): return {"$type": "gov.irs.factgraph.persisters.DollarWrapper", "item": f"{v:.2f}"}
+def mod(d, *, state="va", wages=None, dob=None, blind=None, claimable=None, locality=None, untaxed=None, estimated=None):
     f = facts(d); pid = primary(f)
     f["/filerResidenceAndIncomeState"]["item"]["value"] = state
+    if locality: f["/vaLocality"] = enum(locality, "/vaLocalityOptions")
+    if untaxed is not None: f["/vaHasUntaxedPurchases"] = boolean(True); f["/vaUntaxedPurchases"] = dollar(untaxed)
+    if estimated is not None: f["/vaEstimatedPayments"] = dollar(estimated)
     if wages is not None:
         w2 = [k for k in f if k.startswith("/formW2s/#") and k.endswith("/writableWages")]
         assert len(w2) == 1
@@ -36,9 +42,13 @@ cases = {
     "I_mfj_70k": mod(load("mfj_70_none.json")),
     "J_blind": mod(load("single_33k_no_credits.json"), blind=True),
     "K_nonresident_ca": mod(load("single_33k_no_credits.json"), state="ca"),
+    "L_use_tax_6_3pct_halifax": mod(load("single_33k_no_credits.json"), locality="halifax-county", untaxed=1000),
+    "M_use_tax_7pct_williamsburg": mod(load("single_33k_no_credits.json"), locality="williamsburg-city", untaxed=1000),
+    "N_refund_after_estimated_payments": mod(load("single_33k_no_credits.json"), estimated=2000),
     "demo_1_riley": load("virginia_demo_1_riley_rappahannock_single_33k.json"),
     "demo_2_morgan": load("virginia_demo_2_morgan_shenandoah_age_65_56k.json"),
 }
+RECORDS = {k: v for k, v in json.load(open(pathlib.Path(__file__).resolve().parents[1] / "src/main/resources/direct-file/website-static/data/virginia-records.json")).items() if not k.startswith("_")}
 meta = {}
 for name, d in cases.items():
     f = facts(d); pid = primary(f)
@@ -52,7 +62,15 @@ for name, d in cases.items():
         locality=(f.get("/vaLocality") or {}).get("item", {}).get("value"),
         lottery=float(f["/vaLotteryPrizesUnder600"]["item"]) if f.get("/vaHasLotteryPrizesUnder600", {}).get("item") else 0,
         savers=float(f["/vaCommonwealthSaversContributions"]["item"]) if f.get("/vaHasCommonwealthSaversContributions", {}).get("item") else 0,
-        untaxed=float(f["/vaUntaxedPurchases"]["item"]) if f.get("/vaHasUntaxedPurchases", {}).get("item") else 0)
+        untaxed=float(f["/vaUntaxedPurchases"]["item"]) if f.get("/vaHasUntaxedPurchases", {}).get("item") else 0,
+        estimated=float(f.get("/vaEstimatedPayments", {}).get("item", 0) or 0),
+        prior=float(f.get("/vaPriorYearOverpaymentApplied", {}).get("item", 0) or 0),
+        extension=float(f.get("/vaExtensionPayments", {}).get("item", 0) or 0))
+    # what the records stand-in (website-static/data/virginia-records.json) will fill in on the page
+    last = [v["item"] for k, v in f.items() if k.startswith("/filers/#") and k.endswith("/lastName")]
+    rec = RECORDS.get(f"{last[0] if last else ''}|{meta[name]['dob']}")
+    if rec:
+        meta[name]["estimated"] = float(rec.get("estimatedPayments", 0)); meta[name]["prior"] = float(rec.get("priorYearOverpaymentApplied", 0)); meta[name]["extension"] = float(rec.get("extensionPayments", 0))
     json.dump(d, open(OUT / f"{name}.json", "w"))
 json.dump(meta, open(OUT / "meta.json", "w"), indent=1)
 print(f"{len(cases)} cases written to {OUT}")

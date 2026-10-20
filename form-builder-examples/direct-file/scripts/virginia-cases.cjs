@@ -26,7 +26,7 @@ function oracle(m, agi, ss) {
   const ti = Math.max(0, vagi - std - ex - savers);
   const sched = ti <= 3000 ? 0.02 * ti : ti <= 5000 ? 60 + 0.03 * (ti - 3000) : ti <= 17000 ? 120 + 0.05 * (ti - 5000) : 720 + 0.0575 * (ti - 17000);
   const tax = below ? 0 : Math.round(sched);
-  const withheld = m.withheld || 0; const owe = Math.max(0, tax - withheld); const over = Math.max(0, withheld - tax);
+  const withheld = m.withheld || 0; const payments = withheld + (m.estimated || 0) + (m.prior || 0) + (m.extension || 0); const owe = Math.max(0, tax - payments); const over = Math.max(0, payments - tax);
   const useTax = m.untaxed ? Math.round(m.untaxed * useTaxRate(m.locality)) : 0;
   const amountOwed = Math.max(0, owe + useTax - over); const refund = Math.max(0, over - useTax);
   return { ageDed, vagi, below, std, ex, lottery, savers, ti, tax, withheld, useTax, amountOwed, refund };
