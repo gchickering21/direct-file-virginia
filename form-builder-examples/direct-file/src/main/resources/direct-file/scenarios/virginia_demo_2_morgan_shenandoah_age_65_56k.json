@@ -527,6 +527,29 @@
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
     "item": false
   },
+  "/vaCommonwealthSaversContributions": {
+    "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+    "item": "3000.00"
+  },
+  "/vaHasCommonwealthSaversContributions": {
+    "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+    "item": true
+  },
+  "/vaHasLotteryPrizesUnder600": {
+    "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+    "item": false
+  },
+  "/vaHasUntaxedPurchases": {
+    "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+    "item": false
+  },
+  "/vaLocality": {
+    "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+    "item": {
+      "enumOptionsPath": "/vaLocalityOptions",
+      "value": "charlottesville-city"
+    }
+  },
   "/wantsCommsFormat": {
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
     "item": false

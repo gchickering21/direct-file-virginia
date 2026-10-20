@@ -527,6 +527,33 @@
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
     "item": false
   },
+  "/vaHasCommonwealthSaversContributions": {
+    "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+    "item": false
+  },
+  "/vaHasLotteryPrizesUnder600": {
+    "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+    "item": true
+  },
+  "/vaHasUntaxedPurchases": {
+    "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+    "item": true
+  },
+  "/vaLocality": {
+    "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+    "item": {
+      "enumOptionsPath": "/vaLocalityOptions",
+      "value": "richmond-city"
+    }
+  },
+  "/vaLotteryPrizesUnder600": {
+    "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+    "item": "450.00"
+  },
+  "/vaUntaxedPurchases": {
+    "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+    "item": "400.00"
+  },
   "/wantsCommsFormat": {
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
     "item": false

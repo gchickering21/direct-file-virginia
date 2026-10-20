@@ -2,17 +2,262 @@
 <?xml-model href="./FlowConfig.rng"?>
 <!-- Hand-written, unlike the federal modules beside it, which are transpiler output. Named
      {category}-{subcategory}.xml like them, under the 'your-taxes' category, so the port's FlowSpec
-     conventions hold: routes start /your-taxes/virginia/. The Virginia
-     screens show only to a filer who answered Virginia on the federal residence question. Every
-     figure comes from facts/virginia.xml; see docs/adr/001-virginia-state-return.md. -->
+     conventions hold: routes start /your-taxes/virginia/. Every screen is gated on /vaIsResident.
+     The order is the design: what is already known, grouped by where it came from; then the four
+     things only the filer can answer; then the return. Figures come from facts/virginia.xml and
+     facts/virginiaLocalities.xml; see docs/adr/001-virginia-state-return.md. -->
 <FlowConfig>
   <page title="Your Virginia return" route="/your-taxes/virginia/virginia-intro">
     <section>
       <div class="df-screen" condition="/vaIsResident" operator="isTrue">
         <h2>Your Virginia return</h2>
         <p><strong>Demonstration only.</strong> This is a class project showing how a state return could be computed from the federal return on the IRS's published code. It is not an IRS or Virginia Tax service and files nothing.</p>
-        <p><fg-show path="/primaryFiler/firstName"/>, because you lived in Virginia for all of <fg-show path="/taxYear"/>, Virginia starts your state return from your federal adjusted gross income. The next screen shows a few lines of Form 760 computed from the answers you already gave.</p>
-        <p>What this prototype covers: the standard deduction, exemptions, the age deduction, the filing threshold, and the tax rate schedule (Va. Code §§ 58.1-320, 58.1-321, 58.1-322.03). What it leaves out: itemized deductions, other additions and subtractions, every credit, part-year and nonresident returns, and a spouse's age deduction.</p>
+        <p><fg-show path="/primaryFiler/firstName"/>, because you lived in Virginia for all of <fg-show path="/taxYear"/>, most of your Virginia return is already done. Form 760 starts from your federal return, your employer already sent Virginia your W-2, and Virginia Tax already holds what you have paid. The next screen shows what is known. After that, four questions no one reports for you, and then your return.</p>
+        <p>What this prototype covers: the standard deduction, exemptions, the age deduction, the filing threshold, the rate schedule, withholding, two Schedule ADJ items (lottery prizes and Commonwealth Savers contributions), the locality code and the consumer's use tax (Va. Code §§ 58.1-320, 58.1-321, 58.1-322.02, 58.1-322.03). What it leaves out: itemized deductions, the other additions and subtractions, every credit, part-year and nonresident returns, and a spouse's share of anything.</p>
+      </div>
+    </section>
+  </page>
+  <page title="What is already known" route="/your-taxes/virginia/virginia-known">
+    <section>
+      <div class="df-screen" condition="/vaIsResident" operator="isTrue">
+        <h2>What is already known</h2>
+        <p>Grouped by where it came from. These are the facts your Virginia return is computed from. To correct one, go back to the screen where you entered it; the correction reaches both returns.</p>
+        <table class="usa-table usa-table--borderless">
+          <caption>From your federal return</caption>
+          <tr><th scope="row">Name</th><td><fg-show path="/primaryFiler/firstName"/> <fg-show path="/primaryFiler/lastName"/></td></tr>
+          <tr><th scope="row">Filing status</th><td><fg-show path="/filingStatus"/></td></tr>
+          <tr><th scope="row">Date of birth</th><td><fg-show path="/primaryFiler/dateOfBirth"/></td></tr>
+          <tr><th scope="row">Federal adjusted gross income (Form 1040 line 11)</th><td><fg-show path="/agi"/></td></tr>
+          <tr><th scope="row">Taxable Social Security (line 6b)</th><td><fg-show path="/taxableSocialSecurityBenefits"/></td></tr>
+        </table>
+        <table class="usa-table usa-table--borderless">
+          <caption>From the W-2s your employer filed with the IRS and with Virginia</caption>
+          <tr><th scope="row">Box 1, wages, all W-2s</th><td><fg-show path="/wages"/></td></tr>
+          <tr><th scope="row">Box 17, Virginia tax withheld, all W-2s (Line 19a)</th><td><fg-show path="/vaWithholding"/></td></tr>
+        </table>
+        <table class="usa-table usa-table--borderless">
+          <caption>From Virginia Tax's own records</caption>
+          <tr><th scope="row">Estimated payments made for <fg-show path="/taxYear"/> (Line 20)</th><td><fg-show path="/vaEstimatedPayments"/></td></tr>
+          <tr><th scope="row">Last year's overpayment applied (Line 21)</th><td><fg-show path="/vaPriorYearOverpaymentApplied"/></td></tr>
+          <tr><th scope="row">Extension payments (Line 22)</th><td><fg-show path="/vaExtensionPayments"/></td></tr>
+        </table>
+        <p>In a state-run service the last three come from Virginia Tax's books. This prototype has no connection to them, so they are shown as $0.</p>
+      </div>
+    </section>
+  </page>
+  <page title="Where did you live on January 1?" route="/your-taxes/virginia/virginia-locality">
+    <section>
+      <div class="df-screen" condition="/vaIsResident" operator="isTrue">
+        <h2>Which city or county did you live in on January 1, 2025?</h2>
+        <p>Form 760 asks for your locality code. Virginia uses it, in part, to allocate local school funding. Your address gives a city and a ZIP code, but a ZIP code can cross a county line and this is about January 1, the day after the tax year, so please confirm it.</p>
+        <p>Virginia has no local income tax. Where you live changes one thing on this return: the rate of consumer's use tax on untaxed purchases, asked two screens on.</p>
+        <fg-set path="/vaLocality">
+          <question>City or county you lived in on January 1, 2025</question>
+          <input type="enum" options-path="/vaLocalityOptions">
+            <option value="accomack-county">Accomack County</option>
+            <option value="albemarle-county">Albemarle County</option>
+            <option value="alexandria-city">Alexandria City</option>
+            <option value="alleghany-county">Alleghany County</option>
+            <option value="amelia-county">Amelia County</option>
+            <option value="amherst-county">Amherst County</option>
+            <option value="appomattox-county">Appomattox County</option>
+            <option value="arlington-county">Arlington County</option>
+            <option value="augusta-county">Augusta County</option>
+            <option value="bath-county">Bath County</option>
+            <option value="bedford-county">Bedford County</option>
+            <option value="bland-county">Bland County</option>
+            <option value="botetourt-county">Botetourt County</option>
+            <option value="bristol-city">Bristol City</option>
+            <option value="brunswick-county">Brunswick County</option>
+            <option value="buchanan-county">Buchanan County</option>
+            <option value="buckingham-county">Buckingham County</option>
+            <option value="buena-vista-city">Buena Vista City</option>
+            <option value="campbell-county">Campbell County</option>
+            <option value="caroline-county">Caroline County</option>
+            <option value="carroll-county">Carroll County</option>
+            <option value="charles-city-county">Charles City County</option>
+            <option value="charlotte-county">Charlotte County</option>
+            <option value="charlottesville-city">Charlottesville City</option>
+            <option value="chesapeake-city">Chesapeake City</option>
+            <option value="chesterfield-county">Chesterfield County</option>
+            <option value="clarke-county">Clarke County</option>
+            <option value="colonial-heights-city">Colonial Heights City</option>
+            <option value="covington-city">Covington City</option>
+            <option value="craig-county">Craig County</option>
+            <option value="culpeper-county">Culpeper County</option>
+            <option value="cumberland-county">Cumberland County</option>
+            <option value="danville-city">Danville City</option>
+            <option value="dickenson-county">Dickenson County</option>
+            <option value="dinwiddie-county">Dinwiddie County</option>
+            <option value="emporia-city">Emporia City</option>
+            <option value="essex-county">Essex County</option>
+            <option value="fairfax-city">Fairfax City</option>
+            <option value="fairfax-county">Fairfax County</option>
+            <option value="falls-church-city">Falls Church City</option>
+            <option value="fauquier-county">Fauquier County</option>
+            <option value="floyd-county">Floyd County</option>
+            <option value="fluvanna-county">Fluvanna County</option>
+            <option value="franklin-city">Franklin City</option>
+            <option value="franklin-county">Franklin County</option>
+            <option value="frederick-county">Frederick County</option>
+            <option value="fredericksburg-city">Fredericksburg City</option>
+            <option value="galax-city">Galax City</option>
+            <option value="giles-county">Giles County</option>
+            <option value="gloucester-county">Gloucester County</option>
+            <option value="goochland-county">Goochland County</option>
+            <option value="grayson-county">Grayson County</option>
+            <option value="greene-county">Greene County</option>
+            <option value="greensville-county">Greensville County</option>
+            <option value="halifax-county">Halifax County</option>
+            <option value="hampton-city">Hampton City</option>
+            <option value="hanover-county">Hanover County</option>
+            <option value="harrisonburg-city">Harrisonburg City</option>
+            <option value="henrico-county">Henrico County</option>
+            <option value="henry-county">Henry County</option>
+            <option value="highland-county">Highland County</option>
+            <option value="hopewell-city">Hopewell City</option>
+            <option value="isle-of-wight-county">Isle of Wight County</option>
+            <option value="james-city-county">James City County</option>
+            <option value="king-and-queen-county">King and Queen County</option>
+            <option value="king-george-county">King George County</option>
+            <option value="king-william-county">King William County</option>
+            <option value="lancaster-county">Lancaster County</option>
+            <option value="lee-county">Lee County</option>
+            <option value="lexington-city">Lexington City</option>
+            <option value="loudoun-county">Loudoun County</option>
+            <option value="louisa-county">Louisa County</option>
+            <option value="lunenburg-county">Lunenburg County</option>
+            <option value="lynchburg-city">Lynchburg City</option>
+            <option value="madison-county">Madison County</option>
+            <option value="manassas-city">Manassas City</option>
+            <option value="manassas-park-city">Manassas Park City</option>
+            <option value="martinsville-city">Martinsville City</option>
+            <option value="mathews-county">Mathews County</option>
+            <option value="mecklenburg-county">Mecklenburg County</option>
+            <option value="middlesex-county">Middlesex County</option>
+            <option value="montgomery-county">Montgomery County</option>
+            <option value="nelson-county">Nelson County</option>
+            <option value="new-kent-county">New Kent County</option>
+            <option value="newport-news-city">Newport News City</option>
+            <option value="norfolk-city">Norfolk City</option>
+            <option value="northampton-county">Northampton County</option>
+            <option value="northumberland-county">Northumberland County</option>
+            <option value="norton-city">Norton City</option>
+            <option value="nottoway-county">Nottoway County</option>
+            <option value="orange-county">Orange County</option>
+            <option value="page-county">Page County</option>
+            <option value="patrick-county">Patrick County</option>
+            <option value="petersburg-city">Petersburg City</option>
+            <option value="pittsylvania-county">Pittsylvania County</option>
+            <option value="poquoson-city">Poquoson City</option>
+            <option value="portsmouth-city">Portsmouth City</option>
+            <option value="powhatan-county">Powhatan County</option>
+            <option value="prince-edward-county">Prince Edward County</option>
+            <option value="prince-george-county">Prince George County</option>
+            <option value="prince-william-county">Prince William County</option>
+            <option value="pulaski-county">Pulaski County</option>
+            <option value="radford-city">Radford City</option>
+            <option value="rappahannock-county">Rappahannock County</option>
+            <option value="richmond-city">Richmond City</option>
+            <option value="richmond-county">Richmond County</option>
+            <option value="roanoke-city">Roanoke City</option>
+            <option value="roanoke-county">Roanoke County</option>
+            <option value="rockbridge-county">Rockbridge County</option>
+            <option value="rockingham-county">Rockingham County</option>
+            <option value="russell-county">Russell County</option>
+            <option value="salem-city">Salem City</option>
+            <option value="scott-county">Scott County</option>
+            <option value="shenandoah-county">Shenandoah County</option>
+            <option value="smyth-county">Smyth County</option>
+            <option value="southampton-county">Southampton County</option>
+            <option value="spotsylvania-county">Spotsylvania County</option>
+            <option value="stafford-county">Stafford County</option>
+            <option value="staunton-city">Staunton City</option>
+            <option value="suffolk-city">Suffolk City</option>
+            <option value="surry-county">Surry County</option>
+            <option value="sussex-county">Sussex County</option>
+            <option value="tazewell-county">Tazewell County</option>
+            <option value="virginia-beach-city">Virginia Beach City</option>
+            <option value="warren-county">Warren County</option>
+            <option value="washington-county">Washington County</option>
+            <option value="waynesboro-city">Waynesboro City</option>
+            <option value="westmoreland-county">Westmoreland County</option>
+            <option value="williamsburg-city">Williamsburg City</option>
+            <option value="winchester-city">Winchester City</option>
+            <option value="wise-county">Wise County</option>
+            <option value="wythe-county">Wythe County</option>
+            <option value="york-county">York County</option>
+          </input>
+        </fg-set>
+      </div>
+    </section>
+  </page>
+  <page title="Virginia Lottery prizes" route="/your-taxes/virginia/virginia-lottery">
+    <section>
+      <div class="df-screen" condition="/vaIsResident" operator="isTrue">
+        <h2>Did you win a Virginia Lottery prize of less than $600 in 2024?</h2>
+        <p>Virginia does not tax prizes under $600, but your federal return counts them as income, so Virginia takes them back out on Line 7 (Va. Code § 58.1-322.02(7)). Prizes of $600 or more are reported to Virginia and stay taxable. No one reports the small ones, so only you can tell us.</p>
+        <fg-set path="/vaHasLotteryPrizesUnder600">
+          <question>Did you win a Virginia Lottery prize of less than $600 in 2024?</question>
+          <input type="boolean">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </input>
+        </fg-set>
+      </div>
+      <div class="df-screen" condition="/vaHasLotteryPrizesUnder600" operator="isTrue">
+        <h2>How much did those prizes add up to?</h2>
+        <p>Count only prizes that were each less than $600.</p>
+        <fg-set path="/vaLotteryPrizesUnder600">
+          <question>Total of Virginia Lottery prizes under $600</question>
+          <input type="dollar"/>
+        </fg-set>
+      </div>
+    </section>
+  </page>
+  <page title="Commonwealth Savers contributions" route="/your-taxes/virginia/virginia-savers">
+    <section>
+      <div class="df-screen" condition="/vaIsResident" operator="isTrue">
+        <h2>Did you put money into a Commonwealth Savers (Virginia529) account in 2024?</h2>
+        <p>Commonwealth Savers is the state's college savings plan. Contributions are deductible on Line 13, up to $4,000 per account for the year unless you have reached age 70 (Va. Code § 58.1-322.03(7)). The plan reports nothing to the IRS, so only you can tell us.</p>
+        <fg-set path="/vaHasCommonwealthSaversContributions">
+          <question>Did you contribute to a Commonwealth Savers account in 2024?</question>
+          <input type="boolean">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </input>
+        </fg-set>
+      </div>
+      <div class="df-screen" condition="/vaHasCommonwealthSaversContributions" operator="isTrue">
+        <h2>How much did you contribute in 2024?</h2>
+        <p>Enter the total. The deduction is capped at $4,000 unless you have reached 70; anything above that would carry forward to later years in a real return.</p>
+        <fg-set path="/vaCommonwealthSaversContributions">
+          <question>Amount contributed to Commonwealth Savers accounts</question>
+          <input type="dollar"/>
+        </fg-set>
+      </div>
+    </section>
+  </page>
+  <page title="Untaxed purchases" route="/your-taxes/virginia/virginia-use-tax">
+    <section>
+      <div class="df-screen" condition="/vaIsResident" operator="isTrue">
+        <h2>Did you buy anything in 2024 without paying Virginia sales tax?</h2>
+        <p>Online, by mail, or in another state, where the seller charged no Virginia tax. Virginia asks every filer this (Line 33, consumer's use tax). No seller reports it, so the answer has to be yours. Where you live sets the rate: 5.3% in most of Virginia, 6% in Northern Virginia, Hampton Roads and the Richmond region, 6.3% or 7% in a few localities.</p>
+        <fg-set path="/vaHasUntaxedPurchases">
+          <question>Did you buy anything without paying Virginia sales tax in 2024?</question>
+          <input type="boolean">
+            <option value="true">Yes</option>
+            <option value="false">No, nothing untaxed</option>
+          </input>
+        </fg-set>
+      </div>
+      <div class="df-screen" condition="/vaHasUntaxedPurchases" operator="isTrue">
+        <h2>How much did those purchases add up to?</h2>
+        <p>Separately stated shipping is not taxable. Your use tax is this total times the rate for your locality.</p>
+        <fg-set path="/vaUntaxedPurchases">
+          <question>Total of purchases on which no Virginia sales tax was paid</question>
+          <input type="dollar"/>
+        </fg-set>
       </div>
     </section>
   </page>
@@ -20,21 +265,31 @@
     <section>
       <div class="df-screen" condition="/vaIsResident" operator="isTrue">
         <h2>Form 760, computed from your federal return</h2>
-        <p><strong>Demonstration only.</strong> Tax year <fg-show path="/taxYear"/>. Each line names the law it comes from.</p>
+        <p><strong>Demonstration only.</strong> Tax year <fg-show path="/taxYear"/>. Each line names the law it comes from. Locality code <fg-show path="/vaLocalityCode"/>.</p>
         <table class="usa-table usa-table--borderless">
           <caption>Virginia Form 760</caption>
           <tr><th scope="row">Line 1, federal adjusted gross income</th><td><fg-show path="/vaFederalAdjustedGrossIncome"/></td></tr>
           <tr><th scope="row">Line 4, age deduction (§ 58.1-322.03(5))</th><td><fg-show path="/vaAgeDeduction"/></td></tr>
           <tr><th scope="row">Line 5, taxable Social Security benefits (§ 58.1-322.02(3))</th><td><fg-show path="/vaTaxableSocialSecurityBenefits"/></td></tr>
+          <tr><th scope="row">Line 7, Virginia Lottery prizes under $600 (§ 58.1-322.02(7))</th><td><fg-show path="/vaLotterySubtraction"/></td></tr>
           <tr><th scope="row">Line 9, Virginia adjusted gross income</th><td><fg-show path="/vaAdjustedGrossIncome"/></td></tr>
           <tr><th scope="row">Line 11, standard deduction (§ 58.1-322.03(1)(b))</th><td><fg-show path="/vaStandardDeduction"/></td></tr>
           <tr><th scope="row">Line 12, exemptions (§ 58.1-322.03(2))</th><td><fg-show path="/vaExemptions"/></td></tr>
+          <tr><th scope="row">Line 13, Commonwealth Savers deduction (§ 58.1-322.03(7))</th><td><fg-show path="/vaCommonwealthSaversDeduction"/></td></tr>
           <tr><th scope="row">Line 15, Virginia taxable income</th><td><fg-show path="/vaTaxableIncome"/></td></tr>
           <tr><th scope="row">Line 16, Virginia income tax (§ 58.1-320)</th><td><strong><fg-show path="/vaTax"/></strong></td></tr>
+          <tr><th scope="row">Line 19a, Virginia tax withheld (W-2 box 17)</th><td><fg-show path="/vaWithholding"/></td></tr>
+          <tr><th scope="row">Lines 20 to 22, payments Virginia Tax has on record</th><td><fg-show path="/vaEstimatedPayments"/> + <fg-show path="/vaPriorYearOverpaymentApplied"/> + <fg-show path="/vaExtensionPayments"/></td></tr>
+          <tr><th scope="row">Line 27, tax you owe before use tax</th><td><fg-show path="/vaTaxYouOwe"/></td></tr>
+          <tr><th scope="row">Line 28, your overpayment</th><td><fg-show path="/vaOverpayment"/></td></tr>
+          <tr><th scope="row">Line 33, consumer's use tax</th><td><fg-show path="/vaUseTax"/></td></tr>
+          <tr><th scope="row">Line 35, amount you owe</th><td><strong><fg-show path="/vaAmountYouOwe"/></strong></td></tr>
+          <tr><th scope="row">Line 36, your refund</th><td><strong><fg-show path="/vaRefund"/></strong></td></tr>
         </table>
         <div class="df-screen" condition="/vaIsBelowFilingThreshold" operator="isTrue">
           <p>Your Virginia adjusted gross income is below the filing threshold for your filing status (§ 58.1-321), so your Virginia income tax is $0.</p>
         </div>
+        <p><strong>Before anyone files this.</strong> Form 760 is signed under penalty of law as true, correct and complete. Virginia Tax compares the W-2 wages and withholding on a return with what the employer reported. The four answers above cannot be checked against any report, which is why they are asked and signed for.</p>
         <p>Lines not shown are out of scope for this prototype and taken as $0. Nothing here is filed.</p>
       </div>
     </section>

@@ -16615,20 +16615,405 @@
   p-45ca08: <strong>Demonstration only.</strong> This is a class project showing how
     a state return could be computed from the federal return on the IRS's published
     code. It is not an IRS or Virginia Tax service and files nothing.
-  p-025d81: <fg-show path="/primaryFiler/firstName"/>, because you lived in Virginia
-    for all of <fg-show path="/taxYear"/>, Virginia starts your state return from
-    your federal adjusted gross income. The next screen shows a few lines of Form
-    760 computed from the answers you already gave.
-  p-9a0e23: 'What this prototype covers: the standard deduction, exemptions, the age
-    deduction, the filing threshold, and the tax rate schedule (Va. Code §§ 58.1-320,
-    58.1-321, 58.1-322.03). What it leaves out: itemized deductions, other additions
-    and subtractions, every credit, part-year and nonresident returns, and a spouse''s
-    age deduction.'
+  p-7524bb: <fg-show path="/primaryFiler/firstName"/>, because you lived in Virginia
+    for all of <fg-show path="/taxYear"/>, most of your Virginia return is already
+    done. Form 760 starts from your federal return, your employer already sent Virginia
+    your W-2, and Virginia Tax already holds what you have paid. The next screen shows
+    what is known. After that, four questions no one reports for you, and then your
+    return.
+  p-dfa3b3: 'What this prototype covers: the standard deduction, exemptions, the age
+    deduction, the filing threshold, the rate schedule, withholding, two Schedule
+    ADJ items (lottery prizes and Commonwealth Savers contributions), the locality
+    code and the consumer''s use tax (Va. Code §§ 58.1-320, 58.1-321, 58.1-322.02,
+    58.1-322.03). What it leaves out: itemized deductions, the other additions and
+    subtractions, every credit, part-year and nonresident returns, and a spouse''s
+    share of anything.'
+/your-taxes/virginia/virginia-known:
+  title: What is already known
+  h2-5baf3a: What is already known
+  p-166bcc: Grouped by where it came from. These are the facts your Virginia return
+    is computed from. To correct one, go back to the screen where you entered it;
+    the correction reaches both returns.
+  table-0:
+    caption-e82ee3: From your federal return
+    tr-0:
+      th-49ee30: Name
+      td-5c6ab6: <fg-show path="/primaryFiler/firstName"/> <fg-show path="/primaryFiler/lastName"/>
+    tr-1:
+      th-4e867a: Filing status
+      td-ba5388: <fg-show path="/filingStatus"/>
+    tr-2:
+      th-4965e9: Date of birth
+      td-6c194e: <fg-show path="/primaryFiler/dateOfBirth"/>
+    tr-3:
+      th-4995ba: Federal adjusted gross income (Form 1040 line 11)
+      td-5637e9: <fg-show path="/agi"/>
+    tr-4:
+      th-030f2a: Taxable Social Security (line 6b)
+      td-61057a: <fg-show path="/taxableSocialSecurityBenefits"/>
+  table-1:
+    caption-06043f: From the W-2s your employer filed with the IRS and with Virginia
+    tr-0:
+      th-017c12: Box 1, wages, all W-2s
+      td-1a2421: <fg-show path="/wages"/>
+    tr-1:
+      th-b480cb: Box 17, Virginia tax withheld, all W-2s (Line 19a)
+      td-7490ed: <fg-show path="/vaWithholding"/>
+  table-2:
+    caption-be46ff: From Virginia Tax's own records
+    tr-0:
+      th-6d2a34: Estimated payments made for <fg-show path="/taxYear"/> (Line 20)
+      td-7876f6: <fg-show path="/vaEstimatedPayments"/>
+    tr-1:
+      th-d21ba1: Last year's overpayment applied (Line 21)
+      td-cda2a4: <fg-show path="/vaPriorYearOverpaymentApplied"/>
+    tr-2:
+      th-62361b: Extension payments (Line 22)
+      td-f86689: <fg-show path="/vaExtensionPayments"/>
+  p-8beb68: In a state-run service the last three come from Virginia Tax's books.
+    This prototype has no connection to them, so they are shown as $0.
+/your-taxes/virginia/virginia-locality:
+  title: Where did you live on January 1?
+  h2-f59a8d: Which city or county did you live in on January 1, 2025?
+  p-7ce7cf: Form 760 asks for your locality code. Virginia uses it, in part, to allocate
+    local school funding. Your address gives a city and a ZIP code, but a ZIP code
+    can cross a county line and this is about January 1, the day after the tax year,
+    so please confirm it.
+  p-ae5dac: 'Virginia has no local income tax. Where you live changes one thing on
+    this return: the rate of consumer''s use tax on untaxed purchases, asked two screens
+    on.'
+  /vaLocality:
+    question: City or county you lived in on January 1, 2025
+    options:
+      accomack-county:
+        name: Accomack County
+      albemarle-county:
+        name: Albemarle County
+      alexandria-city:
+        name: Alexandria City
+      alleghany-county:
+        name: Alleghany County
+      amelia-county:
+        name: Amelia County
+      amherst-county:
+        name: Amherst County
+      appomattox-county:
+        name: Appomattox County
+      arlington-county:
+        name: Arlington County
+      augusta-county:
+        name: Augusta County
+      bath-county:
+        name: Bath County
+      bedford-county:
+        name: Bedford County
+      bland-county:
+        name: Bland County
+      botetourt-county:
+        name: Botetourt County
+      bristol-city:
+        name: Bristol City
+      brunswick-county:
+        name: Brunswick County
+      buchanan-county:
+        name: Buchanan County
+      buckingham-county:
+        name: Buckingham County
+      buena-vista-city:
+        name: Buena Vista City
+      campbell-county:
+        name: Campbell County
+      caroline-county:
+        name: Caroline County
+      carroll-county:
+        name: Carroll County
+      charles-city-county:
+        name: Charles City County
+      charlotte-county:
+        name: Charlotte County
+      charlottesville-city:
+        name: Charlottesville City
+      chesapeake-city:
+        name: Chesapeake City
+      chesterfield-county:
+        name: Chesterfield County
+      clarke-county:
+        name: Clarke County
+      colonial-heights-city:
+        name: Colonial Heights City
+      covington-city:
+        name: Covington City
+      craig-county:
+        name: Craig County
+      culpeper-county:
+        name: Culpeper County
+      cumberland-county:
+        name: Cumberland County
+      danville-city:
+        name: Danville City
+      dickenson-county:
+        name: Dickenson County
+      dinwiddie-county:
+        name: Dinwiddie County
+      emporia-city:
+        name: Emporia City
+      essex-county:
+        name: Essex County
+      fairfax-city:
+        name: Fairfax City
+      fairfax-county:
+        name: Fairfax County
+      falls-church-city:
+        name: Falls Church City
+      fauquier-county:
+        name: Fauquier County
+      floyd-county:
+        name: Floyd County
+      fluvanna-county:
+        name: Fluvanna County
+      franklin-city:
+        name: Franklin City
+      franklin-county:
+        name: Franklin County
+      frederick-county:
+        name: Frederick County
+      fredericksburg-city:
+        name: Fredericksburg City
+      galax-city:
+        name: Galax City
+      giles-county:
+        name: Giles County
+      gloucester-county:
+        name: Gloucester County
+      goochland-county:
+        name: Goochland County
+      grayson-county:
+        name: Grayson County
+      greene-county:
+        name: Greene County
+      greensville-county:
+        name: Greensville County
+      halifax-county:
+        name: Halifax County
+      hampton-city:
+        name: Hampton City
+      hanover-county:
+        name: Hanover County
+      harrisonburg-city:
+        name: Harrisonburg City
+      henrico-county:
+        name: Henrico County
+      henry-county:
+        name: Henry County
+      highland-county:
+        name: Highland County
+      hopewell-city:
+        name: Hopewell City
+      isle-of-wight-county:
+        name: Isle of Wight County
+      james-city-county:
+        name: James City County
+      king-and-queen-county:
+        name: King and Queen County
+      king-george-county:
+        name: King George County
+      king-william-county:
+        name: King William County
+      lancaster-county:
+        name: Lancaster County
+      lee-county:
+        name: Lee County
+      lexington-city:
+        name: Lexington City
+      loudoun-county:
+        name: Loudoun County
+      louisa-county:
+        name: Louisa County
+      lunenburg-county:
+        name: Lunenburg County
+      lynchburg-city:
+        name: Lynchburg City
+      madison-county:
+        name: Madison County
+      manassas-city:
+        name: Manassas City
+      manassas-park-city:
+        name: Manassas Park City
+      martinsville-city:
+        name: Martinsville City
+      mathews-county:
+        name: Mathews County
+      mecklenburg-county:
+        name: Mecklenburg County
+      middlesex-county:
+        name: Middlesex County
+      montgomery-county:
+        name: Montgomery County
+      nelson-county:
+        name: Nelson County
+      new-kent-county:
+        name: New Kent County
+      newport-news-city:
+        name: Newport News City
+      norfolk-city:
+        name: Norfolk City
+      northampton-county:
+        name: Northampton County
+      northumberland-county:
+        name: Northumberland County
+      norton-city:
+        name: Norton City
+      nottoway-county:
+        name: Nottoway County
+      orange-county:
+        name: Orange County
+      page-county:
+        name: Page County
+      patrick-county:
+        name: Patrick County
+      petersburg-city:
+        name: Petersburg City
+      pittsylvania-county:
+        name: Pittsylvania County
+      poquoson-city:
+        name: Poquoson City
+      portsmouth-city:
+        name: Portsmouth City
+      powhatan-county:
+        name: Powhatan County
+      prince-edward-county:
+        name: Prince Edward County
+      prince-george-county:
+        name: Prince George County
+      prince-william-county:
+        name: Prince William County
+      pulaski-county:
+        name: Pulaski County
+      radford-city:
+        name: Radford City
+      rappahannock-county:
+        name: Rappahannock County
+      richmond-city:
+        name: Richmond City
+      richmond-county:
+        name: Richmond County
+      roanoke-city:
+        name: Roanoke City
+      roanoke-county:
+        name: Roanoke County
+      rockbridge-county:
+        name: Rockbridge County
+      rockingham-county:
+        name: Rockingham County
+      russell-county:
+        name: Russell County
+      salem-city:
+        name: Salem City
+      scott-county:
+        name: Scott County
+      shenandoah-county:
+        name: Shenandoah County
+      smyth-county:
+        name: Smyth County
+      southampton-county:
+        name: Southampton County
+      spotsylvania-county:
+        name: Spotsylvania County
+      stafford-county:
+        name: Stafford County
+      staunton-city:
+        name: Staunton City
+      suffolk-city:
+        name: Suffolk City
+      surry-county:
+        name: Surry County
+      sussex-county:
+        name: Sussex County
+      tazewell-county:
+        name: Tazewell County
+      virginia-beach-city:
+        name: Virginia Beach City
+      warren-county:
+        name: Warren County
+      washington-county:
+        name: Washington County
+      waynesboro-city:
+        name: Waynesboro City
+      westmoreland-county:
+        name: Westmoreland County
+      williamsburg-city:
+        name: Williamsburg City
+      winchester-city:
+        name: Winchester City
+      wise-county:
+        name: Wise County
+      wythe-county:
+        name: Wythe County
+      york-county:
+        name: York County
+/your-taxes/virginia/virginia-lottery:
+  title: Virginia Lottery prizes
+  h2-40b8da: Did you win a Virginia Lottery prize of less than $600 in 2024?
+  p-37fe58: Virginia does not tax prizes under $600, but your federal return counts
+    them as income, so Virginia takes them back out on Line 7 (Va. Code § 58.1-322.02(7)).
+    Prizes of $600 or more are reported to Virginia and stay taxable. No one reports
+    the small ones, so only you can tell us.
+  /vaHasLotteryPrizesUnder600:
+    question: Did you win a Virginia Lottery prize of less than $600 in 2024?
+    options:
+      'true':
+        name: 'Yes'
+      'false':
+        name: 'No'
+  h2-6a5fdf: How much did those prizes add up to?
+  p-74957d: Count only prizes that were each less than $600.
+  /vaLotteryPrizesUnder600:
+    question: Total of Virginia Lottery prizes under $600
+/your-taxes/virginia/virginia-savers:
+  title: Commonwealth Savers contributions
+  h2-b7e29e: Did you put money into a Commonwealth Savers (Virginia529) account in
+    2024?
+  p-f42bed: Commonwealth Savers is the state's college savings plan. Contributions
+    are deductible on Line 13, up to $4,000 per account for the year unless you have
+    reached age 70 (Va. Code § 58.1-322.03(7)). The plan reports nothing to the IRS,
+    so only you can tell us.
+  /vaHasCommonwealthSaversContributions:
+    question: Did you contribute to a Commonwealth Savers account in 2024?
+    options:
+      'true':
+        name: 'Yes'
+      'false':
+        name: 'No'
+  h2-44b450: How much did you contribute in 2024?
+  p-170c80: Enter the total. The deduction is capped at $4,000 unless you have reached
+    70; anything above that would carry forward to later years in a real return.
+  /vaCommonwealthSaversContributions:
+    question: Amount contributed to Commonwealth Savers accounts
+/your-taxes/virginia/virginia-use-tax:
+  title: Untaxed purchases
+  h2-15bb3c: Did you buy anything in 2024 without paying Virginia sales tax?
+  p-246296: 'Online, by mail, or in another state, where the seller charged no Virginia
+    tax. Virginia asks every filer this (Line 33, consumer''s use tax). No seller
+    reports it, so the answer has to be yours. Where you live sets the rate: 5.3%
+    in most of Virginia, 6% in Northern Virginia, Hampton Roads and the Richmond region,
+    6.3% or 7% in a few localities.'
+  /vaHasUntaxedPurchases:
+    question: Did you buy anything without paying Virginia sales tax in 2024?
+    options:
+      'true':
+        name: 'Yes'
+      'false':
+        name: No, nothing untaxed
+  h2-bbde4b: How much did those purchases add up to?
+  p-7e719b: Separately stated shipping is not taxable. Your use tax is this total
+    times the rate for your locality.
+  /vaUntaxedPurchases:
+    question: Total of purchases on which no Virginia sales tax was paid
 /your-taxes/virginia/virginia-summary:
   title: Form 760, computed from your federal return
   h2-59ac58: Form 760, computed from your federal return
-  p-793b71: <strong>Demonstration only.</strong> Tax year <fg-show path="/taxYear"/>.
-    Each line names the law it comes from.
+  p-c58539: <strong>Demonstration only.</strong> Tax year <fg-show path="/taxYear"/>.
+    Each line names the law it comes from. Locality code <fg-show path="/vaLocalityCode"/>.
   table-0:
     caption-01cbec: Virginia Form 760
     tr-0:
@@ -16641,22 +17026,54 @@
       th-d8d6dc: Line 5, taxable Social Security benefits (§ 58.1-322.02(3))
       td-abf769: <fg-show path="/vaTaxableSocialSecurityBenefits"/>
     tr-3:
+      th-93e678: Line 7, Virginia Lottery prizes under $600 (§ 58.1-322.02(7))
+      td-7e51b0: <fg-show path="/vaLotterySubtraction"/>
+    tr-4:
       th-972c17: Line 9, Virginia adjusted gross income
       td-99617f: <fg-show path="/vaAdjustedGrossIncome"/>
-    tr-4:
+    tr-5:
       th-48eb27: Line 11, standard deduction (§ 58.1-322.03(1)(b))
       td-dc74d3: <fg-show path="/vaStandardDeduction"/>
-    tr-5:
+    tr-6:
       th-04749f: Line 12, exemptions (§ 58.1-322.03(2))
       td-8e526f: <fg-show path="/vaExemptions"/>
-    tr-6:
+    tr-7:
+      th-d67f52: Line 13, Commonwealth Savers deduction (§ 58.1-322.03(7))
+      td-708538: <fg-show path="/vaCommonwealthSaversDeduction"/>
+    tr-8:
       th-d13cb7: Line 15, Virginia taxable income
       td-3e5ed4: <fg-show path="/vaTaxableIncome"/>
-    tr-7:
+    tr-9:
       th-c1e615: Line 16, Virginia income tax (§ 58.1-320)
       td-436298: <strong><fg-show path="/vaTax"/></strong>
+    tr-10:
+      th-0e3156: Line 19a, Virginia tax withheld (W-2 box 17)
+      td-7490ed: <fg-show path="/vaWithholding"/>
+    tr-11:
+      th-ae6105: Lines 20 to 22, payments Virginia Tax has on record
+      td-0b57f5: <fg-show path="/vaEstimatedPayments"/> + <fg-show path="/vaPriorYearOverpaymentApplied"/>
+        + <fg-show path="/vaExtensionPayments"/>
+    tr-12:
+      th-06abe0: Line 27, tax you owe before use tax
+      td-2aa488: <fg-show path="/vaTaxYouOwe"/>
+    tr-13:
+      th-f67e8a: Line 28, your overpayment
+      td-9388e0: <fg-show path="/vaOverpayment"/>
+    tr-14:
+      th-7c65a0: Line 33, consumer's use tax
+      td-f778b5: <fg-show path="/vaUseTax"/>
+    tr-15:
+      th-684211: Line 35, amount you owe
+      td-71d917: <strong><fg-show path="/vaAmountYouOwe"/></strong>
+    tr-16:
+      th-5e20c2: Line 36, your refund
+      td-b4b35d: <strong><fg-show path="/vaRefund"/></strong>
   p-50775c: Your Virginia adjusted gross income is below the filing threshold for
     your filing status (§ 58.1-321), so your Virginia income tax is $0.
+  p-76dc46: <strong>Before anyone files this.</strong> Form 760 is signed under penalty
+    of law as true, correct and complete. Virginia Tax compares the W-2 wages and
+    withholding on a return with what the employer reported. The four answers above
+    cannot be checked against any report, which is why they are asked and signed for.
   p-0b6cdd: Lines not shown are out of scope for this prototype and taken as $0. Nothing
     here is filed.
 /complete/review/review:
