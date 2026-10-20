@@ -170,3 +170,14 @@ What this means:
   the Virginia pages whether loading the URL directly or clicking Next. All pass. Now in
   the port as `scripts/virginia-cases.py` and `scripts/virginia-cases.cjs`.
 - **The Spanish site** generates the Virginia pages (English text) without breaking.
+- **The port's parity check against Direct File passes with the Virginia module in place**
+  (`make transpile-verify`): declaration order is navigation order across 175 scenarios and
+  25,733 steps with 0 violations; every federal screen shows for exactly the taxpayers it
+  shows for upstream across 161 scenarios and 89,329 decisions, 0 unexpected differences
+  (the 7 known ones are the IRS's own list). Adding a module after the federal ones
+  disturbed nothing.
+- **The port's browser smoke suite cannot run on this Mac:** its Playwright (1.62) has no
+  Chromium build for macOS 13 ("Playwright does not support chromium on mac13"), so all
+  nine tests fail before opening a page. A teammate on macOS 14 or newer runs `make site &&
+  make smoke` as written. On this machine the same checks were repeated by hand with
+  Playwright 1.58 against the production build (below).
