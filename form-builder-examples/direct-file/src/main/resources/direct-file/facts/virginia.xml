@@ -244,12 +244,13 @@
     <Fact path="/vaTotalSubtractions">
       <Name>Form 760 Line 8, total subtractions</Name>
       <Description>Lines 4 + 5 + 6 + 7. Line 6 (state income tax refund, Va. Code
-        § 58.1-322.02(5)) and Line 7 (other subtractions, Schedule ADJ) are out of scope and
-        taken as $0.</Description>
+        § 58.1-322.02(5)) and the Schedule ADJ subtractions other than lottery prizes are out of
+        scope and taken as $0.</Description>
       <Derived>
         <Add>
           <Dependency path="/vaAgeDeduction" />
           <Dependency path="/vaTaxableSocialSecurityBenefits" />
+          <Dependency path="/vaLotterySubtraction" />
         </Add>
       </Derived>
     </Fact>
@@ -417,12 +418,13 @@
 
     <Fact path="/vaTotalDeductions">
       <Name>Form 760 Line 14, total deductions</Name>
-      <Description>Lines 10 + 11 + 12 + 13. Line 10 (itemized) and Line 13 (Schedule ADJ
-        deductions) are out of scope and taken as $0.</Description>
+      <Description>Lines 10 + 11 + 12 + 13. Line 10 (itemized) and the Schedule ADJ deductions
+        other than Commonwealth Savers are out of scope and taken as $0.</Description>
       <Derived>
         <Add>
           <Dependency path="/vaStandardDeduction" />
           <Dependency path="/vaExemptions" />
+          <Dependency path="/vaCommonwealthSaversDeduction" />
         </Add>
       </Derived>
     </Fact>
@@ -625,6 +627,102 @@
             <Subtrahends><Dependency path="/vaTax" /></Subtrahends>
           </Subtract>
         </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <!-- ============ Two things only the filer knows: Line 7 and Line 13. ============ -->
+
+    <Fact path="/vaHasLotteryPrizesUnder600">
+      <Name>Won a Virginia Lottery prize of less than $600 in 2024</Name>
+      <Description>Asked, because no one reports prizes under $600. Va. Code § 58.1-322.02(7).</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaLotteryPrizesUnder600">
+      <Name>Total of Virginia Lottery prizes of less than $600 each</Name>
+      <Description>Only prizes under $600 each qualify; a prize of $600 or more is reported to Virginia and
+        stays taxable. The filer enters the total of the qualifying prizes.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaLotterySubtraction">
+      <Name>Form 760 Line 7 (Schedule ADJ), Virginia Lottery prizes under $600</Name>
+      <Description>Va. Code § 58.1-322.02(7): "Any amount included therein less than $600 from a prize
+        awarded by the Virginia Lottery." The other Schedule ADJ subtractions are out of scope.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaHasLotteryPrizesUnder600" /></When>
+            <Then><Dependency path="/vaLotteryPrizesUnder600" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaHasCommonwealthSaversContributions">
+      <Name>Contributed to a Commonwealth Savers (Virginia529) account in 2024</Name>
+      <Description>Asked, because the plan reports nothing to the IRS. Va. Code § 58.1-322.03(7).</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversContributions">
+      <Name>Amount contributed to Commonwealth Savers accounts in 2024</Name>
+      <Description>The total paid or contributed in the year, before the per-account cap.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversCap">
+      <Name>Commonwealth Savers deduction cap</Name>
+      <Description>Va. Code § 58.1-322.03(7)(a): "limited to $4,000 per prepaid tuition contract or college
+        savings trust account" per return per taxable year. This prototype treats the contributions as
+        one account; the carryforward of the excess to later years is out of scope.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>4000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaPrimaryFilerAge70OrOlder">
+      <Name>Primary filer has attained age 70</Name>
+      <Description>Va. Code § 58.1-322.03(7)(b): a contributor who has attained age 70 is not subject to the
+        $4,000 limit. Born on or before December 31, 1954 for tax year 2024. Reads the exported date of
+        birth.</Description>
+      <Derived>
+        <LessThanOrEqual>
+          <Left><Dependency module="filers" path="/primaryFiler/dateOfBirth" /></Left>
+          <Right><Day>1954-12-31</Day></Right>
+        </LessThanOrEqual>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversDeduction">
+      <Name>Form 760 Line 13 (Schedule ADJ), Commonwealth Savers deduction</Name>
+      <Description>Va. Code § 58.1-322.03(7): the contribution, capped at $4,000 unless the filer has
+        attained age 70. The other Schedule ADJ deductions are out of scope.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Not><Dependency path="/vaHasCommonwealthSaversContributions" /></Not></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><Dependency path="/vaPrimaryFilerAge70OrOlder" /></When>
+            <Then><Dependency path="/vaCommonwealthSaversContributions" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then>
+              <LesserOf>
+                <Dependency path="/vaCommonwealthSaversCap" />
+                <Dependency path="/vaCommonwealthSaversContributions" />
+              </LesserOf>
+            </Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
   </Facts>
