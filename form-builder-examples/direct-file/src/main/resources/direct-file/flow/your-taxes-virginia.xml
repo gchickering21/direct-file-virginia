@@ -11,7 +11,7 @@
       <div class="df-screen" condition="/vaIsResident" operator="isTrue">
         <h2>Your Virginia return</h2>
         <p><strong>Demonstration only.</strong> This is a class project showing how a state return could be computed from the federal return on the IRS's published code. It is not an IRS or Virginia Tax service and files nothing.</p>
-        <p>Because you lived in Virginia for all of <fg-show path="/taxYear"/>, Virginia starts your state return from your federal adjusted gross income. The next screen shows a few lines of Form 760 computed from the answers you already gave.</p>
+        <p><fg-show path="/primaryFiler/firstName"/>, because you lived in Virginia for all of <fg-show path="/taxYear"/>, Virginia starts your state return from your federal adjusted gross income. The next screen shows a few lines of Form 760 computed from the answers you already gave.</p>
         <p>What this prototype covers: the standard deduction, exemptions, the age deduction, the filing threshold, and the tax rate schedule (Va. Code §§ 58.1-320, 58.1-321, 58.1-322.03). What it leaves out: itemized deductions, other additions and subtractions, every credit, part-year and nonresident returns, and a spouse's age deduction.</p>
       </div>
     </section>
