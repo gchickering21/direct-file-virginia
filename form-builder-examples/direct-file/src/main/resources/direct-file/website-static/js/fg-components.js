@@ -29,3 +29,5 @@ import './inputs/collection-item-reference.js'
 
 // The Virginia correction screens' before/after view. Presentation only; reads the graph, writes nothing.
 import './virginia-corrections.js'
+// Lines 20 to 22 from a stand-in for Virginia Tax's records (resources/data/virginia-records.json).
+import './virginia-records.js'

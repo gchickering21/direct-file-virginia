@@ -1,0 +1,5 @@
+{
+  "_comment": "A stand-in for Virginia Tax's own records, for the demonstration. A state-run filer reads Lines 20 to 22 from its books; this prototype reads them from here, keyed by last name and date of birth. Invented figures for invented people.",
+  "Rappahannock|1997-10-03": { "estimatedPayments": 200, "priorYearOverpaymentApplied": 0, "extensionPayments": 0 },
+  "Shenandoah|1955-05-05": { "estimatedPayments": 0, "priorYearOverpaymentApplied": 150, "extensionPayments": 0 }
+}

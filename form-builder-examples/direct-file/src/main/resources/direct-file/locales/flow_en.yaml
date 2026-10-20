@@ -16670,8 +16670,9 @@
     tr-2:
       th-62361b: Extension payments (Line 22)
       td-f86689: <fg-show path="/vaExtensionPayments"/>
-  p-8beb68: In a state-run service the last three come from Virginia Tax's books.
-    This prototype has no connection to them, so they are shown as $0.
+  p-10442a: In a state-run service the last three come from Virginia Tax's books.
+    This prototype reads them from a stand-in for those records, matched to you by
+    name and date of birth, so they are filled in before you see them. They stay correctable.
 /your-taxes/virginia/virginia-check:
   title: Is everything right?
   h2-93487e: Is everything on the last screen right?

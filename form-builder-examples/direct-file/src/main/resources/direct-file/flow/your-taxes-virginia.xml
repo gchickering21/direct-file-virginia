@@ -41,7 +41,7 @@
           <tr><th scope="row">Last year's overpayment applied (Line 21)</th><td><fg-show path="/vaPriorYearOverpaymentApplied"/></td></tr>
           <tr><th scope="row">Extension payments (Line 22)</th><td><fg-show path="/vaExtensionPayments"/></td></tr>
         </table>
-        <p>In a state-run service the last three come from Virginia Tax's books. This prototype has no connection to them, so they are shown as $0.</p>
+        <p>In a state-run service the last three come from Virginia Tax's books. This prototype reads them from a stand-in for those records, matched to you by name and date of birth, so they are filled in before you see them. They stay correctable.</p>
       </div>
     </section>
   </page>
