@@ -15,8 +15,8 @@ ALLOWED_GATES = {"/filerResidenceAndIncomeState"}
 def exports():
     flags = {}
     for f in FACTS.glob("*.xml"):
-        if f.name == "virginia.xml":
-            continue
+        if f.name.startswith("virginia"):
+            continue  # our own modules are not federal facts
         for m in re.finditer(r'<Fact path="([^"]+)"(.*?)</Fact>', f.read_text(), re.S):
             ex = re.search(r"<Export([^/]*)/>", m.group(2))
             flags[(f.stem, m.group(1))] = ex.group(1) if ex else ""
@@ -31,7 +31,7 @@ def main():
         if (module, path) in seen:
             continue
         seen.add((module, path))
-        if path in ALLOWED_GATES:
+        if path in ALLOWED_GATES or module.startswith("virginia"):
             continue
         # /primaryFiler/x is the primary filer's /filers/*/x
         lookup = path.replace("/primaryFiler/", "/filers/*/") if path.startswith("/primaryFiler/") else path
