@@ -10,7 +10,9 @@ Written for a state engineering team as much as for the class that built it.
 |---|---|
 | `src/main/resources/direct-file/facts/virginia.xml` | 49 facts: Form 760 from Line 1 to Line 36 for a single W-2 filer, tax year 2024: the deductions and exemptions, the age deduction, the rate schedule, withholding, the payments Virginia Tax holds, the lottery subtraction, the Commonwealth Savers deduction, the use tax, and the amount owed or refunded. Every fact names its section of Va. Code Title 58.1 and its line of the 2024 Form 760 instructions. Tax-year figures sit in one block at the top. |
 | `src/main/resources/direct-file/facts/virginiaLocalities.xml` | Virginia's 133 cities and counties with the 3-digit locality code and the consumer's use tax rate (5.3%, 6%, 6.3%, 7%) from the 2024 instructions. Virginia has no local income tax; locality enters the return only here. |
-| `src/main/resources/direct-file/flow/your-taxes-virginia.xml` | Seven screens, shown only to a filer who answered Virginia on the federal residence question: what the prototype is; what is already known, grouped by source (the federal return, the W-2s the employer filed with the IRS and with Virginia, Virginia Tax's own records); the four questions no one reports (locality on January 1, lottery prizes under $600, Commonwealth Savers contributions, untaxed purchases); the return, Line 1 to Line 36, with the declaration language. |
+| `src/main/resources/direct-file/flow/your-taxes-virginia.xml` | Twelve screens, shown only to a filer who answered Virginia on the federal residence question: what the prototype is; what is already known, grouped by source (the federal return, the W-2s the employer filed with the IRS and with Virginia, Virginia Tax's own records); **a correction round** (is everything right? → what needs correcting → correct the date of birth or a whole W-2 → what it changed); the four questions no one reports (locality on January 1, lottery prizes under $600, Commonwealth Savers contributions, untaxed purchases); the return, Line 1 to Line 36, with the declaration language. |
+| `templates/nodes/inputs/select.html` | This app's override of Form Builder's select input: the same `<select>` inside a USWDS combo box, so the 133-locality question is typed into and filtered. USWDS keeps the select in sync and fires `change` on it, which is what the runtime listens for. |
+| `website-static/js/virginia-corrections.js` | The "here is what it changed" view: snapshots the Form 760 lines and the correctable facts when a correction screen opens, and on the corrections screen shows what you owe now versus before, each corrected item was → now, and the lines that moved. Presentation only; it writes no fact. |
 | `facts/constants.xml`, `flow/you-and-your-family-about-you.xml` | The one federal touch: `va` added to `/scopedStateOptions` and to the residence question, the change the IRS made whenever a state joined. |
 | `scenarios/virginia_demo_1_riley_rappahannock_single_33k.json`, `scenarios/virginia_demo_2_morgan_shenandoah_age_65_56k.json` | The two hand-checked households as fictional Virginians (names, addresses and employers invented) with their four answers, loadable from the Scenario menu as **Virginia Demo 1** and **Virginia Demo 2**. |
 | `scripts/check-virginia-exports.py` | Fails if the Virginia module reads a federal fact the federal return does not export to a state (see "The integration rule"). |
@@ -55,6 +57,18 @@ the gate working, not a missing page.
 | Line 35 amount you owe | **$873** | **$1,672** |
 
 The engine returns exactly these on the summary page, in English and in Spanish.
+
+## Corrections
+
+A correction is made with ordinary `<fg-set>` inputs bound to the federal facts, so it reaches
+both returns: the date of birth as one fact, a W-2 as a whole document (employer, boxes 1,
+2, 16, 17), the way Direct File's own W-2 screen edits it. Calculated amounts are never
+editable. The engine does not keep a "before", so `virginia-corrections.js` snapshots the
+lines when a correction screen opens (once per round; a round starts on "Is everything
+right?") and compares on the corrections screen. Try it: load Virginia Demo 1, answer "No,
+something needs correcting", choose the date of birth, enter May 5, 1955, and the next
+screen says "Now you owe $174. Before this correction, you owe $873", lists the item was →
+now, and folds the seven lines that moved.
 
 ## The integration rule
 
@@ -106,12 +120,10 @@ In rough order of size:
    module is written so that only the plumbing changes.
 5. **Spanish.** The two Virginia screens carry Spanish (`locales/virginia_es.yaml`), written by
    the project, not reviewed by a translator; Virginia Tax's own Spanish wording would replace it.
-6. **A better locality picker.** The port renders an enum as radio buttons, so the locality
-   question is 133 radios; a searchable select is the obvious presentation fix, and it is a
-   Form Builder feature, not a Virginia one.
-7. **Accessibility verification** of the seven screens, and a review by Virginia Tax
+6. **Accessibility verification** of the twelve screens, including the combo box and the
+   correction view, and a review by Virginia Tax
    of every figure and citation against their own reading of the Code.
-8. **Maintenance.** The IRS stack this sits on is labelled draft and changes weekly; this
+7. **Maintenance.** The IRS stack this sits on is labelled draft and changes weekly; this
    repository pins one commit of each library.
 
 Nothing here is branded as, or endorsed by, the IRS or Virginia Tax. Every proposed screen

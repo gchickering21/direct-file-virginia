@@ -205,10 +205,19 @@ What this means:
   exported (the W-2's state withholding is in the MeF W-2), and the export check now treats
   our own modules as ours. The one thing a state would plug in is the three Virginia-records
   lines.
-- **The mockup's correction screens are not built.** A correction in the real app is made on
-  the federal screen that holds the fact, and the Virginia lines recompute; the "what
-  changed" diff is a presentation feature the port does not have, and stays in the mockup
-  as the proposed design.
+- **The mockup's correction screens are built (later the same day).** A correction round:
+  "Is everything right?" → what needs correcting → correct the date of birth, or a W-2 as a
+  whole document → "Your correction is saved. Here is what it changed", with what you owe now
+  versus before, each item was → now, and the lines that moved. The inputs are ordinary
+  fg-sets bound to the federal facts, so both returns change; the before/after view is a
+  40-line app script that snapshots the lines when a correction screen opens. Verified on the
+  real screens: Riley's date of birth to 1955 takes what he owes from $873 to $174, seven
+  lines moved.
+- **The 133-radio locality question became a searchable combo box** without touching Form
+  Builder: Flow XML already has a `<select>` input and the runtime already handles it; this
+  app overrides the select template to wrap it in a USWDS combo box, which filters as you
+  type and fires `change` on the select. Typing "Charlottes" offers Charlottesville City, and
+  the locality code on the summary follows.
 - **Click-through verified on the real screens (2026-10-20):** load the IRS's "Single 33k No
   Credits", answer Virginia on the federal residence question, then Next through the
   Virginia intro, what-is-known, locality (Richmond City), lottery yes and $450, savers no,
