@@ -59,8 +59,9 @@
     tr-2:
       th-62361b: Pagos con prórroga (línea 22)
       td-f86689: <fg-show path="/vaExtensionPayments"/>
-  p-8beb68: En un servicio del estado, los tres últimos vienen de los libros de Virginia Tax. Este prototipo no tiene conexión
-    con ellos, así que se muestran como $0.
+  p-10442a: En un servicio del estado, los tres últimos vienen de los libros de Virginia Tax. Este prototipo los lee de un
+    sustituto de esos registros, emparejado con usted por nombre y fecha de nacimiento, de modo que ya están completos antes
+    de que los vea. Siguen siendo corregibles.
 /your-taxes/virginia/virginia-locality:
   title: ¿Dónde vivía el 1 de enero?
   h2-f59a8d: ¿En qué ciudad o condado vivía el 1 de enero de 2025?
