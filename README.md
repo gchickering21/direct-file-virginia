@@ -22,7 +22,12 @@ taking anything else here.
 | `fact-graph/`, `form-builder/`, `taxpert/`, `form-builder-examples/` | The IRS's maintained stack, each a squashed subtree at the commit in `IRS_PINS.md`. The IRS's port of Direct File is `form-builder-examples/direct-file/`, and every Virginia change is an ordinary commit inside it. |
 | `stack/`, `Makefile` | How we run the archived application locally (see `CONTRIBUTING.md`). |
 | `report/` | Course material: the plan, notes, sources, figures, drafts. |
-| `handoff/` | The package for a state: how to take the change set, the policy map, the gap list. Written when the Virginia work lands. |
+| `handoff/` | The package for a state: `README.md` (how to take the change set without this repository), `BRIEF.md` (one page), `export.sh` (the patch series), `POLICY_MAP.md`, `FORM_760_FIELD_MAP.md`. |
+| `SETUP.md` | From a clean Mac to both sites running, step by step, with everything that went wrong and what fixed it. |
+
+## Setting up
+
+`SETUP.md` is the start-to-finish guide. The short form:
 
 ## Running the real application
 
@@ -45,10 +50,10 @@ for Docker, or `make bootstrap && make dev` natively. See that folder's README.
 
 ## Taking the Virginia change set
 
-See `handoff/README.md` once it exists. In short: the changes are commits on top of
-the `form-builder-examples` subtree's squash commit, exportable with `git format-patch`
-onto a fresh clone of IRS-Public/form-builder-examples at the pinned commit, and the two
-Virginia XML files drop into any application generated from the IRS's template.
+See `handoff/README.md`. In short: `handoff/export.sh` writes the Virginia commits as a
+patch series that applies cleanly to a fresh clone of IRS-Public/form-builder-examples at
+the pinned commit (tested 2026-10-20), and the two Virginia XML files drop into any
+application generated from the IRS's template.
 
 ## Licence
 

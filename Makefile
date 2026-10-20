@@ -7,10 +7,13 @@ TOOLCHAIN := . stack/toolchain.sh &&
 COMPOSE := docker compose --project-directory $(IRS) -f $(IRS)/docker-compose.yaml -f stack/overrides.yaml
 SERVICES := api csp-simulator
 
-.PHONY: help virginia-check port-bootstrap port-dev port-site port-smoke port-validate port-test stack-up stack-build stack-down stack-logs stack-ps client
+.PHONY: help handoff virginia-check port-bootstrap port-dev port-site port-smoke port-validate port-test stack-up stack-build stack-down stack-logs stack-ps client
 
 help:
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
+
+handoff: ## write the Virginia change set as patches on IRS-Public/form-builder-examples (handoff/patches/)
+	handoff/export.sh
 
 virginia-check: ## validate the XML, the export rule, and the Spanish keys for the Virginia module
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) validate-xml

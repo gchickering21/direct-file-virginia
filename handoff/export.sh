@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Export the Virginia change set as a patch series that applies to a fresh clone of
+# IRS-Public/form-builder-examples at the commit this repository pins.
+#
+#   handoff/export.sh [out-dir]          # default: handoff/patches
+#
+# The patches are relative to the form-builder-examples/ tree, so inside the IRS clone:
+#   git clone https://github.com/IRS-Public/form-builder-examples.git && cd form-builder-examples
+#   git checkout <pinned commit, see IRS_PINS.md>
+#   git am <out-dir>/*.patch
+# Every commit in the series touches only the port (form-builder-examples/direct-file/); a
+# commit that also changed this repository's own files is exported with only its port half.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+OUT="${1:-handoff/patches}"
+SQUASH=$(git log --format=%H --grep="Squashed 'form-builder-examples/' content" | tail -1)
+PIN=$(git log --format=%s -1 "$SQUASH" | sed -E "s/.*from commit ([0-9a-f]+).*/\1/")
+rm -rf "$OUT" && mkdir -p "$OUT"
+git format-patch --quiet --relative=form-builder-examples/ -o "$OUT" "$SQUASH"..HEAD -- form-builder-examples/direct-file
+COUNT=$(ls "$OUT"/*.patch 2>/dev/null | wc -l | tr -d ' ')
+echo "$COUNT patches in $OUT, on IRS-Public/form-builder-examples at $PIN"
