@@ -47,7 +47,12 @@ for name, d in cases.items():
         dob=f[f"/filers/#{pid}/dateOfBirth"]["item"]["date"], blind=bool(f[f"/filers/#{pid}/isBlind"]["item"]),
         claimable=bool(f[f"/filers/#{pid}/canBeClaimed"]["item"]),
         wages=sum(float(f[k]["item"]) for k in f if k.startswith("/formW2s/#") and k.endswith("/writableWages")),
-        deps=sum(1 for k in f if k.startswith("/familyAndHousehold/#") and k.endswith("/isClaimedDependent") and f[k]["item"]))
+        deps=sum(1 for k in f if k.startswith("/familyAndHousehold/#") and k.endswith("/isClaimedDependent") and f[k]["item"]),
+        withheld=sum(float(f[k]["item"]) for k in f if k.startswith("/formW2s/#") and k.endswith("/writableStateWithholding")),
+        locality=(f.get("/vaLocality") or {}).get("item", {}).get("value"),
+        lottery=float(f["/vaLotteryPrizesUnder600"]["item"]) if f.get("/vaHasLotteryPrizesUnder600", {}).get("item") else 0,
+        savers=float(f["/vaCommonwealthSaversContributions"]["item"]) if f.get("/vaHasCommonwealthSaversContributions", {}).get("item") else 0,
+        untaxed=float(f["/vaUntaxedPurchases"]["item"]) if f.get("/vaHasUntaxedPurchases", {}).get("item") else 0)
     json.dump(d, open(OUT / f"{name}.json", "w"))
 json.dump(meta, open(OUT / "meta.json", "w"), indent=1)
 print(f"{len(cases)} cases written to {OUT}")

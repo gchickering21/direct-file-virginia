@@ -14859,18 +14859,20 @@
   p-45ca08: <strong>Solo demostración.</strong> Este es un proyecto de clase que muestra cómo una declaración estatal podría
     calcularse a partir de la declaración federal con el código publicado por el IRS. No es un servicio del IRS ni de Virginia
     Tax y no presenta nada.
-  p-025d81: <fg-show path="/primaryFiler/firstName"/>, como vivió en Virginia durante todo <fg-show path="/taxYear"/>, Virginia
-    comienza su declaración estatal a partir de su ingreso bruto ajustado federal. La siguiente pantalla muestra algunas líneas
-    del Formulario 760 calculadas con las respuestas que ya dio.
-  p-9a0e23: 'Lo que cubre este prototipo: la deducción estándar, las exenciones, la deducción por edad, el umbral de presentación
-    y la tabla de tasas (Código de Virginia §§ 58.1-320, 58.1-321, 58.1-322.03). Lo que deja fuera: deducciones detalladas,
-    otras adiciones y sustracciones, todos los créditos, declaraciones de residente parcial y de no residente, y la deducción
-    por edad del cónyuge.'
+  p-7524bb: <fg-show path="/primaryFiler/firstName"/>, como vivió en Virginia durante todo <fg-show path="/taxYear"/>, la
+    mayor parte de su declaración de Virginia ya está hecha. El Formulario 760 parte de su declaración federal, su empleador
+    ya envió su W-2 a Virginia y Virginia Tax ya tiene registrado lo que usted ha pagado. La siguiente pantalla muestra lo
+    que ya se sabe. Después, cuatro preguntas que nadie declara por usted, y luego su declaración.
+  p-dfa3b3: 'Lo que cubre este prototipo: la deducción estándar, las exenciones, la deducción por edad, el umbral de presentación,
+    la tabla de tasas, la retención, dos partidas del Anexo ADJ (premios de lotería y aportes a Commonwealth Savers), el código
+    de localidad y el impuesto sobre el uso (Código de Virginia §§ 58.1-320, 58.1-321, 58.1-322.02, 58.1-322.03). Lo que deja
+    fuera: deducciones detalladas, las demás adiciones y sustracciones, todos los créditos, declaraciones de residente parcial
+    y de no residente, y la parte de un cónyuge en cualquier cosa.'
 /your-taxes/virginia/virginia-summary:
   title: Formulario 760, calculado a partir de su declaración federal
   h2-59ac58: Formulario 760, calculado a partir de su declaración federal
-  p-793b71: <strong>Solo demostración.</strong> Año tributario <fg-show path="/taxYear"/>. Cada línea indica la ley de la
-    que proviene.
+  p-c58539: <strong>Solo demostración.</strong> Año tributario <fg-show path="/taxYear"/>. Cada línea indica la ley de la
+    que proviene. Código de localidad <fg-show path="/vaLocalityCode"/>.
   table-0:
     caption-01cbec: Formulario 760 de Virginia
     tr-0:
@@ -14883,20 +14885,424 @@
       th-d8d6dc: Línea 5, beneficios del Seguro Social sujetos a impuesto (§ 58.1-322.02(3))
       td-abf769: <fg-show path="/vaTaxableSocialSecurityBenefits"/>
     tr-3:
+      th-93e678: Línea 7, premios de la Lotería de Virginia de menos de $600 (§ 58.1-322.02(7))
+      td-7e51b0: <fg-show path="/vaLotterySubtraction"/>
+    tr-4:
       th-972c17: Línea 9, ingreso bruto ajustado de Virginia
       td-99617f: <fg-show path="/vaAdjustedGrossIncome"/>
-    tr-4:
+    tr-5:
       th-48eb27: Línea 11, deducción estándar (§ 58.1-322.03(1)(b))
       td-dc74d3: <fg-show path="/vaStandardDeduction"/>
-    tr-5:
+    tr-6:
       th-04749f: Línea 12, exenciones (§ 58.1-322.03(2))
       td-8e526f: <fg-show path="/vaExemptions"/>
-    tr-6:
+    tr-7:
+      th-d67f52: Línea 13, deducción por Commonwealth Savers (§ 58.1-322.03(7))
+      td-708538: <fg-show path="/vaCommonwealthSaversDeduction"/>
+    tr-8:
       th-d13cb7: Línea 15, ingreso tributable de Virginia
       td-3e5ed4: <fg-show path="/vaTaxableIncome"/>
-    tr-7:
+    tr-9:
       th-c1e615: Línea 16, impuesto sobre la renta de Virginia (§ 58.1-320)
       td-436298: <strong><fg-show path="/vaTax"/></strong>
+    tr-10:
+      th-0e3156: Línea 19a, impuesto de Virginia retenido (casilla 17 del W-2)
+      td-7490ed: <fg-show path="/vaWithholding"/>
+    tr-11:
+      th-ae6105: Líneas 20 a 22, pagos que Virginia Tax tiene registrados
+      td-0b57f5: <fg-show path="/vaEstimatedPayments"/> + <fg-show path="/vaPriorYearOverpaymentApplied"/> + <fg-show path="/vaExtensionPayments"/>
+    tr-12:
+      th-06abe0: Línea 27, impuesto que debe antes del impuesto sobre el uso
+      td-2aa488: <fg-show path="/vaTaxYouOwe"/>
+    tr-13:
+      th-f67e8a: Línea 28, su pago en exceso
+      td-9388e0: <fg-show path="/vaOverpayment"/>
+    tr-14:
+      th-7c65a0: Línea 33, impuesto sobre el uso
+      td-f778b5: <fg-show path="/vaUseTax"/>
+    tr-15:
+      th-684211: Línea 35, monto que debe
+      td-71d917: <strong><fg-show path="/vaAmountYouOwe"/></strong>
+    tr-16:
+      th-5e20c2: Línea 36, su reembolso
+      td-b4b35d: <strong><fg-show path="/vaRefund"/></strong>
   p-50775c: Su ingreso bruto ajustado de Virginia está por debajo del umbral de presentación para su estado civil (§ 58.1-321),
     por lo que su impuesto sobre la renta de Virginia es $0.
+  p-76dc46: <strong>Antes de que alguien presente esto.</strong> El Formulario 760 se firma bajo pena de ley como verdadero,
+    correcto y completo. Virginia Tax compara los salarios y la retención del W-2 en una declaración con lo que informó el
+    empleador. Las cuatro respuestas anteriores no pueden cotejarse con ningún informe; por eso se preguntan y se firman.
   p-0b6cdd: Las líneas que no se muestran están fuera del alcance de este prototipo y se toman como $0. Nada de esto se presenta.
+/your-taxes/virginia/virginia-known:
+  title: Lo que ya se sabe
+  h2-5baf3a: Lo que ya se sabe
+  p-166bcc: Agrupado según su origen. Estos son los datos con los que se calcula su declaración de Virginia. Para corregir
+    uno, vuelva a la pantalla donde lo ingresó; la corrección llega a ambas declaraciones.
+  table-0:
+    caption-e82ee3: De su declaración federal
+    tr-0:
+      th-49ee30: Nombre
+      td-5c6ab6: <fg-show path="/primaryFiler/firstName"/> <fg-show path="/primaryFiler/lastName"/>
+    tr-1:
+      th-4e867a: Estado civil para la declaración
+      td-ba5388: <fg-show path="/filingStatus"/>
+    tr-2:
+      th-4965e9: Fecha de nacimiento
+      td-6c194e: <fg-show path="/primaryFiler/dateOfBirth"/>
+    tr-3:
+      th-4995ba: Ingreso bruto ajustado federal (Formulario 1040, línea 11)
+      td-5637e9: <fg-show path="/agi"/>
+    tr-4:
+      th-030f2a: Seguro Social sujeto a impuesto (línea 6b)
+      td-61057a: <fg-show path="/taxableSocialSecurityBenefits"/>
+  table-1:
+    caption-06043f: De los W-2 que su empleador presentó ante el IRS y ante Virginia
+    tr-0:
+      th-017c12: Casilla 1, salarios, todos los W-2
+      td-1a2421: <fg-show path="/wages"/>
+    tr-1:
+      th-b480cb: Casilla 17, impuesto de Virginia retenido, todos los W-2 (línea 19a)
+      td-7490ed: <fg-show path="/vaWithholding"/>
+  table-2:
+    caption-be46ff: De los registros de Virginia Tax
+    tr-0:
+      th-6d2a34: Pagos estimados hechos para <fg-show path="/taxYear"/> (línea 20)
+      td-7876f6: <fg-show path="/vaEstimatedPayments"/>
+    tr-1:
+      th-d21ba1: Pago en exceso del año pasado aplicado (línea 21)
+      td-cda2a4: <fg-show path="/vaPriorYearOverpaymentApplied"/>
+    tr-2:
+      th-62361b: Pagos con prórroga (línea 22)
+      td-f86689: <fg-show path="/vaExtensionPayments"/>
+  p-8beb68: En un servicio del estado, los tres últimos vienen de los libros de Virginia Tax. Este prototipo no tiene conexión
+    con ellos, así que se muestran como $0.
+/your-taxes/virginia/virginia-locality:
+  title: ¿Dónde vivía el 1 de enero?
+  h2-f59a8d: ¿En qué ciudad o condado vivía el 1 de enero de 2025?
+  p-7ce7cf: El Formulario 760 pide su código de localidad. Virginia lo usa, en parte, para asignar fondos escolares locales.
+    Su dirección indica una ciudad y un código postal, pero un código postal puede cruzar el límite de un condado y aquí se
+    trata del 1 de enero, el día siguiente al año tributario, así que confírmelo.
+  p-ae5dac: 'Virginia no tiene impuesto local sobre la renta. Su lugar de residencia cambia una sola cosa en esta declaración:
+    la tasa del impuesto sobre el uso en compras sin impuesto, que se pregunta dos pantallas más adelante.'
+  /vaLocality:
+    question: Ciudad o condado donde vivía el 1 de enero de 2025
+    options:
+      accomack-county:
+        name: Accomack County
+      albemarle-county:
+        name: Albemarle County
+      alexandria-city:
+        name: Alexandria City
+      alleghany-county:
+        name: Alleghany County
+      amelia-county:
+        name: Amelia County
+      amherst-county:
+        name: Amherst County
+      appomattox-county:
+        name: Appomattox County
+      arlington-county:
+        name: Arlington County
+      augusta-county:
+        name: Augusta County
+      bath-county:
+        name: Bath County
+      bedford-county:
+        name: Bedford County
+      bland-county:
+        name: Bland County
+      botetourt-county:
+        name: Botetourt County
+      bristol-city:
+        name: Bristol City
+      brunswick-county:
+        name: Brunswick County
+      buchanan-county:
+        name: Buchanan County
+      buckingham-county:
+        name: Buckingham County
+      buena-vista-city:
+        name: Buena Vista City
+      campbell-county:
+        name: Campbell County
+      caroline-county:
+        name: Caroline County
+      carroll-county:
+        name: Carroll County
+      charles-city-county:
+        name: Charles City County
+      charlotte-county:
+        name: Charlotte County
+      charlottesville-city:
+        name: Charlottesville City
+      chesapeake-city:
+        name: Chesapeake City
+      chesterfield-county:
+        name: Chesterfield County
+      clarke-county:
+        name: Clarke County
+      colonial-heights-city:
+        name: Colonial Heights City
+      covington-city:
+        name: Covington City
+      craig-county:
+        name: Craig County
+      culpeper-county:
+        name: Culpeper County
+      cumberland-county:
+        name: Cumberland County
+      danville-city:
+        name: Danville City
+      dickenson-county:
+        name: Dickenson County
+      dinwiddie-county:
+        name: Dinwiddie County
+      emporia-city:
+        name: Emporia City
+      essex-county:
+        name: Essex County
+      fairfax-city:
+        name: Fairfax City
+      fairfax-county:
+        name: Fairfax County
+      falls-church-city:
+        name: Falls Church City
+      fauquier-county:
+        name: Fauquier County
+      floyd-county:
+        name: Floyd County
+      fluvanna-county:
+        name: Fluvanna County
+      franklin-city:
+        name: Franklin City
+      franklin-county:
+        name: Franklin County
+      frederick-county:
+        name: Frederick County
+      fredericksburg-city:
+        name: Fredericksburg City
+      galax-city:
+        name: Galax City
+      giles-county:
+        name: Giles County
+      gloucester-county:
+        name: Gloucester County
+      goochland-county:
+        name: Goochland County
+      grayson-county:
+        name: Grayson County
+      greene-county:
+        name: Greene County
+      greensville-county:
+        name: Greensville County
+      halifax-county:
+        name: Halifax County
+      hampton-city:
+        name: Hampton City
+      hanover-county:
+        name: Hanover County
+      harrisonburg-city:
+        name: Harrisonburg City
+      henrico-county:
+        name: Henrico County
+      henry-county:
+        name: Henry County
+      highland-county:
+        name: Highland County
+      hopewell-city:
+        name: Hopewell City
+      isle-of-wight-county:
+        name: Isle of Wight County
+      james-city-county:
+        name: James City County
+      king-and-queen-county:
+        name: King and Queen County
+      king-george-county:
+        name: King George County
+      king-william-county:
+        name: King William County
+      lancaster-county:
+        name: Lancaster County
+      lee-county:
+        name: Lee County
+      lexington-city:
+        name: Lexington City
+      loudoun-county:
+        name: Loudoun County
+      louisa-county:
+        name: Louisa County
+      lunenburg-county:
+        name: Lunenburg County
+      lynchburg-city:
+        name: Lynchburg City
+      madison-county:
+        name: Madison County
+      manassas-city:
+        name: Manassas City
+      manassas-park-city:
+        name: Manassas Park City
+      martinsville-city:
+        name: Martinsville City
+      mathews-county:
+        name: Mathews County
+      mecklenburg-county:
+        name: Mecklenburg County
+      middlesex-county:
+        name: Middlesex County
+      montgomery-county:
+        name: Montgomery County
+      nelson-county:
+        name: Nelson County
+      new-kent-county:
+        name: New Kent County
+      newport-news-city:
+        name: Newport News City
+      norfolk-city:
+        name: Norfolk City
+      northampton-county:
+        name: Northampton County
+      northumberland-county:
+        name: Northumberland County
+      norton-city:
+        name: Norton City
+      nottoway-county:
+        name: Nottoway County
+      orange-county:
+        name: Orange County
+      page-county:
+        name: Page County
+      patrick-county:
+        name: Patrick County
+      petersburg-city:
+        name: Petersburg City
+      pittsylvania-county:
+        name: Pittsylvania County
+      poquoson-city:
+        name: Poquoson City
+      portsmouth-city:
+        name: Portsmouth City
+      powhatan-county:
+        name: Powhatan County
+      prince-edward-county:
+        name: Prince Edward County
+      prince-george-county:
+        name: Prince George County
+      prince-william-county:
+        name: Prince William County
+      pulaski-county:
+        name: Pulaski County
+      radford-city:
+        name: Radford City
+      rappahannock-county:
+        name: Rappahannock County
+      richmond-city:
+        name: Richmond City
+      richmond-county:
+        name: Richmond County
+      roanoke-city:
+        name: Roanoke City
+      roanoke-county:
+        name: Roanoke County
+      rockbridge-county:
+        name: Rockbridge County
+      rockingham-county:
+        name: Rockingham County
+      russell-county:
+        name: Russell County
+      salem-city:
+        name: Salem City
+      scott-county:
+        name: Scott County
+      shenandoah-county:
+        name: Shenandoah County
+      smyth-county:
+        name: Smyth County
+      southampton-county:
+        name: Southampton County
+      spotsylvania-county:
+        name: Spotsylvania County
+      stafford-county:
+        name: Stafford County
+      staunton-city:
+        name: Staunton City
+      suffolk-city:
+        name: Suffolk City
+      surry-county:
+        name: Surry County
+      sussex-county:
+        name: Sussex County
+      tazewell-county:
+        name: Tazewell County
+      virginia-beach-city:
+        name: Virginia Beach City
+      warren-county:
+        name: Warren County
+      washington-county:
+        name: Washington County
+      waynesboro-city:
+        name: Waynesboro City
+      westmoreland-county:
+        name: Westmoreland County
+      williamsburg-city:
+        name: Williamsburg City
+      winchester-city:
+        name: Winchester City
+      wise-county:
+        name: Wise County
+      wythe-county:
+        name: Wythe County
+      york-county:
+        name: York County
+/your-taxes/virginia/virginia-lottery:
+  title: Premios de la Lotería de Virginia
+  h2-40b8da: ¿Ganó un premio de la Lotería de Virginia de menos de $600 en 2024?
+  p-37fe58: Virginia no grava los premios de menos de $600, pero su declaración federal los cuenta como ingreso, así que Virginia
+    los resta en la línea 7 (Código de Virginia § 58.1-322.02(7)). Los premios de $600 o más se informan a Virginia y siguen
+    siendo gravables. Nadie informa los pequeños, así que solo usted puede decírnoslo.
+  /vaHasLotteryPrizesUnder600:
+    question: ¿Ganó un premio de la Lotería de Virginia de menos de $600 en 2024?
+    options:
+      'true':
+        name: Sí
+      'false':
+        name: 'No'
+  h2-6a5fdf: ¿Cuánto sumaron esos premios?
+  p-74957d: Cuente solo los premios que fueron, cada uno, de menos de $600.
+  /vaLotteryPrizesUnder600:
+    question: Total de premios de la Lotería de Virginia de menos de $600
+/your-taxes/virginia/virginia-savers:
+  title: Aportes a Commonwealth Savers
+  h2-b7e29e: ¿Aportó dinero a una cuenta Commonwealth Savers (Virginia529) en 2024?
+  p-f42bed: Commonwealth Savers es el plan de ahorro universitario del estado. Los aportes son deducibles en la línea 13,
+    hasta $4,000 por cuenta al año, salvo que haya cumplido 70 años (Código de Virginia § 58.1-322.03(7)). El plan no informa
+    nada al IRS, así que solo usted puede decírnoslo.
+  /vaHasCommonwealthSaversContributions:
+    question: ¿Aportó a una cuenta Commonwealth Savers en 2024?
+    options:
+      'true':
+        name: Sí
+      'false':
+        name: 'No'
+  h2-44b450: ¿Cuánto aportó en 2024?
+  p-170c80: Ingrese el total. La deducción tiene un tope de $4,000 salvo que haya cumplido 70; en una declaración real, lo
+    que supere ese tope se trasladaría a años posteriores.
+  /vaCommonwealthSaversContributions:
+    question: Monto aportado a cuentas Commonwealth Savers
+/your-taxes/virginia/virginia-use-tax:
+  title: Compras sin impuesto
+  h2-15bb3c: ¿Compró algo en 2024 sin pagar el impuesto sobre las ventas de Virginia?
+  p-246296: 'Por internet, por correo o en otro estado, donde el vendedor no cobró impuesto de Virginia. Virginia se lo pregunta
+    a todos los declarantes (línea 33, impuesto sobre el uso). Ningún vendedor lo informa, así que la respuesta tiene que
+    ser suya. Su lugar de residencia fija la tasa: 5.3% en la mayor parte de Virginia, 6% en el norte de Virginia, Hampton
+    Roads y la región de Richmond, 6.3% o 7% en unas pocas localidades.'
+  /vaHasUntaxedPurchases:
+    question: ¿Compró algo sin pagar el impuesto sobre las ventas de Virginia en 2024?
+    options:
+      'true':
+        name: Sí
+      'false':
+        name: No, nada sin impuesto
+  h2-bbde4b: ¿Cuánto sumaron esas compras?
+  p-7e719b: El envío facturado por separado no está sujeto a impuesto. Su impuesto sobre el uso es este total multiplicado
+    por la tasa de su localidad.
+  /vaUntaxedPurchases:
+    question: Total de compras por las que no se pagó impuesto sobre las ventas de Virginia
