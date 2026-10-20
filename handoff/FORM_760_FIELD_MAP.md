@@ -96,3 +96,47 @@ is in the walkthrough mockup only; **gap** means neither.
    document, Virginia's own, or arithmetic.
 4. **Consumer's use tax (Line 33) is the one question every Virginian must answer** and has
    no source anywhere; a prepopulated return still has to ask it.
+
+## Local taxes: what a Virginia filer actually meets
+
+**Virginia has no local income tax.** Its cities and counties cannot levy one; the Tax
+Foundation's census of local income taxes (17 states, led by Maryland, Ohio and
+Pennsylvania) does not include Virginia. Local revenue comes from real estate and
+personal property taxes, the 1% local share of the sales tax, and business license
+taxes, none of which appear on an income return. So a Virginia state return has no
+local income tax line, unlike Maryland's, and a state filer built on the federal return
+needs no county rate schedule for income.
+
+Locality still enters the return in exactly two places, both already on Form 760:
+
+| Where | What locality does | Source | Rule for a prepopulated return |
+|---|---|---|---|
+| **Locality code** (page 1 header) | the 3-digit code of the city or county where the filer lived on **January 1, 2025**, from the list in the instructions (page 45 on); used in part to allocate local school funding | the filer; derivable from the address but a ZIP can straddle localities and the date is the day after the tax year, not the year itself | derive from the address, show it, ask the filer to confirm |
+| **Consumer's use tax** (Line 33) | the rate on untaxed purchases depends on where the filer lives | the filer's answer × the locality's rate | derive the rate from the locality; ask for the purchase total |
+
+The use-tax rates for 2024, from the 2024 Form 760 instructions (page 20), which match
+Virginia Tax's own rate table:
+
+| Rate | Where | Why |
+|---|---|---|
+| **5.3%** | every other city and county | 4.3% state + 1% local |
+| **6%** | Northern Virginia: Alexandria, Fairfax City, Falls Church, Manassas, Manassas Park; Arlington, Fairfax, Loudoun, Prince William counties. Hampton Roads: Chesapeake, Franklin, Hampton, Newport News, Norfolk, Poquoson, Portsmouth, Suffolk, Virginia Beach; Isle of Wight, Southampton counties. Central Virginia: Richmond City; Charles City, Chesterfield, Goochland, Hanover, Henrico, New Kent, Powhatan counties | + 0.7% regional transportation tax |
+| **6.3%** | Danville; Charlotte, Gloucester, Halifax, Henry, Northampton, Patrick, Pittsylvania counties | + 1% additional local option tax |
+| **7%** | Historic Triangle: Williamsburg; James City, York counties | Hampton Roads 6% + 1% Historic Triangle tax |
+| 1% | food for home consumption and personal hygiene products, everywhere | state-exempt, local 1% only |
+
+Riley lives in Richmond City, so the mockup's 6% is right. The instructions also offer a
+lookup table for purchases under $1,000 and a worksheet above that.
+
+**What this means for the state-level filer.** One small fact module, `localities.xml`:
+the list of Virginia's 133 cities and counties with their 3-digit code and their use-tax
+rate, a derived `/vaLocalityCode` from the address, and a derived `/vaUseTaxRate`. That is
+the whole of "local tax" for an individual income return in Virginia. The regional lists
+change by act of the General Assembly (Central Virginia's 0.7% began October 2020, the
+6.3% localities were added one by one), so the table carries a tax year like every other
+figure.
+
+Not on the return, and not the state filer's job: real estate tax and the car tax
+(personal property), both billed by the locality; the vehicle license fee; local meals and
+lodging taxes; BPOL business licenses. A filer's "local taxes" question is answered by
+pointing at those, not by adding lines to Form 760.
