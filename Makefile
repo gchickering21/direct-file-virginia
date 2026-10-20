@@ -7,7 +7,7 @@ TOOLCHAIN := . stack/toolchain.sh &&
 COMPOSE := docker compose --project-directory $(IRS) -f $(IRS)/docker-compose.yaml -f stack/overrides.yaml
 SERVICES := api csp-simulator
 
-.PHONY: help handoff virginia-check port-bootstrap port-dev port-site port-smoke port-validate port-test stack-up stack-build stack-down stack-logs stack-ps client
+.PHONY: help handoff virginia-check port-up port-down port-logs port-bootstrap port-dev port-site port-smoke port-validate port-test stack-up stack-build stack-down stack-logs stack-ps client
 
 help:
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -20,6 +20,19 @@ virginia-check: ## validate the XML, the export rule, and the Spanish keys for t
 	python3 $(PORT)/scripts/check-virginia-exports.py
 	python3 $(PORT)/scripts/merge-virginia-es.py
 
+# ── Docker path: nothing to install but Docker Desktop ───────────────────────────────────────
+PORT_COMPOSE := docker compose --project-directory $(PORT) -f $(PORT)/docker-compose.yml -f $(PORT)/docker-compose.override.yml
+
+port-up: ## build the port in Docker (JDK, sbt, Node all inside the image) and serve it at http://localhost:3008/app/direct-file/, regenerating on edits
+	$(PORT_COMPOSE) up -d --build
+
+port-down: ## stop the Docker port
+	$(PORT_COMPOSE) down
+
+port-logs: ## follow the Docker port's logs (the watcher's sbt output is the one to read)
+	$(PORT_COMPOSE) logs -f
+
+# ── Native path: JDK 21, sbt and Node 22 on the host (stack/toolchain.sh) ────────────────────────
 port-bootstrap: ## once: compile and publish fact-graph and form-builder, install the port's npm deps, vendor assets
 	$(TOOLCHAIN) npm --prefix taxpert/packages/ui install
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) bootstrap

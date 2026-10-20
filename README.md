@@ -23,11 +23,12 @@ taking anything else here.
 | `stack/`, `Makefile` | How we run the archived application locally (see `CONTRIBUTING.md`). |
 | `report/` | Course material: the plan, notes, sources, figures, drafts. |
 | `handoff/` | The package for a state: `README.md` (how to take the change set without this repository), `BRIEF.md` (one page), `export.sh` (the patch series), `POLICY_MAP.md`, `FORM_760_FIELD_MAP.md`. |
+| `DEVELOPERS.md` | The shortest path from nothing to the Virginia return on your screen: Docker only, one command. |
 | `SETUP.md` | From a clean Mac to both sites running, step by step, with everything that went wrong and what fixed it. |
 
 ## Setting up
 
-`SETUP.md` is the start-to-finish guide. The short form:
+`DEVELOPERS.md` is the quick path (Docker only); `SETUP.md` is the start-to-finish guide with every detour. The short form:
 
 ## Running the real application
 
