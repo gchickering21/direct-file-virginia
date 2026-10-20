@@ -63,9 +63,9 @@ is in the walkthrough mockup only; **gap** means neither.
 | 17 | Spouse tax adjustment, Status 2 only | D from F | needs each spouse's share of VAGI, which the federal return carries per filer | gap |
 | 18 | Net tax | D | | gap (trivial) |
 | 19a, 19b | **Virginia income tax withheld**, you and spouse | W | W-2 box 17, 1099 and W-2G state withholding; the employer also files these with Virginia | built (W-2 box 17, all filers folded into 19a) |
-| 20 | **Estimated payments made for 2024** | V | Virginia Tax received them | built as a writable placeholder at $0; the clearest "state already knows" line |
-| 21 | **Last year's overpayment applied** | V | Virginia Tax's own record | built as a placeholder |
-| 22 | **Extension payments** | V | same | built as a placeholder |
+| 20 | **Estimated payments made for 2024** | V | Virginia Tax received them | built: filled from a records stand-in (JSON keyed by name and date of birth); the clearest "state already knows" line |
+| 21 | **Last year's overpayment applied** | V | Virginia Tax's own record | built: from the records stand-in |
+| 22 | **Extension payments** | V | same | built: from the records stand-in |
 | 23 | Low-income credit or Virginia EIC, Schedule ADJ | D from F and Q | needs family VAGI and federal EIC | gap, out of scope |
 | 24 | Credit for tax paid to another state, Schedule OSC | Q | needs the other state's return | gap |
 | 25 | Credits, Schedule CR | Q | | gap |

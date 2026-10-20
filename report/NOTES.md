@@ -226,3 +226,22 @@ What this means:
   amount appears as its own screen only after a yes, which is the port's
   one-question-per-screen splitting doing the right thing. The Spanish pages carry the
   Spanish with no missing keys and the same $873. Port tests 12 of 12.
+
+## 2026-10-20 evening: the state-side stub, more households, accessibility
+
+- **Lines 20 to 22 now come from a stand-in for Virginia Tax's records**, a JSON file keyed
+  by last name and date of birth, applied by a 30-line script on any Virginia screen. It is
+  the state-side half of "the government already knows": Riley's $200 of estimated payments
+  and Morgan's $150 carried-over overpayment appear before either sees the screen, and the
+  amounts owed fall to $673 and $1,522. The facts stay correctable. In a state-run service
+  the file is the state's own database.
+- **Sixteen households pass** against the independent model: the 6.3% (Halifax, $63) and 7%
+  (Williamsburg, $70) use-tax tiers and a refund after $2,000 of estimated payments joined
+  the thirteen. The model accounts for the records stand-in the way the page does.
+- **Accessibility: zero axe violations** (WCAG 2.0 and 2.1, A and AA) across the fourteen
+  Virginia screens with a correction round open, main content scoped. The combo box and the
+  correction view are USWDS markup and a plain table, which is why. Kept as
+  `scripts/virginia-a11y.cjs`.
+- **CONTRIBUTING** gained the port section: toolchain, targets, where things are, and the
+  six things that cost time (the watcher, USWDS radios, the combo box, Playwright on macOS
+  13, content-addressed locale keys, FlowSpec's naming rule).

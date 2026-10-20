@@ -15,6 +15,8 @@ Written for a state engineering team as much as for the class that built it.
 | `website-static/js/virginia-corrections.js` | The "here is what it changed" view: snapshots the Form 760 lines and the correctable facts when a correction screen opens, and on the corrections screen shows what you owe now versus before, each corrected item was → now, and the lines that moved. Presentation only; it writes no fact. |
 | `facts/constants.xml`, `flow/you-and-your-family-about-you.xml` | The one federal touch: `va` added to `/scopedStateOptions` and to the residence question, the change the IRS made whenever a state joined. |
 | `scenarios/virginia_demo_1_riley_rappahannock_single_33k.json`, `scenarios/virginia_demo_2_morgan_shenandoah_age_65_56k.json` | The two hand-checked households as fictional Virginians (names, addresses and employers invented) with their four answers, loadable from the Scenario menu as **Virginia Demo 1** and **Virginia Demo 2**. |
+| `website-static/data/virginia-records.json`, `website-static/js/virginia-records.js` | A stand-in for Virginia Tax's own records: Lines 20 to 22 (estimated payments, last year's overpayment, extension payments) filled on any Virginia screen, matched by last name and date of birth. The state-side half of "the government already knows". The facts stay correctable. |
+| `scripts/virginia-a11y.cjs` | axe-core, WCAG 2.0 and 2.1 A and AA, over the fourteen Virginia screens with a correction round open. Zero violations on 2026-10-20. |
 | `scripts/check-virginia-exports.py` | Fails if the Virginia module reads a federal fact the federal return does not export to a state (see "The integration rule"). |
 | `locales/virginia_es.yaml`, `scripts/merge-virginia-es.py` | Spanish for the two Virginia screens, hand-written, merged into the generated `flow_es.yaml` (which `make transpile-es` reseeds from Direct File's Spanish and so would otherwise drop). Keys are content-addressed on the English text: change the English, re-copy the key. |
 
@@ -40,7 +42,7 @@ the gate working, not a missing page.
 
 | | Household 1 | Household 2 |
 |---|---|---|
-| Filer | Riley Rappahannock (fictional), Richmond City (locality 760); single, born 1997-10-03, wages $33,333, $300 withheld | Morgan Shenandoah (fictional), Charlottesville City (540); single, born 1955-05-05, wages $56,000, $300 withheld |
+| Filer | Riley Rappahannock (fictional), Richmond City (locality 760); single, born 1997-10-03, wages $33,333, $300 withheld; Virginia's records show $200 of estimated payments | Morgan Shenandoah (fictional), Charlottesville City (540); single, born 1955-05-05, wages $56,000, $300 withheld; Virginia's records show $150 of last year's overpayment applied |
 | Their answers | a $450 lottery prize; no 529; $400 of untaxed purchases | no prize; $3,000 into a Commonwealth Savers account; nothing untaxed |
 | Line 1 federal AGI | $34,333 | $57,000 |
 | Line 4 age deduction (§ 58.1-322.03(5)) | $0 | $12,000 − ($57,000 − $50,000) = $5,000 |
@@ -52,9 +54,10 @@ the gate working, not a missing page.
 | Line 15 taxable income | $24,453 | $38,770 |
 | Line 16 tax (§ 58.1-320) | $720 + 5.75% × $7,453 = $1,148.55 → **$1,149** | $720 + 5.75% × $21,770 = $1,971.78 → **$1,972** |
 | Line 19a withheld (W-2 box 17) | $300 | $300 |
-| Line 27 tax you owe | $849 | $1,672 |
+| Lines 20, 21, from Virginia's records | $200 estimated | $150 overpayment applied |
+| Line 27 tax you owe | $649 | $1,522 |
 | Line 33 use tax | $400 × 6% (Central Virginia region) = $24 | $0 |
-| Line 35 amount you owe | **$873** | **$1,672** |
+| Line 35 amount you owe | **$673** | **$1,522** |
 
 The engine returns exactly these on the summary page, in English and in Spanish.
 
@@ -67,7 +70,7 @@ editable. The engine does not keep a "before", so `virginia-corrections.js` snap
 lines when a correction screen opens (once per round; a round starts on "Is everything
 right?") and compares on the corrections screen. Try it: load Virginia Demo 1, answer "No,
 something needs correcting", choose the date of birth, enter May 5, 1955, and the next
-screen says "Now you owe $174. Before this correction, you owe $873", lists the item was →
+screen says what you owe now versus before, lists the item was →
 now, and folds the seven lines that moved.
 
 ## The integration rule
@@ -90,11 +93,13 @@ python3 scripts/check-virginia-exports.py  # the integration rule
 make test                                  # the port's ScalaTest suite, including FlowSpec
 python3 scripts/merge-virginia-es.py        # Spanish keys still match the English (and merge them)
 python3 scripts/virginia-cases.py /tmp/va-cases && CASES=/tmp/va-cases node scripts/virginia-cases.cjs
-                                           # 13 households against an independent model of the rules
+                                           # 16 households against an independent model of the rules
                                            # (needs `make dev` running): below the threshold, each
                                            # rate band, the full and the phased-out age deduction,
                                            # Social Security, a claimable dependent, married filing
-                                           # jointly, blind, a non-resident, and the two demos
+                                           # jointly, blind, a non-resident, the 6.3% and 7% use-tax
+                                           # tiers, a refund after estimated payments, and the two demos
+PORT_DIR=. AXE_PATH=<axe.min.js> node scripts/virginia-a11y.cjs   # axe over the fourteen Virginia screens
 ```
 
 ## What a state would still have to build
@@ -109,7 +114,7 @@ In rough order of size:
    (760PY) and nonresident (763) returns; the carryforward of excess 529 contributions;
    penalties and interest; voluntary contributions; direct deposit.
 1a. **A live connection to Virginia Tax's records.** Lines 20 to 22 are the state's own
-   figures; here they are writable placeholders at $0.
+   figures; here they come from a JSON stand-in keyed by name and date of birth.
 2. **Identity.** Direct File authenticated through ID.me and Login.gov. This port has no
    login at all; it is a static site with the engine in the browser.
 3. **Submission.** Nothing here files anything. A state return has to enter the state's
