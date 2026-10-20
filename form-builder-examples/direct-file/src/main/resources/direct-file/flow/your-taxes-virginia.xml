@@ -45,6 +45,91 @@
       </div>
     </section>
   </page>
+  <page title="Is everything right?" route="/your-taxes/virginia/virginia-check">
+    <section>
+      <div class="df-screen" condition="/vaIsResident" operator="isTrue">
+        <h2>Is everything on the last screen right?</h2>
+        <p>If something is wrong, say so here and you will be taken to correct it. Your Virginia return and your federal return share the same facts, so a correction made here reaches both, and you will not be asked about it again.</p>
+        <fg-set path="/vaEverythingRight">
+          <question>Is everything right?</question>
+          <input type="boolean">
+            <option value="true">Yes, everything is right</option>
+            <option value="false">No, something needs correcting</option>
+          </input>
+        </fg-set>
+      </div>
+    </section>
+  </page>
+  <page title="What needs correcting?" route="/your-taxes/virginia/virginia-correct-what">
+    <section>
+      <div class="df-screen" condition="/vaWantsToCorrect" operator="isTrue">
+        <h2>What needs correcting?</h2>
+        <p>Pick one. You can come back for another. Calculated amounts such as your adjusted gross income cannot be edited; they change when what they are calculated from changes.</p>
+        <fg-set path="/vaCorrectionTarget">
+          <question>What needs correcting?</question>
+          <input type="enum" options-path="/vaCorrectionTargetOptions">
+            <option value="dateOfBirth">My date of birth</option>
+            <option value="w2">A W-2 from my employer</option>
+          </input>
+        </fg-set>
+      </div>
+    </section>
+  </page>
+  <page title="Correct your date of birth" route="/your-taxes/virginia/virginia-correct-dob">
+    <section>
+      <div class="df-screen" condition="/vaCorrectionTargetIsDateOfBirth" operator="isTrue">
+        <h2>Correct your date of birth</h2>
+        <p>We have <fg-show path="/primaryFiler/dateOfBirth"/>, from your federal return. <strong>This also updates your federal return.</strong> Virginia uses it for the age deduction and the 65-or-older exemption.</p>
+        <fg-set path="/primaryFiler/dateOfBirth">
+          <question>Correct date of birth</question>
+          <input type="date"/>
+        </fg-set>
+      </div>
+    </section>
+  </page>
+  <page title="Correct a W-2" route="/your-taxes/virginia/virginia-correct-w2">
+    <section>
+      <div class="df-screen" condition="/vaCorrectionTargetIsW2" operator="isTrue">
+        <h2>Correct your W-2</h2>
+        <p><strong>Check the paper W-2 first.</strong> Your employer reported these boxes to the IRS and to Virginia. If the W-2 itself is wrong, ask your employer for a corrected one (a W-2c). If you change a box here without one, Virginia will see a difference from what your employer sent and may write to you about it.</p>
+        <p>Boxes 1 and 2 also update your federal return. Boxes 16 and 17 are the ones Virginia uses: your Virginia wages and the tax already withheld.</p>
+        <fg-collection path="/formW2s" item-name="W-2" determiner="another">
+          <div class="df-screen">
+            <h2>W-2 from <fg-show path="/formW2s/*/employerName"/></h2>
+            <fg-set path="/formW2s/*/employerName">
+              <question>Employer name</question>
+              <input type="text"/>
+            </fg-set>
+            <fg-set path="/formW2s/*/writableWages" optional="true">
+              <question><strong>Box 1</strong> - Wages, tips, other compensation</question>
+              <input type="dollar"/>
+            </fg-set>
+            <fg-set path="/formW2s/*/writableFederalWithholding" optional="true">
+              <question><strong>Box 2</strong> - Federal income tax withheld</question>
+              <input type="dollar"/>
+            </fg-set>
+            <fg-set path="/formW2s/*/writableStateWages" optional="true">
+              <question><strong>Box 16</strong> - State wages, tips, etc.</question>
+              <input type="dollar"/>
+            </fg-set>
+            <fg-set path="/formW2s/*/writableStateWithholding" optional="true">
+              <question><strong>Box 17</strong> - State income tax withheld</question>
+              <input type="dollar"/>
+            </fg-set>
+          </div>
+        </fg-collection>
+      </div>
+    </section>
+  </page>
+  <page title="Your correction" route="/your-taxes/virginia/virginia-corrections">
+    <section>
+      <div class="df-screen" condition="/vaWantsToCorrect" operator="isTrue">
+        <h2>Your correction is saved. Here is what it changed.</h2>
+        <div class="va-corrections-diff"><p>Comparing your return before and after the correction.</p></div>
+        <p><strong>What stays the same.</strong> Everything else you saw is unchanged, and nothing you have already answered will be asked again. Your federal return carries the same correction. To correct something else, go back to "Is everything right?" and choose again.</p>
+      </div>
+    </section>
+  </page>
   <page title="Where did you live on January 1?" route="/your-taxes/virginia/virginia-locality">
     <section>
       <div class="df-screen" condition="/vaIsResident" operator="isTrue">
@@ -53,7 +138,7 @@
         <p>Virginia has no local income tax. Where you live changes one thing on this return: the rate of consumer's use tax on untaxed purchases, asked two screens on.</p>
         <fg-set path="/vaLocality">
           <question>City or county you lived in on January 1, 2025</question>
-          <input type="enum" options-path="/vaLocalityOptions">
+          <select options-path="/vaLocalityOptions">
             <option value="accomack-county">Accomack County</option>
             <option value="albemarle-county">Albemarle County</option>
             <option value="alexandria-city">Alexandria City</option>
@@ -187,7 +272,7 @@
             <option value="wise-county">Wise County</option>
             <option value="wythe-county">Wythe County</option>
             <option value="york-county">York County</option>
-          </input>
+          </select>
         </fg-set>
       </div>
     </section>

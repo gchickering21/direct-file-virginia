@@ -1,0 +1,21 @@
+<!-- This application's override of form-builder's select input: the same <select>, wrapped in a
+     USWDS combo box so a long list (Virginia's 133 localities) is typed into and filtered rather
+     than scrolled. USWDS keeps the underlying <select> in sync and dispatches `change` on it,
+     which is the event fg-set listens for, so nothing in the runtime changes. -->
+<div class="usa-combo-box">
+<select th:id="${controlId}"
+        class="usa-select"
+        th:required="${not optional}"
+        th:attr="optionsPath=${optionsPath}, aria-describedby=${hintId}"
+        aria-invalid="false"
+    >
+    <option value="" th:disabled="${not optional}" th:selected="${not optional}"
+      th:text="#{${selectBlankLabel}? ${selectBlankLabel} : 'components.select.select'}">
+    </option>
+    <option
+        th:each="option: ${options}"
+        th:value="${option.value}"
+        th:text="#{${contentKey} + .options. + ${option.value} + .name}">
+    </option>
+</select>
+</div>
