@@ -181,3 +181,11 @@ What this means:
   nine tests fail before opening a page. A teammate on macOS 14 or newer runs `make site &&
   make smoke` as written. On this machine the same checks were repeated by hand with
   Playwright 1.58 against the production build (below).
+- **Smoke checks repeated with Playwright 1.58 against the dev build:** the engine boots with
+  no page errors, both filers seed, typed answers read back, a required question blocks
+  Continue, the first ten pages walk, the Spanish intro carries Direct File's Spanish. Two
+  findings: the step indicator now counts 26 sections, so the port's smoke spec (which
+  hard-codes 25) is updated in our change set; and the Spanish Virginia page was empty,
+  because the generated Spanish locale file only knows federal keys. The two Virginia screens
+  now carry hand-written Spanish, merged by a script that also fails if the English (and so
+  the content-addressed keys) changed underneath it. The Spanish summary computes $1,174.

@@ -1,0 +1,42 @@
+# Spanish for the two Virginia screens, hand-written. flow_es.yaml is generated from Direct File's
+# own Spanish by `make transpile-es` and knows nothing about Virginia, so this file is merged into
+# it by scripts/merge-virginia-es.py. Keys are form-builder's, content-addressed on the English
+# words in flow_en.yaml: change the English and the key changes, so re-copy it here.
+/your-taxes/virginia/virginia-intro:
+  title: Su declaración de Virginia
+  h2-b96767: Su declaración de Virginia
+  p-45ca08: <strong>Solo demostración.</strong> Este es un proyecto de clase que muestra cómo una declaración estatal podría calcularse a partir de la declaración federal con el código publicado por el IRS. No es un servicio del IRS ni de Virginia Tax y no presenta nada.
+  p-025d81: <fg-show path="/primaryFiler/firstName"/>, como vivió en Virginia durante todo <fg-show path="/taxYear"/>, Virginia comienza su declaración estatal a partir de su ingreso bruto ajustado federal. La siguiente pantalla muestra algunas líneas del Formulario 760 calculadas con las respuestas que ya dio.
+  p-9a0e23: 'Lo que cubre este prototipo: la deducción estándar, las exenciones, la deducción por edad, el umbral de presentación y la tabla de tasas (Código de Virginia §§ 58.1-320, 58.1-321, 58.1-322.03). Lo que deja fuera: deducciones detalladas, otras adiciones y sustracciones, todos los créditos, declaraciones de residente parcial y de no residente, y la deducción por edad del cónyuge.'
+/your-taxes/virginia/virginia-summary:
+  title: Formulario 760, calculado a partir de su declaración federal
+  h2-59ac58: Formulario 760, calculado a partir de su declaración federal
+  p-793b71: <strong>Solo demostración.</strong> Año tributario <fg-show path="/taxYear"/>. Cada línea indica la ley de la que proviene.
+  table-0:
+    caption-01cbec: Formulario 760 de Virginia
+    tr-0:
+      th-04a085: Línea 1, ingreso bruto ajustado federal
+      td-515411: <fg-show path="/vaFederalAdjustedGrossIncome"/>
+    tr-1:
+      th-b978c1: Línea 4, deducción por edad (§ 58.1-322.03(5))
+      td-f3ab4c: <fg-show path="/vaAgeDeduction"/>
+    tr-2:
+      th-d8d6dc: Línea 5, beneficios del Seguro Social sujetos a impuesto (§ 58.1-322.02(3))
+      td-abf769: <fg-show path="/vaTaxableSocialSecurityBenefits"/>
+    tr-3:
+      th-972c17: Línea 9, ingreso bruto ajustado de Virginia
+      td-99617f: <fg-show path="/vaAdjustedGrossIncome"/>
+    tr-4:
+      th-48eb27: Línea 11, deducción estándar (§ 58.1-322.03(1)(b))
+      td-dc74d3: <fg-show path="/vaStandardDeduction"/>
+    tr-5:
+      th-04749f: Línea 12, exenciones (§ 58.1-322.03(2))
+      td-8e526f: <fg-show path="/vaExemptions"/>
+    tr-6:
+      th-d13cb7: Línea 15, ingreso tributable de Virginia
+      td-3e5ed4: <fg-show path="/vaTaxableIncome"/>
+    tr-7:
+      th-c1e615: Línea 16, impuesto sobre la renta de Virginia (§ 58.1-320)
+      td-436298: <strong><fg-show path="/vaTax"/></strong>
+  p-50775c: Su ingreso bruto ajustado de Virginia está por debajo del umbral de presentación para su estado civil (§ 58.1-321), por lo que su impuesto sobre la renta de Virginia es $0.
+  p-0b6cdd: Las líneas que no se muestran están fuera del alcance de este prototipo y se toman como $0. Nada de esto se presenta.

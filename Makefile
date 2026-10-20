@@ -12,9 +12,10 @@ SERVICES := api csp-simulator
 help:
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F ':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
 
-virginia-check: ## validate the XML, then check that facts/virginia.xml reads only federal facts the state API exported
+virginia-check: ## validate the XML, the export rule, and the Spanish keys for the Virginia module
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) validate-xml
 	python3 $(PORT)/scripts/check-virginia-exports.py
+	python3 $(PORT)/scripts/merge-virginia-es.py
 
 port-bootstrap: ## once: compile and publish fact-graph and form-builder, install the port's npm deps, vendor assets
 	$(TOOLCHAIN) npm --prefix taxpert/packages/ui install

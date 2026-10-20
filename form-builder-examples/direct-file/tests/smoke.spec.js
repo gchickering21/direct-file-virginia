@@ -209,14 +209,14 @@ test.describe('the generated site runs', () => {
     expect(errors).toEqual([])
   })
 
-  test('the step indicator counts the 25 sections, not the pages', async ({ page }) => {
+  test('the step indicator counts the 26 sections (25 federal, one Virginia), not the pages', async ({ page }) => {
     // 138 pages ran off the side of the viewport and "1 of 138" was not a number anyone tracked. One
     // segment per flow module, labelled from the same all-screens.section.* keys Browse All uses.
     await seedScenario(page)
     await page.goto(INTRO)
 
-    await expect(page.locator('.usa-step-indicator__segment')).toHaveCount(25)
-    await expect(page.locator('.usa-step-indicator__total-steps')).toContainText('25')
+    await expect(page.locator('.usa-step-indicator__segment')).toHaveCount(26)
+    await expect(page.locator('.usa-step-indicator__total-steps')).toContainText('26')
     await expect(page.locator('.usa-step-indicator__heading-text')).toHaveText('About you')
     await expect(page.locator('.usa-step-indicator__current-step')).toHaveText('1')
 

@@ -13,6 +13,7 @@ Written for a state engineering team as much as for the class that built it.
 | `facts/constants.xml`, `flow/you-and-your-family-about-you.xml` | The one federal touch: `va` added to `/scopedStateOptions` and to the residence question, the change the IRS made whenever a state joined. |
 | `scenarios/virginia_demo_1_riley_rappahannock_single_33k.json`, `scenarios/virginia_demo_2_morgan_shenandoah_age_65_56k.json` | The two hand-checked households as fictional Virginians (names, addresses and employers invented), loadable from the Scenario menu as **Virginia Demo 1** and **Virginia Demo 2**. |
 | `scripts/check-virginia-exports.py` | Fails if the Virginia module reads a federal fact the federal return does not export to a state (see "The integration rule"). |
+| `locales/virginia_es.yaml`, `scripts/merge-virginia-es.py` | Spanish for the two Virginia screens, hand-written, merged into the generated `flow_es.yaml` (which `make transpile-es` reseeds from Direct File's Spanish and so would otherwise drop). Keys are content-addressed on the English text: change the English, re-copy the key. |
 
 ## See it
 
@@ -65,6 +66,7 @@ Virginia counts dependents from the exported per-dependent facts instead.
 make validate-xml                          # both XML files against the RELAX NG schemas
 python3 scripts/check-virginia-exports.py  # the integration rule
 make test                                  # the port's ScalaTest suite, including FlowSpec
+python3 scripts/merge-virginia-es.py        # Spanish keys still match the English (and merge them)
 python3 scripts/virginia-cases.py /tmp/va-cases && CASES=/tmp/va-cases node scripts/virginia-cases.cjs
                                            # 13 households against an independent model of the rules
                                            # (needs `make dev` running): below the threshold, each
@@ -91,8 +93,8 @@ In rough order of size:
 4. **The federal data path.** If the federal service were running, the facts this module
    reads would arrive through the state API's export rather than from a shared graph; the
    module is written so that only the plumbing changes.
-5. **Spanish.** The port generates Spanish pages, and Virginia's screens appear in them,
-   but with the English strings; the Virginia wording has not been translated.
+5. **Spanish.** The two Virginia screens carry Spanish (`locales/virginia_es.yaml`), written by
+   the project, not reviewed by a translator; Virginia Tax's own Spanish wording would replace it.
 6. **Accessibility verification** of the two new screens, and a review by Virginia Tax
    of every figure and citation against their own reading of the Code.
 7. **Maintenance.** The IRS stack this sits on is labelled draft and changes weekly; this
