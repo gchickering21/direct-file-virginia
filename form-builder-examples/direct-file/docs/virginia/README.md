@@ -65,6 +65,12 @@ Virginia counts dependents from the exported per-dependent facts instead.
 make validate-xml                          # both XML files against the RELAX NG schemas
 python3 scripts/check-virginia-exports.py  # the integration rule
 make test                                  # the port's ScalaTest suite, including FlowSpec
+python3 scripts/virginia-cases.py /tmp/va-cases && CASES=/tmp/va-cases node scripts/virginia-cases.cjs
+                                           # 13 households against an independent model of the rules
+                                           # (needs `make dev` running): below the threshold, each
+                                           # rate band, the full and the phased-out age deduction,
+                                           # Social Security, a claimable dependent, married filing
+                                           # jointly, blind, a non-resident, and the two demos
 ```
 
 ## What a state would still have to build

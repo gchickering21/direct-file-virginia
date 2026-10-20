@@ -156,3 +156,17 @@ What this means:
   received it. Virginia must count dependents from the per-dependent facts the export does
   carry. The rule is worth having precisely because it is easy to break by reaching for
   the convenient federal fact.
+
+## 2026-10-20 what else was checked
+
+- **Eleven edge households against an independent model of the rules** (a 30-line
+  JavaScript oracle written from the Code, not from the XML), through the port's Scenario
+  modal: below the filing threshold ($0 and the notice shown); each rate band ($51, $90,
+  $370); born 1935 on $90,000 (the full $12,000 regardless of income); 65 on $70,000 (phased
+  out to exactly $0); a Social Security filer from the IRS's own corpus (benefits
+  subtracted on Line 5 and excluded from AFAGI); a claimable dependent on $3,000 of wages
+  (standard deduction limited to $3,000); married filing jointly on $101,499 ($17,000,
+  two exemptions, $4,494); blind ($1,128); and a California resident, who is sent past
+  the Virginia pages whether loading the URL directly or clicking Next. All pass. Now in
+  the port as `scripts/virginia-cases.py` and `scripts/virginia-cases.cjs`.
+- **The Spanish site** generates the Virginia pages (English text) without breaking.
