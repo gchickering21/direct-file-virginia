@@ -209,3 +209,11 @@ What this means:
   the federal screen that holds the fact, and the Virginia lines recompute; the "what
   changed" diff is a presentation feature the port does not have, and stays in the mockup
   as the proposed design.
+- **Click-through verified on the real screens (2026-10-20):** load the IRS's "Single 33k No
+  Credits", answer Virginia on the federal residence question, then Next through the
+  Virginia intro, what-is-known, locality (Richmond City), lottery yes and $450, savers no,
+  untaxed purchases yes and $400, to the summary: locality 760, Line 7 $450, tax $1,149,
+  withheld $300, use tax $24, amount owed $873. No page errors. Each yes/no question's
+  amount appears as its own screen only after a yes, which is the port's
+  one-question-per-screen splitting doing the right thing. The Spanish pages carry the
+  Spanish with no missing keys and the same $873. Port tests 12 of 12.

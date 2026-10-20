@@ -106,9 +106,12 @@ In rough order of size:
    module is written so that only the plumbing changes.
 5. **Spanish.** The two Virginia screens carry Spanish (`locales/virginia_es.yaml`), written by
    the project, not reviewed by a translator; Virginia Tax's own Spanish wording would replace it.
-6. **Accessibility verification** of the two new screens, and a review by Virginia Tax
+6. **A better locality picker.** The port renders an enum as radio buttons, so the locality
+   question is 133 radios; a searchable select is the obvious presentation fix, and it is a
+   Form Builder feature, not a Virginia one.
+7. **Accessibility verification** of the seven screens, and a review by Virginia Tax
    of every figure and citation against their own reading of the Code.
-7. **Maintenance.** The IRS stack this sits on is labelled draft and changes weekly; this
+8. **Maintenance.** The IRS stack this sits on is labelled draft and changes weekly; this
    repository pins one commit of each library.
 
 Nothing here is branded as, or endorsed by, the IRS or Virginia Tax. Every proposed screen
