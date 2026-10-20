@@ -804,5 +804,63 @@
         </GreaterOf>
       </Derived>
     </Fact>
+
+    <!-- ============ The correction round: gates for the correction screens. ============ -->
+
+    <Fact path="/vaEverythingRight">
+      <Name>Everything on the what-is-known screen is right</Name>
+      <Description>Asked after the facts are shown. No sends the filer to the correction screens.
+        Flow control only; not a return value.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaWantsToCorrect">
+      <Name>The filer wants to correct something</Name>
+      <Derived><Not><Dependency path="/vaEverythingRight" /></Not></Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetOptions">
+      <Name>What can be corrected here</Name>
+      <Description>The two things the prototype lets a filer correct on the Virginia side: the date
+        of birth (a fact the filer stated) and a W-2 (a document, corrected as a whole). Calculated
+        amounts are never editable.</Description>
+      <Derived>
+        <EnumOptions>
+          <String>dateOfBirth</String>
+          <String>w2</String>
+        </EnumOptions>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTarget">
+      <Name>What the filer chose to correct</Name>
+      <Writable><Enum optionsPath="/vaCorrectionTargetOptions" /></Writable>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetIsDateOfBirth">
+      <Name>Correcting the date of birth</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaWantsToCorrect" />
+          <Equal>
+            <Left><Dependency path="/vaCorrectionTarget" /></Left>
+            <Right><Enum optionsPath="/vaCorrectionTargetOptions">dateOfBirth</Enum></Right>
+          </Equal>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetIsW2">
+      <Name>Correcting a W-2</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaWantsToCorrect" />
+          <Equal>
+            <Left><Dependency path="/vaCorrectionTarget" /></Left>
+            <Right><Enum optionsPath="/vaCorrectionTargetOptions">w2</Enum></Right>
+          </Equal>
+        </All>
+      </Derived>
+    </Fact>
   </Facts>
 </FactDictionaryModule>

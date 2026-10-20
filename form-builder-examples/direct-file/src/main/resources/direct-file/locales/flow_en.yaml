@@ -16672,6 +16672,70 @@
       td-f86689: <fg-show path="/vaExtensionPayments"/>
   p-8beb68: In a state-run service the last three come from Virginia Tax's books.
     This prototype has no connection to them, so they are shown as $0.
+/your-taxes/virginia/virginia-check:
+  title: Is everything right?
+  h2-93487e: Is everything on the last screen right?
+  p-023d45: If something is wrong, say so here and you will be taken to correct it.
+    Your Virginia return and your federal return share the same facts, so a correction
+    made here reaches both, and you will not be asked about it again.
+  /vaEverythingRight:
+    question: Is everything right?
+    options:
+      'true':
+        name: Yes, everything is right
+      'false':
+        name: No, something needs correcting
+/your-taxes/virginia/virginia-correct-what:
+  title: What needs correcting?
+  h2-365996: What needs correcting?
+  p-a27189: Pick one. You can come back for another. Calculated amounts such as your
+    adjusted gross income cannot be edited; they change when what they are calculated
+    from changes.
+  /vaCorrectionTarget:
+    question: What needs correcting?
+    options:
+      dateOfBirth:
+        name: My date of birth
+      w2:
+        name: A W-2 from my employer
+/your-taxes/virginia/virginia-correct-dob:
+  title: Correct your date of birth
+  h2-ea2075: Correct your date of birth
+  p-96b5bb: We have <fg-show path="/primaryFiler/dateOfBirth"/>, from your federal
+    return. <strong>This also updates your federal return.</strong> Virginia uses
+    it for the age deduction and the 65-or-older exemption.
+  /primaryFiler/dateOfBirth:
+    question: Correct date of birth
+/your-taxes/virginia/virginia-correct-w2:
+  title: Correct a W-2
+  h2-6bbd7d: Correct your W-2
+  p-085bb9: <strong>Check the paper W-2 first.</strong> Your employer reported these
+    boxes to the IRS and to Virginia. If the W-2 itself is wrong, ask your employer
+    for a corrected one (a W-2c). If you change a box here without one, Virginia will
+    see a difference from what your employer sent and may write to you about it.
+  p-4e20f8: 'Boxes 1 and 2 also update your federal return. Boxes 16 and 17 are the
+    ones Virginia uses: your Virginia wages and the tax already withheld.'
+  collection/formW2s:
+    itemName: W-2
+    h2-953964: W-2 from <fg-show path="/formW2s/*/employerName"/>
+    /formW2s/*/employerName:
+      question: Employer name
+    /formW2s/*/writableWages:
+      question: <strong>Box 1</strong> - Wages, tips, other compensation
+    /formW2s/*/writableFederalWithholding:
+      question: <strong>Box 2</strong> - Federal income tax withheld
+    /formW2s/*/writableStateWages:
+      question: <strong>Box 16</strong> - State wages, tips, etc.
+    /formW2s/*/writableStateWithholding:
+      question: <strong>Box 17</strong> - State income tax withheld
+/your-taxes/virginia/virginia-corrections:
+  title: Your correction
+  h2-34a5ea: Your correction is saved. Here is what it changed.
+  p-97be3b: Comparing your return before and after the correction.
+  p-ac7c9a: <strong>What stays the same.</strong> Everything else you saw is unchanged,
+    and nothing you have already answered will be asked again. Your federal return
+    carries the same correction. To correct something else, go back to &quot;Is everything
+    right?&quot; and choose again.
 /your-taxes/virginia/virginia-locality:
   title: Where did you live on January 1?
   h2-f59a8d: Which city or county did you live in on January 1, 2025?

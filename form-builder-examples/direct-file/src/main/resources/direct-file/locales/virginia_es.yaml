@@ -456,3 +456,62 @@
     correcto y completo. Virginia Tax compara los salarios y la retención del W-2 en una declaración con lo que informó el
     empleador. Las cuatro respuestas anteriores no pueden cotejarse con ningún informe; por eso se preguntan y se firman.
   p-0b6cdd: Las líneas que no se muestran están fuera del alcance de este prototipo y se toman como $0. Nada de esto se presenta.
+/your-taxes/virginia/virginia-check:
+  title: ¿Está todo bien?
+  h2-93487e: ¿Está todo bien en la pantalla anterior?
+  p-023d45: Si algo está mal, dígalo aquí y lo llevaremos a corregirlo. Su declaración de Virginia y su declaración federal
+    comparten los mismos datos, así que una corrección hecha aquí llega a ambas, y no se le volverá a preguntar.
+  /vaEverythingRight:
+    question: ¿Está todo bien?
+    options:
+      'true':
+        name: Sí, todo está bien
+      'false':
+        name: No, algo necesita corrección
+/your-taxes/virginia/virginia-correct-what:
+  title: ¿Qué necesita corrección?
+  h2-365996: ¿Qué necesita corrección?
+  p-a27189: Elija una. Puede volver por otra. Los montos calculados, como su ingreso bruto ajustado, no se pueden editar;
+    cambian cuando cambia aquello a partir de lo cual se calculan.
+  /vaCorrectionTarget:
+    question: ¿Qué necesita corrección?
+    options:
+      dateOfBirth:
+        name: Mi fecha de nacimiento
+      w2:
+        name: Un W-2 de mi empleador
+/your-taxes/virginia/virginia-correct-dob:
+  title: Corrija su fecha de nacimiento
+  h2-ea2075: Corrija su fecha de nacimiento
+  p-96b5bb: Tenemos <fg-show path="/primaryFiler/dateOfBirth"/>, de su declaración federal. <strong>Esto también actualiza
+    su declaración federal.</strong> Virginia la usa para la deducción por edad y la exención de 65 años o más.
+  /primaryFiler/dateOfBirth:
+    question: Fecha de nacimiento correcta
+/your-taxes/virginia/virginia-correct-w2:
+  title: Corrija un W-2
+  h2-6bbd7d: Corrija su W-2
+  p-085bb9: <strong>Revise primero el W-2 en papel.</strong> Su empleador informó estas casillas al IRS y a Virginia. Si el
+    W-2 en sí está mal, pida a su empleador uno corregido (un W-2c). Si cambia una casilla aquí sin uno, Virginia verá una
+    diferencia con lo que envió su empleador y podría escribirle al respecto.
+  p-4e20f8: 'Las casillas 1 y 2 también actualizan su declaración federal. Las casillas 16 y 17 son las que usa Virginia:
+    sus salarios de Virginia y el impuesto ya retenido.'
+  collection/formW2s:
+    itemName: W-2
+    h2-953964: W-2 de <fg-show path="/formW2s/*/employerName"/>
+    /formW2s/*/employerName:
+      question: Nombre del empleador
+    /formW2s/*/writableWages:
+      question: <strong>Casilla 1</strong> - Salarios, propinas, otra compensación
+    /formW2s/*/writableFederalWithholding:
+      question: <strong>Casilla 2</strong> - Impuesto federal sobre la renta retenido
+    /formW2s/*/writableStateWages:
+      question: <strong>Casilla 16</strong> - Salarios estatales, propinas, etc.
+    /formW2s/*/writableStateWithholding:
+      question: <strong>Casilla 17</strong> - Impuesto estatal sobre la renta retenido
+/your-taxes/virginia/virginia-corrections:
+  title: Su corrección
+  h2-34a5ea: Su corrección quedó guardada. Esto es lo que cambió.
+  p-97be3b: Comparando su declaración antes y después de la corrección.
+  p-ac7c9a: <strong>Lo que no cambia.</strong> Todo lo demás que vio sigue igual, y nada de lo que ya respondió se le volverá
+    a preguntar. Su declaración federal lleva la misma corrección. Para corregir otra cosa, vuelva a "¿Está todo bien?" y
+    elija de nuevo.
