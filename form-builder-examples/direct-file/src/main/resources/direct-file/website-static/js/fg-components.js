@@ -27,7 +27,20 @@ import './inputs/address.js'
 import './inputs/bank-account.js'
 import './inputs/collection-item-reference.js'
 
-// The Virginia correction screens' before/after view. Presentation only; reads the graph, writes nothing.
+// The Virginia section's own behaviour, all on /your-taxes/virginia/ routes only. Their words come
+// from the locale through virginia-strings.js (the <template id="va-strings"> in
+// fragments/js-templates.html), never from these files.
+// The correction screens' before/after view. Presentation only; reads the graph, writes nothing.
 import './virginia-corrections.js'
-// Lines 20 to 22 from a stand-in for Virginia Tax's records (resources/data/virginia-records.json).
+// Lines 20 to 22 from a stand-in for Virginia Tax's records (resources/data/virginia-records.json), once per identity.
 import './virginia-records.js'
+// The locality screen filled in from the federal ZIP code (resources/data/virginia-zip-localities.json).
+import './virginia-locality.js'
+// The USWDS combo box kept in step with the fact and with the runtime's validation errors.
+import './virginia-combo-box.js'
+// The sign screen's Send button and declaration box.
+import './virginia-sign.js'
+// Download your answers on the summary; resume from a file on the intro.
+import './virginia-save.js'
+// The page h1 on Virginia routes.
+import './virginia-chrome.js'

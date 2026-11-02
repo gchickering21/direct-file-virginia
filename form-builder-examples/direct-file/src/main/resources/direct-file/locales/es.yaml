@@ -177,3 +177,91 @@ inputs:
     routingNumber: Número de ruta
     accountNumber: Número de cuenta
     invalid: No es un número de ruta válido
+
+# Spanish for the Virginia section's chrome; the English and the reason are in en.yaml.
+virginia:
+  demo:
+    label: Demostración
+    text: Un prototipo de clase. No es un servicio de Virginia Tax. No se presenta nada.
+  masthead:
+    kicker: Mancomunidad de Virginia
+    name: Declaración del estado de Virginia
+    federal: Respuestas federales
+    federal-status: Completas
+    language: Seleccione el idioma
+  track:
+    label: Su declaración de Virginia
+    federal: Respuestas federales
+    known: Lo que Virginia ya sabe
+    answers: Sus respuestas
+    review: Revisión
+    sign: Firma
+    done: completado
+    current: paso actual
+  footer:
+    label: Declaración del estado de Virginia
+    identity: Declaración del estado de Virginia, un prototipo de clase
+    disclaimer: >-
+      Hecho para un curso de posgrado para mostrar cómo una declaración de Virginia podría seguir a
+      Direct File. No lo administra Virginia Tax ni la Mancomunidad de Virginia, ni está afiliado a
+      ellas, y nada de lo que se ingresa aquí se presenta.
+    links: Dónde obtener ayuda
+    state-help: Virginia Tax, para preguntas sobre una declaración real de Virginia
+    federal-help: IRS, para preguntas sobre su declaración federal
+  ui:
+    corrections:
+      same: "Lo que debe no cambió: {0}."
+      changed: "Ahora {0}. Antes de esta corrección, {1}."
+      owe: usted debe {0}
+      refund: su reembolso es de {0}
+      nothing: no debe nada
+      none: "—"
+      caption: Lo que corrigió
+      col-item: Dato
+      col-was: Antes
+      col-now: Ahora
+      nothing-changed: Nada cambió. Los valores que guardó son los que ya teníamos.
+      dob: Fecha de nacimiento
+      dob-note: También se corrigió en su declaración federal.
+      records-note: Virginia Tax lo compararía con sus propios libros.
+      w2-from: W-2 de {0}
+      your-employer: su empleador
+      w2-note: Virginia lo comparará con el W-2 que presentó su empleador.
+      w2-federal-note: También se corrigió en su declaración federal. Virginia lo comparará con el W-2 que presentó su empleador.
+      lines-one: Una línea del Formulario 760 cambió
+      lines-many: "{0} líneas del Formulario 760 cambiaron"
+      no-line-changed: Ninguna línea del Formulario 760 cambió.
+      no-round: No se hizo ninguna corrección en esta ronda, así que no hay nada que comparar.
+      to: a
+    line:
+      "1": Línea 1, ingreso bruto ajustado federal
+      "4": Línea 4, deducción por edad
+      "9": Línea 9, ingreso bruto ajustado de Virginia
+      "11": Línea 11, deducción estándar
+      "12": Línea 12, exenciones
+      "15": Línea 15, ingreso tributable de Virginia
+      "16": Línea 16, impuesto sobre la renta de Virginia
+      19a: Línea 19a, impuesto de Virginia retenido
+      "20": Línea 20, pagos estimados
+      "21": Línea 21, pago en exceso del año anterior aplicado
+      "22": Línea 22, pagos de prórroga
+      "23": Línea 23, crédito para trabajadores y familias de bajos ingresos
+      "27": Línea 27, impuesto que debe antes del impuesto sobre el uso
+      "28": Línea 28, su pago en exceso
+      "35": Línea 35, monto que debe
+      "36": Línea 36, su reembolso
+    records:
+      "20": Línea 20, pagos estimados que Virginia tenía registrados
+      "21": Línea 21, pago en exceso del año anterior que Virginia tenía registrado
+      "22": Línea 22, pagos de prórroga que Virginia tenía registrados
+    w2:
+      employer: Empleador
+      box1: Casilla 1, salarios
+      box2: Casilla 2, impuesto federal retenido
+      box16: Casilla 16, salarios de Virginia
+      box17: Casilla 17, impuesto de Virginia retenido
+    sign:
+      need-declaration: Marque primero la casilla de la declaración. Virginia Tax no puede aceptar una declaración sin firmar.
+    save:
+      filename: respuestas-declaracion-virginia.json
+      resume-error: Ese archivo no es un archivo de respuestas de este prototipo. Descargue uno desde la pantalla de revisión y elíjalo aquí.

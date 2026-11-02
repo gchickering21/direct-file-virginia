@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virginia screens: theme mockups</title>
+<!-- Design mockups only. Static HTML with the Virginia Demo 1 household (Riley Rappahannock,
+     fictional) hard-coded; nothing here runs the engine. The emblem is an original dogwood drawing,
+     not the Commonwealth's seal or Virginia Tax's logo, and a real build would use whatever
+     marks Virginia Tax supplies. -->
+<style>
+  :root {
+    --va-navy: #13294b;
+    --va-orange: #e57200;
+    --va-orange-tint: #fdf2e6;
+    --va-navy-tint: #f4f6fa;
+    --va-line: #dfe4ec;
+    --va-ink: #1b1b1b;
+    --va-muted: #565c65;
+    --irs-blue: #005ea2;
+    --uswds-base: #dfe1e2;
+    --serif: "Merriweather", Georgia, "Times New Roman", serif;
+    --sans: "Source Sans Pro", "Source Sans 3", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--sans); color: var(--va-ink); background: #e9ebee; line-height: 1.5; }
+  a { color: inherit; }
+
+  /* Page chrome for the mockup document itself */
+  .doc-head { background: #fff; border-bottom: 1px solid #ccc; padding: 28px 40px 20px; }
+  .doc-head h1 { margin: 0 0 6px; font-size: 26px; }
+  .doc-head p { margin: 0; color: var(--va-muted); max-width: 900px; }
+  .doc-nav { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #ccc; padding: 10px 40px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .doc-nav a { text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 999px; background: #f0f0f0; }
+  .doc-nav a:hover { background: var(--va-line); }
+  .board { padding: 36px 40px 10px; }
+  .board > h2 { font-size: 20px; margin: 0 0 4px; }
+  .board > .lede { color: var(--va-muted); margin: 0 0 20px; max-width: 900px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: start; }
+  .notes { background: #fff; border-radius: 8px; padding: 18px 20px; font-size: 14.5px; border-left: 4px solid var(--va-orange); }
+  .notes h3 { margin: 0 0 8px; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; color: var(--va-navy); }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 6px; }
+  .notes code { font-size: 12.5px; background: #f3f3f3; padding: 1px 4px; border-radius: 3px; }
+  .frame { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.10); }
+  .frame-bar { background: #f1f1f1; padding: 8px 12px; display: flex; gap: 6px; align-items: center; border-bottom: 1px solid #ddd; }
+  .frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: #d0d0d0; display: inline-block; }
+  .frame-bar span { margin-left: 10px; font-size: 12px; color: #666; background: #fff; border-radius: 4px; padding: 2px 10px; flex: 1; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; background: #333; color: #fff; margin-bottom: 8px; }
+
+  /* ---------- The current header, for comparison ---------- */
+  .gov-banner { background: #f0f0f0; font-size: 12px; padding: 4px 24px; color: #1b1b1b; }
+  .irs-bar { background: var(--irs-blue); color: #fff; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .irs-word { font-family: var(--serif); font-weight: 700; font-size: 26px; letter-spacing: .02em; }
+  .fake-select { border: 1px solid #fff; background: #fff; color: #1b1b1b; font-size: 13px; padding: 4px 10px; border-radius: 2px; }
+  .uswds-body { padding: 24px; }
+  .uswds-body h1 { font-size: 22px; margin: 0 0 10px; }
+  .steps { display: flex; gap: 3px; margin-bottom: 18px; }
+  .steps b { flex: 1; height: 8px; background: var(--uswds-base); }
+  .steps b.done { background: #162e51; }
+  .steps b.cur { background: var(--irs-blue); }
+  .uswds-body h2 { font-size: 20px; margin: 0 0 8px; }
+
+  /* ---------- Direction A: the Commonwealth's own header ---------- */
+  .va-demo-strip { background: var(--va-orange-tint); color: var(--va-navy); border-bottom: 1px solid #f5c89a; font-size: 13px; padding: 5px 24px; display: flex; justify-content: space-between; gap: 10px; }
+  .va-demo-strip strong { text-transform: uppercase; letter-spacing: .05em; font-size: 12px; }
+  .va-head { background: var(--va-navy); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .va-brand { display: flex; align-items: center; gap: 14px; }
+  .va-brand svg { flex: none; }
+  .va-brand .kicker { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+  .va-brand .name { font-family: var(--serif); font-size: 22px; font-weight: 700; line-height: 1.15; }
+  .va-head .right { display: flex; align-items: center; gap: 14px; font-size: 13px; }
+  .va-head .right .with { opacity: .8; text-align: right; line-height: 1.3; }
+  .va-rule { height: 5px; background: var(--va-orange); }
+
+  /* Direction B: co-branded, USWDS shell kept */
+  .cobrand { background: #fff; border-bottom: 1px solid var(--uswds-base); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .cobrand .pair { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--va-muted); }
+  .cobrand .va-mini { display: flex; align-items: center; gap: 8px; color: var(--va-navy); font-family: var(--serif); font-weight: 700; font-size: 18px; }
+  .cobrand .sep { width: 1px; height: 28px; background: #ccc; }
+  .cobrand .irs-mini { font-family: var(--serif); font-weight: 700; color: var(--irs-blue); font-size: 16px; }
+
+  /* ---------- Virginia screen body ---------- */
+  .va-body { background: #fff; padding: 28px 32px 34px; }
+  .va-track { display: flex; gap: 0; margin: 0 0 26px; padding: 0; list-style: none; counter-reset: s; }
+  .va-track li { flex: 1; position: relative; padding-top: 14px; font-size: 13px; color: var(--va-muted); }
+  .va-track li::before { content: ""; position: absolute; top: 0; left: 0; right: 4px; height: 6px; border-radius: 3px; background: var(--va-line); }
+  .va-track li.done::before { background: var(--va-navy); }
+  .va-track li.cur::before { background: var(--va-orange); }
+  .va-track li.cur { color: var(--va-ink); font-weight: 700; }
+  .va-track li.fed::before { background: #b8bfca; }
+  .va-track li.fed { color: #7a8494; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--va-navy); margin: 0 0 8px; padding-left: 12px; border-left: 4px solid var(--va-orange); }
+  .va-body h2 { font-family: var(--serif); color: var(--va-navy); font-size: 28px; line-height: 1.2; margin: 0 0 12px; }
+  .va-body p { max-width: 640px; margin: 0 0 14px; font-size: 17px; }
+  .btn { display: inline-block; font-weight: 700; font-size: 16px; padding: 11px 22px; border-radius: 4px; text-decoration: none; border: 2px solid transparent; }
+  .btn-va { background: var(--va-navy); color: #fff; box-shadow: inset 0 -4px 0 var(--va-orange); }
+  .btn-outline { border-color: var(--va-navy); color: var(--va-navy); background: transparent; }
+  .actions { display: flex; gap: 12px; margin-top: 22px; align-items: center; }
+  .back { font-size: 15px; color: var(--va-navy); }
+
+  /* Screen 1: handoff */
+  .handoff { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: stretch; margin: 22px 0 8px; max-width: 760px; }
+  .hcard { background: #fff; border-radius: 8px; padding: 18px; border: 1px solid var(--va-line); }
+  .hcard.fed { border-top: 5px solid #b8bfca; }
+  .hcard.va { border-top: 5px solid var(--va-orange); box-shadow: 0 6px 18px rgba(19,41,75,.14); }
+  .hcard .who { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--va-muted); }
+  .hcard .what { font-family: var(--serif); font-size: 19px; color: var(--va-navy); margin: 4px 0 8px; }
+  .hcard .status { font-size: 14px; display: flex; gap: 6px; align-items: center; }
+  .check { width: 18px; height: 18px; border-radius: 50%; background: #00a91c; color: #fff; display: inline-grid; place-items: center; font-size: 12px; font-weight: 700; }
+  .arrow { align-self: center; color: var(--va-navy); font-size: 28px; }
+  .carried { margin-top: 10px; font-size: 13px; color: var(--va-muted); }
+  .carried b { color: var(--va-ink); }
+
+  /* Screen 2: what Virginia knows */
+  .sources { display: grid; gap: 14px; max-width: 720px; }
+  .src { background: #fff; border-radius: 8px; border: 1px solid var(--va-line); overflow: hidden; }
+  .src-head { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #eef1f5; }
+  .badge { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 12px; color: #fff; flex: none; }
+  .badge.irs { background: #71767a; }
+  .badge.emp { background: #4a5b78; }
+  .badge.vat { background: var(--va-navy); box-shadow: 0 0 0 3px var(--va-orange); }
+  .src-head .t { font-weight: 700; font-size: 16px; }
+  .src-head .s { font-size: 13px; color: var(--va-muted); }
+  .src.home { border: 2px solid var(--va-navy); border-top: 5px solid var(--va-orange); }
+  .src.home .src-head { background: var(--va-navy-tint); }
+  .src.home .pill { margin-left: auto; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--va-navy); color: #fff; padding: 3px 8px; border-radius: 999px; }
+  .src dl { margin: 0; display: grid; grid-template-columns: 1fr auto; }
+  .src dt, .src dd { margin: 0; padding: 9px 16px; border-bottom: 1px solid #f1f3f6; font-size: 15px; }
+  .src dd { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .src dt small { color: var(--va-muted); }
+
+  /* Screen 3: locality */
+  .q-label { font-weight: 700; font-size: 17px; display: block; margin: 8px 0 6px; }
+  .hint { color: var(--va-muted); font-size: 15px; margin-bottom: 8px; }
+  .combo { max-width: 440px; border: 2px solid var(--va-navy); border-radius: 4px; background: #fff; }
+  .combo .in { padding: 10px 12px; font-size: 17px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; }
+  .combo .in span:last-child { color: var(--va-muted); }
+  .combo ul { list-style: none; margin: 0; padding: 0; }
+  .combo li { padding: 9px 12px; font-size: 16px; display: flex; justify-content: space-between; }
+  .combo li.on { background: var(--va-navy); color: #fff; }
+  .combo li small { opacity: .75; }
+  .region { margin-top: 16px; max-width: 560px; display: flex; gap: 14px; align-items: center; background: #fff; border: 1px solid var(--va-line); border-left: 5px solid var(--va-orange); border-radius: 6px; padding: 12px 14px; }
+  .region svg { flex: none; }
+  .region p { margin: 0; font-size: 15px; }
+
+  /* Screen 4: result */
+  .result { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 820px; }
+  .owe { background: var(--va-navy); border-top: 5px solid var(--va-orange); color: #fff; border-radius: 10px; padding: 22px 24px; position: relative; overflow: hidden; }
+  .owe .k { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+  .owe .amt { font-family: var(--serif); font-size: 52px; font-weight: 700; line-height: 1.05; margin: 6px 0 4px; }
+  .owe .due { font-size: 15px; }
+  .owe .due b { color: var(--va-orange); }
+  .owe svg.bg { position: absolute; right: -24px; bottom: -24px; opacity: .12; }
+  .math { background: #fff; border: 1px solid var(--va-line); border-radius: 10px; padding: 16px 18px; font-size: 15px; }
+  .math .ln { display: flex; justify-content: space-between; padding: 5px 0; font-variant-numeric: tabular-nums; }
+  .math .ln.total { border-top: 2px solid var(--va-navy); margin-top: 6px; padding-top: 8px; font-weight: 700; }
+  .math .ln span:first-child small { color: var(--va-muted); display: block; font-size: 12.5px; }
+  .form760 { margin-top: 20px; max-width: 820px; background: #fff; border: 1px solid #cfd6e0; border-radius: 4px; }
+  .form760 summary { cursor: pointer; padding: 12px 16px; font-weight: 700; color: var(--va-navy); display: flex; justify-content: space-between; }
+  .form760 .formhead { display: flex; justify-content: space-between; align-items: end; padding: 12px 16px 8px; border-top: 1px solid var(--va-line); border-bottom: 3px double var(--va-navy); }
+  .form760 .formhead .f { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--va-navy); }
+  .form760 .formhead .y { font-size: 13px; color: var(--va-muted); text-align: right; }
+  .form760 table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  .form760 td { padding: 7px 16px; border-bottom: 1px solid #eef1f5; }
+  .form760 td.n { width: 54px; font-weight: 700; color: var(--va-navy); }
+  .form760 td.law { color: var(--va-muted); font-size: 12.5px; width: 150px; }
+  .form760 td.v { text-align: right; font-variant-numeric: tabular-nums; width: 110px; font-weight: 600; }
+  .form760 tr.key td { background: var(--va-orange-tint); }
+  .va-foot { border-top: 4px solid var(--va-orange); background: var(--va-navy); color: #dfe5ef; font-size: 13px; padding: 16px 24px; display: flex; justify-content: space-between; gap: 20px; }
+  .va-foot b { color: #fff; }
+
+  /* Screen 5: sign */
+  .attest { max-width: 680px; background: #fff; border: 1px solid var(--va-line); border-radius: 8px; padding: 18px 20px; }
+  .attest .cb { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; }
+  .attest .box { width: 22px; height: 22px; border: 2px solid var(--va-navy); border-radius: 3px; flex: none; margin-top: 2px; display: grid; place-items: center; color: #fff; background: var(--va-navy); font-size: 14px; }
+  .stamp { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; color: var(--va-muted); }
+  .palette { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .sw { width: 92px; font-size: 11.5px; }
+  .sw i { display: block; height: 40px; border-radius: 4px; margin-bottom: 4px; border: 1px solid rgba(0,0,0,.08); }
+
+  @media (max-width: 1100px) { .row { grid-template-columns: 1fr; } .result { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Original dogwood blossom (Virginia's state flower), drawn for this mockup. -->
+    <symbol id="dogwood" viewBox="0 0 100 100">
+      <g transform="translate(50 50)">
+        <g id="petal">
+          <path d="M0 -6 C 14 -14, 18 -36, 4 -44 C 2 -40, -2 -40, -4 -44 C -18 -36, -14 -14, 0 -6 Z" fill="currentColor"/>
+          <path d="M-3 -43 C -1 -40, 1 -40, 3 -43" stroke="#e57200" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+        <use href="#petal" transform="rotate(90)"/>
+        <use href="#petal" transform="rotate(180)"/>
+        <use href="#petal" transform="rotate(270)"/>
+        <circle r="8" fill="#e57200"/>
+        <circle r="3" fill="#7a5a00"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="doc-head">
+  <h1>Making the Virginia screens look like Virginia's</h1>
+  <p>Mockups for the Virginia section of the port. Today a Virginia filer stays under the IRS header, in IRS blue, with the federal progress bar, so the screens look like one more federal step. The idea in all of these: <strong>the federal return hands off to Virginia</strong>. From that point Virginia's colours, Virginia's voice and Virginia's own records take over. Each screen uses the Virginia Demo 1 household (Riley Rappahannock, fictional). The flower emblem is a placeholder drawn for these mockups, not the seal or Virginia Tax's logo.</p>
+</header>
+
+<nav class="doc-nav" aria-label="Mockups">
+  <a href="#header">0 · The header: three options</a>
+  <a href="#handoff">1 · The handoff</a>
+  <a href="#known">2 · What Virginia already knows</a>
+  <a href="#locality">3 · Where you lived</a>
+  <a href="#result">4 · Your Virginia return</a>
+  <a href="#sign">5 · Sign and send to Virginia</a>
+  <a href="#system">The palette and rules</a>
+</nav>
+
+<!-- ========================= 0. HEADER ========================= -->
+<section class="board" id="header">
+  <h2>0 · The header: three options</h2>
+  <p class="lede">The header changes the moment a route starts <code>/your-taxes/virginia/</code>. Today's header is shown first for comparison. <strong>I recommend option A</strong>: it is the clearest signal, and it matches how Direct File states actually worked. The state ran its own experience once the federal return was done.</p>
+
+  <div class="row">
+    <div style="display:grid; gap:22px;">
+      <div>
+        <span class="tag">Today</span>
+        <div class="frame">
+          <div class="gov-banner">🇺🇸 An official website of the United States government</div>
+          <div class="irs-bar"><span class="irs-word">IRS</span><span class="fake-select">Select Language ▾</span></div>
+          <div class="uswds-body">
+            <h1>Direct File</h1>
+            <div class="steps"><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="done"></b><b class="cur"></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+            <h2>Your Virginia return</h2>
+            <p style="margin:0;color:#565c65">Segment 17 of 25. Nothing on the page says Virginia except the heading.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="tag" style="background:var(--va-navy);box-shadow:inset 0 -3px 0 var(--va-orange)">A · The Commonwealth's own header (recommended)</span>
+        <div class="frame">
+          <div class="va-demo-strip"><span><strong>Demonstration</strong> · a class prototype. Not a Virginia Tax service. Nothing is filed.</span><span>Español ▾</span></div>
+          <div class="va-head">
+            <div class="va-brand">
+              <svg width="44" height="44" style="color:#fff"><use href="#dogwood"/></svg>
+              <div><div class="kicker">Commonwealth of Virginia</div><div class="name">Virginia State Return</div></div>
+            </div>
+            <div class="right"><div class="with">Federal return<br><b>accepted by the IRS ✓</b></div></div>
+          </div>
+          <div class="va-rule"></div>
+          <div class="va-body" style="padding:18px 24px">
+            <ol class="va-track" style="margin-bottom:6px">
+              <li class="fed">Federal return</li><li class="cur">What Virginia knows</li><li>Your answers</li><li>Review</li><li>Sign</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="tag" style="background:#555">B · Co-branded, USWDS shell kept</span>
+        <div class="frame">
+          <div class="gov-banner">🇺🇸 An official website of the United States government</div>
+          <div class="cobrand">
+            <div class="pair">
+              <span class="va-mini"><svg width="28" height="28" style="color:var(--va-navy)"><use href="#dogwood"/></svg>Virginia</span>
+              <span class="sep"></span>
+              <span>with <span class="irs-mini">IRS</span> Direct File</span>
+            </div>
+            <span class="fake-select" style="border-color:#ccc">Select Language ▾</span>
+          </div>
+          <div style="height:4px;background:var(--va-orange)"></div>
+          <div class="uswds-body"><h2 style="color:var(--va-navy)">Your Virginia return</h2><p style="margin:0;color:#565c65">The least work: one header fragment and an accent colour. Weaker as a signal; the page still reads as federal.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes">
+      <h3>Why A</h3>
+      <ul>
+        <li>The IRS mark and the U.S. government banner both <em>leave</em>. A filer who sees them is told this is the IRS's form. Virginia's section is Virginia's to sign for.</li>
+        <li>The right side of the header confirms the handoff: "Federal return accepted by the IRS ✓". It answers "where did my federal return go?"</li>
+        <li>The orange-tinted strip makes the demonstration notice permanent and part of the chrome, so it no longer has to start the first paragraph of each screen.</li>
+        <li>The 25-segment federal bar becomes a five-step Virginia track. "Federal return" is the first step, already finished, in grey.</li>
+      </ul>
+      <h3 style="margin-top:14px">To build</h3>
+      <ul>
+        <li>The header lives in Form Builder's <code>templates/page.html</code>. Add a <code>th:if</code> on <code>currentPageRoute</code> starting <code>/your-taxes/virginia/</code> and a <code>fragments/va-header.html</code> override in this app, the way <code>usa-step-indicator.html</code> is already overridden.</li>
+        <li>Put a <code>body.va</code> class on the same condition, then add <code>styles/components/virginia.css</code>.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= 1. HANDOFF ========================= -->
+<section class="board" id="handoff">
+  <h2>1 · The handoff</h2>
+  <p class="lede">This replaces "Your Virginia return", which today opens with a disclaimer and a paragraph of scope. The new first screen is a transfer moment: the federal return is done and Virginia picks it up.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>localhost:3008/app/direct-file/your-taxes/virginia/virginia-intro</span></div>
+      <div class="va-demo-strip"><span><strong>Demonstration</strong> · a class prototype. Not a Virginia Tax service. Nothing is filed.</span><span>Español ▾</span></div>
+      <div class="va-head"><div class="va-brand"><svg width="44" height="44" style="color:#fff"><use href="#dogwood"/></svg><div><div class="kicker">Commonwealth of Virginia</div><div class="name">Virginia State Return</div></div></div><div class="right"><div class="with">Federal return<br><b>accepted by the IRS ✓</b></div></div></div>
+      <div class="va-rule"></div>
+      <div class="va-body">
+        <ol class="va-track"><li class="fed">Federal return</li><li class="cur">What Virginia knows</li><li>Your answers</li><li>Review</li><li>Sign</li></ol>
+        <p class="eyebrow">Welcome, Riley</p>
+        <h2>Your federal return is done.<br>Virginia takes it from here.</h2>
+        <p>You lived in Virginia all of 2024, so you file Form 760 with Virginia Tax. Most of it is already filled in from your federal return, your W-2, and Virginia's own records.</p>
+        <div class="handoff">
+          <div class="hcard fed"><div class="who">Internal Revenue Service</div><div class="what">Form 1040</div><div class="status"><span class="check">✓</span> Accepted</div><div class="carried">Sends Virginia: <b>your AGI, filing status, date of birth, W-2s</b></div></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="hcard va"><div class="who">Virginia Tax</div><div class="what">Form 760</div><div class="status" style="color:var(--va-navy)"><b>About 5 minutes left</b></div><div class="carried">Still needed: <b>4 questions only you can answer</b></div></div>
+        </div>
+        <div class="actions"><a class="btn btn-va" href="#known">Start my Virginia return</a><a class="back" href="#">What this prototype covers</a></div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>What changed</h3>
+      <ul>
+        <li>The headline is written from Virginia's side: "Virginia takes it from here", not "Your Virginia return".</li>
+        <li>Two cards show the handoff: the IRS's form, accepted, then Virginia's form, nearly done. This is ADR-001's integration rule (what the federal return exports to the state), drawn as a picture.</li>
+        <li>The scope paragraph (what is covered and what is left out) moves behind the "What this prototype covers" link. It is for evaluators, not the filer.</li>
+        <li>"About 5 minutes left" is a promise. Only use it if the four questions really are fast.</li>
+      </ul>
+      <h3 style="margin-top:14px">To build</h3>
+      <ul><li>This only changes the copy and markup inside the existing <code>virginia-intro</code> page. No new facts.</li></ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= 2. KNOWN ========================= -->
+<section class="board" id="known">
+  <h2>2 · What Virginia already knows</h2>
+  <p class="lede">The same three groups as today, but turned from captioned tables into cards, each named for <em>who</em> told Virginia. Virginia Tax's own records come first and are marked as Virginia's.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>…/your-taxes/virginia/virginia-known</span></div>
+      <div class="va-head"><div class="va-brand"><svg width="36" height="36" style="color:#fff"><use href="#dogwood"/></svg><div><div class="kicker">Commonwealth of Virginia</div><div class="name" style="font-size:19px">Virginia State Return</div></div></div><div class="right"><span class="fake-select">Español ▾</span></div></div>
+      <div class="va-rule"></div>
+      <div class="va-body">
+        <ol class="va-track"><li class="fed">Federal return</li><li class="cur">What Virginia knows</li><li>Your answers</li><li>Review</li><li>Sign</li></ol>
+        <h2>Here is what Virginia already has</h2>
+        <p>You do not need to enter any of this. Check it, and tell us if something is wrong.</p>
+        <div class="sources">
+          <div class="src home">
+            <div class="src-head"><span class="badge vat">VA</span><div><div class="t">Virginia Tax's records</div><div class="s">Payments you already made to Virginia</div></div><span class="pill">Virginia's own</span></div>
+            <dl><dt>Estimated payments for 2024 <small>· Line 20</small></dt><dd>$200</dd><dt>Last year's overpayment applied <small>· Line 21</small></dt><dd>$0</dd><dt>Extension payments <small>· Line 22</small></dt><dd>$0</dd></dl>
+          </div>
+          <div class="src">
+            <div class="src-head"><span class="badge emp">W-2</span><div><div class="t">Your employer</div><div class="s">From the W-2 they filed with Virginia and the IRS</div></div></div>
+            <dl><dt>Wages <small>· box 1</small></dt><dd>$33,333</dd><dt>Virginia tax withheld <small>· box 17, Line 19a</small></dt><dd>$300</dd></dl>
+          </div>
+          <div class="src">
+            <div class="src-head"><span class="badge irs">IRS</span><div><div class="t">Your federal return</div><div class="s">Sent to Virginia after the IRS accepted it</div></div></div>
+            <dl><dt>Name</dt><dd>Riley Rappahannock</dd><dt>Filing status</dt><dd>Single</dd><dt>Date of birth</dt><dd>Oct 3, 1997</dd><dt>Federal adjusted gross income <small>· Form 1040 line 11</small></dt><dd>$34,333</dd></dl>
+          </div>
+        </div>
+        <div class="actions"><a class="btn btn-va" href="#locality">This is all right</a><a class="btn btn-outline" href="#">Something is wrong</a></div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>What changed</h3>
+      <ul>
+        <li>The order is reversed: <strong>Virginia's own records first</strong>. That is the state-side half of "the government already knows", and it is what makes the screen feel like Virginia's, not a federal echo.</li>
+        <li>Each source has a badge. A filer can tell at a glance who reported what.</li>
+        <li>The "Is everything right?" screen folds into this one as two buttons, which removes one page from the flow. If the separate <code>fg-set</code> page has to stay, keep the buttons as its visual.</li>
+        <li>Line numbers move into small grey labels. They are useful to a preparer and should not get in a filer's way.</li>
+      </ul>
+      <h3 style="margin-top:14px">Trade-off</h3>
+      <ul><li>Taxable Social Security is $0 for most filers. Hide that row when it is $0 instead of showing a blank.</li></ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= 3. LOCALITY ========================= -->
+<section class="board" id="locality">
+  <h2>3 · Where you lived on January 1</h2>
+  <p class="lede">The most Virginian question in the flow: it asks the filer to choose among the 133 cities and counties. The combo box stays. What is new is that the answer tells the filer something back.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>…/your-taxes/virginia/virginia-locality</span></div>
+      <div class="va-head"><div class="va-brand"><svg width="36" height="36" style="color:#fff"><use href="#dogwood"/></svg><div><div class="kicker">Commonwealth of Virginia</div><div class="name" style="font-size:19px">Virginia State Return</div></div></div><div class="right"><span class="fake-select">Español ▾</span></div></div>
+      <div class="va-rule"></div>
+      <div class="va-body">
+        <ol class="va-track"><li class="done">Federal return</li><li class="done">What Virginia knows</li><li class="cur">Your answers · 1 of 4</li><li>Review</li><li>Sign</li></ol>
+        <p class="eyebrow">Question 1 of 4</p>
+        <h2>Which Virginia city or county did you live in on January 1, 2025?</h2>
+        <span class="q-label">City or county</span>
+        <div class="hint">Virginia's independent cities are separate from the counties around them. Richmond City is not Henrico County.</div>
+        <div class="combo">
+          <div class="in"><span>Rich</span><span>▾</span></div>
+          <ul><li class="on">Richmond City <small>760</small></li><li>Richmond County <small>159</small></li></ul>
+        </div>
+        <div class="region">
+          <svg width="60" height="40" viewBox="0 0 60 40" aria-hidden="true"><path d="M2 30 L12 22 L20 24 L30 14 L42 12 L52 6 L58 10 L54 22 L44 28 L30 34 L14 36 Z" fill="#f4f6fa" stroke="#0f2d5c" stroke-width="1.5"/><circle cx="38" cy="22" r="3.5" fill="#e57200"/></svg>
+          <p><b>Richmond City · locality 760.</b> Central Virginia. If you bought anything without paying sales tax, the rate here is <b>6%</b>.</p>
+        </div>
+        <div class="actions"><a class="btn btn-va" href="#">Continue</a><a class="back" href="#">Back</a></div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>What changed</h3>
+      <ul>
+        <li>"Question 1 of 4" is counted against the promise made on the handoff screen.</li>
+        <li>The hint covers the mistake Virginians actually make: confusing independent cities with counties.</li>
+        <li>Once a locality is chosen, a confirmation card appears with a small outline of the state and a dot. It gives the 3-digit code and the use-tax rate, so the later use-tax question is no surprise.</li>
+      </ul>
+      <h3 style="margin-top:14px">To build</h3>
+      <ul><li>The card can read <code>/vaLocalityCode</code> and the rate fact through <code>fg-show</code> inside a conditional <code>div</code>. The map outline is decoration (<code>aria-hidden</code>). A real one would need 133 dot positions; drop the map if that is too much.</li></ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= 4. RESULT ========================= -->
+<section class="board" id="result">
+  <h2>4 · Your Virginia return</h2>
+  <p class="lede">Today this screen is a 17-row table titled "Form 760, computed from your federal return", a title that credits the federal return. The new version leads with the answer, in Virginia's terms, and keeps the full Form 760 one click below.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>…/your-taxes/virginia/virginia-summary</span></div>
+      <div class="va-head"><div class="va-brand"><svg width="36" height="36" style="color:#fff"><use href="#dogwood"/></svg><div><div class="kicker">Commonwealth of Virginia</div><div class="name" style="font-size:19px">Virginia State Return</div></div></div><div class="right"><span class="fake-select">Español ▾</span></div></div>
+      <div class="va-rule"></div>
+      <div class="va-body">
+        <ol class="va-track"><li class="done">Federal return</li><li class="done">What Virginia knows</li><li class="done">Your answers</li><li class="cur">Review</li><li>Sign</li></ol>
+        <h2>Your 2024 Virginia return</h2>
+        <div class="result">
+          <div class="owe">
+            <svg class="bg" width="170" height="170" style="color:#fff"><use href="#dogwood"/></svg>
+            <div class="k">You owe Virginia</div>
+            <div class="amt">$673</div>
+            <div class="due">Due to Virginia Tax by <b>May 1, 2025</b></div>
+          </div>
+          <div class="math">
+            <div class="ln"><span>Virginia income tax <small>Line 16 · § 58.1-320</small></span><span>$1,149</span></div>
+            <div class="ln"><span>Already withheld from your pay <small>Line 19a · your W-2</small></span><span>− $300</span></div>
+            <div class="ln"><span>Already paid to Virginia <small>Line 20 · Virginia Tax's records</small></span><span>− $200</span></div>
+            <div class="ln"><span>Use tax on $400 of purchases <small>Line 33 · 6%, Richmond City</small></span><span>+ $24</span></div>
+            <div class="ln total"><span>You owe</span><span>$673</span></div>
+          </div>
+        </div>
+        <details class="form760" open>
+          <summary><span>See every line of Form 760</span><span>▴</span></summary>
+          <div class="formhead"><div class="f">Form 760</div><div class="y">Virginia Resident Income Tax Return · 2024<br>Locality 760 · Richmond City</div></div>
+          <table>
+            <tr><td class="n">1</td><td>Federal adjusted gross income</td><td class="law">from your federal return</td><td class="v">$34,333</td></tr>
+            <tr><td class="n">7</td><td>Virginia Lottery prizes under $600</td><td class="law">§ 58.1-322.02(7)</td><td class="v">$450</td></tr>
+            <tr class="key"><td class="n">9</td><td>Virginia adjusted gross income</td><td class="law"></td><td class="v">$33,883</td></tr>
+            <tr><td class="n">11</td><td>Standard deduction</td><td class="law">§ 58.1-322.03(1)(b)</td><td class="v">$8,500</td></tr>
+            <tr><td class="n">12</td><td>Exemptions</td><td class="law">§ 58.1-322.03(2)</td><td class="v">$930</td></tr>
+            <tr class="key"><td class="n">15</td><td>Virginia taxable income</td><td class="law"></td><td class="v">$24,453</td></tr>
+            <tr class="key"><td class="n">16</td><td>Virginia income tax</td><td class="law">§ 58.1-320</td><td class="v">$1,149</td></tr>
+            <tr><td class="n">…</td><td colspan="3" style="color:var(--va-muted)">Lines 19a to 36 as above. Lines out of scope for the prototype are $0.</td></tr>
+          </table>
+        </details>
+        <div class="actions"><a class="btn btn-va" href="#sign">Continue to sign</a><a class="back" href="#">Change an answer</a></div>
+      </div>
+      <div class="va-foot"><span><b>Virginia Tax</b> · Questions about this return go to the state, not the IRS.</span><span>Demonstration · nothing is filed</span></div>
+    </div>
+    <aside class="notes">
+      <h3>What changed</h3>
+      <ul>
+        <li>The title credits Virginia: "Your 2024 Virginia return", not "computed from your federal return".</li>
+        <li>The answer comes first: <strong>$673, due May 1, 2025</strong>. Virginia's due date, not April 15, is itself a state signal.</li>
+        <li>A short calculation shows each amount and where it came from. "Already paid to Virginia" tells the filer the state remembered.</li>
+        <li>The full form opens in a disclosure styled like a form: a double rule under the form header and the key lines shaded. Section citations stay.</li>
+        <li>A Virginia footer says who to ask. The filer should know Virginia Tax, not the IRS, answers for this return.</li>
+      </ul>
+      <h3 style="margin-top:14px">To build</h3>
+      <ul><li>The refund state is the same card in green ("Virginia owes you $X"), switched on <code>/vaRefund</code> &gt; 0, the way the filing-threshold note is already conditional.</li></ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= 5. SIGN ========================= -->
+<section class="board" id="sign">
+  <h2>5 · Sign and send to Virginia</h2>
+  <p class="lede">Today the declaration is a bold paragraph at the bottom of the summary. Giving it its own step makes the moment of signing to Virginia explicit.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>…/your-taxes/virginia/virginia-sign (new)</span></div>
+      <div class="va-head"><div class="va-brand"><svg width="36" height="36" style="color:#fff"><use href="#dogwood"/></svg><div><div class="kicker">Commonwealth of Virginia</div><div class="name" style="font-size:19px">Virginia State Return</div></div></div><div class="right"><span class="fake-select">Español ▾</span></div></div>
+      <div class="va-rule"></div>
+      <div class="va-body">
+        <ol class="va-track"><li class="done">Federal return</li><li class="done">What Virginia knows</li><li class="done">Your answers</li><li class="done">Review</li><li class="cur">Sign</li></ol>
+        <h2>Sign your return to the Commonwealth</h2>
+        <p>Virginia Tax checks your wages and withholding against what your employer reported. Your four answers can't be checked against any report, so you sign for them.</p>
+        <div class="attest">
+          <div class="cb"><span class="box">✓</span><span>Under penalty of law, I declare that this return is true, correct and complete to the best of my knowledge, including my answers about lottery prizes, Commonwealth Savers contributions and untaxed purchases.</span></div>
+          <div class="stamp"><svg width="22" height="22" style="color:var(--va-navy)"><use href="#dogwood"/></svg>Riley Rappahannock · signed today</div>
+        </div>
+        <div class="actions"><a class="btn btn-va" href="#">Send to Virginia Tax</a><span style="font-size:14px;color:var(--va-muted)">In this demonstration nothing is sent.</span></div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>What changed</h3>
+      <ul>
+        <li>The verb is "to the Commonwealth" and the button says "Send to Virginia Tax". The filer knows exactly who receives it.</li>
+        <li>The wording is the declaration already in the summary, now attached to a checkbox.</li>
+      </ul>
+      <h3 style="margin-top:14px">Open question</h3>
+      <ul><li>This is a new page and a new boolean fact (<code>/vaDeclarationSigned</code>). It is the one mockup that adds to the engine; everything else is presentation.</li></ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ========================= SYSTEM ========================= -->
+<section class="board" id="system" style="padding-bottom:50px">
+  <h2>The palette and rules</h2>
+  <div class="row">
+    <div class="notes" style="border-left-color:var(--va-navy)">
+      <div class="palette">
+        <div class="sw"><i style="background:var(--va-navy)"></i>Navy #13294B<br>header, headings, buttons</div>
+                <div class="sw"><i style="background:var(--va-orange)"></i>Orange #E57200<br>accents only: rules, current step, amounts on navy</div>
+        <div class="sw"><i style="background:var(--va-orange-tint)"></i>Orange tint #FDF2E6<br>demonstration strip, key form lines</div>
+        <div class="sw"><i style="background:var(--va-navy-tint)"></i>Navy tint #F4F6FA<br>card headers</div><div class="sw"><i style="background:var(--va-line)"></i>Line #DFE4EC<br>borders</div>
+      </div>
+      <ul style="margin-top:14px">
+        <li>Navy carries the page and orange only punctuates it: the rule under the header, the current step, the edge of Virginia's own card, the amount due. White page, no tinted backgrounds. The dogwood is the state flower, a generic state symbol; neither borrows Virginia Tax's identity. Swap in the real marks if Virginia Tax supplies them.</li>
+        <li>Orange is never used for text on white, and white text never sits on orange: both fail WCAG AA at body size. Orange on navy passes (about 4.7:1), so the amount-due date can be orange. Buttons are navy with an orange underline. Re-run <code>scripts/virginia-a11y.cjs</code> after building.</li>
+        <li>Headings are set in a serif (Merriweather, which USWDS already ships), against USWDS's sans-serif for federal screens. The change in typeface tells the filer they are on a different page.</li>
+        <li>USWDS components stay underneath: combo box, radios, tables, focus rings. Only tokens and chrome change. Spanish and accessibility work carry over.</li>
+      </ul>
+    </div>
+    <aside class="notes">
+      <h3>Suggested order</h3>
+      <ul>
+        <li><b>1.</b> Header, track and colours (option A): the biggest change for the least work.</li>
+        <li><b>2.</b> Result screen: the moment people remember.</li>
+        <li><b>3.</b> Handoff and source cards.</li>
+        <li><b>4.</b> Locality card, sign step.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+</body>
+</html>

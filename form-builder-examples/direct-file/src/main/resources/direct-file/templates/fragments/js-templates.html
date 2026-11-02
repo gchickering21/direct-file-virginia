@@ -1,0 +1,102 @@
+<!--/* The scaffold's js-templates, verbatim, plus the Virginia section's footer and the strings its scripts show.
+
+       WHY THE FOOTER IS HERE. The scaffold's footer (the IRS identifier) sits inline in page.html, so it
+       cannot be replaced from an application, and the handoff ships this directory only, so page.html
+       is not ours to change. This fragment is the first overridable one after the footer, so on
+       /your-taxes/virginia/ routes it draws a Virginia footer there, and styles/components/virginia.css
+       hides the IRS one with `body:has(.va-masthead)`, the same switch as the header. One <footer>
+       is ever displayed, so the page keeps a single contentinfo landmark.
+
+       If the scaffold ever makes the footer a fragment, override that instead and drop this. */-->
+<template id="validate-alert-template">
+  <div class="usa-alert usa-alert--error validate-alert" role="alert">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text" id="alert-message" th:text="#{alerts.warning.complete-required}"></p>
+    </div>
+  </div>
+</template>
+<th:block th:if="${currentPageRoute != null and #strings.startsWith(currentPageRoute, '/your-taxes/virginia/')}">
+<!--/* The words the Virginia scripts (website-static/js/virginia-*.js) show, rendered per language
+       from the virginia.ui.* keys so that a script never carries English onto the Spanish site.
+       Read by js/virginia-strings.js: each span's data-va is the key, its text the string; {0}, {1}
+       are filled in by the script. */-->
+<template id="va-strings">
+  <span data-va="corrections.same" th:text="#{virginia.ui.corrections.same}"></span>
+  <span data-va="corrections.changed" th:text="#{virginia.ui.corrections.changed}"></span>
+  <span data-va="corrections.owe" th:text="#{virginia.ui.corrections.owe}"></span>
+  <span data-va="corrections.refund" th:text="#{virginia.ui.corrections.refund}"></span>
+  <span data-va="corrections.nothing" th:text="#{virginia.ui.corrections.nothing}"></span>
+  <span data-va="corrections.none" th:text="#{virginia.ui.corrections.none}"></span>
+  <span data-va="corrections.caption" th:text="#{virginia.ui.corrections.caption}"></span>
+  <span data-va="corrections.col-item" th:text="#{virginia.ui.corrections.col-item}"></span>
+  <span data-va="corrections.col-was" th:text="#{virginia.ui.corrections.col-was}"></span>
+  <span data-va="corrections.col-now" th:text="#{virginia.ui.corrections.col-now}"></span>
+  <span data-va="corrections.nothing-changed" th:text="#{virginia.ui.corrections.nothing-changed}"></span>
+  <span data-va="corrections.dob" th:text="#{virginia.ui.corrections.dob}"></span>
+  <span data-va="corrections.dob-note" th:text="#{virginia.ui.corrections.dob-note}"></span>
+  <span data-va="corrections.records-note" th:text="#{virginia.ui.corrections.records-note}"></span>
+  <span data-va="corrections.w2-from" th:text="#{virginia.ui.corrections.w2-from}"></span>
+  <span data-va="corrections.your-employer" th:text="#{virginia.ui.corrections.your-employer}"></span>
+  <span data-va="corrections.w2-note" th:text="#{virginia.ui.corrections.w2-note}"></span>
+  <span data-va="corrections.w2-federal-note" th:text="#{virginia.ui.corrections.w2-federal-note}"></span>
+  <span data-va="corrections.lines-one" th:text="#{virginia.ui.corrections.lines-one}"></span>
+  <span data-va="corrections.lines-many" th:text="#{virginia.ui.corrections.lines-many}"></span>
+  <span data-va="corrections.no-line-changed" th:text="#{virginia.ui.corrections.no-line-changed}"></span>
+  <span data-va="corrections.no-round" th:text="#{virginia.ui.corrections.no-round}"></span>
+  <span data-va="corrections.to" th:text="#{virginia.ui.corrections.to}"></span>
+  <span data-va="line.1" th:text="#{virginia.ui.line.1}"></span>
+  <span data-va="line.4" th:text="#{virginia.ui.line.4}"></span>
+  <span data-va="line.9" th:text="#{virginia.ui.line.9}"></span>
+  <span data-va="line.11" th:text="#{virginia.ui.line.11}"></span>
+  <span data-va="line.12" th:text="#{virginia.ui.line.12}"></span>
+  <span data-va="line.15" th:text="#{virginia.ui.line.15}"></span>
+  <span data-va="line.16" th:text="#{virginia.ui.line.16}"></span>
+  <span data-va="line.19a" th:text="#{virginia.ui.line.19a}"></span>
+  <span data-va="line.20" th:text="#{virginia.ui.line.20}"></span>
+  <span data-va="line.21" th:text="#{virginia.ui.line.21}"></span>
+  <span data-va="line.22" th:text="#{virginia.ui.line.22}"></span>
+  <span data-va="line.23" th:text="#{virginia.ui.line.23}"></span>
+  <span data-va="line.27" th:text="#{virginia.ui.line.27}"></span>
+  <span data-va="line.28" th:text="#{virginia.ui.line.28}"></span>
+  <span data-va="line.35" th:text="#{virginia.ui.line.35}"></span>
+  <span data-va="line.36" th:text="#{virginia.ui.line.36}"></span>
+  <span data-va="records.20" th:text="#{virginia.ui.records.20}"></span>
+  <span data-va="records.21" th:text="#{virginia.ui.records.21}"></span>
+  <span data-va="records.22" th:text="#{virginia.ui.records.22}"></span>
+  <span data-va="w2.employer" th:text="#{virginia.ui.w2.employer}"></span>
+  <span data-va="w2.box1" th:text="#{virginia.ui.w2.box1}"></span>
+  <span data-va="w2.box2" th:text="#{virginia.ui.w2.box2}"></span>
+  <span data-va="w2.box16" th:text="#{virginia.ui.w2.box16}"></span>
+  <span data-va="w2.box17" th:text="#{virginia.ui.w2.box17}"></span>
+  <span data-va="sign.need-declaration" th:text="#{virginia.ui.sign.need-declaration}"></span>
+  <span data-va="save.filename" th:text="#{virginia.ui.save.filename}"></span>
+  <span data-va="save.resume-error" th:text="#{virginia.ui.save.resume-error}"></span>
+</template>
+<footer class="va-footer" th:aria-label="#{virginia.footer.label}">
+    <div class="va-footer__inner">
+        <div class="va-footer__identity">
+            <svg class="va-footer__emblem" viewBox="0 0 100 100" width="36" height="36" aria-hidden="true" focusable="false">
+                <g transform="translate(50 50)">
+                    <g id="va-footer-petal">
+                        <path d="M0 -6 C 14 -14, 18 -36, 4 -44 C 2 -40, -2 -40, -4 -44 C -18 -36, -14 -14, 0 -6 Z" fill="currentColor"/>
+                    </g>
+                    <use href="#va-footer-petal" transform="rotate(90)"/>
+                    <use href="#va-footer-petal" transform="rotate(180)"/>
+                    <use href="#va-footer-petal" transform="rotate(270)"/>
+                    <circle r="8" fill="#e57200"/>
+                </g>
+            </svg>
+            <div>
+                <p class="va-footer__name" th:text="#{virginia.footer.identity}"></p>
+                <p class="va-footer__disclaimer" th:text="#{virginia.footer.disclaimer}"></p>
+            </div>
+        </div>
+        <nav class="va-footer__links" th:aria-label="#{virginia.footer.links}">
+            <ul>
+                <li><a class="usa-link" href="https://www.tax.virginia.gov/" target="_blank" rel="noopener" th:text="#{virginia.footer.state-help}"></a></li>
+                <li><a class="usa-link" href="https://www.irs.gov/" target="_blank" rel="noopener" th:text="#{virginia.footer.federal-help}"></a></li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+</th:block>

@@ -1,0 +1,803 @@
+/* The Virginia section's look: navy carries the page, orange only punctuates it.
+ *
+ * Applies on /your-taxes/virginia/ routes, which is where fragments/usa-banner.html renders the
+ * .va-masthead. The scaffold's page.html offers no per-page body class, so the page-wide rules key
+ * on `body:has(.va-masthead)`; the .va-* content classes come from flow/your-taxes-virginia.xml and
+ * appear nowhere else, so they need no scope.
+ *
+ * Contrast (WCAG AA, body text): white on navy 14:1, navy on the orange tint 13:1, orange on navy
+ * 5.4:1. Orange is never text on white and white is never text on orange; both fail at body size.
+ * Design and reasoning: docs/virginia/mockups/virginia-theme.html.
+ */
+
+:root {
+  --va-navy: #13294b;
+  --va-navy-dark: #0c1c35;
+  --va-orange: #e57200;
+  --va-orange-tint: #fdf2e6;
+  --va-navy-tint: #f4f6fa;
+  --va-line: #dfe4ec;
+  --va-muted: #565c65;
+  --va-serif: "Merriweather Web", Georgia, Cambria, "Times New Roman", serif;
+}
+
+/* ---------- Page-wide, on Virginia pages only ---------- */
+
+/* The IRS logo band is inline in the scaffold's page.html, not a fragment, so it is hidden rather
+   than replaced. The masthead carries the language switcher it held. */
+body:has(.va-masthead) .logo-banner {
+  display: none;
+}
+
+/* Likewise the IRS identifier footer: inline in page.html, so hidden here, and the Virginia footer
+   that fragments/js-templates.html draws after it takes its place. */
+body:has(.va-masthead) footer.footer {
+  display: none;
+}
+
+/* The scaffold's <h1> reads "Direct File". Kept for screen readers and the one-h1 rule; the
+   masthead says whose return this is. */
+body:has(.va-masthead) main > h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+body:has(.va-masthead) main h2 {
+  font-family: var(--va-serif);
+  color: var(--va-navy);
+  line-height: 1.25;
+}
+
+body:has(.va-masthead) .usa-button:not(.usa-button--outline) {
+  background-color: var(--va-navy);
+  box-shadow: inset 0 -4px 0 var(--va-orange);
+  &:hover { background-color: var(--va-navy-dark); }
+  &:active { background-color: var(--va-navy-dark); box-shadow: none; }
+}
+
+body:has(.va-masthead) .usa-button--outline {
+  color: var(--va-navy);
+  box-shadow: inset 0 0 0 2px var(--va-navy);
+  &:hover { color: var(--va-navy-dark); box-shadow: inset 0 0 0 2px var(--va-navy-dark); }
+}
+
+body:has(.va-masthead) .back-link,
+body:has(.va-masthead) main a.usa-link {
+  color: var(--va-navy);
+}
+
+/* ---------- The masthead (fragments/va-masthead.html) ---------- */
+
+.va-masthead p {
+  margin: 0;
+}
+
+.va-demo-strip {
+  background: var(--va-orange-tint);
+  border-bottom: 1px solid #f5c89a;
+  color: var(--va-navy);
+  font-size: var(--font-size-2xs);
+  padding: 0.375rem 1rem;
+  text-align: center;
+  strong {
+    letter-spacing: 0.05em;
+    margin-right: 0.375rem;
+    text-transform: uppercase;
+  }
+}
+
+.va-masthead__bar {
+  background: var(--va-navy);
+  color: white;
+  padding: 1rem;
+}
+
+.va-masthead__inner {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 954px;
+}
+
+.va-masthead__brand {
+  align-items: center;
+  display: flex;
+  gap: 0.875rem;
+}
+
+.va-masthead__emblem {
+  color: white;
+  flex: none;
+}
+
+.va-masthead__kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.9;
+  text-transform: uppercase;
+}
+
+.va-masthead .va-masthead__name {
+  font-family: var(--va-serif);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.va-masthead__aside {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.va-masthead .va-masthead__federal {
+  font-size: var(--font-size-2xs);
+  line-height: 1.3;
+  text-align: right;
+  > span:first-child { display: block; opacity: 0.85; }
+}
+
+.va-masthead .language-switcher .usa-select {
+  margin-top: 0;
+}
+
+.va-masthead__rule {
+  background: var(--va-orange);
+  height: 5px;
+}
+
+/* ---------- The five-step track (fragments/usa-step-indicator.html) ---------- */
+
+.va-track {
+  margin: 0.5rem 0 2rem;
+}
+
+.va-track__steps {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.va-track__step {
+  color: var(--va-muted);
+  flex: 1;
+  font-size: var(--font-size-3xs);
+  line-height: 1.3;
+  padding-top: 0.875rem;
+  position: relative;
+  &::before {
+    background: var(--va-line);
+    border-radius: 3px;
+    content: "";
+    height: 6px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.va-track__step--federal::before { background: #a9aeb1; }
+.va-track__step--done::before { background: var(--va-navy); }
+.va-track__step--done { color: var(--va-navy); }
+.va-track__step--current::before { background: var(--va-orange); }
+.va-track__step--current {
+  color: var(--va-navy);
+  font-weight: 700;
+}
+
+/* ---------- Content (flow/your-taxes-virginia.xml) ---------- */
+
+.flow p.va-eyebrow {
+  border-left: 4px solid var(--va-orange);
+  color: var(--va-navy);
+  font-size: var(--font-size-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+  padding-left: 0.625rem;
+  text-transform: uppercase;
+}
+
+.flow p.va-fineprint {
+  color: var(--va-muted);
+  font-size: var(--font-size-2xs);
+}
+
+.flow p.va-hint {
+  color: var(--va-muted);
+  font-size: var(--font-size-xs);
+}
+
+.flow p.va-callout {
+  background: var(--va-navy-tint);
+  border-left: 5px solid var(--va-orange);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+}
+
+.va-line {
+  color: var(--va-muted);
+  display: block;
+  font-size: var(--font-size-3xs);
+  font-weight: 400;
+}
+
+/* The handoff: two columns, the IRS's form and Virginia's. */
+.flow table.va-handoff {
+  border-collapse: separate;
+  border-spacing: 0.75rem 0;
+  margin: 1.5rem -0.75rem;
+  max-width: none;
+  width: calc(100% + 1.5rem);
+  th, td {
+    background: white;
+    border: 1px solid var(--va-line);
+    border-bottom: 0;
+    border-top: 0;
+    font-size: var(--font-size-xs);
+    padding: 0.5rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    width: 50%;
+  }
+  th {
+    border-top: 5px solid #a9aeb1;
+    border-radius: 6px 6px 0 0;
+    color: var(--va-muted);
+    font-size: var(--font-size-3xs);
+    letter-spacing: 0.06em;
+    padding-top: 1rem;
+    text-transform: uppercase;
+  }
+  th + th {
+    border-top-color: var(--va-orange);
+  }
+  tr:last-child td {
+    border-bottom: 1px solid var(--va-line);
+    border-radius: 0 0 6px 6px;
+    color: var(--va-muted);
+    padding-bottom: 1rem;
+  }
+}
+
+.va-handoff__form {
+  color: var(--va-navy);
+  display: block;
+  font-family: var(--va-serif);
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  margin-top: 0.25rem;
+  text-transform: none;
+}
+
+/* The sources, as cards. The badge is drawn from the modifier. */
+.flow table.va-source {
+  /* The caption is the top of the card, so the table draws the other three sides. */
+  border: 1px solid var(--va-line);
+  border-top: 0;
+  border-collapse: separate;
+  border-radius: 0 0 8px 8px;
+  border-spacing: 0;
+  margin: 0 0 1rem;
+  overflow: hidden;
+  width: 100%;
+  caption {
+    /* Stays display: table-caption so it spans the table; flex would shrink it to its text. */
+    background: white;
+    border: 1px solid var(--va-line);
+    border-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    padding: 0.75rem 1rem 0.75rem 4rem;
+    position: relative;
+    text-align: left;
+    &::before {
+      align-items: center;
+      background: #71767a;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      font-size: 0.75rem;
+      font-weight: 800;
+      height: 2.25rem;
+      justify-content: center;
+      left: 1rem;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2.25rem;
+    }
+  }
+  th, td {
+    border-top: 1px solid var(--va-line);
+    font-size: var(--font-size-xs);
+    padding: 0.625rem 1rem;
+    text-align: left;
+  }
+  th { font-weight: 400; }
+  td {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+.va-source__title {
+  display: block;
+  font-weight: 700;
+}
+
+.va-source__sub {
+  color: var(--va-muted);
+  display: block;
+  font-size: var(--font-size-3xs);
+}
+
+.flow table.va-source--virginia {
+  border: 2px solid var(--va-navy);
+  border-top: 0;
+  caption {
+    background: var(--va-navy-tint);
+    border: 2px solid var(--va-navy);
+    border-bottom: 0;
+    border-top: 5px solid var(--va-orange);
+    &::before { background: var(--va-navy); content: "VA"; box-shadow: 0 0 0 3px var(--va-orange); }
+  }
+}
+
+.flow table.va-source--employer caption::before { background: #4a5b78; content: "W-2"; }
+.flow table.va-source--federal caption::before { content: "IRS"; }
+
+/* The result: the conditional owe/refund paragraphs, drawn as one navy panel. Only one set of
+   three ever shows, so each modifier styles its own corner of the panel. */
+.flow p.va-result {
+  background: var(--va-navy);
+  color: white;
+  margin: 0;
+  max-width: 28rem;
+  padding: 0 1.5rem;
+  /* fg-show sits inside a fact-link anchor; link blue on navy fails contrast. */
+  a { color: inherit; }
+  /* Audit mode tints every fg-show light yellow, which hides white text; a white tint keeps the cue. */
+  fg-show { background-color: rgb(255 255 255 / 0.14); }
+}
+
+.flow p.va-result--label {
+  border-radius: 10px 10px 0 0;
+  border-top: 5px solid var(--va-orange);
+  font-size: var(--font-size-2xs);
+  letter-spacing: 0.1em;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  text-transform: uppercase;
+}
+
+.flow p.va-result--amount {
+  font-family: var(--va-serif);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  padding-top: 0.25rem;
+}
+
+.flow p.va-result--due {
+  border-radius: 0 0 10px 10px;
+  font-size: var(--font-size-xs);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  padding-top: 0.25rem;
+  strong { color: var(--va-orange); }
+}
+
+.flow table.va-math,
+.flow table.va-form760 {
+  border-collapse: collapse;
+  margin: 0 0 1.5rem;
+  width: 100%;
+  caption {
+    color: var(--va-navy);
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    text-align: left;
+  }
+  th, td {
+    border-bottom: 1px solid var(--va-line);
+    font-size: var(--font-size-xs);
+    padding: 0.5rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { font-weight: 400; padding-right: 1rem; }
+  td {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+/* The result row under the math table: a paragraph, not a row, so that only the one that applies
+   (owe, refund, or neither) is drawn; a <tr> cannot carry a condition in the flow's grammar. */
+.flow p.va-math__total {
+  border-top: 2px solid var(--va-navy);
+  display: flex;
+  font-size: var(--font-size-xs);
+  gap: 1rem;
+  justify-content: space-between;
+  margin: -1.5rem 0 1.5rem;
+  padding: 0.5rem 0;
+  strong { font-variant-numeric: tabular-nums; white-space: nowrap; }
+}
+
+/* The sign on a math row is drawn by CSS and hidden from assistive technology (the alternative-text
+   form of `content`); the word inside is read instead. */
+.va-op::before { content: "+ " / ""; }
+.va-op--minus::before { content: "− " / ""; }
+.va-op--arrow::before { content: "→" / ""; }
+
+.flow table.va-form760 caption {
+  border-bottom: 3px double var(--va-navy);
+  font-family: var(--va-serif);
+}
+
+.flow p.va-note {
+  border-top: 4px solid var(--va-orange);
+  background: var(--va-navy);
+  border-radius: 0 0 6px 6px;
+  color: white;
+  font-size: var(--font-size-2xs);
+  padding: 0.75rem 1rem;
+}
+
+.flow p.va-declaration {
+  background: var(--va-navy-tint);
+  border: 1px solid var(--va-line);
+  border-left: 5px solid var(--va-navy);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+}
+
+/* The locality screen's note on what the federal ZIP code says (js/virginia-locality.js). */
+.flow p.va-zip-note {
+  background: var(--va-navy-tint);
+  border-left: 4px solid var(--va-navy);
+  font-size: var(--font-size-xs);
+  padding: 0.5rem 0.875rem;
+}
+
+/* The summary's account of the low-income credit: which one, and what it replaced. A run of
+   paragraphs, each gated on its own fact, so the frame is drawn on each. */
+.flow p.va-credit {
+  background: var(--va-orange-tint);
+  border-left: 4px solid var(--va-orange);
+  margin: 0;
+  padding: 0.5rem 1rem;
+  &.va-credit__title {
+    color: var(--va-navy);
+    font-weight: 700;
+    margin-top: 1rem;
+    padding-top: 0.875rem;
+  }
+  &.va-fineprint {
+    margin-bottom: 1rem;
+    padding-bottom: 0.875rem;
+  }
+}
+
+/* The Virginia footer: the masthead's navy and orange rule, closing the page. */
+.va-footer {
+  background: var(--va-navy);
+  border-top: 5px solid var(--va-orange);
+  color: white;
+  margin-top: 2rem;
+  padding: 0 1rem;
+  a.usa-link, a.usa-link:visited { color: white; }
+  a.usa-link:hover { color: var(--va-orange-tint); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li + li { margin-top: 0.5rem; }
+}
+
+.va-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 954px;
+  padding: 1.75rem 0 2.25rem;
+}
+
+.va-footer__identity {
+  display: flex;
+  flex: 1 1 28rem;
+  gap: 1rem;
+  p { margin: 0; }
+}
+
+.va-footer__emblem {
+  color: white;
+  flex: none;
+}
+
+.va-footer__name {
+  font-family: var(--va-serif);
+  font-weight: 700;
+}
+
+.va-footer__disclaimer {
+  font-size: var(--font-size-2xs);
+  line-height: 1.5;
+  margin-top: 0.375rem !important;
+  max-width: 40rem;
+  opacity: 0.9;
+}
+
+.va-footer__links {
+  flex: 0 1 auto;
+  font-size: var(--font-size-2xs);
+}
+
+/* ---------- The intro: the lead, the scope disclosure, resume ---------- */
+
+.flow p.va-lead {
+  margin: 1.5rem 0 1rem;
+  a.usa-button { color: white; }
+}
+
+.flow details.fg-detail.va-scope,
+.flow details.fg-detail.va-resume {
+  font-size: var(--font-size-xs);
+  > summary h3 { font-size: var(--font-size-sm); }
+}
+
+/* ---------- What is known: the records card ---------- */
+
+.flow div.va-records {
+  border: 1px solid var(--va-line);
+  border-left: 5px solid var(--va-navy);
+  border-radius: 6px;
+  margin: -0.25rem 0 1.25rem;
+  padding: 0.75rem 1rem;
+  p { font-size: var(--font-size-xs); margin: 0; }
+  p + p { margin-top: 0.375rem; }
+}
+
+.flow div.va-records--none { border-left-color: var(--va-orange); }
+
+.flow p.va-records__title {
+  color: var(--va-navy);
+  font-weight: 700;
+}
+
+/* ---------- The question screens: hints, caps, the running estimate ---------- */
+
+.flow p.va-cap-note {
+  background: var(--va-orange-tint);
+  border-left: 4px solid var(--va-orange);
+  font-size: var(--font-size-xs);
+  padding: 0.5rem 0.875rem;
+}
+
+/* A compact panel that stays at the bottom of the viewport on the four question pages. Three
+   copies, one per outcome, gated on their facts; at most one shows. Only on screens tall enough
+   that it does not cover the question; on a short viewport it sits in the flow. */
+.flow div.va-estimate {
+  background: var(--va-navy);
+  border-radius: 6px;
+  border-top: 4px solid var(--va-orange);
+  bottom: 0.5rem;
+  color: white;
+  margin: 1.5rem 0 0;
+  padding: 0.5rem 1rem;
+  position: sticky;
+  z-index: 1;
+  p { font-size: var(--font-size-xs); margin: 0; }
+  a { color: inherit; }
+  fg-show { background-color: rgb(255 255 255 / 0.14); }
+}
+
+@media (max-height: 560px) {
+  .flow div.va-estimate { position: static; }
+}
+
+/* ---------- The summary: the review table, the comparison, the disclosures, keeping a copy ---------- */
+
+.flow table.va-review,
+.flow table.va-compare {
+  border-collapse: collapse;
+  margin: 0 0 1.5rem;
+  width: 100%;
+  caption {
+    color: var(--va-navy);
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    text-align: left;
+  }
+  th, td {
+    border-bottom: 1px solid var(--va-line);
+    font-size: var(--font-size-xs);
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+  th[scope="row"] { font-weight: 400; }
+  th[scope="col"] { color: var(--va-navy); font-weight: 700; }
+}
+
+.flow table.va-review td:last-child {
+  text-align: right;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.flow table.va-compare {
+  td {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  th[scope="col"]:not(:first-child) { text-align: right; }
+  td:last-child, th[scope="col"]:last-child { color: var(--va-navy); font-weight: 700; }
+}
+
+.flow h3.va-review-heading,
+.flow h3.va-why-heading,
+.flow h3.va-keep-heading {
+  margin-top: 2rem;
+}
+
+.flow details.fg-detail.va-why {
+  margin: 0.25rem 0;
+  > summary { background-color: var(--va-navy-tint); }
+  > summary h4 { color: var(--va-navy); font-size: var(--font-size-xs); }
+  .details-content { font-size: var(--font-size-xs); }
+  .details-content p:first-child { margin-top: 0.5rem; }
+}
+
+.flow button.va-print-button,
+.flow button.va-download-button {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.flow p.va-print-only {
+  display: none;
+}
+
+/* ---------- The sign screen ---------- */
+
+.flow fg-set[path="/vaDeclaration"] {
+  .usa-checkbox__label { font-size: var(--font-size-sm); line-height: 1.5; }
+  .usa-checkbox__input--tile + .usa-checkbox__label { border-color: var(--va-navy); }
+}
+
+.flow button.va-send-button {
+  margin: 1rem 0;
+}
+
+.flow div.va-sent {
+  margin: 0 0 1.5rem;
+  p { font-size: var(--font-size-xs); margin: 0; }
+}
+
+/* ---------- Small screens ---------- */
+
+/* The handoff's two columns stack under 480px. */
+@media (max-width: 479px) {
+  .flow table.va-handoff {
+    border-spacing: 0;
+    margin: 1.5rem 0;
+    width: 100%;
+    th, td { display: block; width: auto; }
+    th { border-radius: 6px 6px 0 0; }
+    th + th { margin-top: 0.75rem; }
+    tr { display: block; }
+    tr:first-child { display: flex; flex-direction: column; }
+    tr:not(:first-child) td { border: 1px solid var(--va-line); border-top: 0; }
+    tr:last-child td { border-radius: 0; }
+    tr:last-child td:last-child { border-radius: 0 0 6px 6px; }
+  }
+  .flow table.va-review td:last-child { white-space: normal; }
+}
+
+/* The five-step track at 320px: the bars keep their row, the labels wrap under them. */
+@media (max-width: 399px) {
+  .va-track__steps { gap: 0.125rem; }
+  .va-track__step {
+    font-size: 0.625rem;
+    hyphens: auto;
+    line-height: 1.2;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    padding-top: 0.75rem;
+  }
+  .va-masthead__inner { gap: 0.5rem; }
+  .va-masthead .va-masthead__name { font-size: 1.125rem; }
+}
+
+/* ---------- Print: the summary as a readable return ---------- */
+
+@media print {
+  body:has(.va-masthead) {
+    .va-demo-strip,
+    .va-masthead .language-switcher,
+    .va-masthead__federal,
+    .va-track,
+    .header-bottom-border,
+    .form-actions,
+    .usa-button,
+    .flow button,
+    .flow div.va-estimate,
+    .flow p.va-lead,
+    .flow table.va-review td:last-child,
+    .va-footer__links,
+    .loading-region,
+    taxpert-global-nav,
+    taxpert-screens-toolbar,
+    taxpert-audit-panel,
+    .tool-dock {
+      display: none !important;
+    }
+
+    .va-masthead__bar,
+    .va-footer,
+    .flow p.va-result,
+    .flow p.va-note,
+    .flow div.va-estimate {
+      background: white !important;
+      color: black !important;
+      box-shadow: none;
+    }
+
+    .va-masthead__bar { border-bottom: 2px solid black; padding: 0.5rem 0; }
+    .va-masthead__emblem, .va-footer__emblem { color: black; }
+    .va-masthead__rule { display: none; }
+    .va-footer { border-top: 1px solid black; margin-top: 1rem; padding: 0; }
+    .va-footer__inner { padding: 0.5rem 0; }
+
+    .flow p.va-print-only {
+      border: 1px solid black;
+      display: block;
+      font-size: 10pt;
+      margin: 0 0 1rem;
+      padding: 0.5rem;
+    }
+
+    .flow p.va-result { border: 0; border-radius: 0; max-width: none; padding: 0; }
+    .flow p.va-result--label { border-top: 0; margin-top: 0.5rem; padding-top: 0; }
+    .flow p.va-result--amount { font-size: 1.75rem; }
+    .flow p.va-result--due { margin-bottom: 1rem; padding-bottom: 0; }
+    .flow p.va-result--due strong { color: black; }
+    .flow p.va-note { border: 1px solid black; border-radius: 0; }
+    .flow p.va-math__total { margin-top: 0; }
+
+    .flow table.va-form760,
+    .flow table.va-math,
+    .flow table.va-compare,
+    .flow table.va-review {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .flow table.va-form760 th, .flow table.va-form760 td { padding: 0.25rem 0; }
+    .flow h3.va-form760-heading { break-after: avoid; }
+
+    .flow details.fg-detail.va-why { break-inside: avoid; }
+    .flow details.fg-detail.va-why > summary { background: none; padding-left: 0; }
+    .flow details.fg-detail.va-why:not([open]) .details-content { display: none; }
+
+    .flow p.va-credit { background: none; border-left: 2px solid black; }
+    .flow table.va-source--virginia, .flow table.va-source--virginia caption { border-color: black; }
+    .flow table.va-source caption::before { background: black !important; box-shadow: none; }
+
+    a[href]::after { content: none; }
+    body:has(.va-masthead) main > h1 { position: static; width: auto; height: auto; clip: auto; font-size: 10pt; }
+  }
+}

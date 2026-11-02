@@ -202,3 +202,95 @@ inputs:
     routingNumber: Routing number
     accountNumber: Account number
     invalid: Not a valid routing number
+
+# The Virginia section's own chrome: the masthead and the five-step track that replace the IRS
+# header and the federal step indicator on /your-taxes/virginia/ routes. See
+# templates/fragments/va-masthead.html and docs/virginia/mockups/virginia-theme.html.
+virginia:
+  demo:
+    label: Demonstration
+    text: A class prototype. Not a Virginia Tax service. Nothing is filed.
+  masthead:
+    kicker: Commonwealth of Virginia
+    name: Virginia State Return
+    federal: Federal answers
+    federal-status: Complete
+    language: Select Language
+  track:
+    label: Your Virginia return
+    federal: Federal answers
+    known: What Virginia knows
+    answers: Your answers
+    review: Review
+    sign: Sign
+    done: completed
+    current: current step
+  footer:
+    label: Virginia State Return
+    identity: Virginia State Return, a class prototype
+    disclaimer: >-
+      Built for a graduate course to show how a Virginia return could follow on from Direct File.
+      It is not run by or affiliated with Virginia Tax or the Commonwealth of Virginia, and nothing
+      entered here is filed.
+    links: Where to get help
+    state-help: Virginia Tax, for questions about a real Virginia return
+    federal-help: IRS, for questions about your federal return
+  # The words website-static/js/virginia-*.js show, rendered into <template id="va-strings"> by
+  # templates/fragments/js-templates.html per language. {0}, {1} are filled in by the script.
+  ui:
+    corrections:
+      same: "What you owe did not change: {0}."
+      changed: "Now {0}. Before this correction, {1}."
+      owe: you owe {0}
+      refund: your refund is {0}
+      nothing: you owe nothing
+      none: "—"
+      caption: What you corrected
+      col-item: Item
+      col-was: Was
+      col-now: Now
+      nothing-changed: Nothing changed. The values you saved are the ones we already had.
+      dob: Date of birth
+      dob-note: Also corrected on your federal return.
+      records-note: Virginia Tax would compare this with its own books.
+      w2-from: W-2 from {0}
+      your-employer: your employer
+      w2-note: Virginia will compare this with the W-2 your employer filed.
+      w2-federal-note: Also corrected on your federal return. Virginia will compare this with the W-2 your employer filed.
+      lines-one: One line on Form 760 changed
+      lines-many: "{0} lines on Form 760 changed"
+      no-line-changed: No line on Form 760 changed.
+      no-round: No correction was made in this round, so there is nothing to compare.
+      to: to
+    line:
+      "1": Line 1, federal adjusted gross income
+      "4": Line 4, age deduction
+      "9": Line 9, Virginia adjusted gross income
+      "11": Line 11, standard deduction
+      "12": Line 12, exemptions
+      "15": Line 15, Virginia taxable income
+      "16": Line 16, Virginia income tax
+      19a: Line 19a, Virginia tax withheld
+      "20": Line 20, estimated payments
+      "21": Line 21, last year's overpayment applied
+      "22": Line 22, extension payments
+      "23": Line 23, credit for low-income workers and families
+      "27": Line 27, tax you owe before use tax
+      "28": Line 28, your overpayment
+      "35": Line 35, amount you owe
+      "36": Line 36, your refund
+    records:
+      "20": Line 20, estimated payments Virginia had on record
+      "21": Line 21, last year's overpayment Virginia had on record
+      "22": Line 22, extension payments Virginia had on record
+    w2:
+      employer: Employer
+      box1: Box 1, wages
+      box2: Box 2, federal tax withheld
+      box16: Box 16, Virginia wages
+      box17: Box 17, Virginia tax withheld
+    sign:
+      need-declaration: Check the declaration box first. Virginia Tax cannot accept an unsigned return.
+    save:
+      filename: virginia-return-answers.json
+      resume-error: That file is not an answers file from this prototype. Download one from the review screen and choose it here.

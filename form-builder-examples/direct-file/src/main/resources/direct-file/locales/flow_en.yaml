@@ -16610,32 +16610,87 @@
       places candidates on an equal financial footing in the general election. The
       fund also helps pay for pediatric medical research.
 /your-taxes/virginia/virginia-intro:
-  title: Your Virginia return
-  h2-b96767: Your Virginia return
+  title: Virginia takes it from here
+  p-d605b1: Welcome, <fg-show path="/primaryFiler/firstName"/>
+  h2-268326: Your federal answers are in. Virginia takes it from here.
+  p-a157d3: 'You lived in Virginia all of <fg-show path="/taxYear"/>, so you also
+    file Form 760 with Virginia Tax. Most of it is already filled in: Form 760 starts
+    from your federal return, your employer already sent Virginia your W-2, and Virginia
+    Tax already holds what you have paid.'
+  table-0:
+    tr-0:
+      th-df3427: Internal Revenue Service <span class="va-handoff__form">Form 1040</span>
+      th-abfe87: Virginia Tax <span class="va-handoff__form">Form 760</span>
+    tr-1:
+      td-857736: <strong>Your answers are complete.</strong> You review and sign your
+        federal return after this section.
+      td-123c74: <strong>About five minutes left.</strong> Four questions only you
+        can answer, then your return.
+    tr-2:
+      td-1147b9: Gives Virginia your adjusted gross income, filing status, date of
+        birth and W-2s.
+      td-56ad90: 'Adds what Virginia Tax already has on record: payments you made
+        to Virginia.'
+  p-4e369d: <a href="../virginia-known/" class="usa-button">Start my Virginia return</a>
   p-45ca08: <strong>Demonstration only.</strong> This is a class project showing how
     a state return could be computed from the federal return on the IRS's published
     code. It is not an IRS or Virginia Tax service and files nothing.
-  p-7524bb: <fg-show path="/primaryFiler/firstName"/>, because you lived in Virginia
-    for all of <fg-show path="/taxYear"/>, most of your Virginia return is already
-    done. Form 760 starts from your federal return, your employer already sent Virginia
-    your W-2, and Virginia Tax already holds what you have paid. The next screen shows
-    what is known. After that, four questions no one reports for you, and then your
-    return.
-  p-dfa3b3: 'What this prototype covers: the standard deduction, exemptions, the age
-    deduction, the filing threshold, the rate schedule, withholding, two Schedule
-    ADJ items (lottery prizes and Commonwealth Savers contributions), the locality
-    code and the consumer''s use tax (Va. Code §§ 58.1-320, 58.1-321, 58.1-322.02,
-    58.1-322.03). What it leaves out: itemized deductions, the other additions and
-    subtractions, every credit, part-year and nonresident returns, and a spouse''s
-    share of anything.'
+  fg-detail-32e52d:
+    summary: What this prototype covers, and what it leaves out
+    p-3acefb: 'What this prototype covers: the standard deduction, exemptions, the
+      age deduction, the filing threshold, the rate schedule, withholding, four Schedule
+      ADJ items (unemployment benefits, military basic pay, military benefits and
+      Commonwealth Savers contributions), the Credit for Low-Income Individuals and
+      both Virginia Earned Income Credits, the locality code and the consumer''s use
+      tax (Va. Code §§ 58.1-320, 58.1-321, 58.1-322.02, 58.1-322.03, 58.1-339.8).
+      What it leaves out: itemized deductions, the other additions and subtractions,
+      the other credits, part-year and nonresident returns, and a spouse''s share
+      of anything.'
+  fg-detail-019666:
+    summary: Started on another device?
+    p-e48b80: Choose the answers file you downloaded from the review screen. It replaces
+      everything entered here with what is in the file.
+    button-4658a2: Resume from a file
 /your-taxes/virginia/virginia-known:
-  title: What is already known
-  h2-5baf3a: What is already known
-  p-166bcc: Grouped by where it came from. These are the facts your Virginia return
-    is computed from. To correct one, go back to the screen where you entered it;
-    the correction reaches both returns.
+  title: What Virginia already has
+  h2-a78825: Here is what Virginia already has
+  p-2e7371: You do not need to enter any of this. It is grouped by who told Virginia.
+    Check it on this screen; the next one asks whether it is all right, and a correction
+    reaches both your returns.
   table-0:
-    caption-e82ee3: From your federal return
+    caption-dfd760: <span class="va-source__title">Virginia Tax's own records</span>
+      <span class="va-source__sub">Payments you already made to Virginia</span>
+    tr-0:
+      th-82966b: Estimated payments made for <fg-show path="/taxYear"/> <span class="va-line">Line
+        20</span>
+      td-7876f6: <fg-show path="/vaEstimatedPayments"/>
+    tr-1:
+      th-a27314: Last year's overpayment applied <span class="va-line">Line 21</span>
+      td-cda2a4: <fg-show path="/vaPriorYearOverpaymentApplied"/>
+    tr-2:
+      th-770258: Extension payments <span class="va-line">Line 22</span>
+      td-f86689: <fg-show path="/vaExtensionPayments"/>
+  p-6005e3: 'Virginia''s records: a match was found'
+  p-0c93ed: 'A record under your last name and date of birth filled in Lines 20 to
+    22 above. If a payment is missing or wrong, say so on the next screen: those three
+    lines can be corrected there, and your correction stays.'
+  p-82266b: 'Virginia''s records: no match found'
+  p-6128a1: Nothing is on record under your last name and date of birth, so Lines
+    20 to 22 above show $0. If you did make a payment to Virginia, say so on the next
+    screen and enter it there.
+  table-1:
+    caption-ad5e1f: <span class="va-source__title">Your employer</span> <span class="va-source__sub">From
+      the W-2s they filed with Virginia and the IRS</span>
+    tr-0:
+      th-c5c3ae: Wages, all W-2s <span class="va-line">box 1</span>
+      td-1a2421: <fg-show path="/wages"/>
+    tr-1:
+      th-7f7b1c: Virginia tax withheld, all W-2s <span class="va-line">box 17, Line
+        19a</span>
+      td-7490ed: <fg-show path="/vaWithholding"/>
+  table-2:
+    caption-2b8de5: <span class="va-source__title">Your federal return</span> <span
+      class="va-source__sub">The answers you gave in the federal sections</span>
     tr-0:
       th-49ee30: Name
       td-5c6ab6: <fg-show path="/primaryFiler/firstName"/> <fg-show path="/primaryFiler/lastName"/>
@@ -16646,33 +16701,19 @@
       th-4965e9: Date of birth
       td-6c194e: <fg-show path="/primaryFiler/dateOfBirth"/>
     tr-3:
-      th-4995ba: Federal adjusted gross income (Form 1040 line 11)
+      th-399365: Federal adjusted gross income <span class="va-line">Form 1040 line
+        11</span>
       td-5637e9: <fg-show path="/agi"/>
     tr-4:
-      th-030f2a: Taxable Social Security (line 6b)
+      th-e39b5b: Taxable Social Security <span class="va-line">Form 1040 line 6b</span>
       td-61057a: <fg-show path="/taxableSocialSecurityBenefits"/>
-  table-1:
-    caption-06043f: From the W-2s your employer filed with the IRS and with Virginia
-    tr-0:
-      th-017c12: Box 1, wages, all W-2s
-      td-1a2421: <fg-show path="/wages"/>
-    tr-1:
-      th-b480cb: Box 17, Virginia tax withheld, all W-2s (Line 19a)
-      td-7490ed: <fg-show path="/vaWithholding"/>
-  table-2:
-    caption-be46ff: From Virginia Tax's own records
-    tr-0:
-      th-6d2a34: Estimated payments made for <fg-show path="/taxYear"/> (Line 20)
-      td-7876f6: <fg-show path="/vaEstimatedPayments"/>
-    tr-1:
-      th-d21ba1: Last year's overpayment applied (Line 21)
-      td-cda2a4: <fg-show path="/vaPriorYearOverpaymentApplied"/>
-    tr-2:
-      th-62361b: Extension payments (Line 22)
-      td-f86689: <fg-show path="/vaExtensionPayments"/>
-  p-10442a: In a state-run service the last three come from Virginia Tax's books.
+    tr-5:
+      th-40f36e: Earned income credit <span class="va-line">Form 1040 line 27</span>
+      td-de474a: <fg-show path="/vaFederalEarnedIncomeCredit"/>
+  p-452223: In a state-run service, Virginia Tax's records come from its own books.
     This prototype reads them from a stand-in for those records, matched to you by
-    name and date of birth, so they are filled in before you see them. They stay correctable.
+    name and date of birth, so they are filled in before you see them. They are filled
+    in once; a correction you make to them is kept.
 /your-taxes/virginia/virginia-check:
   title: Is everything right?
   h2-93487e: Is everything on the last screen right?
@@ -16699,6 +16740,8 @@
         name: My date of birth
       w2:
         name: A W-2 from my employer
+      records:
+        name: A payment Virginia's records show (Lines 20 to 22)
 /your-taxes/virginia/virginia-correct-dob:
   title: Correct your date of birth
   h2-ea2075: Correct your date of birth
@@ -16718,7 +16761,7 @@
     ones Virginia uses: your Virginia wages and the tax already withheld.'
   collection/formW2s:
     itemName: W-2
-    h2-953964: W-2 from <fg-show path="/formW2s/*/employerName"/>
+    h3-953964: W-2 from <fg-show path="/formW2s/*/employerName"/>
     /formW2s/*/employerName:
       question: Employer name
     /formW2s/*/writableWages:
@@ -16729,6 +16772,26 @@
       question: <strong>Box 16</strong> - State wages, tips, etc.
     /formW2s/*/writableStateWithholding:
       question: <strong>Box 17</strong> - State income tax withheld
+/your-taxes/virginia/virginia-correct-records:
+  title: Correct a payment on record
+  h2-eab31a: Correct a payment Virginia's records show
+  p-f61470: 'Lines 20 to 22 were filled in from the stand-in for Virginia Tax''s records,
+    under your last name and date of birth. Enter what you actually paid; leave a
+    line blank for $0. What you enter here stays: the records are not read again for
+    you.'
+  p-2c0dcf: In a state-run service, a difference from Virginia Tax's own books would
+    be checked against them before the return is accepted.
+  /vaEstimatedPayments:
+    question: Line 20, estimated payments made for <fg-show path="/taxYear"/>
+    hint: The total of the estimated payments you sent to Virginia Tax during the
+      year (Form 760ES).
+  /vaPriorYearOverpaymentApplied:
+    question: Line 21, last year's overpayment applied to this year
+    hint: The part of last year's Virginia refund you asked to have credited to this
+      year instead of paid out.
+  /vaExtensionPayments:
+    question: Line 22, extension payments
+    hint: What you paid with an extension request (Form 760IP).
 /your-taxes/virginia/virginia-corrections:
   title: Your correction
   h2-34a5ea: Your correction is saved. Here is what it changed.
@@ -16739,14 +16802,15 @@
     right?&quot; and choose again.
 /your-taxes/virginia/virginia-locality:
   title: Where did you live on January 1?
-  h2-f59a8d: Which city or county did you live in on January 1, 2025?
+  p-c6665d: Question 1 of 4
+  h2-7336f9: Which Virginia city or county did you live in on January 1, 2025?
   p-7ce7cf: Form 760 asks for your locality code. Virginia uses it, in part, to allocate
     local school funding. Your address gives a city and a ZIP code, but a ZIP code
     can cross a county line and this is about January 1, the day after the tax year,
     so please confirm it.
-  p-ae5dac: 'Virginia has no local income tax. Where you live changes one thing on
-    this return: the rate of consumer''s use tax on untaxed purchases, asked two screens
-    on.'
+  p-906b6c: 'Virginia has no local income tax. Where you live changes one thing on
+    this return: the rate of consumer''s use tax on untaxed purchases, asked three
+    screens on.'
   /vaLocality:
     question: City or county you lived in on January 1, 2025
     options:
@@ -17016,26 +17080,93 @@
         name: Wythe County
       york-county:
         name: York County
-/your-taxes/virginia/virginia-lottery:
-  title: Virginia Lottery prizes
-  h2-40b8da: Did you win a Virginia Lottery prize of less than $600 in 2024?
-  p-37fe58: Virginia does not tax prizes under $600, but your federal return counts
-    them as income, so Virginia takes them back out on Line 7 (Va. Code § 58.1-322.02(7)).
-    Prizes of $600 or more are reported to Virginia and stay taxable. No one reports
-    the small ones, so only you can tell us.
-  /vaHasLotteryPrizesUnder600:
-    question: Did you win a Virginia Lottery prize of less than $600 in 2024?
+  p-bd4921: Filled in from your ZIP code, <fg-show path="/address/postalCode"/>, which
+    lies in one city or county. Change it if you lived somewhere else on January 1,
+    2025.
+  p-779640: Your address now points to <fg-show path="/vaLocalityFromAddressName"/>.
+    Keep <fg-show path="/vaLocalityName"/> if that is where you lived on January 1,
+    2025, or change it above.
+  p-4da3d9: 'Your ZIP code, <fg-show path="/address/postalCode"/>, crosses a city
+    or county line. It includes parts of: <fg-show path="/vaAddressZipLocalityNames"/>.
+    Choose the one you lived in.'
+  p-0445ac: 'Virginia''s independent cities are separate from the counties around
+    them: Richmond City is not Henrico County or Richmond County, and Fairfax City
+    is not Fairfax County.'
+  p-ea0a15: '<strong><fg-show path="/vaLocalityName"/></strong>, Form 760 locality
+    code <strong><fg-show path="/vaLocalityCode"/></strong>. Use tax rate where you
+    live: <strong><fg-show path="/vaUseTaxRatePercent"/>%</strong>.'
+  p-167016: 'Your Virginia estimate so far: <strong>you owe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Your Virginia estimate so far: <strong>a refund of <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Your Virginia estimate so far: <strong>nothing owed and no refund</strong>'
+/your-taxes/virginia/virginia-military:
+  title: Military service
+  p-9cf179: Question 2 of 4
+  h2-6b6a17: Were you in the U.S. Armed Forces in 2024, or did you receive military
+    retirement pay?
+  p-915d2b: Virginia does not tax part of a service member's basic pay, or up to $30,000
+    of military retirement pay (Va. Code § 58.1-322.02(15) and (18)). Your W-2 and
+    1099-R show the total, not which part is basic pay or military retirement, so
+    only you can tell us.
+  /vaHasMilitaryIncome:
+    question: Were you in the U.S. Armed Forces in 2024, or did you receive military
+      retirement pay?
     options:
       'true':
         name: 'Yes'
       'false':
         name: 'No'
-  h2-6a5fdf: How much did those prizes add up to?
-  p-74957d: Count only prizes that were each less than $600.
-  /vaLotteryPrizesUnder600:
-    question: Total of Virginia Lottery prizes under $600
+  p-167016: 'Your Virginia estimate so far: <strong>you owe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Your Virginia estimate so far: <strong>a refund of <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Your Virginia estimate so far: <strong>nothing owed and no refund</strong>'
+  h2-64615f: Were you on active duty for more than 90 days in a row in 2024?
+  p-758664: Extended active duty anywhere, inside or outside Virginia. Virginia subtracts
+    up to $15,000 of military basic pay; the subtraction shrinks by $1 for each $1
+    of basic pay over $15,000 and ends at $30,000.
+  /vaHasMilitaryBasicPay:
+    question: Were you on extended active duty for more than 90 consecutive days in
+      2024?
+    options:
+      'true':
+        name: 'Yes'
+      'false':
+        name: 'No'
+  h2-15f14e: How much military basic pay did you receive in 2024?
+  p-ff098b: Basic pay only, from your Leave and Earnings Statements. Leave out housing
+    and food allowances, bonuses and special pay; your W-2 box 1 includes some of
+    those, so it is usually more than your basic pay.
+  /vaMilitaryBasicPay:
+    question: Military basic pay received in 2024
+    hint: Up to $30,000 counts. All of it is subtracted up to $15,000; above that
+      the subtraction shrinks by $1 for each $1 of pay, and at $30,000 nothing is
+      subtracted.
+  p-69ea01: 'At <fg-show path="/vaMilitaryBasicPay"/> of basic pay the subtraction
+    is $0: it ends at <fg-show path="/vaMilitaryBasicPayMaximum"/>. The answer is
+    still recorded, and nothing else on your return changes.'
+  h2-e8c2b2: Did you receive military retirement pay or Survivor Benefit Plan payments
+    in 2024?
+  p-e6e6f4: Retirement pay for service in the U.S. Armed Forces, or benefits paid
+    to you as the surviving spouse of a veteran. Up to $30,000 is not taxed in Virginia
+    for 2024, at any age.
+  /vaHasMilitaryRetirement:
+    question: Did you receive military retirement pay or Survivor Benefit Plan payments
+      in 2024?
+    options:
+      'true':
+        name: 'Yes'
+      'false':
+        name: 'No'
+  h2-7c0a04: How much of it was taxable?
+  p-b62b0f: The taxable amount in box 2a of the 1099-R from the Defense Finance and
+    Accounting Service (DFAS), added up if you have more than one.
+  /vaMilitaryRetirementIncome:
+    question: Taxable military retirement and survivor benefits received in 2024
+    hint: Up to $30,000 counts, and no more than the taxable amount on your 1099-Rs.
+  p-3f67c2: Of the <fg-show path="/vaMilitaryRetirementIncome"/> you entered, <fg-show
+    path="/vaMilitaryBenefitsMaximum"/> is the most Virginia subtracts for 2024. The
+    rest stays taxable.
 /your-taxes/virginia/virginia-savers:
   title: Commonwealth Savers contributions
+  p-1f4216: Question 3 of 4
   h2-b7e29e: Did you put money into a Commonwealth Savers (Virginia529) account in
     2024?
   p-f42bed: Commonwealth Savers is the state's college savings plan. Contributions
@@ -17049,13 +17180,22 @@
         name: 'Yes'
       'false':
         name: 'No'
+  p-167016: 'Your Virginia estimate so far: <strong>you owe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Your Virginia estimate so far: <strong>a refund of <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Your Virginia estimate so far: <strong>nothing owed and no refund</strong>'
   h2-44b450: How much did you contribute in 2024?
   p-170c80: Enter the total. The deduction is capped at $4,000 unless you have reached
     70; anything above that would carry forward to later years in a real return.
   /vaCommonwealthSaversContributions:
     question: Amount contributed to Commonwealth Savers accounts
+    hint: Up to $4,000 is deducted, unless you are 70 or older, in which case all
+      of it is.
+  p-8cd295: Of the <fg-show path="/vaCommonwealthSaversContributions"/> you entered,
+    <fg-show path="/vaCommonwealthSaversCap"/> is deducted this year. In a real return
+    the rest would carry forward.
 /your-taxes/virginia/virginia-use-tax:
   title: Untaxed purchases
+  p-aa276e: Question 4 of 4
   h2-15bb3c: Did you buy anything in 2024 without paying Virginia sales tax?
   p-246296: 'Online, by mail, or in another state, where the seller charged no Virginia
     tax. Virginia asks every filer this (Line 33, consumer''s use tax). No seller
@@ -17069,18 +17209,127 @@
         name: 'Yes'
       'false':
         name: No, nothing untaxed
+  p-167016: 'Your Virginia estimate so far: <strong>you owe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Your Virginia estimate so far: <strong>a refund of <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Your Virginia estimate so far: <strong>nothing owed and no refund</strong>'
   h2-bbde4b: How much did those purchases add up to?
-  p-7e719b: Separately stated shipping is not taxable. Your use tax is this total
-    times the rate for your locality.
+  p-93d1c0: Separately stated shipping is not taxable. Your use tax is this total
+    times the <fg-show path="/vaUseTaxRatePercent"/>% rate for <fg-show path="/vaLocalityName"/>,
+    rounded to the dollar.
   /vaUntaxedPurchases:
     question: Total of purchases on which no Virginia sales tax was paid
+    hint: The total price of the things you bought without paying sales tax, as the
+      sellers charged it, not counting shipping listed separately.
+  p-6419f5: 'Use tax on <fg-show path="/vaUntaxedPurchases"/> at <fg-show path="/vaUseTaxRatePercent"/>%
+    for <fg-show path="/vaLocalityName"/>: <strong><fg-show path="/vaUseTax"/></strong>'
 /your-taxes/virginia/virginia-summary:
-  title: Form 760, computed from your federal return
-  h2-59ac58: Form 760, computed from your federal return
-  p-c58539: <strong>Demonstration only.</strong> Tax year <fg-show path="/taxYear"/>.
-    Each line names the law it comes from. Locality code <fg-show path="/vaLocalityCode"/>.
+  title: Your Virginia return
+  p-87628a: '<strong>Demonstration only.</strong> A class prototype, not a Virginia
+    Tax service: nothing on this page was filed. Printed from the Virginia state return
+    prototype built on the IRS''s Direct File code.'
+  h2-ec9a2d: Your <fg-show path="/taxYear"/> Virginia return
+  p-ec9766: You owe Virginia
+  p-458cb5: <fg-show path="/vaAmountYouOwe"/>
+  p-78f24f: Due to Virginia Tax by <strong>May 1, 2025</strong>
+  p-b65d95: Virginia owes you a refund
+  p-0cc724: <fg-show path="/vaRefund"/>
+  p-434a19: Virginia Tax sends it once your return is processed
+  p-65d63e: Nothing owed, no refund
+  p-d0a872: $0
+  p-498bd2: Your payments match your Virginia tax exactly
+  h3-3be8f6: Your four answers
+  p-036ee9: Each one can still be changed. Everything else on this page comes from
+    your federal return, your W-2s and Virginia Tax's records.
   table-0:
-    caption-01cbec: Virginia Form 760
+    tr-0:
+      th-958efd: Where you lived on January 1, 2025
+      td-ded28f: <fg-show path="/vaLocalityName"/>, locality code <fg-show path="/vaLocalityCode"/>
+      td-c570da: <a href="../virginia-locality/">Change<span class="usa-sr-only">
+        where you lived</span></a>
+    tr-1:
+      th-7b2d20: Military service or military retirement pay
+      td-34770a: <span condition="/vaHasMilitaryIncome" operator="isFalse">No</span><span
+        condition="/vaHasMilitaryIncome" operator="isTrue">Yes</span><span condition="/vaHasMilitaryBasicPay"
+        operator="isTrue">; basic pay <fg-show path="/vaMilitaryBasicPay"/></span><span
+        condition="/vaHasMilitaryRetirement" operator="isTrue">; taxable retirement
+        pay <fg-show path="/vaMilitaryRetirementIncome"/></span>
+      td-2b86c1: <a href="../virginia-military/were-you-in-the/">Change<span class="usa-sr-only">
+        your military answers</span></a>
+    tr-2:
+      th-ae5769: Commonwealth Savers contributions
+      td-04a55f: <span condition="/vaHasCommonwealthSaversContributions" operator="isFalse">No</span><span
+        condition="/vaHasCommonwealthSaversContributions" operator="isTrue">Yes, <fg-show
+        path="/vaCommonwealthSaversContributions"/></span>
+      td-8e778f: <a href="../virginia-savers/did-you-put-money/">Change<span class="usa-sr-only">
+        your Commonwealth Savers answer</span></a>
+    tr-3:
+      th-daa6b3: Purchases without Virginia sales tax
+      td-bb11f6: <span condition="/vaHasUntaxedPurchases" operator="isFalse">None</span><span
+        condition="/vaHasUntaxedPurchases" operator="isTrue">Yes, <fg-show path="/vaUntaxedPurchases"/></span>
+      td-29a6c9: <a href="../virginia-use-tax/did-you-buy-anything/">Change<span class="usa-sr-only">
+        your untaxed purchases answer</span></a>
+  table-1:
+    caption-320e94: How Virginia got there
+    tr-0:
+      th-2e9bd4: Virginia income tax <span class="va-line">Line 16, § 58.1-320</span>
+      td-c93610: <fg-show path="/vaTax"/>
+    tr-1:
+      th-6b845b: Credit for low-income workers and families <span class="va-line">Line
+        23, § 58.1-339.8</span>
+      td-e0e532: <span class="va-op va-op--minus"><span class="usa-sr-only">minus
+        </span></span><fg-show path="/vaLowIncomeCredit"/>
+    tr-2:
+      th-0d35a3: Withheld from your pay and already paid to Virginia <span class="va-line">Lines
+        19a to 22, your W-2 and Virginia Tax's records</span>
+      td-8d9b8f: <span class="va-op va-op--minus"><span class="usa-sr-only">minus
+        </span></span><fg-show path="/vaPaymentsMade"/>
+    tr-3:
+      th-dec47d: Use tax on untaxed purchases <span class="va-line">Line 33, the rate
+        where you live</span>
+      td-93031d: <span class="va-op va-op--plus"><span class="usa-sr-only">plus </span></span><fg-show
+        path="/vaUseTax"/>
+  p-edb320: <span class="va-math__label">Amount you owe <span class="va-line">Line
+    35</span></span> <strong><fg-show path="/vaAmountYouOwe"/></strong>
+  p-265b71: <span class="va-math__label">Your refund <span class="va-line">Line 36</span></span>
+    <strong><fg-show path="/vaRefund"/></strong>
+  p-49c83f: <span class="va-math__label">Nothing owed and no refund <span class="va-line">Lines
+    35 and 36</span></span> <strong>$0</strong>
+  p-50775c: Your Virginia adjusted gross income is below the filing threshold for
+    your filing status (§ 58.1-321), so your Virginia income tax is $0.
+  table-2:
+    caption-29a942: Your federal return and your Virginia return, side by side
+    tr-0:
+      th-7d74f3: Item
+      th-c348f0: Federal <span class="va-line">Form 1040</span>
+      th-caa9c9: Virginia <span class="va-line">Form 760</span>
+    tr-1:
+      th-5f2594: Adjusted gross income
+      td-5637e9: <fg-show path="/agi"/>
+      td-99617f: <fg-show path="/vaAdjustedGrossIncome"/>
+    tr-2:
+      th-39f390: Standard deduction
+      td-d88198: <fg-show path="/standardOrItemizedDeductions"/>
+      td-dc74d3: <fg-show path="/vaStandardDeduction"/>
+    tr-3:
+      th-4f489c: Exemptions
+      td-c2a288: <fg-show path="/totalExemptionsCount"/> claimed, worth $0 since 2018
+      td-8e526f: <fg-show path="/vaExemptions"/>
+    tr-4:
+      th-b0360a: Taxable income
+      td-275c50: <fg-show path="/taxableIncome"/>
+      td-3e5ed4: <fg-show path="/vaTaxableIncome"/>
+    tr-5:
+      th-4b78ac: Tax
+      td-986ac4: <fg-show path="/totalTax"/>
+      td-c93610: <fg-show path="/vaTax"/>
+    tr-6:
+      th-92e697: Tax withheld
+      td-c638f3: <fg-show path="/totalWithholding"/>
+      td-7490ed: <fg-show path="/vaWithholding"/>
+  h3-9cbb59: Every line of Form 760
+  table-3:
+    caption-147a28: Form 760, Virginia Resident Income Tax Return, <fg-show path="/taxYear"/>.
+      Locality code <fg-show path="/vaLocalityCode"/>.
     tr-0:
       th-04a085: Line 1, federal adjusted gross income
       td-515411: <fg-show path="/vaFederalAdjustedGrossIncome"/>
@@ -17091,8 +17340,9 @@
       th-d8d6dc: Line 5, taxable Social Security benefits (§ 58.1-322.02(3))
       td-abf769: <fg-show path="/vaTaxableSocialSecurityBenefits"/>
     tr-3:
-      th-93e678: Line 7, Virginia Lottery prizes under $600 (§ 58.1-322.02(7))
-      td-7e51b0: <fg-show path="/vaLotterySubtraction"/>
+      th-5f1816: 'Line 7, Schedule ADJ subtractions: unemployment benefits (code 37),
+        military basic pay and military benefits (§ 58.1-322.02(15), (18))'
+      td-c9fc5b: <fg-show path="/vaScheduleAdjSubtractions"/>
     tr-4:
       th-972c17: Line 9, Virginia adjusted gross income
       td-99617f: <fg-show path="/vaAdjustedGrossIncome"/>
@@ -17119,28 +17369,132 @@
       td-0b57f5: <fg-show path="/vaEstimatedPayments"/> + <fg-show path="/vaPriorYearOverpaymentApplied"/>
         + <fg-show path="/vaExtensionPayments"/>
     tr-12:
+      th-fc4969: Line 23, Credit for Low-Income Individuals or Virginia Earned Income
+        Credit (§ 58.1-339.8)
+      td-17181d: <fg-show path="/vaLowIncomeCredit"/>
+    tr-13:
       th-06abe0: Line 27, tax you owe before use tax
       td-2aa488: <fg-show path="/vaTaxYouOwe"/>
-    tr-13:
+    tr-14:
       th-f67e8a: Line 28, your overpayment
       td-9388e0: <fg-show path="/vaOverpayment"/>
-    tr-14:
+    tr-15:
       th-7c65a0: Line 33, consumer's use tax
       td-f778b5: <fg-show path="/vaUseTax"/>
-    tr-15:
+    tr-16:
       th-684211: Line 35, amount you owe
       td-71d917: <strong><fg-show path="/vaAmountYouOwe"/></strong>
-    tr-16:
+    tr-17:
       th-5e20c2: Line 36, your refund
       td-b4b35d: <strong><fg-show path="/vaRefund"/></strong>
-  p-50775c: Your Virginia adjusted gross income is below the filing threshold for
-    your filing status (§ 58.1-321), so your Virginia income tax is $0.
-  p-76dc46: <strong>Before anyone files this.</strong> Form 760 is signed under penalty
-    of law as true, correct and complete. Virginia Tax compares the W-2 wages and
-    withholding on a return with what the employer reported. The four answers above
-    cannot be checked against any report, which is why they are asked and signed for.
-  p-0b6cdd: Lines not shown are out of scope for this prototype and taken as $0. Nothing
-    here is filed.
+  h3-01a5ac: Why these numbers
+  fg-detail-bffc0d:
+    summary: 'Line 4, age deduction: <fg-show path="/vaAgeDeduction"/>'
+    p-7b9c68: 'A filer born on or before January 1, 1939 subtracts $12,000; a filer
+      65 or older born later subtracts $12,000 less $1 for each $1 of adjusted federal
+      AGI over the threshold for the filing status (§ 58.1-322.03(5)). Your share:
+      <fg-show path="/vaPrimaryFilerAgeDeductionAllowed"/>.<span condition="/vaIsFilingStatus2"
+      operator="isTrue"> Your spouse''s share: <fg-show path="/vaSpouseAgeDeductionAllowed"/>.</span>'
+    p-bbef02: Line 4 shows $0 because the return claims a low-income credit instead,
+      which the law does not allow alongside the age deduction. See Line 23.
+  fg-detail-32f58b:
+    summary: 'Line 7, Schedule ADJ subtractions: <fg-show path="/vaScheduleAdjSubtractions"/>'
+    p-bf9d2e: 'Three subtractions added up: unemployment benefits <fg-show path="/vaUnemploymentCompensationSubtraction"/>
+      (code 37, the 1099-G total less anything repaid), military basic pay <fg-show
+      path="/vaMilitaryBasicPaySubtraction"/> (code 38, all of it up to $15,000, shrinking
+      to nothing at $30,000) and military benefits <fg-show path="/vaMilitaryBenefitsSubtraction"/>
+      (code 60, up to $30,000 and no more than the taxable amount on your 1099-Rs).'
+    p-668cae: The basic pay subtraction shows $0 because the return claims a low-income
+      credit instead. See Line 23.
+  fg-detail-ab3ee1:
+    summary: 'Line 12, exemptions: <fg-show path="/vaExemptions"/>'
+    p-9d44ec: <fg-show path="/vaPersonalExemptionCount"/> × <fg-show path="/vaPersonalExemptionAmount"/>
+      for you, a spouse on a joint return and each dependent, <fg-show path="/vaPersonalExemptions"/>,
+      plus <fg-show path="/vaAgedOrBlindExemptionCount"/> × <fg-show path="/vaAgedOrBlindExemptionAmount"/>
+      for each of you who is 65 or older or blind, <fg-show path="/vaAgedOrBlindExemptionsAllowed"/>
+      (§ 58.1-322.03(2)).
+    p-3ea63e: The 65 or older and blind part is left off because the return claims
+      a low-income credit instead. See Line 23.
+  fg-detail-4deab3:
+    summary: 'Line 16, Virginia income tax: <fg-show path="/vaTax"/>'
+    p-9755b5: 'Virginia taxes the first <fg-show path="/vaRateScheduleBracket1Top"/>
+      of taxable income at <fg-show path="/vaRateScheduleRate1Percent"/>%, the part
+      up to <fg-show path="/vaRateScheduleBracket2Top"/> at <fg-show path="/vaRateScheduleRate2Percent"/>%,
+      the part up to <fg-show path="/vaRateScheduleBracket3Top"/> at <fg-show path="/vaRateScheduleRate3Percent"/>%
+      and the rest at <fg-show path="/vaRateScheduleRate4Percent"/>% (§ 58.1-320).
+      Your taxable income of <fg-show path="/vaTaxableIncome"/> is <fg-show path="/vaIncomeAboveBracketBase"/>
+      above <fg-show path="/vaTaxBracketBase"/>: the <fg-show path="/vaTaxAtBracketBase"/>
+      of tax at that point plus <fg-show path="/vaMarginalRatePercent"/>% of <fg-show
+      path="/vaIncomeAboveBracketBase"/>, <fg-show path="/vaTaxOnIncomeAboveBracketBase"/>,
+      rounded to the dollar.'
+    p-87ae6e: 'Line 16 is $0 all the same: your Virginia adjusted gross income is
+      below the filing threshold for your filing status (§ 58.1-321).'
+  fg-detail-07f245:
+    summary: 'Line 23, credit for low-income workers and families: <fg-show path="/vaLowIncomeCredit"/>'
+    p-71f1c8: No credit is claimed on this return.
+    p-f8c459: 'Refundable Virginia Earned Income Credit: <fg-show path="/vaLowIncomeCredit"/>'
+    p-600197: 15% of the <fg-show path="/vaFederalEarnedIncomeCredit"/> earned income
+      credit on your federal return. Virginia pays it even when it is more than your
+      tax, so it can become a refund.
+    p-88f21a: 'Virginia Earned Income Credit: <fg-show path="/vaLowIncomeCredit"/>'
+    p-eed81c: 20% of the <fg-show path="/vaFederalEarnedIncomeCredit"/> earned income
+      credit on your federal return, up to your Virginia tax. That was worth more
+      than the refundable 15% (<fg-show path="/vaRefundableEarnedIncomeCredit"/>).
+    p-272240: 'Credit for Low-Income Individuals: <fg-show path="/vaLowIncomeCredit"/>'
+    p-3622de: $300 for each person in your household, because your family's Virginia
+      adjusted gross income is at or under the <fg-show path="/vaPovertyGuideline"/>
+      poverty guideline for its size. Up to your Virginia tax.
+    p-757ccd: To claim it, your return gives up your <fg-show path="/vaAgeDeductionAllowed"/>
+      age deduction. The credit lowers your tax more.
+    p-451e98: To claim it, your return gives up your <fg-show path="/vaAgedOrBlindExemptionsAllowed"/>
+      exemption for being 65 or older or blind. The credit lowers your tax more.
+    p-197310: To claim it, your return gives up your <fg-show path="/vaMilitaryBasicPaySubtractionAllowed"/>
+      military basic pay subtraction. The credit lowers your tax more.
+    p-a209eb: You did not have to ask for this. Virginia's three credits for people
+      with low incomes come from your federal return; the return claims the one worth
+      the most to you, as Form 760 asks (Schedule ADJ, Lines 10 to 17).
+    p-c42507: You could claim <fg-show path="/vaBestLowIncomeCredit"/> in Virginia's
+      credit for low-income workers and families, but only by giving up your age deduction,
+      your 65 or older or blind exemption, or your military basic pay subtraction.
+      Keeping them lowers your tax more, so your return keeps them.
+  fg-detail-306512:
+    summary: 'Line 33, consumer''s use tax: <fg-show path="/vaUseTax"/>'
+    p-412ce3: <fg-show path="/vaUntaxedPurchases"/> of purchases on which no Virginia
+      sales tax was paid, times the <fg-show path="/vaUseTaxRatePercent"/>% rate for
+      <fg-show path="/vaLocalityName"/>, rounded to the dollar (2024 Form 760 instructions,
+      Line 33).
+    p-bd9aa7: You bought nothing without paying Virginia sales tax, so Line 33 is
+      $0.
+  p-382bd2: Each line names the law it comes from. Lines not shown are out of scope
+    for this prototype and taken as $0. Nothing here is filed.
+  p-d623bc: <strong>Virginia Tax</strong> answers questions about this return, not
+    the IRS.
+  h3-1c8ae7: Keep a copy
+  p-801bf8: Print this page as your record of the return, or download the answers
+    file this prototype keeps in your browser; the first Virginia screen can resume
+    from it on another device.
+  button-59d4a6: Print this return
+  button-04d9c6: Download your answers
+/your-taxes/virginia/virginia-sign:
+  title: Sign your Virginia return
+  h2-dbc9d5: Sign your return to the Commonwealth
+  p-564a3c: Virginia Tax compares the W-2 wages and withholding on your return with
+    what your employer reported. Your four answers cannot be checked against any report,
+    which is why you sign for them.
+  /vaDeclaration:
+    question: Your declaration
+    hint: Form 760 is signed under penalty of law.
+    options:
+      signed:
+        name: I declare that this return is true, correct and complete to the best
+          of my knowledge, including my answers about where I lived, military pay,
+          Commonwealth Savers contributions and untaxed purchases.
+  button-5b455a: Send to Virginia Tax
+  p-877924: '<strong>Nothing was sent.</strong> In this demonstration your signed
+    return goes nowhere: no Form 760 was transmitted to Virginia Tax and nothing was
+    filed. In a state-run service, this is the moment Virginia Tax would receive it.'
+  p-12ce70: <strong>Demonstration only.</strong> Nothing is signed or sent to Virginia
+    Tax. Next, you review and sign your federal return.
 /complete/review/review:
   title: Review and confirm
   h2-7a347d: Review and confirm

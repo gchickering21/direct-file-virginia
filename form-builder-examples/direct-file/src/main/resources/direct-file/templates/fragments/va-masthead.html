@@ -1,0 +1,60 @@
+<!--/* The Virginia section's masthead, in place of the U.S. government banner and the IRS logo band.
+
+       Rendered by this app's fragments/usa-banner.html on /your-taxes/virginia/ routes only. The IRS
+       logo band is not a fragment (it sits inline in the scaffold's page.html), so it cannot be
+       replaced from here; styles/components/virginia.css hides it with `body:has(.va-masthead)`, and
+       this masthead carries its own copy of the language switcher in its place.
+
+       The emblem is a dogwood blossom, the state flower, drawn for this prototype. It is not the
+       Commonwealth's seal or Virginia Tax's logo; a state build would use the marks Virginia Tax
+       supplies. Design: docs/virginia/mockups/virginia-theme.html. */-->
+<div class="va-masthead">
+    <p class="va-demo-strip">
+        <strong th:text="#{virginia.demo.label}"></strong>
+        <span th:text="#{virginia.demo.text}"></span>
+    </p>
+    <div class="va-masthead__bar">
+        <div class="va-masthead__inner">
+            <div class="va-masthead__brand">
+                <svg class="va-masthead__emblem" viewBox="0 0 100 100" width="44" height="44" aria-hidden="true" focusable="false">
+                    <g transform="translate(50 50)">
+                        <g id="va-petal">
+                            <path d="M0 -6 C 14 -14, 18 -36, 4 -44 C 2 -40, -2 -40, -4 -44 C -18 -36, -14 -14, 0 -6 Z" fill="currentColor"/>
+                            <path d="M-3 -43 C -1 -40, 1 -40, 3 -43" stroke="#e57200" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        </g>
+                        <use href="#va-petal" transform="rotate(90)"/>
+                        <use href="#va-petal" transform="rotate(180)"/>
+                        <use href="#va-petal" transform="rotate(270)"/>
+                        <circle r="8" fill="#e57200"/>
+                        <circle r="3" fill="#13294b"/>
+                    </g>
+                </svg>
+                <div>
+                    <p class="va-masthead__kicker" th:text="#{virginia.masthead.kicker}"></p>
+                    <p class="va-masthead__name" th:text="#{virginia.masthead.name}"></p>
+                </div>
+            </div>
+            <div class="va-masthead__aside">
+                <p class="va-masthead__federal">
+                    <span th:text="#{virginia.masthead.federal}"></span>
+                    <strong><span th:text="#{virginia.masthead.federal-status}"></span> <span aria-hidden="true">✓</span></strong>
+                </p>
+                <!--/* The same switcher as the logo band in the scaffold's page.html, which this masthead hides. */-->
+                <div class="language-switcher">
+                    <label class="usa-sr-only" for="va-language-selector" th:text="#{virginia.masthead.language}"></label>
+                    <select class="usa-select"
+                            id="va-language-selector"
+                            name="va-language-selector"
+                            onchange="if(this.value) window.location.href=this.value">
+                        <option value="" disabled selected th:text="#{virginia.masthead.language}"></option>
+                        <option th:each="lang : ${supportedLocales}"
+                                th:value="${lang.key == app.defaultLocale} ? |${basePath}${currentPageRoute}| : |${basePath}/${lang.key}${currentPageRoute}|"
+                                th:text="${lang.value}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="va-masthead__rule"></div>
+</div>

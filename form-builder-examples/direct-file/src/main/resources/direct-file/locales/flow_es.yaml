@@ -14854,27 +14854,139 @@
       li-b53c99: '<strong>Rechazada</strong>: Si tu declaración de impuestos federales es rechazada, te explicaremos cómo
         corregir tu declaración de impuestos y reenviarla.'
 /your-taxes/virginia/virginia-intro:
-  title: Su declaración de Virginia
-  h2-b96767: Su declaración de Virginia
+  title: Virginia continúa desde aquí
+  p-d605b1: Le damos la bienvenida, <fg-show path="/primaryFiler/firstName"/>
+  h2-268326: Sus respuestas federales están listas. Virginia continúa desde aquí.
+  p-a157d3: 'Usted vivió en Virginia todo <fg-show path="/taxYear"/>, así que también presenta el Formulario 760 ante Virginia
+    Tax. La mayor parte ya está completa: el Formulario 760 parte de su declaración federal, su empleador ya envió su W-2
+    a Virginia y Virginia Tax ya tiene registrado lo que usted ha pagado.'
+  table-0:
+    tr-0:
+      th-df3427: Servicio de Impuestos Internos <span class="va-handoff__form">Formulario 1040</span>
+      th-abfe87: Virginia Tax <span class="va-handoff__form">Formulario 760</span>
+    tr-1:
+      td-857736: <strong>Sus respuestas están completas.</strong> Revisará y firmará su declaración federal después de esta
+        sección.
+      td-123c74: <strong>Quedan unos cinco minutos.</strong> Cuatro preguntas que solo usted puede responder y luego su declaración.
+    tr-2:
+      td-1147b9: Le da a Virginia su ingreso bruto ajustado, su estado civil para efectos de la declaración, su fecha de nacimiento
+        y sus W-2.
+      td-56ad90: 'Agrega lo que Virginia Tax ya tiene registrado: los pagos que usted hizo a Virginia.'
+  p-4e369d: <a href="../virginia-known/" class="usa-button">Comenzar mi declaración de Virginia</a>
   p-45ca08: <strong>Solo demostración.</strong> Este es un proyecto de clase que muestra cómo una declaración estatal podría
     calcularse a partir de la declaración federal con el código publicado por el IRS. No es un servicio del IRS ni de Virginia
     Tax y no presenta nada.
-  p-7524bb: <fg-show path="/primaryFiler/firstName"/>, como vivió en Virginia durante todo <fg-show path="/taxYear"/>, la
-    mayor parte de su declaración de Virginia ya está hecha. El Formulario 760 parte de su declaración federal, su empleador
-    ya envió su W-2 a Virginia y Virginia Tax ya tiene registrado lo que usted ha pagado. La siguiente pantalla muestra lo
-    que ya se sabe. Después, cuatro preguntas que nadie declara por usted, y luego su declaración.
-  p-dfa3b3: 'Lo que cubre este prototipo: la deducción estándar, las exenciones, la deducción por edad, el umbral de presentación,
-    la tabla de tasas, la retención, dos partidas del Anexo ADJ (premios de lotería y aportes a Commonwealth Savers), el código
-    de localidad y el impuesto sobre el uso (Código de Virginia §§ 58.1-320, 58.1-321, 58.1-322.02, 58.1-322.03). Lo que deja
-    fuera: deducciones detalladas, las demás adiciones y sustracciones, todos los créditos, declaraciones de residente parcial
-    y de no residente, y la parte de un cónyuge en cualquier cosa.'
+  fg-detail-32e52d:
+    summary: Lo que cubre este prototipo y lo que deja fuera
+    p-3acefb: 'Lo que cubre este prototipo: la deducción estándar, las exenciones, la deducción por edad, el umbral de presentación,
+      la tabla de tasas, la retención, cuatro partidas del Anexo ADJ (beneficios por desempleo, sueldo básico militar, beneficios
+      militares y aportes a Commonwealth Savers), el Crédito para Personas de Bajos Ingresos y los dos Créditos por Ingreso
+      del Trabajo de Virginia, el código de localidad y el impuesto sobre el uso (Código de Virginia §§ 58.1-320, 58.1-321,
+      58.1-322.02, 58.1-322.03, 58.1-339.8). Lo que deja fuera: deducciones detalladas, las demás adiciones y sustracciones,
+      los demás créditos, declaraciones de residente parcial y de no residente, y la parte de un cónyuge en cualquier cosa.'
+  fg-detail-019666:
+    summary: ¿Empezó en otro dispositivo?
+    p-e48b80: Elija el archivo de respuestas que descargó desde la pantalla de revisión. Reemplaza todo lo ingresado aquí
+      con lo que contiene el archivo.
+    button-4658a2: Reanudar desde un archivo
 /your-taxes/virginia/virginia-summary:
-  title: Formulario 760, calculado a partir de su declaración federal
-  h2-59ac58: Formulario 760, calculado a partir de su declaración federal
-  p-c58539: <strong>Solo demostración.</strong> Año tributario <fg-show path="/taxYear"/>. Cada línea indica la ley de la
-    que proviene. Código de localidad <fg-show path="/vaLocalityCode"/>.
+  title: Su declaración de Virginia
+  p-87628a: '<strong>Solo demostración.</strong> Un prototipo de clase, no un servicio de Virginia Tax: nada de esta página
+    se presentó. Impreso desde el prototipo de declaración estatal de Virginia construido sobre el código de Direct File del
+    IRS.'
+  h2-ec9a2d: Su declaración de Virginia de <fg-show path="/taxYear"/>
+  p-ec9766: Usted le debe a Virginia
+  p-458cb5: <fg-show path="/vaAmountYouOwe"/>
+  p-78f24f: Debe pagarse a Virginia Tax a más tardar el <strong>1 de mayo de 2025</strong>
+  p-b65d95: Virginia le debe un reembolso
+  p-0cc724: <fg-show path="/vaRefund"/>
+  p-434a19: Virginia Tax lo envía una vez que se procese su declaración
+  p-65d63e: Nada que deber, sin reembolso
+  p-d0a872: $0
+  p-498bd2: Sus pagos coinciden exactamente con su impuesto de Virginia
+  h3-3be8f6: Sus cuatro respuestas
+  p-036ee9: Cada una todavía se puede cambiar. Todo lo demás en esta página proviene de su declaración federal, sus W-2 y
+    los registros de Virginia Tax.
   table-0:
-    caption-01cbec: Formulario 760 de Virginia
+    tr-0:
+      th-958efd: Dónde vivía el 1 de enero de 2025
+      td-ded28f: <fg-show path="/vaLocalityName"/>, código de localidad <fg-show path="/vaLocalityCode"/>
+      td-c570da: <a href="../virginia-locality/">Cambiar<span class="usa-sr-only"> dónde vivía</span></a>
+    tr-1:
+      th-7b2d20: Servicio militar o pensión de retiro militar
+      td-34770a: <span condition="/vaHasMilitaryIncome" operator="isFalse">No</span><span condition="/vaHasMilitaryIncome"
+        operator="isTrue">Sí</span><span condition="/vaHasMilitaryBasicPay" operator="isTrue">; sueldo básico <fg-show path="/vaMilitaryBasicPay"/></span><span
+        condition="/vaHasMilitaryRetirement" operator="isTrue">; retiro tributable <fg-show path="/vaMilitaryRetirementIncome"/></span>
+      td-2b86c1: <a href="../virginia-military/were-you-in-the/">Cambiar<span class="usa-sr-only"> sus respuestas sobre el
+        servicio militar</span></a>
+    tr-2:
+      th-ae5769: Aportes a Commonwealth Savers
+      td-04a55f: <span condition="/vaHasCommonwealthSaversContributions" operator="isFalse">No</span><span condition="/vaHasCommonwealthSaversContributions"
+        operator="isTrue">Sí, <fg-show path="/vaCommonwealthSaversContributions"/></span>
+      td-8e778f: <a href="../virginia-savers/did-you-put-money/">Cambiar<span class="usa-sr-only"> su respuesta sobre Commonwealth
+        Savers</span></a>
+    tr-3:
+      th-daa6b3: Compras sin impuesto sobre las ventas de Virginia
+      td-bb11f6: <span condition="/vaHasUntaxedPurchases" operator="isFalse">Ninguna</span><span condition="/vaHasUntaxedPurchases"
+        operator="isTrue">Sí, <fg-show path="/vaUntaxedPurchases"/></span>
+      td-29a6c9: <a href="../virginia-use-tax/did-you-buy-anything/">Cambiar<span class="usa-sr-only"> su respuesta sobre
+        compras sin impuesto</span></a>
+  table-1:
+    caption-320e94: Cómo llegó Virginia a esta cifra
+    tr-0:
+      th-2e9bd4: Impuesto sobre el ingreso de Virginia <span class="va-line">Línea 16, § 58.1-320</span>
+      td-c93610: <fg-show path="/vaTax"/>
+    tr-1:
+      th-6b845b: Crédito para trabajadores y familias de bajos ingresos <span class="va-line">Línea 23, § 58.1-339.8</span>
+      td-e0e532: <span class="va-op va-op--minus"><span class="usa-sr-only">menos </span></span><fg-show path="/vaLowIncomeCredit"/>
+    tr-2:
+      th-0d35a3: Retenido de su salario y ya pagado a Virginia <span class="va-line">Líneas 19a a 22, su W-2 y los registros
+        de Virginia Tax</span>
+      td-8d9b8f: <span class="va-op va-op--minus"><span class="usa-sr-only">menos </span></span><fg-show path="/vaPaymentsMade"/>
+    tr-3:
+      th-dec47d: Impuesto sobre el uso de compras sin impuesto <span class="va-line">Línea 33, la tasa donde usted vive</span>
+      td-93031d: <span class="va-op va-op--plus"><span class="usa-sr-only">más </span></span><fg-show path="/vaUseTax"/>
+  p-edb320: <span class="va-math__label">Cantidad que adeuda <span class="va-line">Línea 35</span></span> <strong><fg-show
+    path="/vaAmountYouOwe"/></strong>
+  p-265b71: <span class="va-math__label">Su reembolso <span class="va-line">Línea 36</span></span> <strong><fg-show path="/vaRefund"/></strong>
+  p-49c83f: <span class="va-math__label">Nada que deber y sin reembolso <span class="va-line">Líneas 35 y 36</span></span>
+    <strong>$0</strong>
+  p-50775c: Su ingreso bruto ajustado de Virginia está por debajo del umbral de presentación para su estado civil (§ 58.1-321),
+    por lo que su impuesto sobre la renta de Virginia es $0.
+  table-2:
+    caption-29a942: Su declaración federal y su declaración de Virginia, lado a lado
+    tr-0:
+      th-7d74f3: Concepto
+      th-c348f0: Federal <span class="va-line">Formulario 1040</span>
+      th-caa9c9: Virginia <span class="va-line">Formulario 760</span>
+    tr-1:
+      th-5f2594: Ingreso bruto ajustado
+      td-5637e9: <fg-show path="/agi"/>
+      td-99617f: <fg-show path="/vaAdjustedGrossIncome"/>
+    tr-2:
+      th-39f390: Deducción estándar
+      td-d88198: <fg-show path="/standardOrItemizedDeductions"/>
+      td-dc74d3: <fg-show path="/vaStandardDeduction"/>
+    tr-3:
+      th-4f489c: Exenciones
+      td-c2a288: <fg-show path="/totalExemptionsCount"/> reclamadas, con valor de $0 desde 2018
+      td-8e526f: <fg-show path="/vaExemptions"/>
+    tr-4:
+      th-b0360a: Ingreso tributable
+      td-275c50: <fg-show path="/taxableIncome"/>
+      td-3e5ed4: <fg-show path="/vaTaxableIncome"/>
+    tr-5:
+      th-4b78ac: Impuesto
+      td-986ac4: <fg-show path="/totalTax"/>
+      td-c93610: <fg-show path="/vaTax"/>
+    tr-6:
+      th-92e697: Impuesto retenido
+      td-c638f3: <fg-show path="/totalWithholding"/>
+      td-7490ed: <fg-show path="/vaWithholding"/>
+  h3-9cbb59: Todas las líneas del Formulario 760
+  table-3:
+    caption-147a28: Formulario 760, declaración del impuesto sobre el ingreso para residentes de Virginia, <fg-show path="/taxYear"/>.
+      Código de localidad <fg-show path="/vaLocalityCode"/>.
     tr-0:
       th-04a085: Línea 1, ingreso bruto ajustado federal
       td-515411: <fg-show path="/vaFederalAdjustedGrossIncome"/>
@@ -14885,8 +14997,9 @@
       th-d8d6dc: Línea 5, beneficios del Seguro Social sujetos a impuesto (§ 58.1-322.02(3))
       td-abf769: <fg-show path="/vaTaxableSocialSecurityBenefits"/>
     tr-3:
-      th-93e678: Línea 7, premios de la Lotería de Virginia de menos de $600 (§ 58.1-322.02(7))
-      td-7e51b0: <fg-show path="/vaLotterySubtraction"/>
+      th-5f1816: 'Línea 7, sustracciones del Anexo ADJ: beneficios por desempleo (código 37), sueldo básico militar y beneficios
+        militares (§ 58.1-322.02(15), (18))'
+      td-c9fc5b: <fg-show path="/vaScheduleAdjSubtractions"/>
     tr-4:
       th-972c17: Línea 9, ingreso bruto ajustado de Virginia
       td-99617f: <fg-show path="/vaAdjustedGrossIncome"/>
@@ -14912,33 +15025,131 @@
       th-ae6105: Líneas 20 a 22, pagos que Virginia Tax tiene registrados
       td-0b57f5: <fg-show path="/vaEstimatedPayments"/> + <fg-show path="/vaPriorYearOverpaymentApplied"/> + <fg-show path="/vaExtensionPayments"/>
     tr-12:
+      th-fc4969: Línea 23, Crédito para Personas de Bajos Ingresos o Crédito por Ingreso del Trabajo de Virginia (§ 58.1-339.8)
+      td-17181d: <fg-show path="/vaLowIncomeCredit"/>
+    tr-13:
       th-06abe0: Línea 27, impuesto que debe antes del impuesto sobre el uso
       td-2aa488: <fg-show path="/vaTaxYouOwe"/>
-    tr-13:
+    tr-14:
       th-f67e8a: Línea 28, su pago en exceso
       td-9388e0: <fg-show path="/vaOverpayment"/>
-    tr-14:
+    tr-15:
       th-7c65a0: Línea 33, impuesto sobre el uso
       td-f778b5: <fg-show path="/vaUseTax"/>
-    tr-15:
+    tr-16:
       th-684211: Línea 35, monto que debe
       td-71d917: <strong><fg-show path="/vaAmountYouOwe"/></strong>
-    tr-16:
+    tr-17:
       th-5e20c2: Línea 36, su reembolso
       td-b4b35d: <strong><fg-show path="/vaRefund"/></strong>
-  p-50775c: Su ingreso bruto ajustado de Virginia está por debajo del umbral de presentación para su estado civil (§ 58.1-321),
-    por lo que su impuesto sobre la renta de Virginia es $0.
-  p-76dc46: <strong>Antes de que alguien presente esto.</strong> El Formulario 760 se firma bajo pena de ley como verdadero,
-    correcto y completo. Virginia Tax compara los salarios y la retención del W-2 en una declaración con lo que informó el
-    empleador. Las cuatro respuestas anteriores no pueden cotejarse con ningún informe; por eso se preguntan y se firman.
-  p-0b6cdd: Las líneas que no se muestran están fuera del alcance de este prototipo y se toman como $0. Nada de esto se presenta.
+  h3-01a5ac: Por qué estas cifras
+  fg-detail-bffc0d:
+    summary: 'Línea 4, deducción por edad: <fg-show path="/vaAgeDeduction"/>'
+    p-7b9c68: 'Un declarante nacido el 1 de enero de 1939 o antes resta $12,000; un declarante de 65 años o más nacido después
+      resta $12,000 menos $1 por cada $1 de AGI federal ajustado por encima del umbral de su estado civil (§ 58.1-322.03(5)).
+      Su parte: <fg-show path="/vaPrimaryFilerAgeDeductionAllowed"/>.<span condition="/vaIsFilingStatus2" operator="isTrue">
+      La parte de su cónyuge: <fg-show path="/vaSpouseAgeDeductionAllowed"/>.</span>'
+    p-bbef02: La línea 4 muestra $0 porque la declaración reclama en su lugar un crédito para personas de bajos ingresos,
+      que la ley no permite junto con la deducción por edad. Vea la línea 23.
+  fg-detail-32f58b:
+    summary: 'Línea 7, sustracciones del Anexo ADJ: <fg-show path="/vaScheduleAdjSubtractions"/>'
+    p-bf9d2e: 'Tres sustracciones sumadas: beneficios por desempleo <fg-show path="/vaUnemploymentCompensationSubtraction"/>
+      (código 37, el total del 1099-G menos lo devuelto), sueldo básico militar <fg-show path="/vaMilitaryBasicPaySubtraction"/>
+      (código 38, todo hasta $15,000, reduciéndose hasta nada a los $30,000) y beneficios militares <fg-show path="/vaMilitaryBenefitsSubtraction"/>
+      (código 60, hasta $30,000 y no más que la cantidad tributable de sus 1099-R).'
+    p-668cae: La sustracción por sueldo básico muestra $0 porque la declaración reclama en su lugar un crédito para personas
+      de bajos ingresos. Vea la línea 23.
+  fg-detail-ab3ee1:
+    summary: 'Línea 12, exenciones: <fg-show path="/vaExemptions"/>'
+    p-9d44ec: <fg-show path="/vaPersonalExemptionCount"/> × <fg-show path="/vaPersonalExemptionAmount"/> por usted, un cónyuge
+      en una declaración conjunta y cada dependiente, <fg-show path="/vaPersonalExemptions"/>, más <fg-show path="/vaAgedOrBlindExemptionCount"/>
+      × <fg-show path="/vaAgedOrBlindExemptionAmount"/> por cada uno de ustedes que tenga 65 años o más o sea ciego, <fg-show
+      path="/vaAgedOrBlindExemptionsAllowed"/> (§ 58.1-322.03(2)).
+    p-3ea63e: La parte por 65 años o más y por ceguera se deja fuera porque la declaración reclama en su lugar un crédito
+      para personas de bajos ingresos. Vea la línea 23.
+  fg-detail-4deab3:
+    summary: 'Línea 16, impuesto sobre la renta de Virginia: <fg-show path="/vaTax"/>'
+    p-9755b5: 'Virginia grava los primeros <fg-show path="/vaRateScheduleBracket1Top"/> de ingreso tributable al <fg-show
+      path="/vaRateScheduleRate1Percent"/>%, la parte hasta <fg-show path="/vaRateScheduleBracket2Top"/> al <fg-show path="/vaRateScheduleRate2Percent"/>%,
+      la parte hasta <fg-show path="/vaRateScheduleBracket3Top"/> al <fg-show path="/vaRateScheduleRate3Percent"/>% y el resto
+      al <fg-show path="/vaRateScheduleRate4Percent"/>% (§ 58.1-320). Su ingreso tributable de <fg-show path="/vaTaxableIncome"/>
+      está <fg-show path="/vaIncomeAboveBracketBase"/> por encima de <fg-show path="/vaTaxBracketBase"/>: los <fg-show path="/vaTaxAtBracketBase"/>
+      de impuesto en ese punto más el <fg-show path="/vaMarginalRatePercent"/>% de <fg-show path="/vaIncomeAboveBracketBase"/>,
+      <fg-show path="/vaTaxOnIncomeAboveBracketBase"/>, redondeado al dólar.'
+    p-87ae6e: 'La línea 16 es $0 de todos modos: su ingreso bruto ajustado de Virginia está por debajo del umbral de presentación
+      para su estado civil (§ 58.1-321).'
+  fg-detail-07f245:
+    summary: 'Línea 23, crédito para trabajadores y familias de bajos ingresos: <fg-show path="/vaLowIncomeCredit"/>'
+    p-71f1c8: En esta declaración no se reclama ningún crédito.
+    p-f8c459: 'Crédito Reembolsable por Ingreso del Trabajo de Virginia: <fg-show path="/vaLowIncomeCredit"/>'
+    p-600197: El 15% de los <fg-show path="/vaFederalEarnedIncomeCredit"/> del crédito por ingreso del trabajo de su declaración
+      federal. Virginia lo paga aunque supere su impuesto, así que puede convertirse en un reembolso.
+    p-88f21a: 'Crédito por Ingreso del Trabajo de Virginia: <fg-show path="/vaLowIncomeCredit"/>'
+    p-eed81c: El 20% de los <fg-show path="/vaFederalEarnedIncomeCredit"/> del crédito por ingreso del trabajo de su declaración
+      federal, hasta el monto de su impuesto de Virginia. Valía más que el 15% reembolsable (<fg-show path="/vaRefundableEarnedIncomeCredit"/>).
+    p-272240: 'Crédito para Personas de Bajos Ingresos: <fg-show path="/vaLowIncomeCredit"/>'
+    p-3622de: $300 por cada persona de su hogar, porque el ingreso bruto ajustado de Virginia de su familia no supera la pauta
+      de pobreza de <fg-show path="/vaPovertyGuideline"/> para su tamaño. Hasta el monto de su impuesto de Virginia.
+    p-757ccd: Para reclamarlo, su declaración renuncia a su deducción por edad de <fg-show path="/vaAgeDeductionAllowed"/>.
+      El crédito reduce más su impuesto.
+    p-451e98: Para reclamarlo, su declaración renuncia a su exención de <fg-show path="/vaAgedOrBlindExemptionsAllowed"/>
+      por tener 65 años o más o por ceguera. El crédito reduce más su impuesto.
+    p-197310: Para reclamarlo, su declaración renuncia a su sustracción de <fg-show path="/vaMilitaryBasicPaySubtractionAllowed"/>
+      por sueldo básico militar. El crédito reduce más su impuesto.
+    p-a209eb: No tuvo que pedirlo. Los tres créditos de Virginia para personas de bajos ingresos salen de su declaración federal;
+      la declaración reclama el que más le conviene, como pide el Formulario 760 (Anexo ADJ, líneas 10 a 17).
+    p-c42507: Podría reclamar <fg-show path="/vaBestLowIncomeCredit"/> del crédito de Virginia para trabajadores y familias
+      de bajos ingresos, pero solo renunciando a su deducción por edad, a su exención por tener 65 años o más o por ceguera,
+      o a su sustracción por sueldo básico militar. Conservarlas reduce más su impuesto, así que su declaración las conserva.
+  fg-detail-306512:
+    summary: 'Línea 33, impuesto sobre el uso: <fg-show path="/vaUseTax"/>'
+    p-412ce3: <fg-show path="/vaUntaxedPurchases"/> de compras por las que no se pagó impuesto sobre las ventas de Virginia,
+      multiplicados por la tasa del <fg-show path="/vaUseTaxRatePercent"/>% de <fg-show path="/vaLocalityName"/>, redondeado
+      al dólar (instrucciones del Formulario 760 de 2024, línea 33).
+    p-bd9aa7: No compró nada sin pagar el impuesto sobre las ventas de Virginia, así que la línea 33 es $0.
+  p-382bd2: Cada línea indica la ley de la que proviene. Las líneas que no se muestran están fuera del alcance de este prototipo
+    y se toman como $0. Aquí no se presenta nada.
+  p-d623bc: <strong>Virginia Tax</strong> responde las preguntas sobre esta declaración, no el IRS.
+  h3-1c8ae7: Guarde una copia
+  p-801bf8: Imprima esta página como constancia de la declaración, o descargue el archivo de respuestas que este prototipo
+    guarda en su navegador; la primera pantalla de Virginia puede reanudar desde él en otro dispositivo.
+  button-59d4a6: Imprimir esta declaración
+  button-04d9c6: Descargar sus respuestas
 /your-taxes/virginia/virginia-known:
-  title: Lo que ya se sabe
-  h2-5baf3a: Lo que ya se sabe
-  p-166bcc: Agrupado según su origen. Estos son los datos con los que se calcula su declaración de Virginia. Para corregir
-    uno, vuelva a la pantalla donde lo ingresó; la corrección llega a ambas declaraciones.
+  title: Lo que Virginia ya tiene
+  h2-a78825: Esto es lo que Virginia ya tiene
+  p-2e7371: No necesita ingresar nada de esto. Está agrupado según quién se lo informó a Virginia. Revíselo en esta pantalla;
+    la siguiente le pregunta si todo está bien, y una corrección llega a ambas declaraciones.
   table-0:
-    caption-e82ee3: De su declaración federal
+    caption-dfd760: <span class="va-source__title">Los registros propios de Virginia Tax</span> <span class="va-source__sub">Pagos
+      que usted ya hizo a Virginia</span>
+    tr-0:
+      th-82966b: Pagos estimados hechos para <fg-show path="/taxYear"/> <span class="va-line">Línea 20</span>
+      td-7876f6: <fg-show path="/vaEstimatedPayments"/>
+    tr-1:
+      th-a27314: Pago en exceso del año anterior aplicado <span class="va-line">Línea 21</span>
+      td-cda2a4: <fg-show path="/vaPriorYearOverpaymentApplied"/>
+    tr-2:
+      th-770258: Pagos de prórroga <span class="va-line">Línea 22</span>
+      td-f86689: <fg-show path="/vaExtensionPayments"/>
+  p-6005e3: 'Registros de Virginia: se encontró una coincidencia'
+  p-0c93ed: 'Un registro bajo su apellido y fecha de nacimiento completó las líneas 20 a 22 de arriba. Si falta un pago o
+    está mal, dígalo en la siguiente pantalla: esas tres líneas se pueden corregir allí, y su corrección se conserva.'
+  p-82266b: 'Registros de Virginia: no se encontró coincidencia'
+  p-6128a1: No hay nada registrado bajo su apellido y fecha de nacimiento, así que las líneas 20 a 22 de arriba muestran $0.
+    Si sí hizo un pago a Virginia, dígalo en la siguiente pantalla e ingréselo allí.
+  table-1:
+    caption-ad5e1f: <span class="va-source__title">Su empleador</span> <span class="va-source__sub">De los W-2 que presentó
+      ante Virginia y el IRS</span>
+    tr-0:
+      th-c5c3ae: Salarios, todos los W-2 <span class="va-line">casilla 1</span>
+      td-1a2421: <fg-show path="/wages"/>
+    tr-1:
+      th-7f7b1c: Impuesto de Virginia retenido, todos los W-2 <span class="va-line">casilla 17, Línea 19a</span>
+      td-7490ed: <fg-show path="/vaWithholding"/>
+  table-2:
+    caption-2b8de5: <span class="va-source__title">Su declaración federal</span> <span class="va-source__sub">Las respuestas
+      que dio en las secciones federales</span>
     tr-0:
       th-49ee30: Nombre
       td-5c6ab6: <fg-show path="/primaryFiler/firstName"/> <fg-show path="/primaryFiler/lastName"/>
@@ -14949,41 +15160,26 @@
       th-4965e9: Fecha de nacimiento
       td-6c194e: <fg-show path="/primaryFiler/dateOfBirth"/>
     tr-3:
-      th-4995ba: Ingreso bruto ajustado federal (Formulario 1040, línea 11)
+      th-399365: Ingreso bruto ajustado federal <span class="va-line">Formulario 1040, línea 11</span>
       td-5637e9: <fg-show path="/agi"/>
     tr-4:
-      th-030f2a: Seguro Social sujeto a impuesto (línea 6b)
+      th-e39b5b: Seguro Social sujeto a impuestos <span class="va-line">Formulario 1040, línea 6b</span>
       td-61057a: <fg-show path="/taxableSocialSecurityBenefits"/>
-  table-1:
-    caption-06043f: De los W-2 que su empleador presentó ante el IRS y ante Virginia
-    tr-0:
-      th-017c12: Casilla 1, salarios, todos los W-2
-      td-1a2421: <fg-show path="/wages"/>
-    tr-1:
-      th-b480cb: Casilla 17, impuesto de Virginia retenido, todos los W-2 (línea 19a)
-      td-7490ed: <fg-show path="/vaWithholding"/>
-  table-2:
-    caption-be46ff: De los registros de Virginia Tax
-    tr-0:
-      th-6d2a34: Pagos estimados hechos para <fg-show path="/taxYear"/> (línea 20)
-      td-7876f6: <fg-show path="/vaEstimatedPayments"/>
-    tr-1:
-      th-d21ba1: Pago en exceso del año pasado aplicado (línea 21)
-      td-cda2a4: <fg-show path="/vaPriorYearOverpaymentApplied"/>
-    tr-2:
-      th-62361b: Pagos con prórroga (línea 22)
-      td-f86689: <fg-show path="/vaExtensionPayments"/>
-  p-10442a: En un servicio del estado, los tres últimos vienen de los libros de Virginia Tax. Este prototipo los lee de un
-    sustituto de esos registros, emparejado con usted por nombre y fecha de nacimiento, de modo que ya están completos antes
-    de que los vea. Siguen siendo corregibles.
+    tr-5:
+      th-40f36e: Crédito por ingreso del trabajo <span class="va-line">Formulario 1040, línea 27</span>
+      td-de474a: <fg-show path="/vaFederalEarnedIncomeCredit"/>
+  p-452223: En un servicio administrado por el estado, los registros de Virginia Tax provienen de sus propios libros. Este
+    prototipo los lee de un sustituto de esos registros, vinculado a usted por nombre y fecha de nacimiento, así que ya están
+    completos cuando los ve. Se completan una sola vez; una corrección que usted les haga se conserva.
 /your-taxes/virginia/virginia-locality:
   title: ¿Dónde vivía el 1 de enero?
-  h2-f59a8d: ¿En qué ciudad o condado vivía el 1 de enero de 2025?
+  p-c6665d: Pregunta 1 de 4
+  h2-7336f9: ¿En qué ciudad o condado de Virginia vivía el 1 de enero de 2025?
   p-7ce7cf: El Formulario 760 pide su código de localidad. Virginia lo usa, en parte, para asignar fondos escolares locales.
     Su dirección indica una ciudad y un código postal, pero un código postal puede cruzar el límite de un condado y aquí se
     trata del 1 de enero, el día siguiente al año tributario, así que confírmelo.
-  p-ae5dac: 'Virginia no tiene impuesto local sobre la renta. Su lugar de residencia cambia una sola cosa en esta declaración:
-    la tasa del impuesto sobre el uso en compras sin impuesto, que se pregunta dos pantallas más adelante.'
+  p-906b6c: 'Virginia no tiene impuesto local sobre la renta. Su lugar de residencia cambia una sola cosa en esta declaración:
+    la tasa del impuesto sobre el uso en compras sin impuesto, que se pregunta tres pantallas más adelante.'
   /vaLocality:
     question: Ciudad o condado donde vivía el 1 de enero de 2025
     options:
@@ -15253,8 +15449,22 @@
         name: Wythe County
       york-county:
         name: York County
+  p-bd4921: Lo completamos a partir de su código postal, <fg-show path="/address/postalCode"/>, que está en una sola ciudad
+    o condado. Cámbielo si el 1 de enero de 2025 vivía en otro lugar.
+  p-779640: Su dirección ahora apunta a <fg-show path="/vaLocalityFromAddressName"/>. Conserve <fg-show path="/vaLocalityName"/>
+    si allí vivía el 1 de enero de 2025, o cámbielo arriba.
+  p-4da3d9: 'Su código postal, <fg-show path="/address/postalCode"/>, cruza el límite de una ciudad o condado. Incluye partes
+    de: <fg-show path="/vaAddressZipLocalityNames"/>. Elija aquella en la que vivía.'
+  p-0445ac: 'Las ciudades independientes de Virginia son distintas de los condados que las rodean: Richmond City no es Henrico
+    County ni Richmond County, y Fairfax City no es Fairfax County.'
+  p-ea0a15: '<strong><fg-show path="/vaLocalityName"/></strong>, código de localidad del Formulario 760 <strong><fg-show path="/vaLocalityCode"/></strong>.
+    Tasa del impuesto sobre el uso donde usted vive: <strong><fg-show path="/vaUseTaxRatePercent"/>%</strong>.'
+  p-167016: 'Su estimación de Virginia hasta ahora: <strong>usted debe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Su estimación de Virginia hasta ahora: <strong>un reembolso de <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Su estimación de Virginia hasta ahora: <strong>no debe nada y no hay reembolso</strong>'
 /your-taxes/virginia/virginia-lottery:
   title: Premios de la Lotería de Virginia
+  p-74e611: Pregunta 3 de 5
   h2-40b8da: ¿Ganó un premio de la Lotería de Virginia de menos de $600 en 2024?
   p-37fe58: Virginia no grava los premios de menos de $600, pero su declaración federal los cuenta como ingreso, así que Virginia
     los resta en la línea 7 (Código de Virginia § 58.1-322.02(7)). Los premios de $600 o más se informan a Virginia y siguen
@@ -15272,6 +15482,7 @@
     question: Total de premios de la Lotería de Virginia de menos de $600
 /your-taxes/virginia/virginia-savers:
   title: Aportes a Commonwealth Savers
+  p-1f4216: Pregunta 3 de 4
   h2-b7e29e: ¿Aportó dinero a una cuenta Commonwealth Savers (Virginia529) en 2024?
   p-f42bed: Commonwealth Savers es el plan de ahorro universitario del estado. Los aportes son deducibles en la línea 13,
     hasta $4,000 por cuenta al año, salvo que haya cumplido 70 años (Código de Virginia § 58.1-322.03(7)). El plan no informa
@@ -15283,13 +15494,20 @@
         name: Sí
       'false':
         name: 'No'
+  p-167016: 'Su estimación de Virginia hasta ahora: <strong>usted debe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Su estimación de Virginia hasta ahora: <strong>un reembolso de <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Su estimación de Virginia hasta ahora: <strong>no debe nada y no hay reembolso</strong>'
   h2-44b450: ¿Cuánto aportó en 2024?
   p-170c80: Ingrese el total. La deducción tiene un tope de $4,000 salvo que haya cumplido 70; en una declaración real, lo
     que supere ese tope se trasladaría a años posteriores.
   /vaCommonwealthSaversContributions:
     question: Monto aportado a cuentas Commonwealth Savers
+    hint: Se deducen hasta $4,000, salvo que tenga 70 años o más, en cuyo caso se deduce todo.
+  p-8cd295: De los <fg-show path="/vaCommonwealthSaversContributions"/> que ingresó, <fg-show path="/vaCommonwealthSaversCap"/>
+    se deducen este año. En una declaración real, el resto se trasladaría a años posteriores.
 /your-taxes/virginia/virginia-use-tax:
   title: Compras sin impuesto
+  p-aa276e: Pregunta 4 de 4
   h2-15bb3c: ¿Compró algo en 2024 sin pagar el impuesto sobre las ventas de Virginia?
   p-246296: 'Por internet, por correo o en otro estado, donde el vendedor no cobró impuesto de Virginia. Virginia se lo pregunta
     a todos los declarantes (línea 33, impuesto sobre el uso). Ningún vendedor lo informa, así que la respuesta tiene que
@@ -15302,11 +15520,18 @@
         name: Sí
       'false':
         name: No, nada sin impuesto
+  p-167016: 'Su estimación de Virginia hasta ahora: <strong>usted debe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Su estimación de Virginia hasta ahora: <strong>un reembolso de <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Su estimación de Virginia hasta ahora: <strong>no debe nada y no hay reembolso</strong>'
   h2-bbde4b: ¿Cuánto sumaron esas compras?
-  p-7e719b: El envío facturado por separado no está sujeto a impuesto. Su impuesto sobre el uso es este total multiplicado
-    por la tasa de su localidad.
+  p-93d1c0: El envío facturado por separado no está sujeto a impuesto. Su impuesto sobre el uso es este total multiplicado
+    por la tasa del <fg-show path="/vaUseTaxRatePercent"/>% de <fg-show path="/vaLocalityName"/>, redondeado al dólar.
   /vaUntaxedPurchases:
     question: Total de compras por las que no se pagó impuesto sobre las ventas de Virginia
+    hint: El precio total de las cosas que compró sin pagar impuesto sobre las ventas, tal como lo cobraron los vendedores,
+      sin contar el envío facturado por separado.
+  p-6419f5: 'Impuesto sobre el uso de <fg-show path="/vaUntaxedPurchases"/> al <fg-show path="/vaUseTaxRatePercent"/>% para
+    <fg-show path="/vaLocalityName"/>: <strong><fg-show path="/vaUseTax"/></strong>'
 /your-taxes/virginia/virginia-check:
   title: ¿Está todo bien?
   h2-93487e: ¿Está todo bien en la pantalla anterior?
@@ -15331,6 +15556,8 @@
         name: Mi fecha de nacimiento
       w2:
         name: Un W-2 de mi empleador
+      records:
+        name: Un pago que muestran los registros de Virginia (líneas 20 a 22)
 /your-taxes/virginia/virginia-correct-dob:
   title: Corrija su fecha de nacimiento
   h2-ea2075: Corrija su fecha de nacimiento
@@ -15348,7 +15575,6 @@
     sus salarios de Virginia y el impuesto ya retenido.'
   collection/formW2s:
     itemName: W-2
-    h2-953964: W-2 de <fg-show path="/formW2s/*/employerName"/>
     /formW2s/*/employerName:
       question: Nombre del empleador
     /formW2s/*/writableWages:
@@ -15359,6 +15585,7 @@
       question: <strong>Casilla 16</strong> - Salarios estatales, propinas, etc.
     /formW2s/*/writableStateWithholding:
       question: <strong>Casilla 17</strong> - Impuesto estatal sobre la renta retenido
+    h3-953964: W-2 de <fg-show path="/formW2s/*/employerName"/>
 /your-taxes/virginia/virginia-corrections:
   title: Su corrección
   h2-34a5ea: Su corrección quedó guardada. Esto es lo que cambió.
@@ -15366,3 +15593,93 @@
   p-ac7c9a: <strong>Lo que no cambia.</strong> Todo lo demás que vio sigue igual, y nada de lo que ya respondió se le volverá
     a preguntar. Su declaración federal lleva la misma corrección. Para corregir otra cosa, vuelva a "¿Está todo bien?" y
     elija de nuevo.
+/your-taxes/virginia/virginia-military:
+  title: Servicio militar
+  p-9cf179: Pregunta 2 de 4
+  h2-6b6a17: ¿Estuvo en las Fuerzas Armadas de los EE. UU. en 2024 o recibió una pensión de retiro militar?
+  p-915d2b: Virginia no grava parte del sueldo básico de un miembro del servicio militar, ni hasta $30,000 de la pensión de
+    retiro militar (Código de Virginia § 58.1-322.02(15) y (18)). Su W-2 y su 1099-R muestran el total, no qué parte es sueldo
+    básico o retiro militar, así que solo usted puede decírnoslo.
+  /vaHasMilitaryIncome:
+    question: ¿Estuvo en las Fuerzas Armadas de los EE. UU. en 2024 o recibió una pensión de retiro militar?
+    options:
+      'true':
+        name: Sí
+      'false':
+        name: 'No'
+  p-167016: 'Su estimación de Virginia hasta ahora: <strong>usted debe <fg-show path="/vaAmountYouOwe"/></strong>'
+  p-b3021b: 'Su estimación de Virginia hasta ahora: <strong>un reembolso de <fg-show path="/vaRefund"/></strong>'
+  p-ed1c54: 'Su estimación de Virginia hasta ahora: <strong>no debe nada y no hay reembolso</strong>'
+  h2-64615f: ¿Estuvo en servicio activo más de 90 días seguidos en 2024?
+  p-758664: Servicio activo prolongado en cualquier lugar, dentro o fuera de Virginia. Virginia resta hasta $15,000 del sueldo
+    básico militar; la sustracción baja $1 por cada $1 de sueldo básico por encima de $15,000 y desaparece a los $30,000.
+  /vaHasMilitaryBasicPay:
+    question: ¿Estuvo en servicio activo prolongado durante más de 90 días consecutivos en 2024?
+    options:
+      'true':
+        name: Sí
+      'false':
+        name: 'No'
+  h2-15f14e: ¿Cuánto sueldo básico militar recibió en 2024?
+  p-ff098b: Solo el sueldo básico, según sus estados de licencias y ganancias (LES). No incluya las asignaciones de vivienda
+    y alimentación, las bonificaciones ni las pagas especiales; la casilla 1 de su W-2 incluye algunas de ellas, por lo que
+    suele ser mayor que su sueldo básico.
+  /vaMilitaryBasicPay:
+    question: Sueldo básico militar recibido en 2024
+    hint: Cuentan hasta $30,000. Se resta todo hasta $15,000; por encima, la sustracción baja $1 por cada $1 de sueldo, y
+      a los $30,000 no se resta nada.
+  p-69ea01: 'Con <fg-show path="/vaMilitaryBasicPay"/> de sueldo básico la sustracción es $0: termina en <fg-show path="/vaMilitaryBasicPayMaximum"/>.
+    La respuesta queda registrada de todos modos y nada más cambia en su declaración.'
+  h2-e8c2b2: ¿Recibió una pensión de retiro militar o pagos del Plan de Beneficios para Sobrevivientes (SBP) en 2024?
+  p-e6e6f4: Pensión de retiro por servicio en las Fuerzas Armadas de los EE. UU., o beneficios que recibe como cónyuge sobreviviente
+    de un veterano. Para 2024, Virginia no grava hasta $30,000, a cualquier edad.
+  /vaHasMilitaryRetirement:
+    question: ¿Recibió una pensión de retiro militar o pagos del Plan de Beneficios para Sobrevivientes (SBP) en 2024?
+    options:
+      'true':
+        name: Sí
+      'false':
+        name: 'No'
+  h2-7c0a04: ¿Cuánto de eso fue tributable?
+  p-b62b0f: La cantidad tributable de la casilla 2a del 1099-R del Servicio de Finanzas y Contabilidad de Defensa (DFAS),
+    sumada si tiene más de uno.
+  /vaMilitaryRetirementIncome:
+    question: Retiro militar y beneficios para sobrevivientes tributables recibidos en 2024
+    hint: Cuentan hasta $30,000, y no más que la cantidad tributable de sus 1099-R.
+  p-3f67c2: De los <fg-show path="/vaMilitaryRetirementIncome"/> que ingresó, <fg-show path="/vaMilitaryBenefitsMaximum"/>
+    es lo máximo que Virginia resta para 2024. El resto sigue siendo tributable.
+/your-taxes/virginia/virginia-sign:
+  title: Firme su declaración de Virginia
+  h2-dbc9d5: Firme su declaración ante la Mancomunidad
+  p-564a3c: Virginia Tax compara los salarios y la retención del W-2 de su declaración con lo que informó su empleador. Sus
+    cuatro respuestas no se pueden verificar con ningún informe; por eso usted firma por ellas.
+  /vaDeclaration:
+    question: Su declaración
+    hint: El Formulario 760 se firma bajo pena de ley.
+    options:
+      signed:
+        name: Declaro que esta declaración es verdadera, correcta y completa según mi leal saber y entender, incluidas mis
+          respuestas sobre dónde vivía, la paga militar, los aportes a Commonwealth Savers y las compras sin impuestos.
+  button-5b455a: Enviar a Virginia Tax
+  p-877924: '<strong>No se envió nada.</strong> En esta demostración su declaración firmada no va a ninguna parte: no se transmitió
+    ningún Formulario 760 a Virginia Tax y no se presentó nada. En un servicio administrado por el estado, este es el momento
+    en que Virginia Tax la recibiría.'
+  p-12ce70: <strong>Solo demostración.</strong> No se firma ni se envía nada a Virginia Tax. A continuación, revisará y firmará
+    su declaración federal.
+/your-taxes/virginia/virginia-correct-records:
+  title: Corrija un pago registrado
+  h2-eab31a: Corrija un pago que muestran los registros de Virginia
+  p-f61470: 'Las líneas 20 a 22 se completaron a partir del sustituto de los registros de Virginia Tax, bajo su apellido y
+    fecha de nacimiento. Ingrese lo que realmente pagó; deje una línea en blanco para $0. Lo que ingrese aquí se conserva:
+    los registros no se vuelven a leer para usted.'
+  p-2c0dcf: En un servicio administrado por el estado, una diferencia con los libros propios de Virginia Tax se verificaría
+    contra ellos antes de aceptar la declaración.
+  /vaEstimatedPayments:
+    question: Línea 20, pagos estimados hechos para <fg-show path="/taxYear"/>
+    hint: El total de los pagos estimados que envió a Virginia Tax durante el año (Formulario 760ES).
+  /vaPriorYearOverpaymentApplied:
+    question: Línea 21, pago en exceso del año anterior aplicado a este año
+    hint: La parte del reembolso de Virginia del año pasado que pidió que se acreditara a este año en lugar de pagarse.
+  /vaExtensionPayments:
+    question: Línea 22, pagos de prórroga
+    hint: Lo que pagó con una solicitud de prórroga (Formulario 760IP).
