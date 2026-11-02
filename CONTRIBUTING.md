@@ -15,8 +15,9 @@ macOS 13 on 2026-10-19; a newer Mac only has it easier.
    ```
 3. **Clone and build:**
    ```bash
-   git clone git@github.com:gchickering21/direct-file-virginia.git
+   git clone https://github.com/gchickering21/direct-file-virginia.git   # or git@github.com:gchickering21/direct-file-virginia.git
    cd direct-file-virginia
+   make doctor             # the tools, disk and ports, with the fix beside anything missing
    make stack-build        # 15–30 minutes the first time: Maven and sbt inside Docker
    make stack-up
    make client             # leave this terminal running
@@ -57,16 +58,28 @@ second compose file:
 
 ## Making a change
 
-- Virginia changes go under `direct-file/`, one policy concept per commit, following
-  `report/PLAN.md` §9 (what "done" means, commit messages, the policy map).
-- The IRS's own guides for the code: `direct-file/ONBOARDING.md`, then the README in
-  each service folder, then `direct-file/docs/`.
-- The fact dictionary is XML in `backend/src/main/resources/tax/` and is symlinked into
-  the client. After editing it, in `df-client/df-client-app`:
-  `npm run generate-fact-dictionary`, or `npm run watch-fact-dictionary` while you work.
-- The client's own tests, from `df-client`: `npm test`. The fact-dictionary and flow
-  tests are under `df-client-app/src/test/`.
-- Branch per concept, rebase onto `main` before merging, never force-push `main`.
+- Virginia changes go in `form-builder-examples/direct-file/` (the IRS's port, below), one
+  policy concept per commit, following `report/PLAN.md` §9 (what "done" means, commit
+  messages, the policy map). `direct-file/` is the archived 2025 application and is never
+  modified; it is here as the "before" and for reading.
+- The IRS's own guides for the archived code: `direct-file/ONBOARDING.md`, then the README
+  in each service folder, then `direct-file/docs/`.
+- To read the archived application's fact dictionary (the source the port's own dictionary
+  was transpiled from): it is XML in `direct-file/direct-file/backend/src/main/resources/tax/`,
+  and the client generates its TypeScript view of it in
+  `direct-file/direct-file/df-client/df-client-app` with `npm run generate-fact-dictionary`
+  (`npm run start` does so on its own). Read it; do not edit it.
+- The archived client's own tests, from `direct-file/direct-file/df-client`: `npm test`;
+  the fact-dictionary and flow tests are under `df-client-app/src/test/`.
+- Before a commit that touched the port: `make ci-local`, and `stack/check-vendor-drift.sh`
+  (below). Branch per concept, rebase onto `main` before merging, never force-push `main`.
+- The root `make` targets for the checks and the housekeeping: `doctor` (is this machine
+  ready), `virginia-check` and `ci-local` (the no-JVM checks), `stats` (the true counts;
+  `STATS=--check` scans the docs), `handoff` and `handoff-verify` (the patch series, and the
+  proof it applies at the IRS pin), `bump-pin` (move one IRS pin, dry run unless `APPLY=1`),
+  `virginia-cases` and `virginia-a11y` (the browser checks), `port-test` (ScalaTest). In the
+  port's own Makefile, `make workbench` serves the rules workbench on port 3011 and
+  `make workbench-check` runs its worked examples.
 
 ## If something is wrong
 
@@ -105,11 +118,12 @@ make port-dev          # http://localhost:3008/app/direct-file, regenerating on 
 
 The first bootstrap takes a few minutes while sbt fetches itself; the two libraries then
 compile in under a minute each, and the port regenerates its 140-page site in about 20
-seconds after an edit. To see the Virginia screens: Scenario → Virginia Demo 1 or 2 →
+seconds after an edit. To see the Virginia screens: Scenario → Virginia Demo 1 to 4 →
 Load scenario → step to "Your Virginia return" near the end, or open
 `/your-taxes/virginia/virginia-summary/` directly once a Virginia household is loaded.
 With no Virginia resident loaded the runtime skips the Virginia pages, which is the gate
-working.
+working. `make port-up` serves the same site from Docker, one question per screen, through
+`stack/port-override.yaml`.
 
 ### Where things are
 
@@ -117,11 +131,14 @@ working.
 |---|---|
 | The Virginia rules | `src/main/resources/direct-file/facts/virginia.xml`, `facts/virginiaLocalities.xml` |
 | The Virginia screens | `flow/your-taxes-virginia.xml`; Spanish in `locales/virginia_es.yaml`, merged into the generated `flow_es.yaml` by `scripts/merge-virginia-es.py` |
-| The two demo households | `scenarios/virginia_demo_*.json` |
+| The four demo households | `scenarios/virginia_demo_*.json` |
 | The records stand-in | `website-static/data/virginia-records.json`, applied by `website-static/js/virginia-records.js` |
+| The ZIP-to-locality lookup | `website-static/js/virginia-locality.js` over `website-static/data/virginia-zip-localities.json`, built by `scripts/build-virginia-zip-localities.py` |
 | The correction view | `website-static/js/virginia-corrections.js` |
 | The searchable select | `templates/nodes/inputs/select.html` |
-| The checks | `make virginia-check` (schemas, the export rule, the Spanish keys), `make port-test` (the port's ScalaTest suite), `scripts/virginia-cases.py` + `scripts/virginia-cases.cjs` (sixteen households against an independent model, needs `make port-dev` running) |
+| The rules workbench | `workbench/` (`make workbench`, port 3011; `workbench/README.md`) |
+| The independent model of the rules | `scripts/lib/virginia-model.cjs`, written from the Code, not from the XML |
+| The checks | `make ci-local` at the root (schemas, the export rule, the constants block and locality listing, the Spanish keys, the doc counts, the fact paths the docs cite, the workbench examples); `make port-test` (the port's ScalaTest suite, with `src/test/scala/gov/irs/directfile/VirginiaSpec.scala` over the demos and `src/test/resources/virginia-cases/`); `make virginia-cases` (50 households against the model in the browser, needs the site running); `make virginia-a11y` (axe) |
 
 ### Things that cost time, so you do not pay them again
 
@@ -149,3 +166,14 @@ working.
   `tests/smoke.spec.js` says.
 - **`make up --build`-style rebuilds after a cache prune** recompile everything. The root
   Makefile's `stack-up` and `port-*` targets never force a rebuild.
+- **`make copy-fg` reorders the vendored engine bundle.** Every `make dev` and `make site`
+  copies `fact-graph`'s Scala.js output over
+  `website-static/vendor/fact-graph/factgraph-3.1.0.js`, and a fresh build orders the same
+  definitions differently: a four-megabyte diff with no change of meaning that would ride
+  along in the next commit. `stack/check-vendor-drift.sh` tells a reorder from a real
+  rebuild, and `stack/check-vendor-drift.sh --fix` restores the committed copy; run it before
+  committing anything that touched the port (`make doctor` warns too).
+- **The counts in the prose are checked.** `make ci-local` runs `virginia-stats.py --check`,
+  which fails on a stale "N facts / screens / households / questions / demos" sentence, and
+  `check-virginia-docs.py`, which fails on a `/va…` path the docs cite that the XML no longer
+  has. `make stats` prints the true counts.

@@ -29,13 +29,16 @@ uname -m                    # arm64 (Apple silicon) or x86_64 (Intel)
 ## 1. Clone
 
 ```bash
-git clone git@github.com:gchickering21/direct-file-virginia.git
+git clone https://github.com/gchickering21/direct-file-virginia.git   # or git@github.com:gchickering21/direct-file-virginia.git
 cd direct-file-virginia
+make doctor
 ```
 
 About 140 MB: the IRS's five repositories are vendored in at pinned commits (`IRS_PINS.md`),
-so nothing else is fetched from GitHub by the build. `make` with no arguments lists every
-target used below.
+so nothing else is fetched from GitHub by the build. `make doctor` prints one line per tool
+(Docker or JDK 21 + sbt, Node 22, python3, xmllint, disk, ports), OK or MISSING, with the fix
+beside anything missing; run it first and after every install below. `make` with no
+arguments lists every target used here.
 
 ## 2. The IRS port with Virginia (the one you want)
 
@@ -109,9 +112,13 @@ open that address. The top bar is the Taxpert workspace the IRS ships for develo
    click Next through the screens, or jump to the summary at
    `/your-taxes/virginia/virginia-summary/`.
 
-Riley owes $673. Load **Virginia Demo 2** for the age deduction and the 529 deduction;
-Morgan owes $1,522. **Browse All** in the top bar lists every screen, federal and
-Virginia, grouped by section.
+Riley owes $698: the page fills Lines 20 to 22 from a stand-in for Virginia Tax's records,
+so the $200 of estimated payments Virginia holds is already counted. Load **Virginia Demo
+2** for the age deduction and the 529 deduction; Morgan owes $1,522. **Virginia Demo 3**
+claims the refundable earned income credit and the unemployment subtraction without being
+asked (a $505 refund); **Virginia Demo 4** has military basic pay and a ZIP code that
+crosses three localities (a $151 refund). **Browse All** in the top bar lists every screen,
+federal and Virginia, grouped by section.
 
 If a Virginia address bounces you to "Review and confirm", no Virginia resident is loaded:
 the Virginia screens are gated on the residence answer and the runtime skips them. That is
@@ -120,16 +127,26 @@ the gate working. Load a demo and try again.
 ### 2.5 Check it
 
 ```bash
-make virginia-check     # both XML files against the IRS schemas, the export rule, the Spanish keys
-make port-test          # the port's ScalaTest suite, 12 tests
-cd form-builder-examples/direct-file
-python3 scripts/virginia-cases.py /tmp/va-cases && CASES=/tmp/va-cases node scripts/virginia-cases.cjs
-                        # 16 households against an independent model (needs make port-dev running)
+make doctor             # the tools again, now that they are installed
+make virginia-check     # both XML files against the IRS schemas, the export rule, the Spanish keys,
+                        # and the fact paths the docs cite
+make ci-local           # every check that needs no built site, in CI's order (adds the constants
+                        # block, the doc counts and the workbench's worked examples)
+make port-test          # the port's ScalaTest suite, VirginiaSpec included: the four demos pinned
+                        # and 50 households through the engine
+make virginia-cases     # the same 50 households against an independent model of the rules, in the
+                        # browser (needs make port-dev or make port-up running); the households are
+                        # written to form-builder-examples/direct-file/target/va-cases (CASES_DIR=… moves them)
+make virginia-a11y      # axe over every Virginia screen (site running)
+make -C form-builder-examples/direct-file workbench   # the rules workbench, http://localhost:3011
 ```
 
-On macOS 13 the last command needs `PLAYWRIGHT_MODULE=<path to a playwright-core that has
-a Chromium for your OS>` because the port's own Playwright (1.62) has no Chromium build
-for 13. On a newer Mac it just runs, and so does the IRS's own `make site && make smoke`.
+The two browser checks use a Playwright and axe-core pinned in `stack/browser-tools/`,
+installed with a Chromium on first use (`make browser-tools`), so they run on macOS 13 too;
+the port's own Playwright (1.62) has no Chromium build for 13, which is why the IRS's own
+`make site && make smoke` still wants a newer Mac. The hand-check figures in the docs include
+the payments the records stand-in fills on the page (Lines 20 to 22); the ScalaTest pins the
+demos before them.
 
 ## 3. The archived 2025 Direct File (the "before")
 
@@ -216,7 +233,10 @@ checklist, the first interview screens saving facts to the API, no errors.
 | LocalStack exits with code 55 | the override is not applied | run through `make`, not `docker compose` in the IRS folder |
 | "Blocked request. This host (host.docker.internal)" | the simulator is not using `client.localhost` | pull `stack/overrides.yaml`; `make stack-up` recreates the simulator |
 | "port is already allocated" | another stack holds 5432, 6379, 8080 or 3000 | the IRS compose takes `DF_API_PORT`, `DF_DB_PORT`, `DF_FE_PORT` |
-| `Playwright does not support chromium on mac13` | the port's smoke suite on macOS 13 | run the Virginia harness with `PLAYWRIGHT_MODULE`, or use a newer Mac |
+| `Playwright does not support chromium on mac13` | the port's own smoke suite on macOS 13 | the Virginia harness and the axe pass use the pinned Playwright (`make virginia-cases`, `make virginia-a11y`); the IRS's smoke suite wants a newer Mac |
+| `make ci-local` reports stale numbers in the docs | a count in the prose drifted from the code | `make stats` prints the true counts; fix the sentence |
+| `make ci-local` says a doc cites a fact path the XML does not have | a fact was renamed or removed | `scripts/check-virginia-docs.py` names the path and the file |
+| a four-megabyte diff in `vendor/fact-graph/factgraph-3.1.0.js` after `make port-dev` | `make copy-fg` rewrote the engine bundle in a different order, no change of meaning | `stack/check-vendor-drift.sh --fix` restores the committed copy; `make doctor` warns when it is reordered |
 | the Docker VM is nearly full | the first build's cache | `docker builder prune -af`; never `docker volume prune` |
 
 The longer version of all of this, with dates, is `report/NOTES.md`.

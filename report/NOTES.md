@@ -245,3 +245,75 @@ What this means:
 - **CONTRIBUTING** gained the port section: toolchain, targets, where things are, and the
   six things that cost time (the watcher, USWDS radios, the combo box, Playwright on macOS
   13, content-addressed locale keys, FlowSpec's naming rule).
+
+## 2026-11-02 the rules corrected and extended, the screens finished, the tooling
+
+- **Two rule corrections.** Withholding now counts only the W-2s whose box 15 names Virginia:
+  the box 15 answer is not exported, but the W-2's MeF state code (`/formW2s/*/xmlStateCd`)
+  is, and Direct File sets it from the residence answer whenever box 15 is filled in, so
+  `/formW2s/*/vaStateIsVirginia` is "a resident return and a code present" and the ScalaTest
+  asserts the strict `"VA"`. A W-2 with box 15 blank and an amount in box 17 (three IRS
+  fixtures do this) no longer counts. And the lottery subtraction is gone: Va. Code
+  § 58.1-322.02(7) subtracts only an amount "included therein", in federal AGI, and Direct
+  File has no gambling income, so the October question could only subtract what was never
+  added. Riley's Line 7 falls to $0 and what he owes rises from $673 to $698.
+- **The spouse on a joint return** is in for Lines 4 and 12: `/vaSpouse` finds the filer whose
+  exported `isPrimaryFiler` is false (the `/secondaryFiler` pointer is not exported), the four
+  Section B boxes follow, and the age deduction is two halves. Assumption written into
+  `/vaSpouseAgeDeductionAllowed`: each spouse's $12,000 is reduced by the same joint excess
+  over $75,000; if Virginia Tax's worksheet reduces the combined $24,000 once, that one fact
+  changes. Flagged for Virginia Tax in the policy map.
+- **Military benefits capped by the 1099-Rs** (`/vaForm1099RTaxableAmounts`), since the
+  subtraction is of an amount in federal AGI; basic pay stays capped at the household's wages
+  because the per-filer wage facts are not exported.
+- **Unemployment benefits subtracted with no question** (Schedule ADJ code 37): each exported
+  1099-G's amount less what was repaid. Jordan's two $1,000 1099-Gs take Line 7 to $2,000, the
+  family VAGI under the guideline, and the refund from $405 to $505; the refundable EITC still
+  wins. The subdivision of § 58.1-322.02 is cited by section only; flagged.
+- **The Form 760 line facts are Switches** over the with-credit and without-credit pairs
+  (`/vaTotalSubtractions`, `/vaTotalDeductions`, `/vaIsBelowFilingThreshold` joined `/vaTax`),
+  so Line 9 is Line 1 minus Line 8 by construction either way.
+- **Two rules of shape, enforced** (`scripts/check-virginia-constants.py`): every tax-year
+  figure, date and rate-schedule amount between `constants:begin` and `constants:end`, each
+  with a `<TaxYear>`, and no date or dollar literal outside; both locality switches list all
+  133 localities explicitly with no default, so an unlisted locality fails loudly instead of
+  taking `""` or 5.3%.
+- **The screens, finished.** A sign page with the declaration on a required checkbox and a
+  "Send to Virginia Tax" button that sets `/vaDeclarationSigned` and says nothing was sent;
+  the review page with a Change link on each answer, a federal-versus-Virginia side-by-side,
+  "why these numbers" disclosures for Lines 4, 7, 12, 16, 23 and 33, and Print and Download;
+  the what-is-known page honest about the records stand-in (a card says whether it matched)
+  and a correction target for a payment on record, the fourteenth page; a running estimate on
+  every question page; save to a file and resume from it on the intro; the combo box carrying
+  the runtime's `aria-invalid` and `aria-describedby` onto the visible input; the Spanish
+  re-merged for all fourteen pages. The question count is four again.
+- **The workbench** gained what the rules round needed in its federal stand-ins (the spouse,
+  the W-2 state code, the 1099-R and 1099-G amounts), an unemployment example in place of the
+  lottery one, and reports; its oracle takes the model's input shape. Its README is its record.
+- **Tooling.** `.github/workflows/ci.yml` runs the no-JVM checks on every push and
+  `handoff-verify` weekly; `make doctor` says whether a machine is ready (Docker or JDK 21 +
+  sbt, Node 22, python3, xmllint, ports, a reordered engine bundle); `make handoff-verify`
+  clones the IRS repository at the pin, applies the patch series and runs the checks inside
+  it; `make stats` prints the true counts and `--check` fails the docs that disagree;
+  `make bump-pin` moves one IRS pin with a drift report; `check-virginia-docs.py` fails on a
+  fact path the docs cite that does not exist; `make ci-local` runs the lot in CI's order.
+- **Fifty households** (from 28) against the independent model, now in
+  `scripts/lib/virginia-model.cjs`: every threshold and cap hit exactly on both sides, the
+  spouse's items, a blank box 15, a 1099-G, benefits capped by the 1099-R. The same files are
+  committed under `src/test/resources/virginia-cases/` and **VirginiaSpec** runs them through
+  the full dictionary with the four demos pinned (before the records stand-in's payments) and
+  the invariants of any Form 760 this module can produce.
+- The docs were reconciled to all of the above: the Virginia README rewritten, the counts in
+  DEVELOPERS.md, the handoff README and brief, and ADR-002 fixed, `virginia-stats.py --check`
+  and `check-virginia-docs.py` both clean.
+- The browser suites (the 50 households, axe) and ScalaTest were run once at the end of the
+  round; the outcome is appended below.
+- **The outcome, 2026-11-02 evening:** `make ci-local` passes (schemas, export rule, constants block, Spanish
+  keys, doc counts, fact paths in the docs, 15 workbench examples). `make port-test`: 27 of 27, VirginiaSpec
+  included. The site built with scenario mode (152 pages). `make virginia-a11y` against the static build:
+  zero violations over 38 passes (every screen in English and Spanish, the locality error state, where
+  focus now lands on the visible combo-box input, and the unsigned Send). `make virginia-cases`: 50 of 50
+  against the independent model. Two things the run caught: the cases harness drove the Scenario toolbar,
+  a dev-server surface, so it now seeds the graph through sessionStorage like the axe script and runs
+  against any build; and a household that carries a corrected Line 20 has to carry `/vaRecordsKey` too,
+  or the records stand-in rightly resets the line, so the generator sets it.
