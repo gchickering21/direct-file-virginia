@@ -130,7 +130,7 @@ the gate working. Load a demo and try again.
 make doctor             # the tools again, now that they are installed
 make virginia-check     # both XML files against the IRS schemas, the export rule, the Spanish keys,
                         # and the fact paths the docs cite
-make ci-local           # every check that needs no built site, in CI's order (adds the constants
+make ci-local           # every check that needs no built site, in one run (adds the constants
                         # block, the doc counts and the workbench's worked examples)
 make port-test          # the port's ScalaTest suite, VirginiaSpec included: the four demos pinned
                         # and 50 households through the engine

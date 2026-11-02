@@ -15,7 +15,7 @@ publish is optional (`WORKBENCH_GIT_PR=1`).
 
 ```bash
 make workbench          # http://localhost:3011   (or: node workbench/server.mjs)
-make workbench-check    # every worked example against virginia.xml, for CI
+make workbench-check    # every worked example against virginia.xml, from the command line
 ```
 
 It needs Node 18 or later and nothing else: no build step, no `npm install`, no JVM. It uses the
@@ -169,7 +169,7 @@ the file, or if it throws, verify goes on as before. `WORKBENCH_MODEL=…` point
 | Path | What |
 |---|---|
 | `server.mjs` | Static files, the API, and the workflow rules. Reads the fact files fresh on every request |
-| `check.mjs` | The CI check: `node workbench/check.mjs [--change <id>]` |
+| `check.mjs` | The command-line check: `node workbench/check.mjs [--change <id>]` |
 | `lib/sandbox.js` | The Virginia sandbox and the example runner. Runs in the browser and in Node |
 | `lib/xml-edit.js` | Applying a change to the files (values, schedules by year, rules, questions, text, their reversal), the source sentence, conflict detection, the translation needs, the line diff |
 | `lib/flow.js` | The Virginia flow file: its pages, screens, texts and questions, each with the locale key form-builder gives it; inserting a screen, replacing a text, renumbering eyebrows |

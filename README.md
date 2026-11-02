@@ -34,7 +34,7 @@ taking anything else here.
 ```bash
 make doctor      # is this machine ready? Docker or JDK 21 + sbt, Node 22, python3, xmllint
 make port-up     # build and serve the port with Virginia at http://localhost:3008/app/direct-file/
-make ci-local    # every check that needs no built site, in CI's order
+make ci-local    # every check that needs no built site, in one run
 ```
 
 ## Running the real application
@@ -63,7 +63,7 @@ patch series that applies cleanly to a fresh clone of IRS-Public/form-builder-ex
 the pinned commit, and the two Virginia XML files drop into any application generated
 from the IRS's template. `make handoff-verify` proves it: it clones the IRS repository at
 the pin, applies the series and runs the no-JVM checks inside the clone (ran clean
-2026-11-02; CI repeats it on every push to main and weekly).
+2026-11-02).
 
 ## Licence
 

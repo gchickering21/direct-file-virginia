@@ -72,7 +72,7 @@ git am ../path/to/handoff/patches/*.patch
 ```
 
 `make handoff-verify` does exactly that against a fresh clone and runs the no-JVM checks
-inside it; it ran clean on 2026-11-02, and CI repeats it on every push to main and weekly.
+inside it; it ran clean on 2026-11-02.
 The other IRS repositories the port builds against (`fact-graph`, `form-builder`,
 `taxpert`) are cloned beside it at the commits in `IRS_PINS.md`; the IRS's own quickstart
 in the `taxpert` repository covers the layout and the toolchain.

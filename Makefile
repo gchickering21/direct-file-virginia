@@ -33,7 +33,7 @@ virginia-check: ## validate the XML, the export rule, and the Spanish keys for t
 	python3 $(PORT)/scripts/merge-virginia-es.py
 	python3 $(PORT)/scripts/check-virginia-docs.py
 
-ci-local: ## every check that needs no built site, in CI's order: schemas, export rule, constants, Spanish keys, doc counts, workbench examples
+ci-local: ## every check that needs no built site, in one run: schemas, export rule, constants, Spanish keys, doc counts, workbench examples
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) validate-xml
 	python3 $(PORT)/scripts/check-virginia-exports.py
 	python3 $(PORT)/scripts/check-virginia-constants.py

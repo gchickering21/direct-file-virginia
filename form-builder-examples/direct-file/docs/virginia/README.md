@@ -204,12 +204,12 @@ every edit, and publishing writes `virginia.xml`, the flow and the Spanish only 
 reviewer and an engineer who is not the author approve, with a translator's approval when words
 change. What the return cannot model becomes a request to engineering. Its own record is
 [`../../workbench/README.md`](../../workbench/README.md); `make workbench-check` runs its
-examples for CI.
+examples from the command line.
 
 ## Checks
 
 From this folder unless marked; `make ci-local` at the repository root runs everything that
-needs no built site, in CI's order, and `make stats` prints the counts the prose is checked
+needs no built site, in one run, and `make stats` prints the counts the prose is checked
 against.
 
 ```bash

@@ -62,7 +62,7 @@ Same site, same address. Do not run both paths at once; they share port 3008.
 ```bash
 make doctor             # first: the tools, disk and ports, with the fix beside anything missing
 make virginia-check     # the IRS schemas, the export rule, the Spanish keys, the fact paths the docs cite
-make ci-local           # every check that needs no built site, in CI's order: the above plus the
+make ci-local           # every check that needs no built site, in one run: the above plus the
                         # constants block, the doc counts and the workbench's worked examples
 make port-test          # the port's own ScalaTest suite, VirginiaSpec included (native toolchain)
 make virginia-cases     # 50 households against an independent model of the rules (site must be running)

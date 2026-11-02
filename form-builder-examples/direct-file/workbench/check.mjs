@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Runs every worked example against the Virginia rules, the way CI would.
+// Runs every worked example against the Virginia rules, from the command line, in one run.
 //
 //   node workbench/check.mjs                      the rules as they are on disk
 //   node workbench/check.mjs --change <id>        the rules with a workbench change applied

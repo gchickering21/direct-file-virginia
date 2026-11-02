@@ -290,13 +290,12 @@ What this means:
 - **The workbench** gained what the rules round needed in its federal stand-ins (the spouse,
   the W-2 state code, the 1099-R and 1099-G amounts), an unemployment example in place of the
   lottery one, and reports; its oracle takes the model's input shape. Its README is its record.
-- **Tooling.** `.github/workflows/ci.yml` runs the no-JVM checks on every push and
-  `handoff-verify` weekly; `make doctor` says whether a machine is ready (Docker or JDK 21 +
+- **Tooling.** `make doctor` says whether a machine is ready (Docker or JDK 21 +
   sbt, Node 22, python3, xmllint, ports, a reordered engine bundle); `make handoff-verify`
   clones the IRS repository at the pin, applies the patch series and runs the checks inside
   it; `make stats` prints the true counts and `--check` fails the docs that disagree;
   `make bump-pin` moves one IRS pin with a drift report; `check-virginia-docs.py` fails on a
-  fact path the docs cite that does not exist; `make ci-local` runs the lot in CI's order.
+  fact path the docs cite that does not exist; `make ci-local` runs the lot in one run.
 - **Fifty households** (from 28) against the independent model, now in
   `scripts/lib/virginia-model.cjs`: every threshold and cap hit exactly on both sides, the
   spouse's items, a blank box 15, a 1099-G, benefits capped by the 1099-R. The same files are
