@@ -1,0 +1,390 @@
+{
+  "$comment": [
+    "Worked examples for the Virginia return: a household, and what the law says some of its lines must be.",
+    "",
+    "Authored here, not in scenarios/ (which `make export-scenarios` regenerates). `baseline` is the answer every",
+    "example starts from; an example lists only what differs. Paths in `inputs` are fact paths: Virginia's own",
+    "questions, or the federal stand-ins in ../federal-inputs.json.",
+    "",
+    "Checked two ways when written: by the engine, and by the independent model of the rules in",
+    "scripts/lib/virginia-model.cjs, written from the Code of Virginia rather than from virginia.xml. They agreed on",
+    "every line. Edit through the workbench, so a change to an expected answer goes through review like a rule does.",
+    "Run them: node workbench/check.mjs",
+    "",
+    "/formW2s/*/xmlStateCd counts the W-2s (from the first) whose box 15 carries a state code: set it to the number",
+    "of W-2s unless an example is about a W-2 from nowhere. A spouse's facts cannot be set here yet (see",
+    "../federal-inputs.json), so a joint return's spouse is under 65 and sighted in every example."
+  ],
+  "baseline": {
+    "/taxYear": 2024,
+    "/filingStatus": "single",
+    "/filerResidenceAndIncomeState": "va",
+    "/primaryFiler/dateOfBirth": "1985-03-01",
+    "/primaryFiler/age65OrOlder": false,
+    "/primaryFiler/isBlind": false,
+    "/primaryFiler/canBeClaimed": false,
+    "/agi": 0,
+    "/wages": 0,
+    "/taxableSocialSecurityBenefits": 0,
+    "/earnedIncomeCredit": 0,
+    "/familyAndHousehold/*/isClaimedDependent": 0,
+    "/formW2s/*/xmlStateCd": 1,
+    "/formW2s/*/stateWithholding": [],
+    "/form1099Rs/*/taxableAmount": [],
+    "/form1099Gs/*/amount": [],
+    "/form1099Gs/*/amountPaidBackForBenefitsInTaxYear": [],
+    "/vaHasMilitaryIncome": false,
+    "/vaHasMilitaryBasicPay": false,
+    "/vaMilitaryBasicPay": 0,
+    "/vaHasMilitaryRetirement": false,
+    "/vaMilitaryRetirementIncome": 0,
+    "/vaEstimatedPayments": 0,
+    "/vaPriorYearOverpaymentApplied": 0,
+    "/vaExtensionPayments": 0,
+    "/vaHasCommonwealthSaversContributions": false,
+    "/vaCommonwealthSaversContributions": 0,
+    "/vaHasUntaxedPurchases": false,
+    "/vaUntaxedPurchases": 0,
+    "/vaEverythingRight": true,
+    "/vaLocality": "richmond-city"
+  },
+  "examples": [
+    {
+      "id": "single-40k",
+      "title": "Single, $40k wages",
+      "household": "Single, under 65, $40,000 in wages, $1,600 Virginia tax withheld.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/agi": 40000,
+        "/wages": 40000,
+        "/formW2s/*/stateWithholding": [
+          1600
+        ]
+      },
+      "expect": {
+        "/vaStandardDeduction": 8500,
+        "/vaTaxableIncome": 30570,
+        "/vaTax": 1500,
+        "/vaRefund": 100
+      }
+    },
+    {
+      "id": "married-85k",
+      "title": "Married, $85k",
+      "household": "Married filing jointly, both under 65, $85,000 in wages, two W-2s withholding $3,400 in all.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/filingStatus": "marriedFilingJointly",
+        "/agi": 85000,
+        "/wages": 85000,
+        "/formW2s/*/xmlStateCd": 2,
+        "/formW2s/*/stateWithholding": [
+          2100,
+          1300
+        ]
+      },
+      "expect": {
+        "/vaStandardDeduction": 17000,
+        "/vaExemptions": 1860,
+        "/vaTax": 3546,
+        "/vaAmountYouOwe": 146
+      }
+    },
+    {
+      "id": "unemployment-6000",
+      "title": "Unemployment benefits",
+      "household": "Single, under 65, $34,000 in wages and $6,000 of unemployment benefits on a 1099-G, nothing repaid; $1,600 Virginia tax withheld.",
+      "author": "engineering",
+      "created": "2026-11-02",
+      "inputs": {
+        "/agi": 40000,
+        "/wages": 34000,
+        "/form1099Gs/*/amount": [
+          6000
+        ],
+        "/form1099Gs/*/amountPaidBackForBenefitsInTaxYear": [
+          0
+        ],
+        "/formW2s/*/stateWithholding": [
+          1600
+        ]
+      },
+      "expect": {
+        "/vaScheduleAdjSubtractions": 6000,
+        "/vaAdjustedGrossIncome": 34000,
+        "/vaTax": 1155
+      }
+    },
+    {
+      "id": "mfj-spouse-65-afagi-80k",
+      "title": "Married, spouse 65, AFAGI $80k",
+      "household": "Married filing jointly, filer under 65, spouse born 1958-03-03 (65 or older), $80,000 in wages, $3,000 withheld. The spouse's $12,000 age deduction is reduced by the $5,000 of AFAGI over $75,000, so Line 4 is $7,000; one Section B exemption for the spouse.",
+      "author": "engineering",
+      "created": "2026-11-02",
+      "inputs": {
+        "/filingStatus": "marriedFilingJointly",
+        "/agi": 80000,
+        "/wages": 80000,
+        "/vaSpouse/dateOfBirth": "1958-03-03",
+        "/vaSpouse/age65OrOlder": true,
+        "/vaSpouse/isBlind": false,
+        "/formW2s/*/stateWithholding": [
+          3000
+        ]
+      },
+      "expect": {
+        "/vaAgeDeduction": 7000,
+        "/vaAdjustedGrossIncome": 73000,
+        "/vaExemptions": 2660,
+        "/vaTaxableIncome": 53340,
+        "/vaTax": 2810,
+        "/vaRefund": 190
+      }
+    },
+    {
+      "id": "unemployment-5000",
+      "title": "Unemployment benefits",
+      "household": "Single, $40,000 in wages and $5,000 of unemployment compensation on a 1099-G, none repaid. Virginia subtracts the $5,000 in full (Schedule ADJ code 37) with no question asked.",
+      "author": "engineering",
+      "created": "2026-11-02",
+      "inputs": {
+        "/agi": 45000,
+        "/wages": 40000,
+        "/formW2s/*/stateWithholding": [
+          1600
+        ],
+        "/form1099Gs/*/amount": [
+          5000
+        ],
+        "/form1099Gs/*/amountPaidBackForBenefitsInTaxYear": [
+          0
+        ]
+      },
+      "expect": {
+        "/vaUnemploymentCompensationSubtraction": 5000,
+        "/vaScheduleAdjSubtractions": 5000,
+        "/vaAdjustedGrossIncome": 40000,
+        "/vaTax": 1500
+      }
+    },
+    {
+      "id": "unemployment-repaid",
+      "title": "Unemployment benefits, part repaid",
+      "household": "Single, $40,000 in wages, a $6,000 1099-G of which $1,000 was repaid in the same year. Federal AGI carries the net $5,000, so that is what Virginia subtracts.",
+      "author": "engineering",
+      "created": "2026-11-02",
+      "inputs": {
+        "/agi": 45000,
+        "/wages": 40000,
+        "/formW2s/*/stateWithholding": [
+          1600
+        ],
+        "/form1099Gs/*/amount": [
+          6000
+        ],
+        "/form1099Gs/*/amountPaidBackForBenefitsInTaxYear": [
+          1000
+        ]
+      },
+      "expect": {
+        "/vaUnemploymentCompensationSubtraction": 5000,
+        "/vaAdjustedGrossIncome": 40000
+      }
+    },
+    {
+      "id": "w2-without-state-code",
+      "title": "A second W-2 with no state in box 15",
+      "household": "Single, $40,000 in wages on two W-2s. The first names Virginia in box 15 and withheld $1,600; the second has a blank box 15 and $400 in box 17, which is not Virginia's. Line 19a counts the first only.",
+      "author": "engineering",
+      "created": "2026-11-02",
+      "inputs": {
+        "/agi": 40000,
+        "/wages": 40000,
+        "/formW2s/*/xmlStateCd": 1,
+        "/formW2s/*/stateWithholding": [
+          1600,
+          400
+        ]
+      },
+      "expect": {
+        "/vaWithholding": 1600,
+        "/vaTax": 1500,
+        "/vaRefund": 100
+      }
+    },
+    {
+      "id": "military-benefits-1099r-cap",
+      "title": "Military benefits capped by the 1099-R",
+      "household": "Single, $30,000 in wages and one 1099-R with $10,000 taxable. Says $25,000 of military retirement was received; the subtraction cannot exceed the $10,000 the federal return reports as retirement income.",
+      "author": "engineering",
+      "created": "2026-11-02",
+      "inputs": {
+        "/agi": 40000,
+        "/wages": 30000,
+        "/formW2s/*/stateWithholding": [
+          1200
+        ],
+        "/form1099Rs/*/taxableAmount": [
+          10000
+        ],
+        "/vaHasMilitaryIncome": true,
+        "/vaHasMilitaryRetirement": true,
+        "/vaMilitaryRetirementIncome": 25000
+      },
+      "expect": {
+        "/vaMilitaryBenefitsSubtraction": 10000,
+        "/vaAdjustedGrossIncome": 30000,
+        "/vaTax": 925
+      }
+    },
+    {
+      "id": "blind-and-66",
+      "title": "Single, 66 and blind",
+      "household": "Single, born 1958, blind, $41,000 in wages: the $12,000 age deduction (AFAGI under $50,000) and two Section B exemptions.",
+      "author": "engineering",
+      "created": "2026-11-02",
+      "inputs": {
+        "/agi": 41000,
+        "/wages": 41000,
+        "/primaryFiler/dateOfBirth": "1958-05-01",
+        "/primaryFiler/age65OrOlder": true,
+        "/primaryFiler/isBlind": true,
+        "/formW2s/*/stateWithholding": [
+          1000
+        ]
+      },
+      "expect": {
+        "/vaAgeDeduction": 12000,
+        "/vaExemptions": 2530,
+        "/vaTaxableIncome": 17970,
+        "/vaTax": 776
+      }
+    },
+    {
+      "id": "dependent-student",
+      "title": "Dependent student",
+      "household": "Claimed on a parent's return, $6,000 in wages. Standard deduction is capped at earned income, and the student is under the filing threshold.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/agi": 6000,
+        "/wages": 6000,
+        "/primaryFiler/canBeClaimed": true,
+        "/primaryFiler/dateOfBirth": "2005-09-12",
+        "/formW2s/*/stateWithholding": [
+          120
+        ]
+      },
+      "expect": {
+        "/vaStandardDeduction": 6000,
+        "/vaIsBelowFilingThreshold": true,
+        "/vaTax": 0,
+        "/vaRefund": 120
+      }
+    },
+    {
+      "id": "senior-66",
+      "title": "Single, 66",
+      "household": "Single, born 1958, $40,000 of income, under the $50,000 age-deduction income limit.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/agi": 40000,
+        "/wages": 40000,
+        "/primaryFiler/dateOfBirth": "1958-05-01",
+        "/primaryFiler/age65OrOlder": true,
+        "/formW2s/*/stateWithholding": [
+          1000
+        ]
+      },
+      "expect": {
+        "/vaAgeDeduction": 12000,
+        "/vaExemptions": 1730,
+        "/vaTax": 764
+      }
+    },
+    {
+      "id": "savers-5000",
+      "title": "Commonwealth Savers $5,000",
+      "household": "Single, under 70, $60,000 in wages, put $5,000 into a Virginia529 account. The deduction is capped at $4,000 per account.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/agi": 60000,
+        "/wages": 60000,
+        "/formW2s/*/stateWithholding": [
+          2800
+        ],
+        "/vaHasCommonwealthSaversContributions": true,
+        "/vaCommonwealthSaversContributions": 5000
+      },
+      "expect": {
+        "/vaCommonwealthSaversDeduction": 4000,
+        "/vaTaxableIncome": 46570,
+        "/vaTax": 2420
+      }
+    },
+    {
+      "id": "low-income-credit",
+      "title": "Low-income credit",
+      "household": "Single, $14,000 in wages. The Credit for Low-Income Individuals wipes out the tax.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/agi": 14000,
+        "/wages": 14000,
+        "/formW2s/*/stateWithholding": [
+          300
+        ]
+      },
+      "expect": {
+        "/vaTax": 107,
+        "/vaLowIncomeCredit": 107,
+        "/vaRefund": 300
+      }
+    },
+    {
+      "id": "use-tax-richmond",
+      "title": "Use tax in Richmond",
+      "household": "Single, $40,000 in wages, lives in Richmond (6% rate), bought $1,000 of goods with no Virginia sales tax.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/agi": 40000,
+        "/wages": 40000,
+        "/formW2s/*/stateWithholding": [
+          1600
+        ],
+        "/vaHasUntaxedPurchases": true,
+        "/vaUntaxedPurchases": 1000
+      },
+      "expect": {
+        "/vaUseTax": 60,
+        "/vaRefund": 40
+      }
+    },
+    {
+      "id": "family-of-four",
+      "title": "Family of four",
+      "household": "Married filing jointly, two dependents, $62,000 in wages.",
+      "author": "engineering",
+      "created": "2026-10-30",
+      "inputs": {
+        "/filingStatus": "marriedFilingJointly",
+        "/agi": 62000,
+        "/wages": 62000,
+        "/familyAndHousehold/*/isClaimedDependent": 2,
+        "/formW2s/*/stateWithholding": [
+          2400
+        ]
+      },
+      "expect": {
+        "/vaExemptions": 3720,
+        "/vaTaxableIncome": 41280,
+        "/vaTax": 2116
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Workflow state: drafts, reviews and requests. In a real deployment these are branches, pull
+# requests and issues; here they are local files, one per change.
+data/changes/
+data/requests/

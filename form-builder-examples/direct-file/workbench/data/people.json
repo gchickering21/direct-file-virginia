@@ -1,0 +1,35 @@
+{
+  "$comment": "Who can act in the workbench. Fictional people for the prototype; roles are what matter. policy-author starts changes, policy-reviewer gives the policy approval, engineer gives the engineering approval, publishes, and builds requests. Two engineers, because the engineering approval must come from an engineer who is not the author: with one, a change an engineer starts could never be published. translator gives the translation approval, on changes that add or change words on the screens, once every string has Spanish.",
+  "people": [
+    {
+      "id": "mt",
+      "name": "Morgan T.",
+      "initials": "MT",
+      "role": "policy-author"
+    },
+    {
+      "id": "jr",
+      "name": "Jordan R.",
+      "initials": "JR",
+      "role": "policy-reviewer"
+    },
+    {
+      "id": "ak",
+      "name": "Alex K.",
+      "initials": "AK",
+      "role": "engineer"
+    },
+    {
+      "id": "sp",
+      "name": "Sam P.",
+      "initials": "SP",
+      "role": "engineer"
+    },
+    {
+      "id": "ap",
+      "name": "Ana P.",
+      "initials": "AP",
+      "role": "translator"
+    }
+  ]
+}
