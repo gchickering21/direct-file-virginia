@@ -531,9 +531,9 @@
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
     "item": false
   },
-  "/vaHasLotteryPrizesUnder600": {
+  "/vaHasMilitaryIncome": {
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
-    "item": true
+    "item": false
   },
   "/vaHasUntaxedPurchases": {
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
@@ -545,10 +545,6 @@
       "enumOptionsPath": "/vaLocalityOptions",
       "value": "richmond-city"
     }
-  },
-  "/vaLotteryPrizesUnder600": {
-    "$type": "gov.irs.factgraph.persisters.DollarWrapper",
-    "item": "450.00"
   },
   "/vaUntaxedPurchases": {
     "$type": "gov.irs.factgraph.persisters.DollarWrapper",

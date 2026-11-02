@@ -535,7 +535,7 @@
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
     "item": true
   },
-  "/vaHasLotteryPrizesUnder600": {
+  "/vaHasMilitaryIncome": {
     "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
     "item": false
   },

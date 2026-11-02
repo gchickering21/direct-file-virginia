@@ -1,0 +1,1389 @@
+{
+ "A_below_threshold": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 9000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "B_band_2pct": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 11000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "C_band_3pct": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 12430.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "D_band_5pct": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 18430.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "E_born_1935_90k": {
+  "status": "single",
+  "state": "va",
+  "dob": "1935-06-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 90000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "F_age_phased_out": {
+  "status": "single",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 70000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "G_social_security": {
+  "status": "single",
+  "state": "va",
+  "dob": "1901-01-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 35000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "H_claimable_dependent": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": true,
+  "spouse": null,
+  "wages": 3000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "I_mfj_70k_with_unemployment": {
+  "status": "marriedFilingJointly",
+  "state": "va",
+  "dob": "1995-01-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": {
+   "dob": "1994-01-02",
+   "blind": false
+  },
+  "wages": 70000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 15000.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 30000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "J_blind": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": true,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "K_nonresident_ca": {
+  "status": "single",
+  "state": "ca",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "CA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "L_use_tax_6_3pct_halifax": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": "halifax-county",
+  "savers": 0,
+  "untaxed": 1000.0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "M_use_tax_7pct_williamsburg": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": "williamsburg-city",
+  "savers": 0,
+  "untaxed": 1000.0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "N_refund_after_estimated_payments": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 2000.0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "O_low_income_credit": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 13000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "P_blind_credit_beats_exemption": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": true,
+  "claimable": false,
+  "spouse": null,
+  "wages": 13000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "Q_age_65_keeps_age_deduction": {
+  "status": "single",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 13000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "R_claimable_no_credit": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": true,
+  "spouse": null,
+  "wages": 9000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "S_hoh_child_refundable_eitc": {
+  "status": "headOfHousehold",
+  "state": "va",
+  "dob": "1990-11-11",
+  "blind": false,
+  "claimable": true,
+  "spouse": null,
+  "wages": 20000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "T_hoh_child_eitc_after_withholding_unemployment": {
+  "status": "headOfHousehold",
+  "state": "va",
+  "dob": "1975-07-19",
+  "blind": true,
+  "claimable": false,
+  "spouse": null,
+  "wages": 12500.0,
+  "deps": 1,
+  "w2s": [
+   {
+    "withheld": 0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 1000.0,
+    "repaid": 0
+   },
+   {
+    "amount": 1000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "U_military_basic_pay_phased": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 27000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": 24000.0,
+  "retirement": 0
+ },
+ "V_military_basic_pay_tie_keeps_subtraction": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 14000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": 12000.0,
+  "retirement": 0
+ },
+ "W_military_basic_pay_over_30k": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": 31000.0,
+  "retirement": 0
+ },
+ "X_military_benefits_without_a_1099r": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 40000.0
+ },
+ "Y_taxable_income_3000": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 11430.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "Y2_taxable_income_5000": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 13430.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "Y3_taxable_income_17000": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 25430.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "Z_vagi_at_threshold_11950": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 10950.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "Z2_mfj_vagi_at_threshold_23900": {
+  "status": "marriedFilingJointly",
+  "state": "va",
+  "dob": "1995-01-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": {
+   "dob": "1994-01-02",
+   "blind": false
+  },
+  "wages": 22401.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 15000.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 30000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AA_afagi_50000_age_65": {
+  "status": "single",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 49000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AB_afagi_62000_age_65": {
+  "status": "single",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 61000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AC_mfj_afagi_75000_age_65": {
+  "status": "marriedFilingJointly",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": {
+   "dob": "1994-01-02",
+   "blind": false
+  },
+  "wages": 43501.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 15000.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 30000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AG_basic_pay_15000": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": 15000.0,
+  "retirement": 0
+ },
+ "AH_basic_pay_30000": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": 30000.0,
+  "retirement": 0
+ },
+ "AI_savers_4000": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 4000.0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AJ_savers_5000_born_1954_12_31": {
+  "status": "single",
+  "state": "va",
+  "dob": "1954-12-31",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 5000.0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AK_born_1960_01_01_age_65": {
+  "status": "single",
+  "state": "va",
+  "dob": "1960-01-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AL_born_1939_01_01_full_age_deduction": {
+  "status": "single",
+  "state": "va",
+  "dob": "1939-01-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 90000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AD_mfj_spouse_65_afagi_80000": {
+  "status": "marriedFilingJointly",
+  "state": "va",
+  "dob": "1995-01-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": {
+   "dob": "1955-05-05",
+   "blind": false
+  },
+  "wages": 48501.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 15000.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 30000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AE_mfj_both_65_phased": {
+  "status": "marriedFilingJointly",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": {
+   "dob": "1956-06-06",
+   "blind": false
+  },
+  "wages": 48501.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 15000.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 30000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AF_mfj_dependent_both_born_before_1939": {
+  "status": "marriedFilingJointly",
+  "state": "va",
+  "dob": "1901-03-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": {
+   "dob": "1909-02-26",
+   "blind": false
+  },
+  "wages": 50000.0,
+  "deps": 1,
+  "w2s": [
+   {
+    "withheld": 499.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 521.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AQ_mfj_spouse_blind": {
+  "status": "marriedFilingJointly",
+  "state": "va",
+  "dob": "1995-01-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": {
+   "dob": "1994-01-02",
+   "blind": true
+  },
+  "wages": 70000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 15000.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 30000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AM_blind_and_65": {
+  "status": "single",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": true,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AN_w2_without_virginia_in_box_15": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 38333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   },
+   {
+    "withheld": 100.0,
+    "state": null
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AO_unemployment_1099g": {
+  "status": "single",
+  "state": "va",
+  "dob": "1977-06-01",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 45000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 5000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "AP_military_benefits_capped_by_1099r": {
+  "status": "single",
+  "state": "va",
+  "dob": "1984-01-26",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 39674.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 507.0,
+    "state": "VA"
+   },
+   {
+    "withheld": 1502.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 4000,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 40000.0
+ },
+ "demo_1_riley": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 33333.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": "richmond-city",
+  "savers": 0,
+  "untaxed": 400.0,
+  "estimated": 200.0,
+  "prior": 0.0,
+  "extension": 0.0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "demo_2_morgan": {
+  "status": "single",
+  "state": "va",
+  "dob": "1955-05-05",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 56000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 300.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": "charlottesville-city",
+  "savers": 3000.0,
+  "untaxed": 0,
+  "estimated": 0.0,
+  "prior": 150.0,
+  "extension": 0.0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "demo_3_jordan": {
+  "status": "headOfHousehold",
+  "state": "va",
+  "dob": "1975-07-19",
+  "blind": true,
+  "claimable": false,
+  "spouse": null,
+  "wages": 20000.0,
+  "deps": 1,
+  "w2s": [
+   {
+    "withheld": 200.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [
+   {
+    "amount": 1000.0,
+    "repaid": 0
+   },
+   {
+    "amount": 1000.0,
+    "repaid": 0
+   }
+  ],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": null,
+  "retirement": 0
+ },
+ "demo_4_taylor": {
+  "status": "single",
+  "state": "va",
+  "dob": "1997-10-03",
+  "blind": false,
+  "claimable": false,
+  "spouse": null,
+  "wages": 27000.0,
+  "deps": 0,
+  "w2s": [
+   {
+    "withheld": 650.0,
+    "state": "VA"
+   }
+  ],
+  "unemployment": [],
+  "retirement1099R": 0,
+  "locality": null,
+  "savers": 0,
+  "untaxed": 0,
+  "estimated": 0,
+  "prior": 0,
+  "extension": 0,
+  "basicPay": 24000.0,
+  "retirement": 0
+ }
+}

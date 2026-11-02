@@ -156,16 +156,62 @@
       <Description>Form 760 header, "Locality Code"; 2024 instructions page 14: "the locality in which you
         lived on January 1, 2025 ... Local school funding is allocated based in part on this
         information." Asked and confirmed by the filer: the federal address gives a city name and a
-        ZIP, but a ZIP can straddle localities and the date is the day after the tax year.</Description>
+        ZIP, but a ZIP can straddle localities and the date is the day after the tax year. When the
+        ZIP lies in one locality, website-static/js/virginia-locality.js fills this in from it, and
+        the filer confirms it.</Description>
       <Writable>
         <Enum optionsPath="/vaLocalityOptions" />
       </Writable>
     </Fact>
 
+    <!-- The locality the federal address points to. Written by website-static/js/virginia-locality.js
+         from data/virginia-zip-localities.json (built by scripts/build-virginia-zip-localities.py from
+         the Census Bureau's 2020 ZCTA-to-county relationship file); a state would geocode the street
+         address instead. The ZIP is /address/postalCode, which the federal return exports to MeF. -->
+
+    <Fact path="/vaLocalityFromAddress">
+      <Name>The locality the filer's ZIP code lies in</Name>
+      <Description>Set only when the ZIP lies in a single city or county.</Description>
+      <Writable>
+        <Enum optionsPath="/vaLocalityOptions" />
+      </Writable>
+    </Fact>
+
+    <Fact path="/vaAddressZipIsSplit">
+      <Name>The filer's ZIP code crosses a city or county line</Name>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaAddressZipLocalityNames">
+      <Name>The localities the filer's ZIP code crosses</Name>
+      <Description>Their names, largest share of the ZIP's land first, for the hint on the locality
+        screen. Proper nouns, the same in every language.</Description>
+      <Writable><String /></Writable>
+    </Fact>
+
+    <Fact path="/vaLocalityMatchesAddress">
+      <Name>The locality chosen is the one the ZIP code lies in</Name>
+      <Derived>
+        <Equal>
+          <Left><Dependency path="/vaLocality" /></Left>
+          <Right><Dependency path="/vaLocalityFromAddress" /></Right>
+        </Equal>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaLocalityDiffersFromAddress">
+      <Name>The locality chosen is not the one the ZIP code lies in</Name>
+      <Derived>
+        <Not><Dependency path="/vaLocalityMatchesAddress" /></Not>
+      </Derived>
+    </Fact>
+
     <Fact path="/vaLocalityCode">
       <Name>Form 760 locality code</Name>
       <Description>The 3-digit code for /vaLocality, from the list beginning on page 45 of the 2024 Form
-        760 instructions.</Description>
+        760 instructions. One case per locality and no default: a locality missing from this list
+        leaves the code incomplete rather than blank, and scripts/check-virginia-constants.py fails if
+        any option of /vaLocalityOptions is missing here or in /vaUseTaxRate.</Description>
       <TaxYear>2024</TaxYear>
       <Derived>
         <Switch>
@@ -701,10 +747,6 @@
             <When><Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">york-county</Enum></Right></Equal></When>
             <Then><String>199</String></Then>
           </Case>
-          <Case>
-            <When><True /></When>
-            <Then><String></String></Then>
-          </Case>
         </Switch>
       </Derived>
     </Fact>
@@ -714,7 +756,9 @@
       <Description>2024 Form 760 instructions, Line 33, "Tax Rates": 5.3% general (4.3% state + 1% local);
         6% in the Northern Virginia, Hampton Roads and Central Virginia regions (+0.7% regional); 6.3% in
         the localities with the additional 1% local option; 7% in the Historic Triangle. Richmond City is
-        in the Central Virginia region.</Description>
+        in the Central Virginia region. Every locality is listed in exactly one tier, the 5.3% tier
+        included, and there is no default: an unlisted locality leaves the rate incomplete rather than
+        silently 5.3%; scripts/check-virginia-constants.py enforces the listing.</Description>
       <TaxYear>2024</TaxYear>
       <Derived>
         <Switch>
@@ -779,7 +823,104 @@
             <Then><Rational>6/100</Rational></Then>
           </Case>
           <Case>
-            <When><True /></When>
+            <When>
+              <Any>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">accomack-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">albemarle-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">alleghany-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">amelia-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">amherst-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">appomattox-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">augusta-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bath-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bedford-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bland-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">botetourt-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bristol-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">brunswick-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buchanan-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buckingham-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buena-vista-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">campbell-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">caroline-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">carroll-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">charlottesville-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">clarke-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">colonial-heights-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">covington-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">craig-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">culpeper-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">cumberland-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">dickenson-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">dinwiddie-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">emporia-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">essex-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fauquier-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">floyd-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fluvanna-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">franklin-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">frederick-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fredericksburg-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">galax-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">giles-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">grayson-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">greene-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">greensville-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">harrisonburg-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">highland-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">hopewell-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-george-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-william-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-and-queen-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lancaster-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lee-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lexington-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">louisa-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lunenburg-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lynchburg-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">madison-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">martinsville-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">mathews-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">mecklenburg-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">middlesex-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">montgomery-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">nelson-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">northumberland-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">norton-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">nottoway-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">orange-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">page-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">petersburg-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-edward-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-george-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">pulaski-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">radford-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rappahannock-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">richmond-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">roanoke-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">roanoke-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rockbridge-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rockingham-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">russell-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">salem-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">scott-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">shenandoah-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">smyth-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">spotsylvania-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">stafford-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">staunton-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">surry-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">sussex-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">tazewell-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">warren-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">washington-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">waynesboro-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">westmoreland-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">winchester-city</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">wise-county</Enum></Right></Equal>
+                <Equal><Left><Dependency path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">wythe-county</Enum></Right></Equal>
+              </Any>
+            </When>
             <Then><Rational>53/1000</Rational></Then>
           </Case>
         </Switch>

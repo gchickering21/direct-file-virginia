@@ -6,11 +6,16 @@
   (stateSystems="true") or to MeF (mef="true"); the residency fact gates, it does not compute.
   Authority: Va. Code Title 58.1, Chapter 3 (https://law.lis.virginia.gov/vacode/title58.1/),
   and the 2024 Form 760 instructions (Virginia Department of Taxation).
+
+  Every tax-year figure, date and rate-schedule amount sits between the constants:begin and
+  constants:end markers below; scripts/check-virginia-constants.py fails the build if a <Day> or a
+  non-zero <Dollar> literal appears anywhere else in this file.
 -->
 <FactDictionaryModule>
   <Facts>
 
     <!-- ============ Figures for tax year 2024. One edit per year goes here. ============ -->
+    <!-- constants:begin -->
 
     <Fact path="/vaStandardDeductionSingle">
       <Name>Virginia standard deduction, Filing Status 1 and 3</Name>
@@ -48,9 +53,19 @@
 
     <Fact path="/vaAgeDeductionMaximum">
       <Name>Virginia age deduction, maximum</Name>
-      <Description>Va. Code § 58.1-322.03(5): $12,000. 2024 Form 760 instructions, Line 4.</Description>
+      <Description>Va. Code § 58.1-322.03(5): $12,000 for each qualifying person. 2024 Form 760
+        instructions, Line 4.</Description>
       <TaxYear>2024</TaxYear>
       <Derived><Dollar>12000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaAgeDeductionFullAmountBirthDateCutoff">
+      <Name>Virginia age deduction, last birth date for the full amount</Name>
+      <Description>Va. Code § 58.1-322.03(5)(a): born on or before January 1, 1939, the full
+        $12,000 regardless of income. A statutory date, kept with the figures so the file holds
+        no date literal outside this block.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Day>1939-01-01</Day></Derived>
     </Fact>
 
     <Fact path="/vaAgeDeductionIncomeThresholdSingle">
@@ -63,8 +78,8 @@
 
     <Fact path="/vaAgeDeductionIncomeThresholdMarried">
       <Name>Virginia age deduction income threshold, married</Name>
-      <Description>Va. Code § 58.1-322.03(5)(b): $75,000 for married taxpayers (joint AFAGI of
-        both spouses; this prototype models the primary filer only).</Description>
+      <Description>Va. Code § 58.1-322.03(5)(b): $75,000 for married taxpayers, measured on the
+        joint AFAGI of both spouses.</Description>
       <TaxYear>2024</TaxYear>
       <Derived><Dollar>75000</Dollar></Derived>
     </Fact>
@@ -86,6 +101,159 @@
       <TaxYear>2024</TaxYear>
       <Derived><Dollar>23900</Dollar></Derived>
     </Fact>
+
+    <Fact path="/vaRateScheduleBracket1Top">
+      <Name>Rate schedule, top of the 2% bracket</Name>
+      <Description>Va. Code § 58.1-320: 2% of income not exceeding $3,000 (taxable years from
+        1990). 2024 Form 760 instructions, Tax Rate Schedule.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>3000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleBracket2Top">
+      <Name>Rate schedule, top of the 3% bracket</Name>
+      <Description>Va. Code § 58.1-320: 3% of income over $3,000 to $5,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>5000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleBracket3Top">
+      <Name>Rate schedule, top of the 5% bracket</Name>
+      <Description>Va. Code § 58.1-320: 5% of income over $5,000 to $17,000; 5.75% above.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>17000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleTaxAtBracket1Top">
+      <Name>Rate schedule, tax at $3,000</Name>
+      <Description>The cumulative figure the 2024 Form 760 instructions print: $60 at $3,000
+        (2% of $3,000).</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>60</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleTaxAtBracket2Top">
+      <Name>Rate schedule, tax at $5,000</Name>
+      <Description>$120 at $5,000: $60 plus 3% of $2,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>120</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleTaxAtBracket3Top">
+      <Name>Rate schedule, tax at $17,000</Name>
+      <Description>$720 at $17,000: $120 plus 5% of $12,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>720</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate1">
+      <Name>Rate schedule, first rate</Name>
+      <Description>Va. Code § 58.1-320: 2% on income not exceeding $3,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>2/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate2">
+      <Name>Rate schedule, second rate</Name>
+      <Description>Va. Code § 58.1-320: 3% on income over $3,000 to $5,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>3/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate3">
+      <Name>Rate schedule, third rate</Name>
+      <Description>Va. Code § 58.1-320: 5% on income over $5,000 to $17,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>5/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate4">
+      <Name>Rate schedule, top rate</Name>
+      <Description>Va. Code § 58.1-320: 5.75% on income over $17,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>575/10000</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaLowIncomeCreditPerExemption">
+      <Name>Credit for Low-Income Individuals, per exemption</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1): $300 each for the individual, the spouse and each dependent. 2024
+        Form 760 instructions, Schedule ADJ Line 13.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>300</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaPovertyGuidelineFirstPerson">
+      <Name>Poverty guideline, a family of one</Name>
+      <Description>2024 Form 760 instructions, Schedule ADJ Line 11, Poverty Guideline Table:
+        $15,060 for one eligible exemption (the 2024 federal poverty guideline).</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>15060</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaPovertyGuidelineEachAdditionalPerson">
+      <Name>Poverty guideline, each additional family member</Name>
+      <Description>2024 Form 760 instructions, Poverty Guideline Table: $5,380 for each additional
+        person, spouse and dependent exemption ($20,440 for two, $52,720 for eight).</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>5380</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaEarnedIncomeCreditRate">
+      <Name>Virginia Earned Income Credit rate, nonrefundable</Name>
+      <Description>Va. Code § 58.1-339.8(B)(2): 20% of the federal earned income credit, in place of the
+        Credit for Low-Income Individuals. 2024 Form 760
+        instructions, Schedule ADJ Line 15.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>20/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRefundableEarnedIncomeCreditRate">
+      <Name>Refundable Virginia Earned Income Credit rate</Name>
+      <Description>Va. Code § 58.1-339.8(B)(3)(a): for taxable years 2022 through 2024, 15% of the federal
+        earned income credit, refundable, in place of either nonrefundable credit (20% from 2025,
+        subdivision 3 b). 2024 Form 760
+        instructions, Schedule ADJ Line 16b.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>15/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPayMaximum">
+      <Name>Military basic pay subtraction, maximum</Name>
+      <Description>Va. Code § 58.1-322.02(15): up to $15,000 of military basic pay, reduced $1 for
+        each $1 of basic pay over $15,000, so nothing at $30,000 or more. 2024 Form 760
+        instructions, Schedule ADJ subtraction code 38.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>15000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBenefitsMaximum">
+      <Name>Military benefits subtraction, maximum</Name>
+      <Description>Va. Code § 58.1-322.02(18)(c): $30,000 of military benefits for taxable year 2024
+        ($40,000 from 2025), at any age; (18)(d) defines them as military retirement income, § 134
+        qualified military benefits, and Survivor Benefit Plan and other military benefits paid to a
+        surviving spouse. 2024 Form 760 instructions, Schedule ADJ subtraction code 60.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>30000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversCap">
+      <Name>Commonwealth Savers deduction cap</Name>
+      <Description>Va. Code § 58.1-322.03(7)(a): "limited to $4,000 per prepaid tuition contract or college
+        savings trust account" per return per taxable year. This prototype treats the contributions as
+        one account; the carryforward of the excess to later years is out of scope.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>4000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversAge70BirthDateCutoff">
+      <Name>Commonwealth Savers, last birth date for the no-cap rule</Name>
+      <Description>Va. Code § 58.1-322.03(7)(b): a contributor who has attained age 70 is not subject to
+        the $4,000 limit. Born on or before December 31, 1954 has attained 70 during tax year 2024.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Day>1954-12-31</Day></Derived>
+    </Fact>
+
+    <!-- constants:end -->
 
     <!-- ============ Residency: the gate. Reads the federal residency answer. ============ -->
 
@@ -118,6 +286,104 @@
       </Derived>
     </Fact>
 
+    <!-- ============ The spouse on a joint return. ============ -->
+
+    <Fact path="/filers/*/vaIsSpouse">
+      <Name>This filer is the spouse</Name>
+      <Description>Not the primary filer. The federal return exports each filer's
+        /filers/*/isPrimaryFiler to states; the federal /filers/*/isSecondaryFiler and the
+        /secondaryFiler pointer are not exported, so the spouse is found from the flag a state is
+        handed.</Description>
+      <Derived>
+        <Not><Dependency module="filers" path="../isPrimaryFiler" /></Not>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouse">
+      <Name>The spouse on a joint return</Name>
+      <Description>The filer who is not the primary filer: how a state's software finds the spouse in
+        what it is handed. Read only on Filing Status 2; the facts below guard that.</Description>
+      <Derived>
+        <Find path="/filers">
+          <Dependency path="vaIsSpouse" />
+        </Find>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouseAge65OrOlder">
+      <Name>Spouse 65 or older</Name>
+      <Description>On a joint return, the spouse's federal /age65OrOlder (65 on or before January 1,
+        2025, the rule Virginia's Section B uses). False on any other filing status. A joint return
+        always carries the spouse's date of birth, so the completeness guard only keeps a return with
+        no spouse facts from going incomplete.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaIsFilingStatus2" /></When>
+            <Then>
+              <All>
+                <IsComplete><Dependency module="filers" path="/vaSpouse/age65OrOlder" /></IsComplete>
+                <Dependency module="filers" path="/vaSpouse/age65OrOlder" />
+              </All>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><False /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouseIsBlind">
+      <Name>Spouse blind</Name>
+      <Description>On a joint return, the spouse's federal /isBlind (blind for federal purposes, IRC
+        § 63(f)). False on any other filing status.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaIsFilingStatus2" /></When>
+            <Then>
+              <All>
+                <IsComplete><Dependency module="filers" path="/vaSpouse/isBlind" /></IsComplete>
+                <Dependency module="filers" path="/vaSpouse/isBlind" />
+              </All>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><False /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouseBornOnOrBefore1939">
+      <Name>Spouse born on or before January 1, 1939</Name>
+      <Description>Va. Code § 58.1-322.03(5)(a), for the spouse on a joint return: the full $12,000 age
+        deduction regardless of income. Reads the spouse's exported date of birth.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaIsFilingStatus2" /></When>
+            <Then>
+              <All>
+                <IsComplete><Dependency module="filers" path="/vaSpouse/dateOfBirth" /></IsComplete>
+                <LessThanOrEqual>
+                  <Left><Dependency module="filers" path="/vaSpouse/dateOfBirth" /></Left>
+                  <Right><Dependency path="/vaAgeDeductionFullAmountBirthDateCutoff" /></Right>
+                </LessThanOrEqual>
+              </All>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><False /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
     <!-- ============ Form 760 Lines 1 to 9: from federal AGI to Virginia AGI. ============ -->
 
     <Fact path="/vaFederalAdjustedGrossIncome">
@@ -139,8 +405,9 @@
       <Name>Adjusted federal adjusted gross income (AFAGI)</Name>
       <Description>Va. Code § 58.1-322.03(5)(b): federal AGI minus Social Security Title II benefits
         and other benefits taxable solely under IRC § 86. Used only for the age deduction's
-        income test. 2024 Form 760 instructions, Age Deduction Worksheet lines 2 to 8 (the
-        conformity addition and subtraction on worksheet lines 3 and 5 are out of scope).</Description>
+        income test; on a joint return it is the joint figure. 2024 Form 760 instructions, Age
+        Deduction Worksheet lines 2 to 8 (the conformity addition and subtraction on worksheet
+        lines 3 and 5 are out of scope).</Description>
       <Derived>
         <Subtract>
           <Minuend><Dependency path="/vaFederalAdjustedGrossIncome" /></Minuend>
@@ -157,7 +424,7 @@
       <Derived>
         <LessThanOrEqual>
           <Left><Dependency module="filers" path="/primaryFiler/dateOfBirth" /></Left>
-          <Right><Day>1939-01-01</Day></Right>
+          <Right><Dependency path="/vaAgeDeductionFullAmountBirthDateCutoff" /></Right>
         </LessThanOrEqual>
       </Derived>
     </Fact>
@@ -172,6 +439,18 @@
         <All>
           <Dependency module="filers" path="/primaryFiler/age65OrOlder" />
           <Not><Dependency path="/vaPrimaryFilerBornOnOrBefore1939" /></Not>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouseQualifiesForIncomeBasedAgeDeduction">
+      <Name>Spouse qualifies for the income-based age deduction</Name>
+      <Description>Va. Code § 58.1-322.03(5)(b), for the spouse on a joint return: born after
+        January 1, 1939, and 65 or older.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaSpouseAge65OrOlder" />
+          <Not><Dependency path="/vaSpouseBornOnOrBefore1939" /></Not>
         </All>
       </Derived>
     </Fact>
@@ -196,7 +475,8 @@
     <Fact path="/vaAgeDeductionReduction">
       <Name>Age deduction reduction</Name>
       <Description>Va. Code § 58.1-322.03(5)(b): $1 for each $1 of AFAGI over the threshold, never
-        below zero. 2024 Form 760 instructions, Age Deduction Worksheet line 11.</Description>
+        below zero. 2024 Form 760 instructions, Age Deduction Worksheet line 11. One figure for the
+        return; on a joint return it applies to each spouse's $12,000.</Description>
       <Derived>
         <GreaterOf>
           <Dollar>0</Dollar>
@@ -208,13 +488,11 @@
       </Derived>
     </Fact>
 
-    <Fact path="/vaAgeDeduction">
-      <Name>Form 760 Line 4, age deduction</Name>
-      <Description>Va. Code § 58.1-322.03(5). Primary filer only: $12,000 if born on or before
-        January 1, 1939; otherwise, if 65 or older, $12,000 reduced by the income-based
-        reduction, never below zero; otherwise $0. A spouse's deduction and the interaction with
-        the disability subtraction and the low-income credit are out of scope. 2024 Form 760
-        instructions, Line 4 and the Age Deduction Worksheet.</Description>
+    <Fact path="/vaPrimaryFilerAgeDeductionAllowed">
+      <Name>Age deduction the primary filer qualifies for</Name>
+      <Description>Va. Code § 58.1-322.03(5): $12,000 if born on or before January 1, 1939;
+        otherwise, if 65 or older, $12,000 reduced by the income-based reduction, never below zero;
+        otherwise $0. The disability subtraction that can be taken instead is out of scope.</Description>
       <Derived>
         <Switch>
           <Case>
@@ -241,17 +519,357 @@
       </Derived>
     </Fact>
 
-    <Fact path="/vaTotalSubtractions">
-      <Name>Form 760 Line 8, total subtractions</Name>
-      <Description>Lines 4 + 5 + 6 + 7. Line 6 (state income tax refund, Va. Code
-        § 58.1-322.02(5)) and the Schedule ADJ subtractions other than lottery prizes are out of
+    <Fact path="/vaSpouseAgeDeductionAllowed">
+      <Name>Age deduction the spouse qualifies for</Name>
+      <Description>Va. Code § 58.1-322.03(5), for the spouse on a joint return, with the same rule as
+        the primary filer: $12,000 if born on or before January 1, 1939; otherwise, if 65 or older,
+        $12,000 reduced by the return's income-based reduction; otherwise $0. Assumption, from the
+        Code's text: the deduction is "for individuals", and on a joint return "the taxpayer's
+        adjusted federal adjusted gross income" is the joint AFAGI, so each spouse's $12,000 is
+        reduced by the same excess over $75,000. If Virginia Tax's Age Deduction Worksheet instead
+        reduces the couple's combined $24,000 once, this is the fact to change.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaSpouseBornOnOrBefore1939" /></When>
+            <Then><Dependency path="/vaAgeDeductionMaximum" /></Then>
+          </Case>
+          <Case>
+            <When><Dependency path="/vaSpouseQualifiesForIncomeBasedAgeDeduction" /></When>
+            <Then>
+              <GreaterOf>
+                <Dollar>0</Dollar>
+                <Subtract>
+                  <Minuend><Dependency path="/vaAgeDeductionMaximum" /></Minuend>
+                  <Subtrahends><Dependency path="/vaAgeDeductionReduction" /></Subtrahends>
+                </Subtract>
+              </GreaterOf>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaAgeDeductionAllowed">
+      <Name>Age deduction the return qualifies for</Name>
+      <Description>Va. Code § 58.1-322.03(5): the primary filer's deduction plus, on a joint return,
+        the spouse's. Line 4 claims this unless the return claims a low-income credit instead
+        (/vaClaimsLowIncomeCredit). 2024 Form 760 instructions, Line 4 and the Age Deduction
+        Worksheet.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaPrimaryFilerAgeDeductionAllowed" />
+          <Dependency path="/vaSpouseAgeDeductionAllowed" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaAgeDeduction">
+      <Name>Form 760 Line 4, age deduction</Name>
+      <Description>Va. Code § 58.1-339.8(D)(5): a return on which the filer or the spouse claims the age
+        deduction cannot claim the Credit for Low-Income Individuals or either Virginia Earned Income
+        Credit. The age deduction the return qualifies for, or $0 when the return claims one of those
+        credits instead.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaAgeDeductionAllowed" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaHasMilitaryIncome">
+      <Name>Served in, or received retirement pay from, the U.S. Armed Forces in 2024</Name>
+      <Description>Asked, as the gate to the two military questions. Neither basic pay nor military
+        retirement is identifiable on the forms the federal return exports: a W-2 from the military
+        reports box 1, not basic pay, and the federal 1099-R question "is this from a military
+        retirement plan" is not exported to states.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaHasMilitaryBasicPay">
+      <Name>On extended active duty for more than 90 consecutive days in 2024</Name>
+      <Description>Va. Code § 58.1-322.02(15). Asked; primary filer only.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPay">
+      <Name>Military basic pay received in 2024</Name>
+      <Description>Basic pay only, from the filer's Leave and Earnings Statements; not allowances,
+        bonuses or special pays, which W-2 box 1 also includes.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPaySubtractionAllowed">
+      <Name>Military basic pay subtraction the filer qualifies for (Schedule ADJ code 38)</Name>
+      <Description>Va. Code § 58.1-322.02(15): all basic pay up to $15,000; above that, $15,000
+        reduced dollar for dollar by the pay over $15,000, so nothing at $30,000 or more. Limited to
+        what federal AGI includes, here W-2 wages. The cap is the household's /wages (exported to
+        MeF): the federal per-filer figures (/primaryFilerWages, /formW2s/*/filer,
+        /formW2s/*/belongsToPrimaryFiler) are not exported to states, so the primary filer's own
+        wages cannot be read here; on a joint return the cap is therefore loose by the spouse's
+        wages. Claimed on Line 7 only if the return does not claim a low-income credit (Va. Code
+        § 58.1-339.8(D)(2)).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Not><Dependency path="/vaHasMilitaryIncome" /></Not></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><Not><Dependency path="/vaHasMilitaryBasicPay" /></Not></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaMilitaryBasicPay" /></Left>
+                <Right><Dependency path="/vaMilitaryBasicPayMaximum" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then>
+              <LesserOf>
+                <Dependency path="/vaMilitaryBasicPay" />
+                <Dependency module="formW2s" path="/wages" />
+              </LesserOf>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then>
+              <LesserOf>
+                <Dependency module="formW2s" path="/wages" />
+                <Dependency path="/vaMilitaryBasicPayPhasedOut" />
+              </LesserOf>
+            </Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPayPhasedOut">
+      <Name>Military basic pay subtraction after the phase-out</Name>
+      <Description>Va. Code § 58.1-322.02(15): $15,000 reduced $1 for each $1 of basic pay over
+        $15,000, never below zero. Only read when the basic pay is over $15,000.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/vaMilitaryBasicPayMaximum" /></Minuend>
+            <Subtrahends>
+              <Subtract>
+                <Minuend><Dependency path="/vaMilitaryBasicPay" /></Minuend>
+                <Subtrahends><Dependency path="/vaMilitaryBasicPayMaximum" /></Subtrahends>
+              </Subtract>
+            </Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPaySubtraction">
+      <Name>Schedule ADJ code 38, military basic pay subtraction, as claimed</Name>
+      <Description>The subtraction the filer qualifies for, or $0 when the return claims a low-income
+        credit instead (Va. Code § 58.1-339.8(D)(2)).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaMilitaryBasicPaySubtractionAllowed" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaHasMilitaryRetirement">
+      <Name>Received military retirement pay or Survivor Benefit Plan payments in 2024</Name>
+      <Description>Va. Code § 58.1-322.02(18)(c) and (d). Asked; primary filer only.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaMilitaryRetirementIncome">
+      <Name>Military benefits received in 2024</Name>
+      <Description>The taxable amount (1099-R box 2a) of military retirement pay, Survivor Benefit
+        Plan payments and other military benefits paid to a surviving spouse.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaForm1099RTaxableAmounts">
+      <Name>Taxable amount on every 1099-R of the return</Name>
+      <Description>The sum of box 2a across the 1099-Rs on the federal return
+        (/form1099Rs/*/taxableAmount, exported to MeF in each 1099-R). Military benefits are
+        retirement income, so a military benefits subtraction cannot exceed this.</Description>
+      <Derived>
+        <CollectionSum>
+          <Dependency module="form1099Rs" path="/form1099Rs/*/taxableAmount" />
+        </CollectionSum>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBenefitsSubtraction">
+      <Name>Schedule ADJ code 60, military benefits subtraction</Name>
+      <Description>Va. Code § 58.1-322.02(18)(c): up to $30,000 for taxable year 2024, at any age, and
+        never more than the taxable 1099-R income the federal return reports (the subtraction is of an
+        amount "included therein", in federal AGI). It does not bar the low-income credits
+        (§ 58.1-339.8(D) does not list it).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Not><Dependency path="/vaHasMilitaryIncome" /></Not></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><Dependency path="/vaHasMilitaryRetirement" /></When>
+            <Then>
+              <LesserOf>
+                <Dependency path="/vaMilitaryRetirementIncome" />
+                <Dependency path="/vaMilitaryBenefitsMaximum" />
+                <Dependency path="/vaForm1099RTaxableAmounts" />
+              </LesserOf>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaUnemploymentCompensationSubtraction">
+      <Name>Schedule ADJ code 37, unemployment benefits subtraction</Name>
+      <Description>Va. Code § 58.1-322.02: unemployment compensation included in federal AGI is
+        subtracted in full (2024 Form 760 instructions, Schedule ADJ subtraction code 37). Direct File
+        puts each 1099-G's box 1 into AGI net of what was repaid in the year, and exports both figures
+        to states (/form1099Gs/*/amount, /form1099Gs/*/amountPaidBackForBenefitsInTaxYear), so the
+        subtraction is their difference, rounded the way the federal /unemploymentCompensation is. No
+        question is asked.</Description>
+      <Derived>
+        <Round>
+          <Subtract>
+            <Minuend>
+              <CollectionSum>
+                <Dependency module="unemployment" path="/form1099Gs/*/amount" />
+              </CollectionSum>
+            </Minuend>
+            <Subtrahends>
+              <CollectionSum>
+                <Dependency module="unemployment" path="/form1099Gs/*/amountPaidBackForBenefitsInTaxYear" />
+              </CollectionSum>
+            </Subtrahends>
+          </Subtract>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <!-- The Virginia Lottery subtraction (Schedule ADJ code 24) is deliberately absent. Va. Code
+         § 58.1-322.02(7) subtracts only "any amount included therein", in federal AGI, "less than
+         $600 from a prize awarded by the Virginia Lottery". Direct File has no gambling or other-income
+         fact, so no prize is ever in Line 1, and a filer with such income is outside Direct File's
+         scope; a question about it could only subtract what was never added. -->
+
+    <Fact path="/vaScheduleAdjSubtractions">
+      <Name>Form 760 Line 7, subtractions from Schedule ADJ</Name>
+      <Description>Schedule ADJ Line 7: unemployment benefits (code 37), military basic pay (code 38)
+        as claimed, and military benefits (code 60). The other Schedule ADJ subtractions are out of
         scope and taken as $0.</Description>
       <Derived>
         <Add>
-          <Dependency path="/vaAgeDeduction" />
-          <Dependency path="/vaTaxableSocialSecurityBenefits" />
-          <Dependency path="/vaLotterySubtraction" />
+          <Dependency path="/vaUnemploymentCompensationSubtraction" />
+          <Dependency path="/vaMilitaryBasicPaySubtraction" />
+          <Dependency path="/vaMilitaryBenefitsSubtraction" />
         </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSubtractionsEitherWay">
+      <Name>Subtractions the low-income credits do not affect</Name>
+      <Description>Line 5 (Social Security), and on Line 7 the unemployment and military benefits
+        subtractions. The age deduction and the military basic pay subtraction are the two that a
+        low-income credit replaces.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaTaxableSocialSecurityBenefits" />
+          <Dependency path="/vaUnemploymentCompensationSubtraction" />
+          <Dependency path="/vaMilitaryBenefitsSubtraction" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithoutCreditTotalSubtractions">
+      <Name>Line 8 if the return keeps the age deduction and military basic pay subtraction</Name>
+      <Description>Lines 4 + 5 + 6 + 7 with Line 4 and code 38 as the filers qualify for them. Line 6
+        (state income tax refund, Va. Code § 58.1-322.02(5)) is out of scope and taken as $0.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaSubtractionsEitherWay" />
+          <Dependency path="/vaAgeDeductionAllowed" />
+          <Dependency path="/vaMilitaryBasicPaySubtractionAllowed" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTotalSubtractions">
+      <Name>Line 8 if the return claims a low-income credit</Name>
+      <Description>Lines 5 + 7 with no age deduction and no military basic pay subtraction (Va. Code
+        § 58.1-339.8(D)(2) and (5)).</Description>
+      <Derived><Dependency path="/vaSubtractionsEitherWay" /></Derived>
+    </Fact>
+
+    <Fact path="/vaWithoutCreditAdjustedGrossIncome">
+      <Name>Line 9 if the return keeps the age deduction and military basic pay subtraction</Name>
+      <Description>Line 1 minus Line 8, with Line 4 and code 38 as the filers qualify for them.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/vaFederalAdjustedGrossIncome" /></Minuend>
+          <Subtrahends><Dependency path="/vaWithoutCreditTotalSubtractions" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditAdjustedGrossIncome">
+      <Name>Line 9 if the return claims a low-income credit</Name>
+      <Description>Line 1 minus Line 8 with no age deduction and no military basic pay subtraction
+        (Va. Code § 58.1-339.8(D)(2) and (5)). This is also the family VAGI of Schedule ADJ Line 10.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/vaFederalAdjustedGrossIncome" /></Minuend>
+          <Subtrahends><Dependency path="/vaWithCreditTotalSubtractions" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTotalSubtractions">
+      <Name>Form 760 Line 8, total subtractions</Name>
+      <Description>Lines 4 + 5 + 6 + 7, as claimed: the with-credit or the without-credit figure,
+        whichever way the return files, so that Line 9 is always Line 1 minus this.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaWithCreditTotalSubtractions" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditTotalSubtractions" /></Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
 
@@ -260,10 +878,16 @@
       <Description>Line 3 minus Line 8. Va. Code § 58.1-322 defines Virginia taxable income by
         reference to federal adjusted gross income with the Chapter 3 modifications.</Description>
       <Derived>
-        <Subtract>
-          <Minuend><Dependency path="/vaFederalAdjustedGrossIncome" /></Minuend>
-          <Subtrahends><Dependency path="/vaTotalSubtractions" /></Subtrahends>
-        </Subtract>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaWithCreditAdjustedGrossIncome" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditAdjustedGrossIncome" /></Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
 
@@ -284,15 +908,46 @@
       </Derived>
     </Fact>
 
-    <Fact path="/vaIsBelowFilingThreshold">
-      <Name>Virginia adjusted gross income below the filing threshold</Name>
+    <Fact path="/vaWithoutCreditIsBelowFilingThreshold">
+      <Name>Below the filing threshold, keeping the age deduction</Name>
       <Description>Va. Code § 58.1-321(A); 2024 Form 760 instructions, Line 9: if Line 9 is less
         than the amount for your filing status, your Virginia income tax is $0.</Description>
       <Derived>
         <LessThan>
-          <Left><Dependency path="/vaAdjustedGrossIncome" /></Left>
+          <Left><Dependency path="/vaWithoutCreditAdjustedGrossIncome" /></Left>
           <Right><Dependency path="/vaFilingThreshold" /></Right>
         </LessThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditIsBelowFilingThreshold">
+      <Name>Below the filing threshold, claiming a low-income credit</Name>
+      <Description>Va. Code § 58.1-321(A); 2024 Form 760 instructions, Line 9: if Line 9 is less
+        than the amount for your filing status, your Virginia income tax is $0.</Description>
+      <Derived>
+        <LessThan>
+          <Left><Dependency path="/vaWithCreditAdjustedGrossIncome" /></Left>
+          <Right><Dependency path="/vaFilingThreshold" /></Right>
+        </LessThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaIsBelowFilingThreshold">
+      <Name>Virginia adjusted gross income below the filing threshold</Name>
+      <Description>Va. Code § 58.1-321(A); 2024 Form 760 instructions, Line 9: if Line 9 is less
+        than the amount for your filing status, your Virginia income tax is $0. The with-credit or
+        the without-credit test, whichever way the return files.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaWithCreditIsBelowFilingThreshold" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditIsBelowFilingThreshold" /></Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
 
@@ -369,9 +1024,9 @@
 
     <Fact path="/vaAgedOrBlindExemptionCount">
       <Name>Exemptions claimed in the 65 or older and Blind boxes</Name>
-      <Description>2024 Form 760 instructions, Exemptions Section B, primary filer only: one for
-        65 or older on or before January 1, 2025 (the federal /age65OrOlder rule), one for blind
-        for federal purposes. A spouse's boxes are out of scope.</Description>
+      <Description>2024 Form 760 instructions, Exemptions Section B, four boxes: you 65 or older on or
+        before January 1, 2025 (the federal /age65OrOlder rule), you blind for federal purposes, and
+        on a joint return the same two for your spouse.</Description>
       <Derived>
         <Add>
           <Switch>
@@ -394,38 +1049,148 @@
               <Then><Int>0</Int></Then>
             </Case>
           </Switch>
+          <Switch>
+            <Case>
+              <When><Dependency path="/vaSpouseAge65OrOlder" /></When>
+              <Then><Int>1</Int></Then>
+            </Case>
+            <Case>
+              <When><True /></When>
+              <Then><Int>0</Int></Then>
+            </Case>
+          </Switch>
+          <Switch>
+            <Case>
+              <When><Dependency path="/vaSpouseIsBlind" /></When>
+              <Then><Int>1</Int></Then>
+            </Case>
+            <Case>
+              <When><True /></When>
+              <Then><Int>0</Int></Then>
+            </Case>
+          </Switch>
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaPersonalExemptions">
+      <Name>Exemptions, Section A amount</Name>
+      <Description>Va. Code § 58.1-322.03(2)(a): $930 times the You, Spouse and Dependents count.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/vaPersonalExemptionAmount" />
+          <Dependency path="/vaPersonalExemptionCount" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaAgedOrBlindExemptionsAllowed">
+      <Name>Exemptions, Section B amount the filers qualify for</Name>
+      <Description>Va. Code § 58.1-322.03(2)(b): $800 times the 65 or older and Blind count, the
+        spouse's boxes included. 2024 Form 760 instructions, Exemptions: these cannot be claimed with
+        a Credit for Low-Income Individuals on Line 23 (Va. Code § 58.1-339.8(D)(4) bars every
+        low-income credit when the filer or the spouse claims one).</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/vaAgedOrBlindExemptionAmount" />
+          <Dependency path="/vaAgedOrBlindExemptionCount" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithoutCreditExemptions">
+      <Name>Line 12 if the return keeps the 65 or older and blind exemptions</Name>
+      <Derived>
+        <Add>
+          <Dependency path="/vaPersonalExemptions" />
+          <Dependency path="/vaAgedOrBlindExemptionsAllowed" />
         </Add>
       </Derived>
     </Fact>
 
     <Fact path="/vaExemptions">
       <Name>Form 760 Line 12, exemptions</Name>
-      <Description>Va. Code § 58.1-322.03(2): $930 times the Section A count plus $800 times the
-        Section B count.</Description>
+      <Description>Va. Code § 58.1-322.03(2): Section A plus Section B, or Section A alone when the
+        return claims a low-income credit.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaPersonalExemptions" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditExemptions" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithoutCreditTotalDeductions">
+      <Name>Line 14 if the return keeps the 65 or older and blind exemptions</Name>
       <Derived>
         <Add>
-          <Multiply>
-            <Dependency path="/vaPersonalExemptionAmount" />
-            <Dependency path="/vaPersonalExemptionCount" />
-          </Multiply>
-          <Multiply>
-            <Dependency path="/vaAgedOrBlindExemptionAmount" />
-            <Dependency path="/vaAgedOrBlindExemptionCount" />
-          </Multiply>
+          <Dependency path="/vaStandardDeduction" />
+          <Dependency path="/vaWithoutCreditExemptions" />
+          <Dependency path="/vaCommonwealthSaversDeduction" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTotalDeductions">
+      <Name>Line 14 if the return claims a low-income credit</Name>
+      <Derived>
+        <Add>
+          <Dependency path="/vaStandardDeduction" />
+          <Dependency path="/vaPersonalExemptions" />
+          <Dependency path="/vaCommonwealthSaversDeduction" />
         </Add>
       </Derived>
     </Fact>
 
     <Fact path="/vaTotalDeductions">
       <Name>Form 760 Line 14, total deductions</Name>
-      <Description>Lines 10 + 11 + 12 + 13. Line 10 (itemized) and the Schedule ADJ deductions
-        other than Commonwealth Savers are out of scope and taken as $0.</Description>
+      <Description>Lines 10 + 11 + 12 + 13, whichever way the return files. Line 10 (itemized) and
+        the Schedule ADJ deductions other than Commonwealth Savers are out of scope and taken as $0.</Description>
       <Derived>
-        <Add>
-          <Dependency path="/vaStandardDeduction" />
-          <Dependency path="/vaExemptions" />
-          <Dependency path="/vaCommonwealthSaversDeduction" />
-        </Add>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaWithCreditTotalDeductions" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditTotalDeductions" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithoutCreditTaxableIncome">
+      <Name>Line 15 if the return keeps the age deduction and exemptions</Name>
+      <Description>Line 9 minus Line 14, not below zero.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/vaWithoutCreditAdjustedGrossIncome" /></Minuend>
+            <Subtrahends><Dependency path="/vaWithoutCreditTotalDeductions" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTaxableIncome">
+      <Name>Line 15 if the return claims a low-income credit</Name>
+      <Description>Line 9 minus Line 14, not below zero.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/vaWithCreditAdjustedGrossIncome" /></Minuend>
+            <Subtrahends><Dependency path="/vaWithCreditTotalDeductions" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
       </Derived>
     </Fact>
 
@@ -433,56 +1198,60 @@
       <Name>Form 760 Line 15, Virginia taxable income</Name>
       <Description>Line 9 minus Line 14, not below zero.</Description>
       <Derived>
-        <GreaterOf>
-          <Dollar>0</Dollar>
-          <Subtract>
-            <Minuend><Dependency path="/vaAdjustedGrossIncome" /></Minuend>
-            <Subtrahends><Dependency path="/vaTotalDeductions" /></Subtrahends>
-          </Subtract>
-        </GreaterOf>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaWithCreditTaxableIncome" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditTaxableIncome" /></Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
 
     <!-- ============ Line 16: the tax. ============ -->
 
-    <Fact path="/vaTaxFromRateSchedule">
-      <Name>Tax from the rate schedule</Name>
+    <Fact path="/vaWithoutCreditTaxFromRateSchedule">
+      <Name>Tax from the rate schedule, keeping the age deduction</Name>
       <Description>Va. Code § 58.1-320, taxable years from 1990: 2% of income not exceeding
         $3,000; 3% of income over $3,000 to $5,000; 5% of income over $5,000 to $17,000; 5.75% of
         income over $17,000. Written as the cumulative schedule the 2024 Form 760 instructions
-        print: $60 at $3,000, $120 at $5,000, $720 at $17,000. Rounded to the dollar.</Description>
+        print: $60 at $3,000, $120 at $5,000, $720 at $17,000 (the /vaRateSchedule… figures).
+        Rounded to the dollar.</Description>
       <Derived>
         <Round>
           <Switch>
             <Case>
               <When>
                 <LessThanOrEqual>
-                  <Left><Dependency path="/vaTaxableIncome" /></Left>
-                  <Right><Dollar>3000</Dollar></Right>
+                  <Left><Dependency path="/vaWithoutCreditTaxableIncome" /></Left>
+                  <Right><Dependency path="/vaRateScheduleBracket1Top" /></Right>
                 </LessThanOrEqual>
               </When>
               <Then>
                 <Multiply>
-                  <Rational>2/100</Rational>
-                  <Dependency path="/vaTaxableIncome" />
+                  <Dependency path="/vaRateScheduleRate1" />
+                  <Dependency path="/vaWithoutCreditTaxableIncome" />
                 </Multiply>
               </Then>
             </Case>
             <Case>
               <When>
                 <LessThanOrEqual>
-                  <Left><Dependency path="/vaTaxableIncome" /></Left>
-                  <Right><Dollar>5000</Dollar></Right>
+                  <Left><Dependency path="/vaWithoutCreditTaxableIncome" /></Left>
+                  <Right><Dependency path="/vaRateScheduleBracket2Top" /></Right>
                 </LessThanOrEqual>
               </When>
               <Then>
                 <Add>
-                  <Dollar>60</Dollar>
+                  <Dependency path="/vaRateScheduleTaxAtBracket1Top" />
                   <Multiply>
-                    <Rational>3/100</Rational>
+                    <Dependency path="/vaRateScheduleRate2" />
                     <Subtract>
-                      <Minuend><Dependency path="/vaTaxableIncome" /></Minuend>
-                      <Subtrahends><Dollar>3000</Dollar></Subtrahends>
+                      <Minuend><Dependency path="/vaWithoutCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency path="/vaRateScheduleBracket1Top" /></Subtrahends>
                     </Subtract>
                   </Multiply>
                 </Add>
@@ -491,18 +1260,18 @@
             <Case>
               <When>
                 <LessThanOrEqual>
-                  <Left><Dependency path="/vaTaxableIncome" /></Left>
-                  <Right><Dollar>17000</Dollar></Right>
+                  <Left><Dependency path="/vaWithoutCreditTaxableIncome" /></Left>
+                  <Right><Dependency path="/vaRateScheduleBracket3Top" /></Right>
                 </LessThanOrEqual>
               </When>
               <Then>
                 <Add>
-                  <Dollar>120</Dollar>
+                  <Dependency path="/vaRateScheduleTaxAtBracket2Top" />
                   <Multiply>
-                    <Rational>5/100</Rational>
+                    <Dependency path="/vaRateScheduleRate3" />
                     <Subtract>
-                      <Minuend><Dependency path="/vaTaxableIncome" /></Minuend>
-                      <Subtrahends><Dollar>5000</Dollar></Subtrahends>
+                      <Minuend><Dependency path="/vaWithoutCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency path="/vaRateScheduleBracket2Top" /></Subtrahends>
                     </Subtract>
                   </Multiply>
                 </Add>
@@ -512,12 +1281,12 @@
               <When><True /></When>
               <Then>
                 <Add>
-                  <Dollar>720</Dollar>
+                  <Dependency path="/vaRateScheduleTaxAtBracket3Top" />
                   <Multiply>
-                    <Rational>575/10000</Rational>
+                    <Dependency path="/vaRateScheduleRate4" />
                     <Subtract>
-                      <Minuend><Dependency path="/vaTaxableIncome" /></Minuend>
-                      <Subtrahends><Dollar>17000</Dollar></Subtrahends>
+                      <Minuend><Dependency path="/vaWithoutCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency path="/vaRateScheduleBracket3Top" /></Subtrahends>
                     </Subtract>
                   </Multiply>
                 </Add>
@@ -528,36 +1297,494 @@
       </Derived>
     </Fact>
 
-    <Fact path="/vaTax">
-      <Name>Form 760 Line 16, Virginia income tax</Name>
+    <Fact path="/vaWithCreditTaxFromRateSchedule">
+      <Name>Tax from the rate schedule, claiming a low-income credit</Name>
+      <Description>Va. Code § 58.1-320, the same schedule as /vaWithoutCreditTaxFromRateSchedule,
+        on the taxable income of a return that claims a low-income credit. Rounded to the dollar.</Description>
+      <Derived>
+        <Round>
+          <Switch>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency path="/vaWithCreditTaxableIncome" /></Left>
+                  <Right><Dependency path="/vaRateScheduleBracket1Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Multiply>
+                  <Dependency path="/vaRateScheduleRate1" />
+                  <Dependency path="/vaWithCreditTaxableIncome" />
+                </Multiply>
+              </Then>
+            </Case>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency path="/vaWithCreditTaxableIncome" /></Left>
+                  <Right><Dependency path="/vaRateScheduleBracket2Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Add>
+                  <Dependency path="/vaRateScheduleTaxAtBracket1Top" />
+                  <Multiply>
+                    <Dependency path="/vaRateScheduleRate2" />
+                    <Subtract>
+                      <Minuend><Dependency path="/vaWithCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency path="/vaRateScheduleBracket1Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency path="/vaWithCreditTaxableIncome" /></Left>
+                  <Right><Dependency path="/vaRateScheduleBracket3Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Add>
+                  <Dependency path="/vaRateScheduleTaxAtBracket2Top" />
+                  <Multiply>
+                    <Dependency path="/vaRateScheduleRate3" />
+                    <Subtract>
+                      <Minuend><Dependency path="/vaWithCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency path="/vaRateScheduleBracket2Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+            <Case>
+              <When><True /></When>
+              <Then>
+                <Add>
+                  <Dependency path="/vaRateScheduleTaxAtBracket3Top" />
+                  <Multiply>
+                    <Dependency path="/vaRateScheduleRate4" />
+                    <Subtract>
+                      <Minuend><Dependency path="/vaWithCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency path="/vaRateScheduleBracket3Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+          </Switch>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithoutCreditTax">
+      <Name>Line 16 if the return keeps the age deduction and exemptions</Name>
       <Description>The tax from the rate schedule, or $0 when Virginia adjusted gross income is
-        below the filing threshold (Va. Code § 58.1-321(A)). Credits (Lines 17 onward) are out of
-        scope.</Description>
+        below the filing threshold (Va. Code § 58.1-321(A)).</Description>
       <Derived>
         <Switch>
           <Case>
-            <When><Dependency path="/vaIsBelowFilingThreshold" /></When>
+            <When><Dependency path="/vaWithoutCreditIsBelowFilingThreshold" /></When>
             <Then><Dollar>0</Dollar></Then>
           </Case>
           <Case>
             <When><True /></When>
-            <Then><Dependency path="/vaTaxFromRateSchedule" /></Then>
+            <Then><Dependency path="/vaWithoutCreditTaxFromRateSchedule" /></Then>
           </Case>
         </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTax">
+      <Name>Line 16 if the return claims a low-income credit</Name>
+      <Description>The tax from the rate schedule, or $0 when Virginia adjusted gross income is
+        below the filing threshold (Va. Code § 58.1-321(A)).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaWithCreditIsBelowFilingThreshold" /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithCreditTaxFromRateSchedule" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTax">
+      <Name>Form 760 Line 16, Virginia income tax</Name>
+      <Description>The tax on whichever way of filing the return claims. Line 17 (the spouse tax
+        adjustment) is out of scope, so Line 18 equals Line 16.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaWithCreditTax" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditTax" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <!-- ============ Line 23: the low-income credits, Schedule ADJ Lines 10 to 17. ============ -->
+
+    <Fact path="/vaCanClaimLowIncomeCredit">
+      <Name>Not barred from the low-income credits outright</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1) and the 2024 Schedule ADJ eligibility requirements: no
+        credit for a filer claimed as a dependent on another return. The other bars (the age
+        deduction, the 65 or older and blind exemptions, military basic pay, claimed by the filer or
+        the spouse) are elections, weighed in /vaClaimsLowIncomeCredit. The National Guard and
+        federal and state employee subtractions (codes 28 and 39) are out of scope, as is anything a
+        dependent claims.</Description>
+      <Derived>
+        <Not><Dependency module="filers" path="/primaryFiler/canBeClaimed" /></Not>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaPovertyGuideline">
+      <Name>Schedule ADJ Line 11, poverty guideline for the family size</Name>
+      <Description>2024 Poverty Guideline Table: $15,060 for one, plus $5,380 for each more person.
+        Family size is the You, Spouse and Dependents count (/vaPersonalExemptionCount).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaPovertyGuidelineFirstPerson" />
+          <Multiply>
+            <Dependency path="/vaPovertyGuidelineEachAdditionalPerson" />
+            <Subtract>
+              <Minuend><Dependency path="/vaPersonalExemptionCount" /></Minuend>
+              <Subtrahends><Int>1</Int></Subtrahends>
+            </Subtract>
+          </Multiply>
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaQualifiesForCreditForLowIncomeIndividuals">
+      <Name>Family VAGI at or under the poverty guideline</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1). Family VAGI (Schedule ADJ Line 10) is the return's
+        Virginia AGI with no age deduction or basic pay subtraction; a dependent's own income is not
+        on the federal return, so it is taken as $0 here.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaCanClaimLowIncomeCredit" />
+          <LessThanOrEqual>
+            <Left><Dependency path="/vaWithCreditAdjustedGrossIncome" /></Left>
+            <Right><Dependency path="/vaPovertyGuideline" /></Right>
+          </LessThanOrEqual>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditForLowIncomeIndividuals">
+      <Name>Schedule ADJ Line 13, Credit for Low-Income Individuals</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1): $300 times the personal and dependent exemptions
+        (Schedule ADJ Line 12; not the 65 or older or blind ones), if the family qualifies.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaQualifiesForCreditForLowIncomeIndividuals" /></When>
+            <Then><Multiply>
+                <Dependency path="/vaLowIncomeCreditPerExemption" />
+                <Dependency path="/vaPersonalExemptionCount" />
+              </Multiply></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaFederalEarnedIncomeCredit">
+      <Name>Schedule ADJ Line 14, federal earned income credit</Name>
+      <Description>Read from the federal return (/earnedIncomeCredit, exported to MeF as Form 1040
+        line 27). $0 for a filer claimed as a dependent.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaCanClaimLowIncomeCredit" /></When>
+            <Then><Dependency module="eitc" path="/earnedIncomeCredit" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaEarnedIncomeCredit">
+      <Name>Schedule ADJ Line 15, Virginia Earned Income Credit</Name>
+      <Description>Va. Code § 58.1-339.8(B)(2): 20% of Line 14, rounded to the dollar.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/vaEarnedIncomeCreditRate" />
+            <Dependency path="/vaFederalEarnedIncomeCredit" />
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaGreaterNonrefundableCredit">
+      <Name>Schedule ADJ Line 16a, the greater of Line 13 or Line 15</Name>
+      <Derived>
+        <GreaterOf>
+          <Dependency path="/vaCreditForLowIncomeIndividuals" />
+          <Dependency path="/vaEarnedIncomeCredit" />
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRefundableEarnedIncomeCredit">
+      <Name>Schedule ADJ Line 16b, Refundable Virginia Earned Income Credit</Name>
+      <Description>Va. Code § 58.1-339.8(B)(3)(a): 15% of Line 14, rounded to the dollar.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/vaRefundableEarnedIncomeCreditRate" />
+            <Dependency path="/vaFederalEarnedIncomeCredit" />
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaNonrefundableCreditUsable">
+      <Name>Line 16a, limited to the tax</Name>
+      <Description>Va. Code § 58.1-339.8(C): a nonrefundable credit cannot exceed the tax (Line 18,
+        here the tax on the return that claims the credit).</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/vaGreaterNonrefundableCredit" />
+          <Dependency path="/vaWithCreditTax" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditIsRefundable">
+      <Name>The refundable credit is worth more than the nonrefundable one</Name>
+      <Description>2024 Schedule ADJ Line 17: "Choose the credit option that benefits you the most."</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/vaRefundableEarnedIncomeCredit" /></Left>
+          <Right><Dependency path="/vaNonrefundableCreditUsable" /></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaBestLowIncomeCredit">
+      <Name>Schedule ADJ Line 17, the credit that benefits the filer most</Name>
+      <Description>The lesser of Line 16a and the tax, or Line 16b, whichever is greater.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dependency path="/vaNonrefundableCreditUsable" />
+          <Dependency path="/vaRefundableEarnedIncomeCredit" />
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTaxAfterCredit">
+      <Name>Tax less the credit, if the return claims a low-income credit</Name>
+      <Description>Negative when the refundable credit exceeds the tax.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/vaWithCreditTax" /></Minuend>
+          <Subtrahends><Dependency path="/vaBestLowIncomeCredit" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsLowIncomeCredit">
+      <Name>The return claims a low-income credit</Name>
+      <Description>The election Form 760 leaves to the filer: the instructions for Line 4 say to
+        "claim the deduction or subtraction that gives you the greatest tax benefit." The return
+        claims a credit when there is one and the tax less the credit is lower than the tax keeping
+        everything Va. Code § 58.1-339.8(D) says the filer, the spouse or both would give up: the age
+        deduction of either spouse, the 65 or older and blind exemptions of either spouse, and the
+        military basic pay subtraction. Withholding, payments and use tax are the same either way, so
+        this is the whole comparison.</Description>
+      <Derived>
+        <All>
+          <GreaterThan>
+            <Left><Dependency path="/vaBestLowIncomeCredit" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+          <LessThan>
+            <Left><Dependency path="/vaWithCreditTaxAfterCredit" /></Left>
+            <Right><Dependency path="/vaWithoutCreditTax" /></Right>
+          </LessThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaLowIncomeCredit">
+      <Name>Form 760 Line 23, Credit for Low-Income Individuals or Virginia Earned Income Credit</Name>
+      <Description>Schedule ADJ Line 17 when the return claims it; otherwise $0.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaBestLowIncomeCredit" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsRefundableEarnedIncomeCredit">
+      <Name>Line 23 is the Refundable Virginia Earned Income Credit</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <Dependency path="/vaCreditIsRefundable" />
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsCreditForLowIncomeIndividuals">
+      <Name>Line 23 is the Credit for Low-Income Individuals</Name>
+      <Description>Line 16a is Line 13 when Line 13 is at least Line 15.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <Not><Dependency path="/vaCreditIsRefundable" /></Not>
+          <GreaterThanOrEqual>
+            <Left><Dependency path="/vaCreditForLowIncomeIndividuals" /></Left>
+            <Right><Dependency path="/vaEarnedIncomeCredit" /></Right>
+          </GreaterThanOrEqual>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsNonrefundableEarnedIncomeCredit">
+      <Name>Line 23 is the nonrefundable Virginia Earned Income Credit</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <Not><Dependency path="/vaCreditIsRefundable" /></Not>
+          <Not><Dependency path="/vaClaimsCreditForLowIncomeIndividuals" /></Not>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditReplacedAgeDeduction">
+      <Name>Claiming the credit gave up the age deduction</Name>
+      <Description>Shown on the summary, so the filer sees what the credit replaced and what it was
+        worth; on a joint return the figure includes the spouse's deduction.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <GreaterThan>
+            <Left><Dependency path="/vaAgeDeductionAllowed" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditReplacedAgedOrBlindExemptions">
+      <Name>Claiming the credit gave up the 65 or older or blind exemptions</Name>
+      <Description>Shown on the summary, so the filer sees what the credit replaced and what it was
+        worth; on a joint return the figure includes the spouse's boxes.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <GreaterThan>
+            <Left><Dependency path="/vaAgedOrBlindExemptionsAllowed" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditReplacedMilitaryBasicPay">
+      <Name>Claiming the credit gave up the military basic pay subtraction</Name>
+      <Description>Shown on the summary, so the filer sees what the credit replaced and what it was worth.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <GreaterThan>
+            <Left><Dependency path="/vaMilitaryBasicPaySubtractionAllowed" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditDeclinedForADeduction">
+      <Name>A credit was available, but keeping the deductions saves more</Name>
+      <Derived>
+        <All>
+          <Not><Dependency path="/vaClaimsLowIncomeCredit" /></Not>
+          <GreaterThan>
+            <Left><Dependency path="/vaBestLowIncomeCredit" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
       </Derived>
     </Fact>
 
 
     <!-- ============ Lines 19a to 28: what has already been paid, and the result. ============ -->
 
+    <Fact path="/formW2s/*/vaStateIsVirginia">
+      <Name>This W-2's box 15 names Virginia</Name>
+      <Description>Direct File derives each W-2's MeF state code (/formW2s/*/xmlStateCd, the
+        StateAbbreviationCd of the W-2 in the Form 1040 XML a state receives) from the residence
+        answer whenever box 15 is filled in, and knocks a return out when a W-2 is from another state
+        (/flowKnockoutBox15IncomeFromDifferentState); the box 15 answer itself (/formW2s/*/state) is
+        not exported. So on a Virginia resident return the code is "VA" exactly when box 15 is
+        filled in, and that is the test here: a resident return and a state code present. Written
+        as a completeness test rather than a comparison with "VA" because the workbench sandbox stands
+        each federal fact in by type and has no per-form string; the two tests agree on every return
+        this module can see, and the ScalaTest asserts the stricter one.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaIsResident" />
+          <IsComplete><Dependency module="formW2s" path="../xmlStateCd" /></IsComplete>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/formW2s/*/vaWithholding">
+      <Name>This W-2's Virginia income tax withheld</Name>
+      <Description>Box 17 (/formW2s/*/stateWithholding, exported to MeF in each W-2) when box 15 names
+        Virginia; otherwise $0.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="../vaStateIsVirginia" /></When>
+            <Then><Dependency module="formW2s" path="../stateWithholding" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
     <Fact path="/vaWithholding">
       <Name>Form 760 Line 19a, Virginia income tax withheld</Name>
-      <Description>The sum of box 17 across the W-2s on the federal return (/formW2s/*/stateWithholding,
-        exported to MeF in each W-2). The employer files the same W-2 with Virginia. Line 19b (a spouse's
-        withholding) is folded in here; a joint return would split it.</Description>
+      <Description>The sum of box 17 across the W-2s on the federal return whose box 15 names
+        Virginia. The employer files the same W-2 with Virginia. Line 19b (the spouse's share on a
+        joint return) is folded in here: which filer a W-2 belongs to (/formW2s/*/filer,
+        /formW2s/*/belongsToPrimaryFiler) is not exported to states, so the split cannot be made
+        from the export; a state would match each W-2's employee TIN (/formW2s/*/usedTin, exported)
+        against the filers' TINs instead. Line 19 (19a + 19b) is unchanged by the split.</Description>
       <Derived>
         <CollectionSum>
-          <Dependency module="formW2s" path="/formW2s/*/stateWithholding" />
+          <Dependency path="/formW2s/*/vaWithholding" />
         </CollectionSum>
       </Derived>
     </Fact>
@@ -587,16 +1814,27 @@
       <Placeholder><Dollar>0</Dollar></Placeholder>
     </Fact>
 
-    <Fact path="/vaTotalPayments">
-      <Name>Form 760 Line 26, total payments and credits</Name>
-      <Description>Lines 19a to 25. Lines 23 to 25 (the low-income credit or Virginia EIC, credit for tax
-        paid to another state, Schedule CR credits) are out of scope and taken as $0.</Description>
+    <Fact path="/vaPaymentsMade">
+      <Name>Form 760 Lines 19a to 22, tax withheld and paid</Name>
+      <Description>Withholding plus the payments Virginia Tax holds a record of.</Description>
       <Derived>
         <Add>
           <Dependency path="/vaWithholding" />
           <Dependency path="/vaEstimatedPayments" />
           <Dependency path="/vaPriorYearOverpaymentApplied" />
           <Dependency path="/vaExtensionPayments" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTotalPayments">
+      <Name>Form 760 Line 26, total payments and credits</Name>
+      <Description>Lines 19a to 25. Lines 24 and 25 (credit for tax paid to another state, Schedule
+        CR credits) are out of scope and taken as $0.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaPaymentsMade" />
+          <Dependency path="/vaLowIncomeCredit" />
         </Add>
       </Derived>
     </Fact>
@@ -630,39 +1868,7 @@
       </Derived>
     </Fact>
 
-    <!-- ============ Two things only the filer knows: Line 7 and Line 13. ============ -->
-
-    <Fact path="/vaHasLotteryPrizesUnder600">
-      <Name>Won a Virginia Lottery prize of less than $600 in 2024</Name>
-      <Description>Asked, because no one reports prizes under $600. Va. Code § 58.1-322.02(7).</Description>
-      <Writable><Boolean /></Writable>
-    </Fact>
-
-    <Fact path="/vaLotteryPrizesUnder600">
-      <Name>Total of Virginia Lottery prizes of less than $600 each</Name>
-      <Description>Only prizes under $600 each qualify; a prize of $600 or more is reported to Virginia and
-        stays taxable. The filer enters the total of the qualifying prizes.</Description>
-      <Writable><Dollar /></Writable>
-      <Placeholder><Dollar>0</Dollar></Placeholder>
-    </Fact>
-
-    <Fact path="/vaLotterySubtraction">
-      <Name>Form 760 Line 7 (Schedule ADJ), Virginia Lottery prizes under $600</Name>
-      <Description>Va. Code § 58.1-322.02(7): "Any amount included therein less than $600 from a prize
-        awarded by the Virginia Lottery." The other Schedule ADJ subtractions are out of scope.</Description>
-      <Derived>
-        <Switch>
-          <Case>
-            <When><Dependency path="/vaHasLotteryPrizesUnder600" /></When>
-            <Then><Dependency path="/vaLotteryPrizesUnder600" /></Then>
-          </Case>
-          <Case>
-            <When><True /></When>
-            <Then><Dollar>0</Dollar></Then>
-          </Case>
-        </Switch>
-      </Derived>
-    </Fact>
+    <!-- ============ One thing only the filer knows: Line 13. ============ -->
 
     <Fact path="/vaHasCommonwealthSaversContributions">
       <Name>Contributed to a Commonwealth Savers (Virginia529) account in 2024</Name>
@@ -677,24 +1883,16 @@
       <Placeholder><Dollar>0</Dollar></Placeholder>
     </Fact>
 
-    <Fact path="/vaCommonwealthSaversCap">
-      <Name>Commonwealth Savers deduction cap</Name>
-      <Description>Va. Code § 58.1-322.03(7)(a): "limited to $4,000 per prepaid tuition contract or college
-        savings trust account" per return per taxable year. This prototype treats the contributions as
-        one account; the carryforward of the excess to later years is out of scope.</Description>
-      <TaxYear>2024</TaxYear>
-      <Derived><Dollar>4000</Dollar></Derived>
-    </Fact>
-
     <Fact path="/vaPrimaryFilerAge70OrOlder">
       <Name>Primary filer has attained age 70</Name>
       <Description>Va. Code § 58.1-322.03(7)(b): a contributor who has attained age 70 is not subject to the
-        $4,000 limit. Born on or before December 31, 1954 for tax year 2024. Reads the exported date of
-        birth.</Description>
+        $4,000 limit. Born on or before December 31, 1954 for tax year 2024
+        (/vaCommonwealthSaversAge70BirthDateCutoff). Reads the exported date of birth. The
+        contributions are asked of the primary filer only, so the spouse's age does not enter.</Description>
       <Derived>
         <LessThanOrEqual>
           <Left><Dependency module="filers" path="/primaryFiler/dateOfBirth" /></Left>
-          <Right><Day>1954-12-31</Day></Right>
+          <Right><Dependency path="/vaCommonwealthSaversAge70BirthDateCutoff" /></Right>
         </LessThanOrEqual>
       </Derived>
     </Fact>
@@ -821,13 +2019,15 @@
 
     <Fact path="/vaCorrectionTargetOptions">
       <Name>What can be corrected here</Name>
-      <Description>The two things the prototype lets a filer correct on the Virginia side: the date
-        of birth (a fact the filer stated) and a W-2 (a document, corrected as a whole). Calculated
-        amounts are never editable.</Description>
+      <Description>The three things the prototype lets a filer correct on the Virginia side: the date
+        of birth (a fact the filer stated), a W-2 (a document, corrected as a whole) and a payment
+        Virginia's records show (Lines 20 to 22, the records stand-in). Calculated amounts are never
+        editable.</Description>
       <Derived>
         <EnumOptions>
           <String>dateOfBirth</String>
           <String>w2</String>
+          <String>records</String>
         </EnumOptions>
       </Derived>
     </Fact>
@@ -860,6 +2060,541 @@
             <Right><Enum optionsPath="/vaCorrectionTargetOptions">w2</Enum></Right>
           </Equal>
         </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetIsRecords">
+      <Name>Correcting a payment Virginia's records show</Name>
+      <Description>Lines 20 to 22 are filled from the records stand-in (js/virginia-records.js) once
+        per identity and never overwritten after that, so a correction made here persists.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaWantsToCorrect" />
+          <Equal>
+            <Left><Dependency path="/vaCorrectionTarget" /></Left>
+            <Right><Enum optionsPath="/vaCorrectionTargetOptions">records</Enum></Right>
+          </Equal>
+        </All>
+      </Derived>
+    </Fact>
+
+    <!-- ============ Screen facts: the declaration and the records match. ============ -->
+    <!-- Facts the screens need and the return does not: what the filer signed, what the records
+         stand-in found, which of two rows to show, the pieces of a line for its "why this number"
+         disclosure. None of them changes a Form 760 figure. -->
+
+    <Fact path="/vaDeclarationOptions">
+      <Name>The one box on the sign screen</Name>
+      <Derived>
+        <EnumOptions>
+          <String>signed</String>
+        </EnumOptions>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaDeclaration">
+      <Name>The declaration box on the sign screen, checked</Name>
+      <Description>A single USWDS checkbox (a multi-enum with one option, the only checkbox the
+        runtime renders) carrying the Form 760 declaration as its label. Required: the sign screen
+        cannot be left until it is checked, and js/virginia-sign.js refuses to send without it.</Description>
+      <Writable>
+        <MultiEnum optionsPath="/vaDeclarationOptions" />
+      </Writable>
+    </Fact>
+
+    <Fact path="/vaDeclarationSigned">
+      <Name>The filer signed the declaration and pressed Send to Virginia Tax</Name>
+      <Description>Set to true by the Send button on the sign screen (js/virginia-sign.js) once the
+        declaration box is checked, and back to false when the box is cleared. False until then.
+        Demonstration only: nothing is transmitted; the screen says so when this is true.</Description>
+      <Writable><Boolean /></Writable>
+      <Placeholder><False /></Placeholder>
+    </Fact>
+
+    <Fact path="/vaRecordsKey">
+      <Name>The identity the records stand-in was last applied for</Name>
+      <Description>Last name and date of birth, joined with a bar, as js/virginia-records.js keys the
+        stand-in. The stand-in writes Lines 20 to 22 only when this differs from the identity on the
+        return, so a correction the filer makes to those lines is never overwritten.</Description>
+      <Writable><String /></Writable>
+    </Fact>
+
+    <Fact path="/vaRecordsMatched">
+      <Name>Virginia's records hold a match for this filer</Name>
+      <Description>Set by js/virginia-records.js: true when the stand-in has a record under the
+        filer's last name and date of birth, false when it has none (and Lines 20 to 22 are $0).
+        Incomplete until the stand-in has been consulted.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaLocalityFromAddressName">
+      <Name>The name of the locality the filer's ZIP code lies in</Name>
+      <Description>Written beside /vaLocalityFromAddress by js/virginia-locality.js, from the ZIP
+        table's names. A proper noun, the same in every language.</Description>
+      <Writable><String /></Writable>
+    </Fact>
+
+    <Fact path="/vaLocalityName">
+      <Name>The name of the locality the filer chose</Name>
+      <Description>/vaLocality as the filer reads it, for the confirmation callout and the use-tax
+        screen. Proper nouns, the same in every language; one case per option of /vaLocalityOptions.</Description>
+      <Derived>
+        <Switch>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">accomack-county</Enum></Right></Equal></When><Then><String>Accomack County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">albemarle-county</Enum></Right></Equal></When><Then><String>Albemarle County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">alexandria-city</Enum></Right></Equal></When><Then><String>Alexandria City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">alleghany-county</Enum></Right></Equal></When><Then><String>Alleghany County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">amelia-county</Enum></Right></Equal></When><Then><String>Amelia County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">amherst-county</Enum></Right></Equal></When><Then><String>Amherst County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">appomattox-county</Enum></Right></Equal></When><Then><String>Appomattox County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">arlington-county</Enum></Right></Equal></When><Then><String>Arlington County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">augusta-county</Enum></Right></Equal></When><Then><String>Augusta County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bath-county</Enum></Right></Equal></When><Then><String>Bath County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bedford-county</Enum></Right></Equal></When><Then><String>Bedford County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bland-county</Enum></Right></Equal></When><Then><String>Bland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">botetourt-county</Enum></Right></Equal></When><Then><String>Botetourt County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bristol-city</Enum></Right></Equal></When><Then><String>Bristol City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">brunswick-county</Enum></Right></Equal></When><Then><String>Brunswick County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buchanan-county</Enum></Right></Equal></When><Then><String>Buchanan County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buckingham-county</Enum></Right></Equal></When><Then><String>Buckingham County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buena-vista-city</Enum></Right></Equal></When><Then><String>Buena Vista City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">campbell-county</Enum></Right></Equal></When><Then><String>Campbell County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">caroline-county</Enum></Right></Equal></When><Then><String>Caroline County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">carroll-county</Enum></Right></Equal></When><Then><String>Carroll County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">charles-city-county</Enum></Right></Equal></When><Then><String>Charles City County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">charlotte-county</Enum></Right></Equal></When><Then><String>Charlotte County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">charlottesville-city</Enum></Right></Equal></When><Then><String>Charlottesville City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">chesapeake-city</Enum></Right></Equal></When><Then><String>Chesapeake City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">chesterfield-county</Enum></Right></Equal></When><Then><String>Chesterfield County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">clarke-county</Enum></Right></Equal></When><Then><String>Clarke County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">colonial-heights-city</Enum></Right></Equal></When><Then><String>Colonial Heights City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">covington-city</Enum></Right></Equal></When><Then><String>Covington City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">craig-county</Enum></Right></Equal></When><Then><String>Craig County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">culpeper-county</Enum></Right></Equal></When><Then><String>Culpeper County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">cumberland-county</Enum></Right></Equal></When><Then><String>Cumberland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">danville-city</Enum></Right></Equal></When><Then><String>Danville City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">dickenson-county</Enum></Right></Equal></When><Then><String>Dickenson County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">dinwiddie-county</Enum></Right></Equal></When><Then><String>Dinwiddie County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">emporia-city</Enum></Right></Equal></When><Then><String>Emporia City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">essex-county</Enum></Right></Equal></When><Then><String>Essex County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fairfax-city</Enum></Right></Equal></When><Then><String>Fairfax City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fairfax-county</Enum></Right></Equal></When><Then><String>Fairfax County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">falls-church-city</Enum></Right></Equal></When><Then><String>Falls Church City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fauquier-county</Enum></Right></Equal></When><Then><String>Fauquier County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">floyd-county</Enum></Right></Equal></When><Then><String>Floyd County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fluvanna-county</Enum></Right></Equal></When><Then><String>Fluvanna County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">franklin-city</Enum></Right></Equal></When><Then><String>Franklin City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">franklin-county</Enum></Right></Equal></When><Then><String>Franklin County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">frederick-county</Enum></Right></Equal></When><Then><String>Frederick County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fredericksburg-city</Enum></Right></Equal></When><Then><String>Fredericksburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">galax-city</Enum></Right></Equal></When><Then><String>Galax City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">giles-county</Enum></Right></Equal></When><Then><String>Giles County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">gloucester-county</Enum></Right></Equal></When><Then><String>Gloucester County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">goochland-county</Enum></Right></Equal></When><Then><String>Goochland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">grayson-county</Enum></Right></Equal></When><Then><String>Grayson County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">greene-county</Enum></Right></Equal></When><Then><String>Greene County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">greensville-county</Enum></Right></Equal></When><Then><String>Greensville County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">halifax-county</Enum></Right></Equal></When><Then><String>Halifax County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">hampton-city</Enum></Right></Equal></When><Then><String>Hampton City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">hanover-county</Enum></Right></Equal></When><Then><String>Hanover County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">harrisonburg-city</Enum></Right></Equal></When><Then><String>Harrisonburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">henrico-county</Enum></Right></Equal></When><Then><String>Henrico County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">henry-county</Enum></Right></Equal></When><Then><String>Henry County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">highland-county</Enum></Right></Equal></When><Then><String>Highland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">hopewell-city</Enum></Right></Equal></When><Then><String>Hopewell City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">isle-of-wight-county</Enum></Right></Equal></When><Then><String>Isle of Wight County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">james-city-county</Enum></Right></Equal></When><Then><String>James City County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-and-queen-county</Enum></Right></Equal></When><Then><String>King and Queen County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-george-county</Enum></Right></Equal></When><Then><String>King George County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-william-county</Enum></Right></Equal></When><Then><String>King William County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lancaster-county</Enum></Right></Equal></When><Then><String>Lancaster County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lee-county</Enum></Right></Equal></When><Then><String>Lee County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lexington-city</Enum></Right></Equal></When><Then><String>Lexington City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">loudoun-county</Enum></Right></Equal></When><Then><String>Loudoun County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">louisa-county</Enum></Right></Equal></When><Then><String>Louisa County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lunenburg-county</Enum></Right></Equal></When><Then><String>Lunenburg County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lynchburg-city</Enum></Right></Equal></When><Then><String>Lynchburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">madison-county</Enum></Right></Equal></When><Then><String>Madison County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">manassas-city</Enum></Right></Equal></When><Then><String>Manassas City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">manassas-park-city</Enum></Right></Equal></When><Then><String>Manassas Park City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">martinsville-city</Enum></Right></Equal></When><Then><String>Martinsville City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">mathews-county</Enum></Right></Equal></When><Then><String>Mathews County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">mecklenburg-county</Enum></Right></Equal></When><Then><String>Mecklenburg County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">middlesex-county</Enum></Right></Equal></When><Then><String>Middlesex County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">montgomery-county</Enum></Right></Equal></When><Then><String>Montgomery County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">nelson-county</Enum></Right></Equal></When><Then><String>Nelson County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">new-kent-county</Enum></Right></Equal></When><Then><String>New Kent County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">newport-news-city</Enum></Right></Equal></When><Then><String>Newport News City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">norfolk-city</Enum></Right></Equal></When><Then><String>Norfolk City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">northampton-county</Enum></Right></Equal></When><Then><String>Northampton County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">northumberland-county</Enum></Right></Equal></When><Then><String>Northumberland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">norton-city</Enum></Right></Equal></When><Then><String>Norton City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">nottoway-county</Enum></Right></Equal></When><Then><String>Nottoway County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">orange-county</Enum></Right></Equal></When><Then><String>Orange County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">page-county</Enum></Right></Equal></When><Then><String>Page County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">patrick-county</Enum></Right></Equal></When><Then><String>Patrick County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">petersburg-city</Enum></Right></Equal></When><Then><String>Petersburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">pittsylvania-county</Enum></Right></Equal></When><Then><String>Pittsylvania County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">poquoson-city</Enum></Right></Equal></When><Then><String>Poquoson City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">portsmouth-city</Enum></Right></Equal></When><Then><String>Portsmouth City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">powhatan-county</Enum></Right></Equal></When><Then><String>Powhatan County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-edward-county</Enum></Right></Equal></When><Then><String>Prince Edward County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-george-county</Enum></Right></Equal></When><Then><String>Prince George County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-william-county</Enum></Right></Equal></When><Then><String>Prince William County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">pulaski-county</Enum></Right></Equal></When><Then><String>Pulaski County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">radford-city</Enum></Right></Equal></When><Then><String>Radford City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rappahannock-county</Enum></Right></Equal></When><Then><String>Rappahannock County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">richmond-city</Enum></Right></Equal></When><Then><String>Richmond City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">richmond-county</Enum></Right></Equal></When><Then><String>Richmond County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">roanoke-city</Enum></Right></Equal></When><Then><String>Roanoke City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">roanoke-county</Enum></Right></Equal></When><Then><String>Roanoke County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rockbridge-county</Enum></Right></Equal></When><Then><String>Rockbridge County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rockingham-county</Enum></Right></Equal></When><Then><String>Rockingham County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">russell-county</Enum></Right></Equal></When><Then><String>Russell County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">salem-city</Enum></Right></Equal></When><Then><String>Salem City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">scott-county</Enum></Right></Equal></When><Then><String>Scott County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">shenandoah-county</Enum></Right></Equal></When><Then><String>Shenandoah County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">smyth-county</Enum></Right></Equal></When><Then><String>Smyth County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">southampton-county</Enum></Right></Equal></When><Then><String>Southampton County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">spotsylvania-county</Enum></Right></Equal></When><Then><String>Spotsylvania County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">stafford-county</Enum></Right></Equal></When><Then><String>Stafford County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">staunton-city</Enum></Right></Equal></When><Then><String>Staunton City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">suffolk-city</Enum></Right></Equal></When><Then><String>Suffolk City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">surry-county</Enum></Right></Equal></When><Then><String>Surry County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">sussex-county</Enum></Right></Equal></When><Then><String>Sussex County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">tazewell-county</Enum></Right></Equal></When><Then><String>Tazewell County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">virginia-beach-city</Enum></Right></Equal></When><Then><String>Virginia Beach City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">warren-county</Enum></Right></Equal></When><Then><String>Warren County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">washington-county</Enum></Right></Equal></When><Then><String>Washington County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">waynesboro-city</Enum></Right></Equal></When><Then><String>Waynesboro City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">westmoreland-county</Enum></Right></Equal></When><Then><String>Westmoreland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">williamsburg-city</Enum></Right></Equal></When><Then><String>Williamsburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">winchester-city</Enum></Right></Equal></When><Then><String>Winchester City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">wise-county</Enum></Right></Equal></When><Then><String>Wise County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">wythe-county</Enum></Right></Equal></When><Then><String>Wythe County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">york-county</Enum></Right></Equal></When><Then><String>York County</String></Then></Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaOwesVirginia">
+      <Name>The return ends with an amount owed</Name>
+      <Description>Line 35 is positive. Gates the owe row on the summary and the running estimate.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/vaAmountYouOwe" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaIsOwedRefund">
+      <Name>The return ends with a refund</Name>
+      <Description>Line 36 is positive. Gates the refund row on the summary and the running estimate.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/vaRefund" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaOwesNothing">
+      <Name>The return ends even: nothing owed, no refund</Name>
+      <Derived>
+        <All>
+          <Not><Dependency path="/vaOwesVirginia" /></Not>
+          <Not><Dependency path="/vaIsOwedRefund" /></Not>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPayExceedsMaximum">
+      <Name>The basic pay entered is at or above the amount where the subtraction ends</Name>
+      <Description>For the note under the basic pay question: at $30,000 or more nothing is
+        subtracted (Va. Code § 58.1-322.02(15)).</Description>
+      <Derived>
+        <GreaterThanOrEqual>
+          <Left><Dependency path="/vaMilitaryBasicPay" /></Left>
+          <Right><Dependency path="/vaMilitaryBasicPayMaximum" /></Right>
+        </GreaterThanOrEqual>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryRetirementExceedsMaximum">
+      <Name>The military benefits entered exceed the $30,000 the subtraction covers</Name>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/vaMilitaryRetirementIncome" /></Left>
+          <Right><Dependency path="/vaMilitaryBenefitsMaximum" /></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversExceedsCap">
+      <Name>The Commonwealth Savers contribution entered exceeds the cap, and the cap applies</Name>
+      <Description>For the note under the contribution question: above $4,000 only the cap is
+        deducted unless the filer has attained age 70 (Va. Code § 58.1-322.03(7)).</Description>
+      <Derived>
+        <All>
+          <Not><Dependency path="/vaPrimaryFilerAge70OrOlder" /></Not>
+          <GreaterThan>
+            <Left><Dependency path="/vaCommonwealthSaversContributions" /></Left>
+            <Right><Dependency path="/vaCommonwealthSaversCap" /></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <!-- Line 16, taken apart for its disclosure: Virginia's schedule is cumulative, so the tax is the
+         tax at the top of the bracket below the filer's plus the marginal rate on what is above it. -->
+
+    <Fact path="/vaTaxBracketBase">
+      <Name>The bottom of the rate bracket Line 15 falls in</Name>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket1Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket2Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency path="/vaRateScheduleBracket1Top" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket3Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency path="/vaRateScheduleBracket2Top" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaRateScheduleBracket3Top" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTaxAtBracketBase">
+      <Name>The tax at the bottom of the bracket Line 15 falls in</Name>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket1Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket2Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency path="/vaRateScheduleTaxAtBracket1Top" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket3Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency path="/vaRateScheduleTaxAtBracket2Top" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaRateScheduleTaxAtBracket3Top" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMarginalRate">
+      <Name>The rate on the part of Line 15 above the bracket's bottom</Name>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket1Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency path="/vaRateScheduleRate1" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket2Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency path="/vaRateScheduleRate2" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/vaTaxableIncome" /></Left>
+                <Right><Dependency path="/vaRateScheduleBracket3Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency path="/vaRateScheduleRate3" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaRateScheduleRate4" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMarginalRateTimes100">
+      <Name>The marginal rate as a number of percent</Name>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency path="/vaMarginalRate" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMarginalRatePercent">
+      <Name>The marginal rate, printed: 2, 3, 5 or 5.75</Name>
+      <Description>The percent sign is in the sentence that shows this.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaMarginalRateTimes100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaIncomeAboveBracketBase">
+      <Name>The part of Line 15 above the bracket's bottom</Name>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/vaTaxableIncome" /></Minuend>
+          <Subtrahends><Dependency path="/vaTaxBracketBase" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTaxOnIncomeAboveBracketBase">
+      <Name>The marginal rate times the part of Line 15 above the bracket's bottom</Name>
+      <Description>Line 16 before rounding is the tax at the bracket's bottom plus this; the schedule's
+        tax-at-top figures are whole dollars, so the rounding falls here.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/vaMarginalRate" />
+            <Dependency path="/vaIncomeAboveBracketBase" />
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate1Times100">
+      <Name>Rate schedule rate 1 as a number of percent</Name>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency path="/vaRateScheduleRate1" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate1Percent">
+      <Name>Rate schedule rate 1, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate1Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate2Times100">
+      <Name>Rate schedule rate 2 as a number of percent</Name>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency path="/vaRateScheduleRate2" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate2Percent">
+      <Name>Rate schedule rate 2, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate2Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate3Times100">
+      <Name>Rate schedule rate 3 as a number of percent</Name>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency path="/vaRateScheduleRate3" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate3Percent">
+      <Name>Rate schedule rate 3, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate3Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate4Times100">
+      <Name>Rate schedule rate 4 as a number of percent</Name>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency path="/vaRateScheduleRate4" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate4Percent">
+      <Name>Rate schedule rate 4, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate4Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaUseTaxRateTimes100">
+      <Name>The use tax rate as a number of percent</Name>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency module="virginiaLocalities" path="/vaUseTaxRate" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaUseTaxRatePercent">
+      <Name>The use tax rate where the filer lives, printed: 5.3, 6, 6.3 or 7</Name>
+      <Description>The percent sign is in the sentence that shows this.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaUseTaxRateTimes100" /></AsDecimalString>
       </Derived>
     </Fact>
   </Facts>
