@@ -1,0 +1,25 @@
+# This repository's overlay on the port's Docker stack, passed by the root Makefile as the third
+# compose file (after the IRS's docker-compose.yml and docker-compose.override.yml), so the IRS
+# tree stays byte-for-byte upstream.
+#
+# One change: the watcher regenerates the site with --singleQuestionPerScreen, the flag every
+# native target in the port's Makefile passes (`make dev`, `make site`, the production image) and
+# the one the IRS's dev overlay leaves off so that Author Mode edits the un-split pages it has on
+# disk. Without it `make port-up` served the four Virginia question groups as whole topic pages,
+# at routes the browser checks (scripts/virginia-a11y.cjs lists the split ones) could not find,
+# and `make port-dev` served them split: two page shapes for one site. Now both split.
+#
+# The cost is the one the IRS names: with Author Mode on a split page you are editing a page the
+# splitter invented, not the one on disk. The Virginia work edits the XML directly, so that is not
+# a path anyone here takes; drop the last flag below if it becomes one.
+#
+# `command` replaces the IRS file's command outright (Compose does not merge lists for it), so the
+# whole line is repeated here. Keep it in step with the watcher's command in
+# form-builder-examples/direct-file/docker-compose.override.yml and with FLAGS in its Makefile.
+services:
+  direct-file-watch:
+    command:
+      - sbt
+      - -Dsmol.author.host=0.0.0.0
+      - -Dsmol.author.port=3009
+      - "~run --auditMode --allScreens --scenarioMode --authorMode --aiScenarioGeneration --aiFactExplanation --singleQuestionPerScreen"

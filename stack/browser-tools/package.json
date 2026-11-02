@@ -1,0 +1,9 @@
+{
+  "name": "dpi-browser-tools",
+  "private": true,
+  "description": "The browser the Virginia checks drive (make virginia-cases, make virginia-a11y). Pinned apart from the port's own @playwright/test, whose 1.62 has no Chromium build for macOS 13; 1.58.2 runs Chromium build 1208 there. axe-core is the accessibility engine scripts/virginia-a11y.cjs injects.",
+  "dependencies": {
+    "axe-core": "4.14.0",
+    "playwright-core": "1.58.2"
+  }
+}

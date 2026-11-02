@@ -101,6 +101,14 @@ dev-author: copy-fg copy-shared-ui copy-uswds ## Same as `dev`, with Author Mode
 	@# split: you would be editing a page the splitter invented rather than the one on disk.
 	sbt -Dsmol.port=$(PORT) -Dsmol.author.port=$(AUTHOR_PORT) '~run --serve --auditMode --allScreens --scenarioMode --authorMode $(AI_FLAGS)'
 
+.PHONY: workbench
+workbench: ## Run the Virginia Rules Workbench on port 3011 (Node only; see workbench/README.md)
+	node workbench/server.mjs
+
+.PHONY: workbench-check
+workbench-check: ## Run the workbench's worked examples against facts/virginia.xml
+	node workbench/check.mjs
+
 .PHONY: debug
 debug: copy-fg copy-shared-ui copy-uswds ## Same as `dev`, but also opens a port to attach a debugger
 	sbt -Dsmol.port=$(PORT) -jvm-debug $(DEBUGGER_PORT) '~run --serve $(FLAGS)'
@@ -470,6 +478,9 @@ transpile-es: ## Reseed locales/flow_es.yaml from Direct File's Spanish (needs `
 		codemod/translate.ts $(RESOURCES_DIR)
 	npx --prefix $(DF_CLIENT_APP) vite-node --root $(DF_CLIENT_APP) \
 		codemod/verify-translation.ts $(RESOURCES_DIR)
+	@# The reseed starts from Direct File's Spanish alone, so it drops the port's own Virginia Spanish;
+	@# put it back (and check its keys still match the English) before anything reads flow_es.yaml.
+	python3 scripts/merge-virginia-es.py
 	@echo "==> rebuild to serve it: make site"
 
 .PHONY: export-scenarios
