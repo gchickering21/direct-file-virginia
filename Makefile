@@ -67,9 +67,10 @@ author: $(STAMP) ## native: the site with Author Mode on, editing the flow XML f
 workbench: ## the Virginia Rules Workbench for policy staff at http://localhost:3011 (Node only; docs/surfaces.md)
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) workbench
 
-site-demo: $(STAMP) ## native: build the demo site once into form-builder-examples/direct-file/out (the demo surfaces, no AI); SITE_BASE_PATH=… for a host
+site-demo: $(STAMP) ## native: build the demo site once into form-builder-examples/direct-file/out (the demo surfaces, no AI, the read-only Workbench); SITE_BASE_PATH=… for a host
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) copy-fg copy-shared-ui copy-uswds
 	$(TOOLCHAIN) cd $(PORT) && sbt $(if $(SITE_BASE_PATH),-Dsite.basePath=$(SITE_BASE_PATH)) 'run --auditMode --allScreens --scenarioMode --singleQuestionPerScreen'
+	$(TOOLCHAIN) node $(PORT)/workbench/snapshot.mjs $(PORT)/out/app/direct-file/workbench
 	@echo "==> built: $(PORT)/out/app/direct-file/, links under $(or $(SITE_BASE_PATH),/app/direct-file)  (serve it: cd $(PORT)/out && python3 -m http.server 3008)"
 
 publish: ## build the demo site under the hosted prefix and push it to the gh-pages branch, for GitHub Pages (docs/hosting.md; stack/site.env)

@@ -7,7 +7,7 @@
 // say) answers every message with the error instead of killing the worker before it can speak.
 // The page's worker.onerror covers the rest.
 
-const ready = Promise.all([import('/engine.js'), import('/lib/sandbox.js')])
+const ready = Promise.all([import('../engine.js'), import('../lib/sandbox.js')])
   .then(([engine, sandbox]) => {
     const cache = new Map()
     const fg = {

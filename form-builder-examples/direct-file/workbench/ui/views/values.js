@@ -2,7 +2,7 @@
 // the source panel, the season panel, and the worked-examples impact panel the other views share.
 
 import { formatResult, literalLabel, shortName } from '../model.js'
-import { scheduleDerived, valueAt } from '/lib/xml-edit.js'
+import { scheduleDerived, valueAt } from '../../lib/xml-edit.js'
 import { lineName } from '../chips.js'
 import { activeChange, draftFiles, ensureDraft, published, saveSoon } from '../draft.js'
 import { differences, run } from '../runner.js'

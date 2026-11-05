@@ -19,6 +19,14 @@ make workbench          # http://localhost:3011   (or: node workbench/server.mjs
 make workbench-check    # every worked example against the fact modules, from the command line
 ```
 
+A **read-only copy** of the whole page is built into the hosted site (`make site-demo`,
+`docs/hosting.md`): `node workbench/snapshot.mjs <dir>` writes the page, its scripts, the engine
+and every answer the server gives to a read as files, and the page then runs from those with
+every save refused. It shows the lines, the values by year, the questions, the screens, the
+worked examples (still run in the browser), the changes and requests in `data/` at build time,
+and the reports; it cannot start a draft, approve or publish. The same `ui/` and `lib/*.js`
+serve both, so a change to a view reaches the copy on the next build.
+
 It needs Node 18 or later and nothing else: no build step, no `npm install`, no JVM. It uses the
 same Fact Graph engine the site uses (`website-static/vendor/fact-graph/factgraph-3.1.0.js`). With
 `xmllint` installed (it is on macOS and most Linux), the published file is also checked against

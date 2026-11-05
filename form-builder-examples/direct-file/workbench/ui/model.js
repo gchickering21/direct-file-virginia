@@ -5,8 +5,8 @@
 // The tree is the single thing both views edit. The plain view walks it to draw sentences; the XML
 // tab serializes it; pasting XML into that tab parses back into it. Neither view has its own copy.
 
-import { scanFacts, writableFacts } from '/lib/sandbox.js'
-import { derivedBlock, valueLiteral, valueSchedule, valueAt } from '/lib/xml-edit.js'
+import { scanFacts, writableFacts } from '../lib/sandbox.js'
+import { derivedBlock, valueLiteral, valueSchedule, valueAt } from '../lib/xml-edit.js'
 
 // ---------------------------------------------------------------------------------------------
 // Tree: { tag, attrs, children, text } for elements, { tag: '#comment', text } for comments.

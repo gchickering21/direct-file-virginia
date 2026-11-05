@@ -100,7 +100,7 @@
     <ul class="va-start__tools">
       <li><strong>Browse All</strong>: every screen in the flow, federal and Virginia, with the condition that shows or hides it. <a href="../../all-screens/">Open the list</a> (built into the developer site; a plain production build leaves it out).</li>
       <li><strong>The fact dictionary</strong>: every rule the engine runs, federal and Virginia, as one XML file. The Virginia facts are the ones whose paths begin with <code>/va</code>. <a href="../fact-dictionary.xml">Open it</a>.</li>
-      <li id="va-workbench-item"><strong>The Rules Workbench</strong>: Form 760 line by line with the statute beside each, where policy staff change a figure or a rule in plain language and watch worked examples rerun. <span id="va-workbench-where">It runs on your own machine: <code>make workbench</code>, then http://localhost:3011.</span></li>
+      <li id="va-workbench-item"><strong>The Rules Workbench</strong>: Form 760 line by line with the statute beside each, where policy staff change a figure or a rule in plain language and watch worked examples rerun. <span id="va-workbench-where"><a href="../../workbench/">Open the read-only copy</a>: the lines, the values by year, the examples and the reports, built into this site. Editing needs the live one, on your own machine: <code>make workbench</code>.</span></li>
       <li><strong>The federal return</strong>: the port of Direct File's own interview, untouched. <a href="../../">Start from the first federal screen</a>.</li>
       <li><strong>The code and the write-up</strong>: <a href="https://github.com/gchickering21/direct-file-virginia">github.com/gchickering21/direct-file-virginia</a>. The architecture page there has the two diagrams; the one-page brief has the argument.</li>
     </ul>
@@ -138,7 +138,8 @@
         document.getElementById('va-households').innerHTML = `<ul class="va-start__cards">${demos.map(card).join('')}</ul>`;
       } catch (e) { console.warn('start page: the household cards stay as the plain list:', e.message); }
     })();
-    // The Workbench is a local Node server. Link it only where it can be running.
+    // The live Workbench is a local Node server, so it is linked only where it can be running; the
+    // read-only copy is built into the hosted site (make site-demo), not into make dev or make demo.
     if (['localhost', '127.0.0.1'].includes(location.hostname)) {
       document.getElementById('va-workbench-where').innerHTML = '<a href="http://localhost:3011">Open the Workbench</a> (start it first: <code>make workbench</code>).';
     }

@@ -2,8 +2,8 @@
 // words; the page preview the screen view and the footprint reuse.
 
 import { humanize, literalLabel, shortName } from '../model.js'
-import { pages, questionKeys } from '/lib/flow.js'
-import { applyChange, questionTargetModule } from '/lib/xml-edit.js'
+import { pages, questionKeys } from '../../lib/flow.js'
+import { applyChange, questionTargetModule } from '../../lib/xml-edit.js'
 import { chipName } from '../chips.js'
 import { askText } from '../dialogs.js'
 import { activeChange, draftFiles, ensureDraft, saveSoon } from '../draft.js'

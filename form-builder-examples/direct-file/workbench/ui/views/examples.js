@@ -2,8 +2,8 @@
 // published rules or the draft; the dialog that writes one.
 
 import { clone, formatResult, humanize } from '../model.js'
-import { writableFacts } from '/lib/sandbox.js'
-import { applyExampleEdits } from '/lib/xml-edit.js'
+import { writableFacts } from '../../lib/sandbox.js'
+import { applyExampleEdits } from '../../lib/xml-edit.js'
 import { lineName, resultCell } from '../chips.js'
 import { activeChange, draftFiles, ensureDraft, published, saveSoon } from '../draft.js'
 import { run } from '../runner.js'

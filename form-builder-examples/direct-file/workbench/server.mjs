@@ -13,13 +13,12 @@ import http from 'node:http'
 import fs from 'node:fs'
 import path from 'node:path'
 import { proposeParts } from './lib/law.mjs'
-import { DATA_DIR, ENGINE, EXAMPLES_FILE, FACTS_DIR, FACT_FILES, FILES, FLOW_SCHEMA, SCHEMA, WORKBENCH, readSources, shown, siteYear } from './lib/node.mjs'
+import { DATA_DIR, ENGINE, EXAMPLES_FILE, FACTS_DIR, FACT_FILES, FILES, SCHEMA, WORKBENCH, readSources, shown, siteYear } from './lib/node.mjs'
 import { MODEL_FILE, oracleAvailable } from './lib/oracle.mjs'
 import { coverage } from './lib/reports.mjs'
 import { HttpError, audit, load } from './lib/store.mjs'
 import { ValidationError, checkChangeFields, haveXmllint } from './lib/validate.mjs'
-import { GIT_COMMIT, GIT_PR, act, actRequest, actor, createChange, createRequest, overlapping, reports, requiredApprovals, state, updateChange, verify } from './lib/workflow.mjs'
-import { lineDiff } from './lib/xml-edit.js'
+import { GIT_COMMIT, GIT_PR, act, actRequest, actor, createChange, createRequest, reports, state, updateChange, verifyReport } from './lib/workflow.mjs'
 
 const PORT = Number(process.env.PORT || 3011)
 const HOST = process.env.HOST || '127.0.0.1'
@@ -80,16 +79,7 @@ const server = http.createServer(async (req, res) => {
       if ((m = p.match(/^\/api\/changes\/(\d+)\/verify$/))) {
         const c = load('changes', m[1])
         if (!c) throw new HttpError(404, 'No such change.')
-        const v = await verify(c)
-        const src = v.src || readSources()
-        return json(res, 200, {
-          ok: v.ok, conflict: v.conflict, error: v.error, failing: v.failing, blocked: v.blocked, count: v.count, oracle: v.oracle,
-          translations: v.translations || [], untranslated: v.untranslated || [], required: v.required || requiredApprovals(c), season: v.season || { siteYear: siteYear(), effectiveYear: c.law?.effectiveYear || null },
-          flowSchema: haveXmllint() && FLOW_SCHEMA ? shown(FLOW_SCHEMA) : null,
-          overlaps: c.status === 'draft' ? overlapping(c).map(o => ({ id: o.id, status: o.status, title: o.title })) : [],
-          schema: haveXmllint() ? (SCHEMA ? shown(SCHEMA) : null) : null,
-          diffs: v.files ? Object.fromEntries([...Object.keys(v.files.facts).filter(k => v.files.facts[k] !== src.facts[k]).map(k => [k, lineDiff(src.facts[k], v.files.facts[k])]), ...['flow', 'es'].filter(k => v.files[k] !== undefined && src[k] !== undefined && v.files[k] !== src[k]).map(k => [k, lineDiff(src[k], v.files[k])])]) : null,
-        })
+        return json(res, 200, await verifyReport(c))
       }
     }
     if (req.method === 'POST' || req.method === 'PUT') {

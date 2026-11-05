@@ -25,7 +25,7 @@ The site lives beside the code, on the same account, with nothing new to sign up
 3. **Wait a minute,** then open the address in `stack/site.env`:
    https://gchickering21.github.io/direct-file-virginia/app/direct-file/resources/start/.
    The repository's root address redirects there too.
-4. **Put the link in the README** under "See it".
+4. **The README's "See it" link is that address.** Change it there too if the repository is renamed.
 
 Two things to know:
 
@@ -46,9 +46,14 @@ Two things to know:
 
 What the hosted copy has: the four households and every screen, the Scenario menu and Browse
 All (the build passes the same developer flags as `make demo`, minus the two AI features, which
-would call a model), the fact dictionary, both languages. What it does not have: the Workbench
-(a Node server; the start page says so and points at `make workbench`), Author Mode, Fact
-Explorer. Nothing on the hosted site can write anywhere.
+would call a model), the fact dictionary, both languages, and a **read-only copy of the
+Workbench** at `/workbench/`: the lines, the values by year, the questions, the screens, the
+worked examples (run in the browser, as in the live one), the changes and requests as they were
+on the publishing machine, and the four reports. `workbench/snapshot.mjs` writes it at build
+time: the page, its scripts and the engine, plus every answer the live server gives to a read,
+as JSON files; the page then refuses every save with a message that names `make workbench`.
+What the hosted copy does not have: the live Workbench (drafts, approvals, publishing), Author
+Mode, Fact Explorer. Nothing on the hosted site can write anywhere.
 
 ## Other free hosts, if GitHub Pages does not suit
 

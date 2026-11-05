@@ -3,15 +3,15 @@
 // (published versus draft results), repainted into whichever panels are on screen.
 
 import { buildModel } from './model.js'
-import { writableFacts } from '/lib/sandbox.js'
-import { applyBaselineEdits, applyExampleEdits } from '/lib/xml-edit.js'
+import { writableFacts } from '../lib/sandbox.js'
+import { applyBaselineEdits, applyExampleEdits } from '../lib/xml-edit.js'
 import { activeChange, draftFiles, published } from './draft.js'
 import { $, S } from './state.js'
 import { examplesTable } from './views/examples.js'
 import { ruleChecksBody } from './views/rule.js'
 import { impactPanelBody } from './views/values.js'
 
-const worker = new Worker('/ui/worker.js', { type: 'module' })
+const worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' })
 let runSeq = 0
 worker.onmessage = ({ data }) => { const p = S.pending.get(data.id); if (p) { S.pending.delete(data.id); p(data) } }
 // A worker that fails to load (the engine missing, a syntax error) never answers: settle every

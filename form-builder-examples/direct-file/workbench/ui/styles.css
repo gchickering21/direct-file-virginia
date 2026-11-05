@@ -49,6 +49,9 @@ button { font: inherit; }
 .wb-rule { height: 4px; background: var(--va-orange); }
 .draft-strip { background: var(--warn-tint); border-bottom: 1px solid #f0d58c; font-size: 14px; padding: 7px 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .draft-strip b { color: var(--warn); }
+.static-strip { background: var(--va-navy-tint); border-bottom: 1px solid var(--va-line); }
+.static-strip b { color: var(--va-navy); }
+.static-strip code { font-size: 13px; }
 .draft-strip .acts { display: flex; gap: 8px; align-items: center; }
 
 /* ---------- Layout ---------- */

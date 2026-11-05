@@ -30,9 +30,26 @@ export const me = () => S.data.people.find(p => p.id === S.me) || S.data.people[
 export const personName = id => S.data.people.find(p => p.id === id)?.name || id
 export const ROLE = { 'policy-author': 'Policy author', 'policy-reviewer': 'Policy reviewer', engineer: 'Engineer', translator: 'Translator' }
 export const STATUS = { draft: ['Draft', 'warn'], review: ['In review', 'blue'], approved: ['Approved', 'ok'], published: ['Published', ''], discarded: ['Discarded', ''] }
-export const canEdit = () => ['policy-author', 'engineer'].includes(me().role)
+// The read-only copy: workbench/snapshot.mjs writes the page and every GET answer as files, for a
+// static host (docs/hosting.md). The page it writes sets window.WB_STATIC; then reads come from
+// those files, nothing can be edited, and a write is refused here before it is attempted.
+export const STATIC = typeof window !== 'undefined' && window.WB_STATIC ? window.WB_STATIC : null
+export const canEdit = () => !STATIC && ['policy-author', 'engineer'].includes(me().role)
+
+const STATIC_READS = [[/^\/api\/state$/, () => 'api/state.json'], [/^\/api\/reports\/(\w+)$/, m => `api/reports/${m[1]}.json`], [/^\/api\/changes\/(\d+)\/verify$/, m => `api/changes/${m[1]}/verify.json`]]
+export const READ_ONLY_MESSAGE = 'This is the read-only copy of the Workbench: nothing can be saved here. To make a change, run it on your own machine: make workbench.'
 
 export async function api (method, url, body) {
+  if (STATIC) {
+    if (method !== 'GET') throw new Error(READ_ONLY_MESSAGE)
+    let file
+    for (const [re, to] of STATIC_READS) { const m = url.match(re); if (m) { file = to(m); break } }
+    if (!file) throw new Error(`The read-only copy has no ${url}.`)
+    const res = await fetch(file)
+    const json = await res.json().catch(() => ({}))
+    if (!res.ok || json.error) { const e = new Error(json.error || res.statusText); e.extra = json; throw e }
+    return json
+  }
   // X-Workbench marks the call as the page's own; the server refuses a write without it.
   const res = await fetch(url, { method, headers: { 'content-type': 'application/json', 'x-workbench': '1' }, body: body ? JSON.stringify({ by: S.me, ...body }) : undefined })
   const json = await res.json().catch(() => ({}))

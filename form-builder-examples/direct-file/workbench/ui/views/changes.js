@@ -2,8 +2,8 @@
 // conversation; the verify panel; the publish rail; the Spanish panel; and the footprint page.
 
 import { derivedTree, formatResult, literalLabel } from '../model.js'
-import { pages } from '/lib/flow.js'
-import { applyBaselineEdits, applyChange, applyExampleEdits, translationNeeds } from '/lib/xml-edit.js'
+import { pages } from '../../lib/flow.js'
+import { applyBaselineEdits, applyChange, applyExampleEdits, translationNeeds } from '../../lib/xml-edit.js'
 import { chipName, lineName, statusPill } from '../chips.js'
 import { activeChange, published } from '../draft.js'
 import { computeImpact, differences, run } from '../runner.js'

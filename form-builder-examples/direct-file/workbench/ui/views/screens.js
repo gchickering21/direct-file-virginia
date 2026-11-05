@@ -2,8 +2,8 @@
 // figure made live.
 
 import { money, shortName } from '../model.js'
-import { amountsIn, pages } from '/lib/flow.js'
-import { parseEs } from '/lib/locale.js'
+import { amountsIn, pages } from '../../lib/flow.js'
+import { parseEs } from '../../lib/locale.js'
 import { chipName } from '../chips.js'
 import { activeChange, draftFiles, ensureDraft, published, saveSoon } from '../draft.js'
 import { render, route } from '../shell.js'

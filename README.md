@@ -30,7 +30,7 @@ the native toolchain for anyone who will edit rules all day, is in `GETTING_STAR
 |---|---|---|
 | **a classmate, the professor, or curious** | the start page above: the four households, the return, the Workbench | `docs/architecture.md`, one page with two diagrams, and `handoff/BRIEF.md`, the one-page argument |
 | **an engineer** who wants to read or change the rules | `GETTING_STARTED.md`, then `CONTRIBUTING.md` | `docs/changing-the-return.md` (to change X, go here), `docs/surfaces.md` (what the admin pages are), the ADRs in `form-builder-examples/direct-file/docs/adr/` |
-| **policy staff**, or anyone who wants to change a figure without reading XML | `make workbench`, then http://localhost:3011 | `form-builder-examples/direct-file/workbench/README.md` |
+| **policy staff**, or anyone who wants to change a figure without reading XML | the read-only Workbench on the hosted site, under "Look under the hood"; to change anything, `make workbench`, then http://localhost:3011 | `form-builder-examples/direct-file/workbench/README.md` |
 | **a state team** taking the change set | `handoff/README.md` | `handoff/POLICY_MAP.md`, `handoff/FORM_760_FIELD_MAP.md`, the patch series |
 
 The course material (the plan, the dated notes, the sources) is in `report/`.

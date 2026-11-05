@@ -2,7 +2,7 @@
 // one input handler. Each dispatches to the view that owns the action. Nothing here draws HTML.
 
 import { buildModel, dep, derivedXml, el, elementKids, lit, parseXmlFragment } from './model.js'
-import { applyExampleEdits } from '/lib/xml-edit.js'
+import { applyExampleEdits } from '../lib/xml-edit.js'
 import { askText, pickerDialog } from './dialogs.js'
 import { activeChange, cancelPendingSave, ensureDraft, saveSoon, setActive } from './draft.js'
 import { paintImpact } from './runner.js'

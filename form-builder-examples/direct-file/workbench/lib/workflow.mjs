@@ -374,6 +374,21 @@ export function actRequest (id, body) {
   return r
 }
 
+/** The verify response the page reads: verify() plus the diffs, the overlaps and what tools were there.
+  * One function, because the server answers it live and the read-only snapshot writes it to a file. */
+export async function verifyReport (c) {
+  const v = await verify(c)
+  const src = v.src || readSources()
+  return {
+    ok: v.ok, conflict: v.conflict, error: v.error, failing: v.failing, blocked: v.blocked, count: v.count, oracle: v.oracle,
+    translations: v.translations || [], untranslated: v.untranslated || [], required: v.required || requiredApprovals(c), season: v.season || { siteYear: siteYear(), effectiveYear: c.law?.effectiveYear || null },
+    flowSchema: haveXmllint() && FLOW_SCHEMA ? shown(FLOW_SCHEMA) : null,
+    overlaps: c.status === 'draft' ? overlapping(c).map(o => ({ id: o.id, status: o.status, title: o.title })) : [],
+    schema: haveXmllint() ? (SCHEMA ? shown(SCHEMA) : null) : null,
+    diffs: v.files ? Object.fromEntries([...Object.keys(v.files.facts).filter(k => v.files.facts[k] !== src.facts[k]).map(k => [k, lineDiff(src.facts[k], v.files.facts[k])]), ...['flow', 'es'].filter(k => v.files[k] !== undefined && src[k] !== undefined && v.files[k] !== src[k]).map(k => [k, lineDiff(src[k], v.files[k])])]) : null,
+  }
+}
+
 // ---------------------------------------------------------------------------------------------
 // Reports
 

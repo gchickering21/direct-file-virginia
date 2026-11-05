@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Virginia Rules Workbench</title>
-<link rel="stylesheet" href="/ui/styles.css">
+<link rel="stylesheet" href="ui/styles.css">
 </head>
 <body>
 <header class="wb-top">
@@ -19,6 +19,7 @@
   </div>
 </header>
 <div class="wb-rule"></div>
+<div id="static-strip" class="draft-strip static-strip" hidden></div>
 <div id="draft-strip" class="draft-strip" hidden></div>
 <div class="wb">
   <nav class="side" aria-label="Workbench">
@@ -43,6 +44,6 @@
 </div>
 <dialog id="dialog"></dialog>
 <div id="toast" role="status" aria-live="polite" hidden></div>
-<script type="module" src="/ui/app.js"></script>
+<script type="module" src="ui/app.js"></script>
 </body>
 </html>

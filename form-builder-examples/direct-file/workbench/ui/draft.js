@@ -2,7 +2,7 @@
 // how an edit gets into it (saveSoon) and how the draft's files are computed (applyChange over the
 // published ones).
 
-import { applyChange } from '/lib/xml-edit.js'
+import { applyChange } from '../lib/xml-edit.js'
 import { askText } from './dialogs.js'
 import { scheduleImpact } from './runner.js'
 import { renderStrip } from './shell.js'

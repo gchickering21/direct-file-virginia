@@ -5,7 +5,7 @@
 import { buildModel } from './model.js'
 import { activeChange, draftFiles, published } from './draft.js'
 import { scheduleImpact } from './runner.js'
-import { $, ROLE, S, api, esc, me } from './state.js'
+import { $, ROLE, S, STATIC, api, esc, me } from './state.js'
 import { loadImpactRun, loadVerify, viewChange, viewChanges, viewImpact } from './views/changes.js'
 import { viewExamples } from './views/examples.js'
 import { viewHome } from './views/home.js'
@@ -28,6 +28,7 @@ export function render () {
   const c = activeChange()
   S.draftModel = c ? buildModel({ ...draftFiles(c).files, federal: S.data.federal, year: S.year }) : null
   renderWho()
+  renderStaticStrip()
   renderStrip()
   renderNav()
   const [view, arg] = S.route
@@ -57,6 +58,14 @@ function renderWho () {
   }
 }
 
+function renderStaticStrip () {
+  const strip = $('#static-strip')
+  if (!strip) return
+  if (!STATIC) { strip.hidden = true; return }
+  strip.hidden = false
+  strip.innerHTML = `<span><b>Read-only copy.</b> Built from the rules at commit ${esc(STATIC.commit || '?')} on ${esc(STATIC.built || '?')}. Browse the lines, the values, the worked examples and the reports; pick a person to see their view. To change anything, run the Workbench on your own machine: <code>make workbench</code>.</span>`
+}
+
 export function renderStrip () {
   const strip = $('#draft-strip')
   const c = activeChange()
@@ -82,7 +91,9 @@ function renderNav () {
   const ns = $('#n-screens'); if (ns) { let n = 0; try { n = (S.data.flow.match(/<page /g) || []).length } catch { n = 0 }; ns.textContent = n }
   const stems = Object.keys(S.data.paths.facts)
   const first = S.data.paths.facts[stems[0]] || ''
-  $('#file-info').innerHTML = `Reading the ${stems.length} Virginia modules in <code title="${esc(stems.map(k => S.data.paths.facts[k]).join('\n'))}">${esc(first.replace(/\/[^/]*$/, '').split('/').pop() || 'facts')}/</code>${first.startsWith('/') ? ' (a copy: WORKBENCH_FACTS_DIR)' : ''} live. Edits here touch them only when a change is published.`
+  $('#file-info').innerHTML = STATIC
+    ? `A read-only copy of the ${stems.length} Virginia modules in <code title="${esc(stems.map(k => S.data.paths.facts[k]).join('\n'))}">${esc(first.replace(/\/[^/]*$/, '').split('/').pop() || 'facts')}/</code>, as they were at commit ${esc(STATIC.commit || '?')}. Nothing here is live.`
+    : `Reading the ${stems.length} Virginia modules in <code title="${esc(stems.map(k => S.data.paths.facts[k]).join('\n'))}">${esc(first.replace(/\/[^/]*$/, '').split('/').pop() || 'facts')}/</code>${first.startsWith('/') ? ' (a copy: WORKBENCH_FACTS_DIR)' : ''} live. Edits here touch them only when a change is published.`
 }
 
 function afterRender () {
@@ -100,7 +111,6 @@ function filterLines () {
 
 export function route () {
   S.route = location.hash.replace(/^#\/?/, '').split('/')
-  if (S.route[0] === 'question') S.route = ['question', ...S.route.slice(1)]
   if (S.route[0] !== 'rule') S.rule = Object.fromEntries(Object.entries(S.rule).filter(([p]) => activeChange()?.edits.some(e => e.path === p)))
   if (S.data) { render(); $('#main').focus({ preventScroll: true }); window.scrollTo(0, 0) }
 }
