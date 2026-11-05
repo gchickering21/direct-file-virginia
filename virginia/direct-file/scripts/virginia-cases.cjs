@@ -20,7 +20,9 @@ const SHOWN = { ageDed: '/vaAgeDeduction', adj: '/vaScheduleAdjSubtractions', va
     // A fresh context per household: sessionStorage is the runtime's store, seeded before the first script runs.
     const context = await browser.newContext({ viewport: { width: 1280, height: 1000 } }); const page = await context.newPage();
     await page.addInitScript(gg => { if (!sessionStorage.getItem('direct-file:factGraph')) sessionStorage.setItem('direct-file:factGraph', gg); }, fs.readFileSync(`${C}/${name}.json`, 'utf8'));
-    await page.goto(BASE + '/your-taxes/virginia/virginia-summary/', { waitUntil: 'load' }); await page.waitForTimeout(1800);
+    // One retry: a static server under fifty page loads can stall one response, and that is not a finding about the rules.
+    try { await page.goto(BASE + '/your-taxes/virginia/virginia-summary/', { waitUntil: 'load' }); } catch (e) { console.log(`  (retrying ${name}: ${e.message.split('\n')[0]})`); await page.goto(BASE + '/your-taxes/virginia/virginia-summary/', { waitUntil: 'load' }); }
+    await page.waitForTimeout(1800);
     if (m.state !== 'va') {
       let away = true; try { await page.waitForURL(u => !u.toString().includes('/virginia/'), { timeout: 6000 }); } catch { away = false; }
       const landed = page.url().replace(BASE, '');

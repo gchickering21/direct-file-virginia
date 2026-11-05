@@ -78,7 +78,7 @@ site-demo: $(STAMP) ## native: build the demo site once into virginia/direct-fil
 proof: browser-tools ## run the households, the axe pass and the test suite against the built site and write the proof page's data (docs/hosting.md)
 	stack/proof.sh
 
-publish: ## build the demo site under the hosted prefix, run the checks into the proof page, push it to the gh-pages branch (docs/hosting.md; PROOF=0 skips the checks)
+publish: ## build the demo site under the hosted prefix, run the checks into the proof page, push it to the gh-pages branch (docs/hosting.md; PROOF=0 skips the checks, REBUILD=0 pushes out/ as it is)
 	stack/publish-pages.sh
 
 bootstrap: ## native, once (make dev runs it for you): publish the two IRS libraries, npm installs, vendor assets

@@ -16,11 +16,13 @@
 #
 #   stack/fact-explorer.sh <site base path> <explorer base path> <out dir>
 #   e.g. stack/fact-explorer.sh /direct-file-virginia/app/direct-file /direct-file-virginia/fact-explorer virginia/direct-file/out/fact-explorer
-set -euo pipefail
 cd "$(dirname "$0")/.."
+# The toolchain before set -e: nvm's `use` returns non-zero on some machines while still putting node on the path.
 . stack/toolchain.sh
-SITE_BASE=${1:?the site's base path, e.g. /app/direct-file}
-FE_BASE=${2:?the explorer's base path, e.g. /fact-explorer}
+set -euo pipefail
+# No apostrophes in these messages: inside ${n:?word} the word is unquoted, and bash 3.2 would read on from one.
+SITE_BASE=${1:?the site base path, e.g. /app/direct-file}
+FE_BASE=${2:?the explorer base path, e.g. /fact-explorer}
 OUT=${3:?the output directory}
 PORT_DIR=$(sed -n 's/^PORT *:= *//p' Makefile)
 FE=taxpert/packages/fact-explorer

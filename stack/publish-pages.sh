@@ -10,10 +10,15 @@ cd "$(dirname "$0")/.."
 PORT=virginia/direct-file
 
 OUT="$PORT/out"
-# From nothing: a local build leaves its own tree in out/, and the host would serve it beside this one.
-rm -rf "$OUT"
-echo "==> building the site, its links under $SITE_BASE_PATH"
-make site-demo SITE_BASE_PATH="$SITE_BASE_PATH"
+if [ "${REBUILD:-1}" = "0" ]; then
+  # REBUILD=0: push what make site-demo (and make proof) already left in out/, built under the hosted prefix.
+  echo "==> not rebuilding (REBUILD=0): publishing $OUT as it is"
+else
+  # From nothing: a local build leaves its own tree in out/, and the host would serve it beside this one.
+  rm -rf "$OUT"
+  echo "==> building the site, its links under $SITE_BASE_PATH"
+  make site-demo SITE_BASE_PATH="$SITE_BASE_PATH"
+fi
 # The output folder is always out/app/direct-file; the host mounts it under its own prefix.
 [ -f "$OUT/app/direct-file/resources/start/index.html" ] || { echo "==> no start page in $OUT/app/direct-file: the build did not run"; exit 1; }
 grep -q "content=\"$SITE_BASE_PATH\"" "$OUT/app/direct-file/index.html" "$OUT"/app/direct-file/*/index.html 2>/dev/null \
