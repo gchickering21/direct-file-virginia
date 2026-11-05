@@ -1,0 +1,1484 @@
+/* ── audit-panel/styles/audit-panel.css ─────────────────────────────────────── */
+
+/* Audit-panel debug stylesheet. Loaded via the toggled <link id="audit-panel-styles" disabled>
+   in fragments/head.html and split here into feature files, mirroring main.css's @import model.
+   A disabled parent <link> keeps its @imports disabled too, so the runtime disabled=false toggle
+   in taxpert-audit-panel.js still gates the whole tree (ADR-004 isolation). Cascade order matches
+   the original single file: shell → fact inspector → dashboards → chat, then the modals the panel
+   owns but renders outside itself (scenario-modal.js, display-modal.js).
+
+   workspace-settings-modal.css is NOT here, though its element is one of those modals. Its dialog
+   opens from the nav's gear, which exists on hosts that mount no panel — Author Mode is the one in
+   this ecosystem — and behind this toggled <link> it would have arrived disabled and painted
+   nothing. It rides in the always-on taxpert.css instead (scripts/build.mjs), which is what the
+   other twenty scoped sheets do; see docs/internals/bundled-build.md. */
+
+
+/* ── shared/styles/feature-flags.css ─────────────────────────────────────── */
+
+/* Feature-flag gating, the DOM convention feature-flags.js documents.
+
+   Anything gated by a flag — the Explain rail tab, the Manage scenario modal's AI generation
+   section — is *rendered* and carries data-ff="<kebab flag name>". It stays hidden until <body>
+   carries the matching `ff-<flag>` class, which applyFlags() (and the scenario modal's
+   setAiScenarioGeneration(), the React adapter's entry point) is the only writer of.
+
+   This replaces a JS fan-out that reached separately into the rail, the modal and the panel on
+   every flag change — three surfaces to keep in step, and a fourth to add for each new flag.
+
+   Lives in shared/ rather than in one bundle's stylesheet because both the panel's own CSS and
+   the standalone scenario-modal.css that fact-explorer imports on its own need these rules;
+   each @imports this so either one stands up alone. */
+
+
+
+[data-ff] {
+  display: none;
+}
+
+/* One pair per flag. CSS cannot match a class against an attribute value, so a new flag adds a
+   rule here alongside its entry in the host's config.featureFlags. */
+
+body.ff-ai-scenario-generation [data-ff="ai-scenario-generation"] {
+  display: revert;
+}
+
+body.ff-ai-fact-explanation [data-ff="ai-fact-explanation"] {
+  display: revert;
+}
+
+/* Not `revert`, unlike the pair above: those gate a <section> and a rail <li>, whose UA default
+   (block / list-item) is what they want back. This one gates a .tgn-item, whose own rule sets
+   `display: flex` for its icon/label/check row — `revert` would drop to the plain <a> default
+   (inline) and break that layout, so the value is repeated here instead. */
+body.ff-author-mode [data-ff="author-mode"] {
+  display: flex;
+}
+
+
+
+/* ── audit-panel/styles/panel-shell.css ─────────────────────────────────────── */
+
+.audit-panel-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* ── Base panel, hidden until audit-mode is active ─────────────────────── */
+
+.audit-panel {
+  --audit-panel-handle-width: 0.75rem;
+  --audit-panel-rail-width: 5rem;
+  display: none;
+  position: relative;
+
+  /* Buttons inside the content area get standard block spacing */
+  .audit-panel__content button {
+    display: block;
+    margin: 1rem 0;
+  }
+
+  /* Inline fact-select rows reset the block-button override */
+  .ap-fact-row button {
+    display: inline-flex;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  h1,
+  h2 {
+    font-weight: 600;
+  }
+
+  .inline {
+    display: inline;
+  }
+
+  .animate-success {
+    animation: fadeInOut 2s ease-in-out;
+  }
+}
+
+/* ── Body layout in audit-mode ─────────────────────────────────────────── */
+
+/* When audit mode is on, body becomes a flex row and the aside sits on the right */
+.audit-mode {
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.audit-mode .app-container {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100vh;
+  position: relative;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+/* The rail and its content pane have been replaced by the tool panels behind the nav's Tools
+   button, so they are hidden by default. The <taxpert-audit-panel> element itself stays mounted and
+   connected either way: it still creates and owns the scenario, display and workspace-settings
+   modals, so this hides the rail rather than removing the panel.
+
+   `legacyAuditPanel` brings it back, for a host that declares the flag. That gate was briefly
+   dropped and the hide made unconditional — which left any host still declaring the flag with a
+   checkbox in Workspace settings that did nothing at all when ticked, which is worse than either
+   keeping the rail or removing the flag. If the rail is ever really deleted, delete the flag and
+   this rule together; a declared flag must move something.
+
+   Specificity, not order, is what makes this win over the `.audit-mode .audit-panel` rule below:
+   two classes, a pseudo-class and an element beats two classes. */
+body.audit-mode:not(.ff-legacy-audit-panel) .audit-panel {
+  display: none;
+}
+
+/* Audit panel visible as thin rail */
+.audit-mode .audit-panel {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 var(--audit-panel-rail-width, 2.75rem);
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+
+/* ── Audit panel open (a tab is active) ────────────────────────────────── */
+
+.audit-mode.audit-panel-open .app-container {
+  flex: 0 0 calc(100vw - var(--audit-panel-width, 38vw));
+}
+
+.audit-mode.audit-panel-open .audit-panel {
+  flex: 0 0 var(--audit-panel-width, 38vw);
+}
+
+.audit-panel-open .audit-panel__rail {
+  order: -1;
+  border-right: 1px solid var(--tap-base-lighter);
+  border-left: none;
+  padding-left: 1rem;
+}
+
+/* ── Resizer, only meaningful when content is visible ──────────────────── */
+
+.audit-panel__resizer {
+  display: none;
+  border-left: 2px solid var(--tap-base-lighter);
+  bottom: 0;
+  cursor: col-resize;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1rem;
+  z-index: 1;
+
+  &:hover {
+    border-left-color: var(--tap-blue-40v);
+  }
+
+  &:focus {
+    outline: 0.25rem solid var(--tap-blue-40v);
+    outline-offset: -0.125rem;
+  }
+}
+
+.audit-panel-open .audit-panel__resizer {
+  display: block;
+}
+
+/* ── Content pane, hidden until a tab is activated ─────────────────────── */
+
+.audit-panel__content {
+  display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+  position: relative;
+  padding: var(--tap-units-4);
+}
+
+.audit-panel__content #audit-panel-explain-section {
+  position: absolute;
+  inset: 0;
+}
+
+.audit-panel-open .audit-panel__content {
+  display: block;
+}
+
+/* ── Content header (h1 + close button row) ───────────────────────────── */
+
+.audit-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+  padding-bottom: var(--tap-units-2);
+  border-bottom: 1px solid var(--tap-base-lighter);
+  margin-bottom: var(--tap-units-2);
+}
+
+.audit-panel__header h1 {
+  margin: 0;
+}
+
+#close-audit-panel {
+  align-items: center;
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Per-tab section visibility ────────────────────────────────────────── */
+
+/* Exactly one section shows at a time, and none while the panel is collapsed. CSS can't compare
+   the panel's data-active-tab against a section's data-tab, so the panel sets `hidden` on the
+   inactive ones (_syncSectionVisibility) and these two generic rules do the rest. This replaces an
+   id-by-id enumeration that hard-coded `#audit-panel` and listed the five tabs that existed when
+   it was written — a host-registered section (credit-assistant's Eligibility dashboard) had no
+   rule at all, and two of the five ids named tabs that no longer exist. */
+.audit-panel__content [data-tab] {
+  display: none;
+}
+
+.audit-panel__content [data-tab]:not([hidden]) {
+  display: block;
+}
+
+/* ── Tab rail ───────────────────────────────────────────────────────────── */
+
+.audit-panel__rail {
+  flex: 0 0 var(--audit-panel-rail-width, 2.75rem);
+  width: var(--audit-panel-rail-width, 2.75rem);
+  height: 100%;
+  background: #e6e6fa;
+  border-left: 1px solid var(--tap-base-lighter);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.audit-panel__rail ul {
+  list-style: none;
+  padding: 0.375rem 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.audit-panel__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--tap-base-dark);
+  /* Override the content-area button margin */
+  margin: 0;
+}
+
+.audit-panel__tab:hover {
+  background: var(--tap-base-lightest);
+  color: var(--tap-primary);
+  border-color: var(--tap-base-lighter);
+}
+
+.audit-panel__tab[aria-selected="true"] {
+  background: var(--tap-primary-lighter);
+  color: var(--tap-primary-dark);
+  border-color: var(--tap-primary-light);
+}
+
+.audit-panel__tab:focus-visible {
+  outline: 0.25rem solid var(--tap-blue-40v);
+  outline-offset: -0.125rem;
+}
+
+.audit-panel__tab-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ── Toggle button ─────────────────────────────────────────────────────── */
+
+#toggle-audit-panel {
+    border-bottom: 1px solid var(--tap-base-lighter);
+    height: auto;
+    flex: 1;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 0.5rem;
+}
+
+#toggle-audit-panel:hover {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* The collapse/expand glyph is one inlined navigate_far_before icon, mirrored into
+   navigate_far_next when the panel is open — rather than a JS `img.src` swap against a
+   credit-assistant-specific /vendor/uswds/… path that 404s in every other host. */
+.audit-panel__tab-icon {
+  transition: transform 0.15s ease;
+}
+
+.audit-panel-open .audit-panel__tab-icon {
+  transform: scaleX(-1);
+}
+
+/* ── Section card styling ───────────────────────────────────────────────── */
+
+.audit-panel__section {
+  border: 1px solid var(--tap-base-lighter);
+  margin: 1rem 0;
+  padding: 0.5rem 2rem;
+  border-radius: 4px;
+}
+
+/* User will have to toggle between the audit panel and the main content on small screens */
+@media (max-width: 579px) {
+  .audit-mode.audit-panel-open .app-container {
+    flex: 0 0 0;
+    width: 0;
+  }
+
+  .audit-mode.audit-panel-open .audit-panel {
+    flex: 0 0 calc(100vw - var(--audit-panel-rail-width, 2.75rem));
+  }
+
+  .audit-panel__resizer {
+    display: none !important;
+  }
+
+  .audit-panel-open .audit-panel__rail {
+    padding-left: 0;
+  }
+}
+
+/* ── AI scenario generation (rendered inside <taxpert-scenario-modal>) ──── */
+
+.scenario-gen__status {
+  font-size: 0.75rem;
+  color: var(--tap-base-light);
+  min-height: 1.25rem;
+  padding: 0.25rem 0;
+}
+
+.scenario-gen__result {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--tap-base-lighter);
+  border-radius: 0.25rem;
+}
+
+.scenario-gen__description {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    visibility: visible;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+
+
+/* ── audit-panel/styles/fact-inspector.css ─────────────────────────────────────── */
+
+/* This is deliberately applied to the whole page, not just the audit panel */
+
+
+fg-show {
+  background-color: lightyellow;
+}
+
+/* Override (not redefinition): USWDS .usa-prose sets a link color with high
+   specificity; we re-list it here only to out-specify that selector so the
+   fact-link inherits surrounding text color instead of the USWDS link blue. */
+.usa-prose fact-link a,
+fact-link a {
+  color: inherit;
+}
+
+audited-fact {
+  background-color: var(--tap-base-lightest);
+  border: 1px solid var(--tap-base-lighter);
+  border-radius: 4px;
+  display: block;
+  margin: var(--tap-units-2) 0;
+  padding: var(--tap-units-2);
+}
+
+audited-fact::part(fact-data) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tap-units-1);
+  margin: 0;
+}
+
+audited-fact::part(fact-term) {
+  font-weight: bold;
+}
+
+audited-fact::part(fact-definition) {
+  margin-left: 0;
+}
+
+audited-fact::part(heading) {
+  margin-top: 0;
+}
+
+audited-fact::part(heading),
+audited-fact::part(code-block) {
+  white-space: pre-wrap;
+  word-break: break-word;
+  width: 100%;
+}
+
+audited-fact::part(code-block) {
+  border-top: 1px solid var(--tap-base-lighter);
+  padding-top: var(--tap-units-2);
+}
+
+audited-fact::part(remove-button) {
+  appearance: none;
+  background: white;
+  border: 2px solid var(--tap-primary);
+  border-radius: 4px;
+  font-weight: bold;
+  padding: var(--tap-units-05) var(--tap-units-1);
+  color: var(--tap-primary);
+  cursor: pointer;
+}
+
+audited-fact::part(remove-button):focus {
+  outline: 0.25rem solid var(--tap-blue-40v);
+  outline-offset: 0.25rem;
+}
+
+
+
+/* ── audit-panel/styles/dashboards.css ─────────────────────────────────────── */
+
+/* ── Disqualification Dashboard ────────────────────────────────────────────── */
+
+
+
+.ap-dq-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ap-dq-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.ap-dq-rollup {
+  border-top: 2px solid var(--tap-base-lighter);
+  margin-top: 0.25rem;
+  padding-top: 0.375rem;
+  font-weight: 600;
+}
+
+.ap-dq-section-heading {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--tap-base-dark);
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+  padding: 0.5rem 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ap-dq-label {
+  font-family: monospace;
+  word-break: break-all;
+  flex: 1;
+}
+
+.ap-dq-badge {
+  flex-shrink: 0;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ap-dq-ok {
+  background: #f0fdf4;
+}
+.ap-dq-disqualified {
+  background: #fef2f2;
+}
+.ap-dq-incomplete {
+  background: #f9fafb;
+  color: #9ca3af;
+}
+
+.ap-dq-badge--passed {
+  background: #d1fae5;
+  color: #065f46;
+}
+.ap-dq-badge--disqualified {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.ap-dq-badge--failed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.ap-dq-badge--incomplete {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+/* Inline swatches used in the dashboard hint text */
+.dq-ok-swatch,
+.dq-dq-swatch,
+.dq-inc-swatch {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+.dq-ok-swatch {
+  background: #d1fae5;
+}
+.dq-dq-swatch {
+  background: #fee2e2;
+}
+.dq-inc-swatch {
+  background: #e5e7eb;
+}
+
+/* ── Filing Status Dashboard ─────────────────────────────────────────────── */
+
+.ap-dq-badge--resolved {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* ── Shared helpers ────────────────────────────────────────────────────────── */
+
+.ap-details > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.ap-details > summary h2 {
+  display: inline;
+}
+
+/* a11y: hide the native <details> disclosure triangle (both standard ::marker
+   and the WebKit-prefixed pseudo) so the custom ▶/▼ glyph below is the single
+   visible affordance and screen readers aren't given a duplicate marker. */
+.ap-details > summary::marker,
+.ap-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ap-details > summary::before {
+  content: "▶ ";
+  font-size: 0.75rem;
+  color: var(--tap-base-dark);
+  margin-right: 0.25ch;
+}
+
+.ap-details[open] > summary::before {
+  content: "▼ ";
+}
+
+.ap-hint {
+  font-size: 0.8125rem;
+  color: var(--tap-base-dark);
+  margin: 0.25rem 0 0.5rem;
+}
+
+.ap-fact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ap-btn-sm {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  margin: 0.25rem 0 0.5rem;
+}
+
+
+
+/* ── audit-panel/styles/chat.css ─────────────────────────────────────── */
+
+/* ── Chat Container (pill-shaped, docked bottom right) ────────────────────── */
+
+
+
+/* Show explain section only when chat-explain tab is active */
+
+
+#audit-panel[data-active-tab="chat-explain"] #audit-panel-explain-section {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+#audit-panel[data-active-tab="chat-explain"] #audit-panel-explain-section h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.chat-container__textarea {
+  flex: 1;
+  width: 100%;
+  padding: 1rem;
+  background: white;
+  border: 1px solid var(--tap-base-lighter);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--tap-base-dark);
+  resize: none;
+  outline: none;
+}
+
+.chat-container__textarea::placeholder {
+  color: var(--tap-base-light);
+}
+
+.chat-container__textarea:focus {
+  border-color: var(--tap-primary);
+  box-shadow: 0 0 0 0.25rem rgba(0, 84, 189, 0.1);
+}
+
+.chat-container__submit-btn {
+  align-self: flex-end;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--tap-primary);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-container__submit-btn:hover {
+  background: var(--tap-primary-dark);
+}
+
+.chat-container__submit-btn:focus {
+  outline: 0.25rem solid var(--tap-blue-40v);
+  outline-offset: 0.25rem;
+}
+
+/* ── Chat messages ──────────────────────────────────────────────────────────── */
+
+.chat-status {
+  font-size: 0.75rem;
+  color: var(--tap-base-light);
+  min-height: 1.25rem;
+  flex-shrink: 0;
+  padding: 0 0 0.25rem 0;
+}
+
+#chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  min-height: 0;
+}
+
+.chat-message {
+  max-width: 90%;
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.chat-message--user {
+  align-self: flex-end;
+  background: var(--tap-primary);
+  color: white;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.chat-message--assistant {
+  align-self: flex-start;
+  background: var(--tap-base-lightest);
+  color: var(--tap-base-darkest);
+  border-bottom-left-radius: 0.25rem;
+}
+
+.chat-message--assistant.in-progress::after {
+  content: '▌';
+  display: inline-block;
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.chat-message code {
+  background: rgba(0, 0, 0, 0.08);
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+
+.chat-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+
+
+/* ── audit-panel/styles/scenario-modal.css ─────────────────────────────────────── */
+
+/* <taxpert-scenario-modal>, the "Manage scenario" dialog opened from the global nav's
+   Scenario button. Loaded through audit-panel.css's @import chain, so it is gated by the
+   same toggled <link id="audit-panel-styles"> as the rest of the workspace UI.
+
+   Self-contained: the base <dialog> chrome is declared here rather than inherited from
+   credit-assistant's components/modals.css, so the modal looks the same in any host. The
+   --tap-* token layer comes from audit-panel.css. */
+
+
+
+/* The AI generation section is gated by data-ff="ai-scenario-generation"; fact-explorer
+   imports this file on its own (react/ScenarioModal.jsx), so the rules come with it rather than
+   only via audit-panel.css. */
+
+
+/* (already inlined: shared/styles/feature-flags.css) */
+
+
+
+
+:where(taxpert-scenario-modal) {
+  --tsm-border: #d6d7d9;
+  --tsm-text: var(--tap-base-darkest, #1b1b1b);
+  --tsm-hint: var(--tap-base-dark, #565c65);
+  --tsm-font: var(--font-sans, 'Source Sans Pro Web', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif);
+
+  /* The dialog's own insets. Declared once because two things read them: the main block's padding
+     and the close button's position — and the X sitting on the heading depends on the two agreeing. */
+  --tsm-inset-x: 2rem;
+  --tsm-inset-top: 1.5rem;
+}
+
+taxpert-scenario-modal {
+  display: contents;
+}
+
+.tsm-dialog {
+  display: block;
+  box-sizing: border-box;
+  width: 90vw;
+  max-width: 32.375rem; /* 518px — the design's modal width */
+  max-height: 90vh;
+  margin: auto;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--tsm-border);
+  border-radius: 0.25rem;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  color: var(--tsm-text);
+  font-family: var(--tsm-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left; /* every row in this modal is left-aligned */
+  z-index: 1050;
+}
+
+.tsm-dialog:not([open]) {
+  display: none;
+}
+
+.tsm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* USWDS gives .usa-modal__content a 2rem padding-top to clear its own close button, which sits
+   above the main block in its markup. This shell puts the close button inside .tsm-main instead, so
+   that band is dead space over the heading — every inset in this dialog is .tsm-main's. */
+.tsm-dialog .usa-modal__content {
+  padding-top: 0;
+}
+
+/* Every rule below is scoped through .tsm-dialog rather than written as a bare class. `.tsm-main`
+   and `.tsm-close` collide head-on with credit-assistant's own components/modals.css, which sets
+   `.usa-modal__main { padding-bottom: .5rem }` and `.usa-modal__close { top: 0; right: 0 }` on the
+   same elements at the same specificity — so which one wins is decided by stylesheet order, and the
+   order differs per host. The audit-panel modals happen to load after it (their own <link>); the
+   tool-panels bundle loads from inside main.css *before* it, which is why the Tools dialog was
+   drawing its close button in the corner and losing its bottom inset. Two classes beat one
+   everywhere, so the dialogs now look the same wherever they are loaded from. This is the same
+   defence the `.usa-modal__heading.tsm-heading` rule below already documents. */
+.tsm-dialog .tsm-main {
+  position: relative;
+  box-sizing: border-box;
+  /* Full width, explicitly. See the same rule in workspace-settings-modal.css. USWDS's
+     .usa-modal__content is a flex column and .usa-modal__main carries `margin: 0 auto`, whose auto
+     cross-axis margins suppress the stretch and size this block to its widest child instead. */
+  width: 100%;
+  margin-inline: 0;
+  padding: var(--tsm-inset-top) var(--tsm-inset-x) 2rem;
+}
+
+/* On the heading's line, not floating in the corner above it. It starts at the same top inset the
+   heading does and takes the heading's line box as its height, so USWDS's own `align-items: center`
+   centres the icon on the words rather than on a taller box. The right inset is pulled back by the
+   button's padding so the icon — not the hit area — lands flush with the section rules below. */
+.tsm-dialog .tsm-close {
+  position: absolute;
+  top: var(--tsm-inset-top);
+  right: calc(var(--tsm-inset-x) - 0.25rem);
+  box-sizing: border-box;
+  height: 1.7875rem; /* .tsm-heading's line box: 1.375rem × 1.3 */
+  min-width: 0;
+  margin: 0;
+  padding: 0 0.25rem;
+  background: transparent;
+  color: var(--tsm-text);
+}
+
+.tsm-dialog .tsm-close:hover,
+.tsm-dialog .tsm-close:active {
+  background: transparent;
+  color: var(--tsm-text);
+}
+
+/* Doubled up with .usa-modal__heading (the element carries both classes, see
+   scenario-modal.js) so this wins on specificity over real USWDS's own .usa-modal__heading
+   rule, which sets font-family to its "heading" role (serif by default) — a single-class
+   rule here would only win by accident of stylesheet load order, and does in some hosts but
+   not others. */
+.usa-modal__heading.tsm-heading {
+  margin: 0 0 1rem;
+  font-family: var(--tsm-font);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ── Sections ──────────────────────────────────────────────────────────────
+   Every task is its own section, separated by a rule. */
+
+.tsm-section {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--tsm-border);
+}
+
+.tsm-section[hidden] {
+  display: none;
+}
+
+.tsm-section--inline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tsm-section__text {
+  min-width: 0;
+}
+
+.tsm-section__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-family: var(--tsm-font);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.tsm-section__hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--tsm-text);
+}
+
+/* The action button holds its width; the input beside it takes the slack. */
+.tsm-section__action {
+  flex: 0 0 auto;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.tsm-section--inline .tsm-section__action {
+  align-self: center;
+}
+
+/* Textarea + button on one line (Paste fact graph, Generate a scenario). */
+.tsm-section__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: 1rem;
+  row-gap: 0.5rem; /* only in play once the error message below wraps the row */
+  margin-top: 0.75rem;
+}
+
+/* The row is the .usa-form-group, so the validation message fact-graph-io.js inserts after the
+   label becomes a flex item of it and would otherwise take a column beside the textarea. A
+   full-width basis puts it on its own line above the control it describes, where USWDS puts it. */
+.tsm-section__row .usa-error-message {
+  flex: 0 0 100%;
+  margin: 0;
+}
+
+.tsm-textarea {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none;
+  height: auto;
+  margin: 0;
+  /* Requested: let the user grow the box vertically, but never sideways out of the row. */
+  resize: vertical;
+}
+
+.tsm-tag {
+  flex: 0 0 auto;
+}
+
+/* Full-width primary action for the scenario library. */
+.tsm-button--full {
+  display: block;
+  width: 100%;
+  margin: 1rem 0 0;
+  text-align: center;
+}
+
+/* "Clear scenario" sits under the full-width Load button as the section's quiet second action, so it
+   takes the same width and centers under it. Doubled up with .usa-button--unstyled (the element
+   carries both classes) because that class sets width, margin, text-align and font-weight itself,
+   all as a single class — a lone .tsm-clear would only win by stylesheet order, as the heading rule
+   above notes. */
+.usa-button--unstyled.tsm-clear {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Form controls inside the modal are full-width and left-aligned. */
+.tsm-section .usa-form-group {
+  margin-top: 0.75rem;
+}
+
+/* Every label in the scenario library, meaning the host's filter dropdowns and the scenario <select>,
+   reads as the name of the thing you are choosing, so they all take the same weight rather than
+   USWDS's lighter default. The wording itself (sentence case) is the host's: see
+   credit-assistant's website-static/js/scenario-filters.js and fact-explorer's
+   src/model/scenarioFilters.js. */
+#scenario-library-block .usa-label {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* `border-box` because USWDS adds its own padding and 1px border on top of this `width: 100%`,
+   .usa-select's padding-right is 2rem, for the chevron it paints — so under the UA's default
+   content-box the control renders wider than the section holding it. See the same rule in
+   workspace-settings-modal.css. */
+.tsm-section .usa-select,
+.tsm-section .usa-input {
+  box-sizing: border-box;
+  max-width: none;
+  width: 100%;
+}
+
+/* "Copied to clipboard!", invisible until copyFactGraphToClipboard() flashes it. */
+#copy-fg-status {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 0.875rem;
+  color: var(--tsm-hint);
+}
+
+#copy-fg-status.animate-success {
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #copy-fg-status.animate-success {
+    animation: none;
+  }
+}
+
+/* Narrow viewports: stack each row rather than squeezing the control. */
+@media (max-width: 30em) {
+  /* Narrowing the inset takes the close button with it, which is what the property is for. An
+     element selector beats the zero-specificity :where() the defaults are declared in. */
+  taxpert-scenario-modal {
+    --tsm-inset-x: 1.25rem;
+  }
+
+  .tsm-dialog .tsm-main {
+    padding-bottom: 1.5rem;
+  }
+
+  .tsm-section--inline,
+  .tsm-section__row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem; /* every gap is a row gap once stacked, including the row's tighter one */
+  }
+
+  .tsm-section--inline .tsm-section__action {
+    align-self: flex-start;
+  }
+}
+
+
+
+/* ── audit-panel/styles/display-modal.css ─────────────────────────────────────── */
+
+/* <taxpert-display-modal>, the "Display options" dialog opened from the global nav's Display
+   button. Loaded through audit-panel.css's @import chain, so it is gated by the same toggled
+   <link id="audit-panel-styles"> as the rest of the workspace UI.
+
+   Self-contained: the base <dialog> chrome is declared here rather than inherited from
+   credit-assistant's components/modals.css, so the modal looks the same in any host. The
+   --tap-* token layer comes from audit-panel.css.
+
+   The `body.display-modals-inline` rules at the bottom are the one host-page effect that is
+   purely visual — the rest live in display-options.js. */
+
+
+
+:where(taxpert-display-modal) {
+  --tdm-border: #d6d7d9;
+  --tdm-text: var(--tap-base-darkest, #1b1b1b);
+  --tdm-hint: var(--tap-base-dark, #565c65);
+  --tdm-selected-border: var(--color-primary, var(--tap-primary, #005ea2));
+  --tdm-selected-bg: var(--color-primary-tint, var(--tap-primary-lighter, #d9e8f6));
+  --tdm-font: var(--font-sans, 'Source Sans Pro Web', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif);
+
+  /* The dialog's own insets. Declared once because two things read them: the main block's padding
+     and the close button's position — and the X sitting on the heading depends on the two agreeing. */
+  --tdm-inset-x: 2rem;
+  --tdm-inset-top: 1.5rem;
+}
+
+taxpert-display-modal {
+  display: contents;
+}
+
+.tdm-dialog {
+  display: block;
+  box-sizing: border-box;
+  width: 90vw;
+  max-width: 32.375rem; /* 518px — the design's modal width */
+  max-height: 90vh;
+  margin: auto;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--tdm-border);
+  border-radius: 0.25rem;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  color: var(--tdm-text);
+  font-family: var(--tdm-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left; /* every row in this modal is left-aligned */
+  z-index: 1050;
+}
+
+.tdm-dialog:not([open]) {
+  display: none;
+}
+
+.tdm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* USWDS gives .usa-modal__content a 2rem padding-top to clear its own close button, which sits
+   above the main block in its markup. This shell puts the close button inside .tdm-main instead, so
+   that band is dead space over the heading — every inset in this dialog is .tdm-main's. */
+.tdm-dialog .usa-modal__content {
+  padding-top: 0;
+}
+
+/* Every rule below is scoped through .tdm-dialog rather than written as a bare class. `.tdm-main`
+   and `.tdm-close` collide head-on with credit-assistant's own components/modals.css, which sets
+   `.usa-modal__main { padding-bottom: .5rem }` and `.usa-modal__close { top: 0; right: 0 }` on the
+   same elements at the same specificity — so which one wins is decided by stylesheet order, and the
+   order differs per host. The audit-panel modals happen to load after it (their own <link>); the
+   tool-panels bundle loads from inside main.css *before* it, which is why the Tools dialog was
+   drawing its close button in the corner and losing its bottom inset. Two classes beat one
+   everywhere, so the dialogs now look the same wherever they are loaded from. This is the same
+   defence the `.usa-modal__heading.tdm-heading` rule below already documents. */
+.tdm-dialog .tdm-main {
+  position: relative;
+  box-sizing: border-box;
+  /* Full width, explicitly. See the same rule in workspace-settings-modal.css. USWDS's
+     .usa-modal__content is a flex column and .usa-modal__main carries `margin: 0 auto`, whose auto
+     cross-axis margins suppress the stretch and size this block to its widest child instead. */
+  width: 100%;
+  margin-inline: 0;
+  padding: var(--tdm-inset-top) var(--tdm-inset-x) 2rem;
+}
+
+/* On the heading's line, not floating in the corner above it. It starts at the same top inset the
+   heading does and takes the heading's line box as its height, so USWDS's own `align-items: center`
+   centres the icon on the words rather than on a taller box. The right inset is pulled back by the
+   button's padding so the icon — not the hit area — lands flush with the section rules below. */
+.tdm-dialog .tdm-close {
+  position: absolute;
+  top: var(--tdm-inset-top);
+  right: calc(var(--tdm-inset-x) - 0.25rem);
+  box-sizing: border-box;
+  height: 1.7875rem; /* .tdm-heading's line box: 1.375rem × 1.3 */
+  min-width: 0;
+  margin: 0;
+  padding: 0 0.25rem;
+  background: transparent;
+  color: var(--tdm-text);
+}
+
+.tdm-dialog .tdm-close:hover,
+.tdm-dialog .tdm-close:active {
+  background: transparent;
+  color: var(--tdm-text);
+}
+
+/* No rule declared here. The first section's border-top supplies the line under the heading, the
+   scenario modal's arrangement.
+   Selector is doubled up with .usa-modal__heading (the element carries both classes — see
+   display-modal.js) so this wins on specificity over real USWDS's own .usa-modal__heading
+   rule, which sets font-family to its "heading" role (serif by default) — a single-class
+   rule here would only win by accident of stylesheet load order, and does in some hosts but
+   not others. */
+.usa-modal__heading.tdm-heading {
+  margin: 0 0 1rem;
+  font-family: var(--tdm-font);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ── Sections ──────────────────────────────────────────────────────────────
+   One rule, under the heading, and then nothing: the sections carry their own titles and are
+   separated by whitespace alone.
+
+   They each drew a border-top once, which gave the dialog a rule between Visibility and Layout and
+   another between Layout and Language — two lines cutting a short list of preferences into three
+   boxed-off regions, when the titles already say where each one starts. The remaining line belongs
+   to the heading rather than to Visibility, so it stays put when a destination hides the sections
+   under it. */
+
+.tdm-section {
+  padding: 1.25rem 0;
+}
+
+.tdm-section:first-of-type {
+  border-top: 1px solid var(--tdm-border);
+}
+
+/* Layout and Language are hidden rather than absent (see display-modal.html), so `hidden` has to
+   beat anything a host's own `section { display: … }` might set. */
+.tdm-section[hidden] {
+  display: none;
+}
+
+.tdm-section__title {
+  margin: 0;
+  font-family: var(--tdm-font);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.tdm-section__hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--tdm-text);
+}
+
+/* ── Option rows ─────────────────────────────────────────────────────────── */
+/* Each choice is its own bordered box. The workspace settings modal's option rows use the same
+   treatment. `.tdm-option` stays on each row as the "one choice" hook for the JS and its spec.
+
+   The box is USWDS's own tile variant (`usa-checkbox__input--tile` / `usa-radio__input--tile` on
+   the input — see display-modal.html), not a bespoke one on the wrapper. USWDS draws the tile on
+   the *label*, which is what makes the whole box a click target rather than just the control and
+   its words, and gives it the padding, radius, and control-art offset every other USWDS tile has.
+   Only the colors are ours: the design's 1px border instead of USWDS's 2px gray, and the host's
+   brand token for the selected fill instead of the primary USWDS compiled in. Both rules sit on the
+   input, not the label, so they outweigh USWDS's own `--tile` pair in any load order.
+
+   Checkbox and radio stay separate selectors rather than a shared one, because `.usa-checkbox__label`
+   and `.usa-radio__label` are different USWDS components and grouping them would mean one rule
+   silently depending on both staying identical — the workspace settings modal's rule too. */
+
+.tdm-option .usa-checkbox__input--tile + .usa-checkbox__label {
+  border: 1px solid var(--tdm-border);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.tdm-option .usa-checkbox__input--tile:checked + .usa-checkbox__label {
+  border-color: var(--tdm-selected-border);
+  background-color: var(--tdm-selected-bg);
+}
+
+.tdm-option .usa-radio__input--tile + .usa-radio__label {
+  border: 1px solid var(--tdm-border);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.tdm-option .usa-radio__input--tile:checked + .usa-radio__label {
+  border-color: var(--tdm-selected-border);
+  background-color: var(--tdm-selected-bg);
+}
+
+/* USWDS gives .usa-checkbox/.usa-radio a white background of their own; with the tile drawing the
+   box, that would show as white corners around a selected tile's rounded ones. */
+.tdm-option.usa-checkbox,
+.tdm-option.usa-radio {
+  background: transparent;
+}
+
+/* ── Language ────────────────────────────────────────────────────────────── */
+/* Form controls inside the modal are full-width and left-aligned, as in the scenario modal. */
+
+.tdm-section .usa-form-group {
+  margin-top: 0.75rem;
+}
+
+/* `border-box` because USWDS adds its own padding and 1px border on top of this `width: 100%`,
+   .usa-select's padding-right is 2rem, for the chevron it paints — so under the UA's default
+   content-box the control renders wider than the section holding it. See the same rule in
+   workspace-settings-modal.css. */
+.tdm-section .usa-select,
+.tdm-section .usa-input {
+  box-sizing: border-box;
+  max-width: none;
+  width: 100%;
+}
+
+/* ── Footer command ──────────────────────────────────────────────────────── */
+/* One optional host action (Fact Explorer's "Reset layout"), separated from the last section by the
+   same rule the sections draw between themselves, and full width so it reads as the dialog's action
+   rather than as one more choice in a list. The workspace settings modal's footer, same shape. */
+
+.tdm-footer {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--tdm-border);
+}
+
+.tdm-footer[hidden] {
+  display: none;
+}
+
+/* Two classes, not one: USWDS's own `.usa-button` sets `width: auto` from its `mobile-lg` breakpoint
+   up, tying `.tdm-footer__button`'s specificity — so which wins depends on load order, and in a host
+   that loads USWDS after this file the button shrinks to its label instead of filling the footer.
+   The extra `.tdm-dialog` ancestor is the same defence `.tdm-close` and `.tdm-main` already use. */
+.tdm-dialog .tdm-footer__button {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Host-page effect: "Show modals inline" ──────────────────────────────── */
+/* A flow modal is a <dialog> that only exists once something opens it, which makes its copy
+   invisible to anyone reviewing a screen. Inline mode renders a copy of it in the page flow, boxed
+   so it still reads as a modal rather than as part of the question.
+
+   *Where* in the flow is display-options.js's half: a modal is authored at the foot of its page, so
+   a copy of it is placed under each question whose link opens it and marked
+   `data-taxpert-modal-inline`. The authored element itself never moves and never gains the marker —
+   it stays the overlay the link opens, dressed by the host's own modal CSS, centred over its
+   backdrop with its [X]. These rules therefore only ever dress page content.
+
+   That marker, and not `dialog.usa-modal--dialog`, is what these rules select — the difference
+   matters twice. A modal no question links to (credit-assistant's tax-year change confirmation, which
+   its own JS opens) gets no copy, so nothing ever gains the marker, so nothing appears as a stray box
+   at the foot of the page. And a copy parked under a question follows that question: it goes when the
+   question is conditioned out (`.hidden`, the flow runtime's own class, or the `hidden` attribute) or
+   truncated away by Path Mode (`.off-path`). Those three are sibling selectors because a placed copy
+   is always the element immediately after its anchor, which is cheaper and more robust than mirroring
+   three classes onto it in JS every time a condition flips.
+
+   `:not([open])` on every rule below is belt and braces for the bug that made this a copy in the
+   first place. These declarations are the exact opposite of what a shown dialog needs — `position:
+   static` and `inset: auto` put a top-layer element wherever it happened to sit in the flow instead
+   of centred in the viewport, and the close-button rule takes its [X] away. Marking nothing that can
+   be opened is the fix; refusing to dress anything that *is* open is the guard rail. */
+
+body.display-modals-inline dialog[data-taxpert-modal-inline]:not([open]) {
+  display: block;
+  position: static;
+  width: auto;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  margin: var(--tap-units-2, 1rem) 0;
+  border: 1px dashed var(--tdm-border, #d6d7d9);
+  border-radius: 0.25rem;
+  background: #fff;
+  /* A host that hides its shut overlays with `opacity: 0` as well as `display: none`, as the theme's
+     `.usa-modal--dialog:not([open])` does exactly that — leaves an inline copy transparent, since
+     overriding `display` alone says nothing about opacity. It looks fine anyway wherever the theme's
+     fade-in animation runs, because a `forwards` fill wins over any declaration; under
+     `prefers-reduced-motion: reduce` that animation is switched off and the copy vanishes. Declaring
+     it here means the copy is visible on its own terms rather than by animation side effect. */
+  opacity: 1;
+  inset: auto;
+  /* `position: static` is not on its own enough to take the overlay's stacking with it. In wrap
+     layout the copy's parent is a grid (`body.layout--horizontal … section.flow`,
+     all-screens-page.css), and a grid item honours `z-index` while still `position: static` — so
+     every copy stayed a stacking context at the host modal's 1050, which outranks the pinned global
+     nav's 1000. Scrolling Browse All in wrap layout drew the modal cards straight over the header
+     and the sub-nav. Reset here rather than by lowering the host's modal z-index: 1050 is right for
+     the overlay this was cloned from, and page content should not be competing for a layer at all. */
+  z-index: auto;
+}
+
+/* Nothing to close: this is page content, not an overlay. Hiding rather than disabling also takes
+   the button out of the tab order, so a reviewer tabbing down the page does not stop at an [X] that
+   closes nothing. */
+body.display-modals-inline dialog[data-taxpert-modal-inline]:not([open]) .usa-modal__close {
+  display: none;
+}
+
+/* An inline copy belongs to the question above it, so it is only shown when that question is.
+   Three classes-worth of specificity beats the `display: block` above, whose two are the same two
+   these start from. */
+body.display-modals-inline .hidden + dialog[data-taxpert-modal-inline]:not([open]),
+body.display-modals-inline [hidden] + dialog[data-taxpert-modal-inline]:not([open]),
+body.display-modals-inline .off-path + dialog[data-taxpert-modal-inline]:not([open]) {
+  display: none;
+}
+
+/* …except that a listing shows everything: Browse All forces every `.hidden` question visible
+   (all-screens-page.css), so the modal parked under one has to come back with it. Path Mode is the
+   same page with that hiding restored, hence the :not(). The toolbar's *mode* is what tells the two
+   listings apart from the Product Experience — the same question display-options.js asks to pick the
+   "expand accordions" default, and for the same reason: the bar is on all three destinations now, so
+   its mere presence stopped meaning "this is a listing". An un-upgraded toolbar has no `mode` yet and
+   counts as a listing, which is the side the listing page needs before its JS lands; the Product
+   Experience's is server-rendered with the attribute, so it never passes through that state.
+   `.off-path` and `[hidden]` are not exempted: both mean hidden in every destination. */
+body.display-modals-inline:has(taxpert-screens-toolbar:not([mode="product"])):not(.path-mode) .hidden + dialog[data-taxpert-modal-inline]:not([open]) {
+  display: block;
+}
+
+/* ── Narrow viewports ────────────────────────────────────────────────────── */
+
+@media (max-width: 30em) {
+  /* Narrowing the inset takes the close button with it, which is what the property is for. An
+     element selector beats the zero-specificity :where() the defaults are declared in. */
+  taxpert-display-modal {
+    --tdm-inset-x: 1.25rem;
+  }
+
+  .tdm-dialog .tdm-main {
+    padding-bottom: 1.5rem;
+  }
+}
+
+
+
+
+/* Token-fallback layer (mirrors global-nav.css's --tgn-* pattern): every --tap-* token
+   chains through the host's real USWDS token with a hard fallback, so the panel renders
+   identically inside credit-assistant (which supplies --base-/--primary-/etc. via
+   variables.css) and still looks reasonable in a bare host that supplies none. :where()
+   keeps specificity at zero so a host can override. Defined here on the shared root so
+   every descendant across the four imported files inherits the values. */
+
+
+:where(taxpert-audit-panel) {
+  --tap-base-lightest: var(--base-lightest, #f0f0f0);
+  --tap-base-lighter: var(--base-lighter, #dfe1e2);
+  --tap-base-light: var(--base-light, #a9aeb1);
+  --tap-base-dark: var(--base-dark, #565c65);
+  --tap-base-darkest: var(--base-darkest, #1b1b1b);
+  --tap-primary: var(--primary, #005ea2);
+  --tap-primary-lighter: var(--primary-lighter, #d9e8f6);
+  --tap-primary-light: var(--primary-light, #73b3e7);
+  --tap-primary-dark: var(--primary-dark, #1a4480);
+  --tap-blue-40v: var(--blue-40v, #2491ff);
+  --tap-units-05: var(--units-05, 0.25rem);
+  --tap-units-1: var(--units-1, 0.5rem);
+  --tap-units-2: var(--units-2, 1rem);
+  --tap-units-4: var(--units-4, 2rem);
+}

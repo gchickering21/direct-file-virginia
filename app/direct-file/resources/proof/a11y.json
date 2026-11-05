@@ -1,0 +1,266 @@
+{
+ "ran": "2026-11-05T19:12:41.958Z",
+ "base": "http://localhost:3013/direct-file-virginia/app/direct-file",
+ "household": "Riley Rappahannock",
+ "standards": [
+  "WCAG 2.0 A and AA",
+  "WCAG 2.1 A and AA"
+ ],
+ "scans": 45,
+ "routes": 20,
+ "languages": 2,
+ "violations": 0,
+ "outsideViolations": 12,
+ "byRule": {},
+ "pages": [
+  {
+   "label": "resources/start (the start page)",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-intro",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-known",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-check",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-correct-what",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-correct-dob",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-correct-w2",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-correct-records",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-corrections",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-locality",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-locality (error state; focus on input#/vaLocality.usa-combo-box__input usa-input--error)",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-military/were-you-in-the",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-military/were-you-on-active",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-military/how-much-military-basic",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-military/did-you-receive-military",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-military/how-much-of-it",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-savers/did-you-put-money",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-savers/how-much-did-you",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-use-tax/did-you-buy-anything",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-use-tax/how-much-did-those",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-summary",
+   "inside": [],
+   "outside": [
+    {
+     "id": "nested-interactive",
+     "impact": "serious",
+     "help": "Interactive controls must not be nested",
+     "nodes": [
+      ".fg-detail.va-why:nth-child(24) > summary",
+      ".fg-detail.va-why:nth-child(25) > summary",
+      ".fg-detail.va-why:nth-child(26) > summary"
+     ],
+     "count": 6
+    }
+   ]
+  },
+  {
+   "label": "virginia-sign",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "virginia-sign (unsigned send)",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-intro",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-known",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-check",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-correct-what",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-correct-dob",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-correct-w2",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-correct-records",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-corrections",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-locality",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-locality (error state; focus on input#/vaLocality.usa-combo-box__input usa-input--error)",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-military/were-you-in-the",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-military/were-you-on-active",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-military/how-much-military-basic",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-military/did-you-receive-military",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-military/how-much-of-it",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-savers/did-you-put-money",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-savers/how-much-did-you",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-use-tax/did-you-buy-anything",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-use-tax/how-much-did-those",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-summary",
+   "inside": [],
+   "outside": [
+    {
+     "id": "nested-interactive",
+     "impact": "serious",
+     "help": "Interactive controls must not be nested",
+     "nodes": [
+      ".fg-detail.va-why:nth-child(24) > summary",
+      ".fg-detail.va-why:nth-child(25) > summary",
+      ".fg-detail.va-why:nth-child(26) > summary"
+     ],
+     "count": 6
+    }
+   ]
+  },
+  {
+   "label": "es/virginia-sign",
+   "inside": [],
+   "outside": []
+  },
+  {
+   "label": "es/virginia-sign (unsigned send)",
+   "inside": [],
+   "outside": []
+  }
+ ]
+}

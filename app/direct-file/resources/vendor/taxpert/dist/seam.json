@@ -1,0 +1,8 @@
+{
+  "bundle": "dist/js/taxpert.js",
+  "external": [
+    "shared/js/config.js",
+    "shared/js/graph-adapter.js",
+    "shared/js/outcome-kinds.js"
+  ]
+}

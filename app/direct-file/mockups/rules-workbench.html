@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virginia Rules Workbench: admin mockups</title>
+<!-- Design mockups only. Static HTML; nothing here runs the engine or writes to the repository.
+     Values come from facts/virginia.xml (tax year 2024). The 2025 values, the people, and the
+     change request are invented to show the workflow and are not Virginia Tax figures or staff. -->
+<style>
+  :root {
+    --va-navy: #13294b;
+    --va-orange: #e57200;
+    --va-orange-tint: #fdf2e6;
+    --va-navy-tint: #f4f6fa;
+    --va-line: #dfe4ec;
+    --va-ink: #1b1b1b;
+    --va-muted: #565c65;
+    --ok: #00a91c;
+    --ok-tint: #ecf3ec;
+    --warn: #b54d00;
+    --warn-tint: #fef0c8;
+    --bad: #b50909;
+    --bad-tint: #f8e1de;
+    --link: #005ea2;
+    --serif: "Merriweather", Georgia, "Times New Roman", serif;
+    --sans: "Source Sans Pro", "Source Sans 3", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--sans); color: var(--va-ink); background: #e9ebee; line-height: 1.45; }
+  code, .mono { font-family: var(--mono); font-size: 12.5px; }
+
+  /* ---------- Mockup document chrome (same as virginia-theme.html) ---------- */
+  .doc-head { background: #fff; border-bottom: 1px solid #ccc; padding: 28px 40px 20px; }
+  .doc-head h1 { margin: 0 0 6px; font-size: 26px; }
+  .doc-head p { margin: 0 0 6px; color: var(--va-muted); max-width: 980px; }
+  .doc-nav { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #ccc; padding: 10px 40px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .doc-nav a { text-decoration: none; color: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; background: #f0f0f0; }
+  .doc-nav a:hover { background: var(--va-line); }
+  .board { padding: 36px 40px 10px; scroll-margin-top: 50px; }
+  .board > h2 { font-size: 20px; margin: 0 0 4px; }
+  .board > .lede { color: var(--va-muted); margin: 0 0 20px; max-width: 980px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: start; }
+  .notes { background: #fff; border-radius: 8px; padding: 18px 20px; font-size: 14.5px; border-left: 4px solid var(--va-orange); position: sticky; top: 70px; }
+  .notes h3 { margin: 0 0 8px; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; color: var(--va-navy); }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 7px; }
+  .notes code { background: #f3f3f3; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+  .frame { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.10); }
+  .frame-bar { background: #f1f1f1; padding: 8px 12px; display: flex; gap: 6px; align-items: center; border-bottom: 1px solid #ddd; }
+  .frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: #d0d0d0; display: inline-block; }
+  .frame-bar span { margin-left: 10px; font-size: 12px; color: #666; background: #fff; border-radius: 4px; padding: 2px 10px; flex: 1; }
+
+  /* ---------- The workbench app ---------- */
+  .wb-top { background: var(--va-navy); color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; gap: 16px; }
+  .wb-brand { display: flex; align-items: center; gap: 10px; }
+  .wb-brand .name { font-family: var(--serif); font-weight: 700; font-size: 17px; }
+  .wb-brand .yr { font-size: 12px; background: rgba(255,255,255,.14); padding: 2px 8px; border-radius: 999px; }
+  .wb-top .who { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--va-orange); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex: none; }
+  .avatar.eng { background: #2378c3; }
+  .avatar.rev { background: #5e8e3e; }
+  .role { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; background: var(--va-orange-tint); color: var(--warn); }
+  .role.eng { background: #e1f3f8; color: #1a4480; }
+  .role.rev { background: var(--ok-tint); color: #2e6213; }
+  .wb-rule { height: 4px; background: var(--va-orange); }
+  .draft-strip { background: var(--warn-tint); border-bottom: 1px solid #f0d58c; font-size: 13.5px; padding: 7px 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .draft-strip b { color: var(--warn); }
+
+  .wb { display: grid; grid-template-columns: 200px minmax(0, 1fr); min-height: 520px; }
+  .side { background: var(--va-navy-tint); border-right: 1px solid var(--va-line); padding: 14px 0; font-size: 14px; }
+  .side a { display: flex; justify-content: space-between; align-items: center; padding: 8px 18px; text-decoration: none; color: var(--va-ink); border-left: 4px solid transparent; }
+  .side a.on { background: #fff; border-left-color: var(--va-orange); font-weight: 700; }
+  .side .count { font-size: 12px; background: var(--va-line); border-radius: 999px; padding: 0 7px; font-weight: 400; }
+  .side .sect { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--va-muted); padding: 14px 18px 4px; }
+  .main { padding: 20px 24px 28px; min-width: 0; }
+  .main h1 { font-family: var(--serif); font-size: 21px; margin: 0 0 4px; color: var(--va-navy); }
+  .main .sub { color: var(--va-muted); margin: 0 0 16px; font-size: 14.5px; }
+  .crumb { font-size: 13px; color: var(--va-muted); margin-bottom: 6px; }
+  .crumb a { color: var(--link); }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 14px; font-weight: 700; border-radius: 4px; padding: 7px 14px; border: 0; background: var(--link); color: #fff; cursor: default; white-space: nowrap; }
+  .btn.sec { background: #fff; color: var(--link); box-shadow: inset 0 0 0 2px var(--link); }
+  .btn.quiet { background: transparent; color: var(--link); padding: 7px 6px; }
+  .btn.ok { background: #2e6213; }
+  .btn.sm { font-size: 13px; padding: 4px 10px; }
+  .toolbar { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; }
+  .search { border: 1px solid #a9aeb1; border-radius: 4px; padding: 7px 10px; font: inherit; font-size: 14px; width: 300px; color: var(--va-muted); }
+  .pill { display: inline-block; font-size: 12px; border-radius: 999px; padding: 1px 9px; background: var(--va-line); color: var(--va-ink); white-space: nowrap; }
+  .pill.ok { background: var(--ok-tint); color: #2e6213; }
+  .pill.warn { background: var(--warn-tint); color: var(--warn); }
+  .pill.bad { background: var(--bad-tint); color: var(--bad); }
+  .pill.blue { background: #e1f3f8; color: #1a4480; }
+  .cite { font-size: 12.5px; color: var(--va-muted); }
+  .cite a { color: var(--link); white-space: nowrap; }
+
+  table.grid { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.grid th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--va-muted); border-bottom: 2px solid var(--va-line); padding: 8px 10px; font-weight: 700; }
+  table.grid td { border-bottom: 1px solid var(--va-line); padding: 9px 10px; vertical-align: top; }
+  table.grid td.num, table.grid th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.grid tr.changed td { background: #fffaf0; }
+  table.grid tr.group td { background: var(--va-navy-tint); font-weight: 700; color: var(--va-navy); font-size: 13px; }
+  .cell-input { display: inline-block; min-width: 92px; text-align: right; border: 2px solid var(--va-orange); border-radius: 4px; padding: 3px 8px; background: #fff; font-variant-numeric: tabular-nums; }
+  .cell-empty { display: inline-block; min-width: 92px; text-align: right; border: 1px dashed #a9aeb1; border-radius: 4px; padding: 3px 8px; color: #71767a; }
+  .was { text-decoration: line-through; color: var(--va-muted); font-size: 12.5px; margin-right: 6px; }
+
+  /* Line list on the home screen */
+  .lines { display: grid; gap: 8px; }
+  .line { display: grid; grid-template-columns: 70px minmax(0,1fr) 150px 120px; gap: 14px; align-items: center; border: 1px solid var(--va-line); border-radius: 6px; padding: 10px 14px; background: #fff; }
+  .line .no { font-family: var(--serif); font-weight: 700; color: var(--va-navy); }
+  .line .t { font-weight: 700; }
+  .line .kind { font-size: 12.5px; color: var(--va-muted); }
+  .line > .pill { justify-self: start; }
+
+  /* Rule card */
+  .card { border: 1px solid var(--va-line); border-radius: 8px; background: #fff; }
+  .card-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--va-line); }
+  .card-h h2 { margin: 0 0 2px; font-size: 18px; font-family: var(--serif); color: var(--va-navy); }
+  .tabs { display: flex; gap: 2px; font-size: 13.5px; }
+  .tabs span { padding: 5px 12px; border-radius: 4px 4px 0 0; border: 1px solid var(--va-line); border-bottom: 0; background: var(--va-navy-tint); }
+  .tabs span.on { background: #fff; font-weight: 700; }
+  .card-b { padding: 16px 18px; }
+  .clause { display: grid; grid-template-columns: 96px minmax(0,1fr); gap: 10px; align-items: start; padding: 10px 12px; border-radius: 6px; background: var(--va-navy-tint); margin-bottom: 8px; position: relative; }
+  .clause.new { background: var(--va-orange-tint); outline: 2px dashed var(--va-orange); }
+  .clause .kw { font-weight: 700; text-transform: uppercase; font-size: 12.5px; letter-spacing: .05em; color: var(--va-navy); padding-top: 6px; }
+  .clause .body { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 14.5px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #a9aeb1; border-radius: 4px; padding: 4px 9px; font-size: 14px; }
+  .chip .ty { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; border-radius: 3px; padding: 0 5px; }
+  .ty.asked { background: var(--va-orange-tint); color: var(--warn); }
+  .ty.fed { background: #e1f3f8; color: #1a4480; }
+  .ty.calc { background: #eee; color: #444; }
+  .ty.val { background: var(--ok-tint); color: #2e6213; }
+  .ty.req { background: #ebe3f9; color: #54278f; }
+  .chip.req { border: 1px dashed #8168b3; background: #f8f5fc; }
+  .ty { display: inline-block; }
+  .chip.op { background: var(--va-navy); color: #fff; border-color: var(--va-navy); font-weight: 700; }
+  .chip.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .chip .caret { color: var(--va-muted); font-size: 11px; }
+  .then-arrow { color: var(--va-muted); font-weight: 700; padding: 0 2px; }
+  .why { grid-column: 2; font-size: 12.5px; color: var(--va-muted); }
+  .why b { color: var(--va-ink); }
+  .add-row { display: flex; gap: 8px; margin: 4px 0 2px; }
+  .handle { position: absolute; left: -14px; top: 12px; color: #a9aeb1; font-size: 12px; }
+
+
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
+  .panel { border: 1px solid var(--va-line); border-radius: 8px; background: #fff; overflow: hidden; }
+  .panel-h { padding: 10px 14px; border-bottom: 1px solid var(--va-line); font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; align-items: center; background: var(--va-navy-tint); }
+  .panel-b { padding: 12px 14px; font-size: 13.5px; }
+  .impact { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 8px 0; border-bottom: 1px solid var(--va-line); }
+  .impact:last-child { border-bottom: 0; }
+  .impact .n { font-weight: 700; }
+  .impact .d { grid-column: 1 / -1; color: var(--va-muted); font-size: 12.5px; }
+  .big { font-size: 26px; font-weight: 700; font-family: var(--serif); color: var(--va-navy); line-height: 1.1; }
+
+  .checks { list-style: none; padding: 0; margin: 0; }
+  .checks li { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; }
+  .dot { width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; margin-top: 1px; }
+  .dot.ok { background: var(--ok); }
+  .dot.wait { background: #a9aeb1; }
+  .dot.bad { background: var(--bad); }
+
+  pre.xml { margin: 0; font-family: var(--mono); font-size: 12px; line-height: 1.55; background: #1b1b1b; color: #e6e6e6; padding: 12px 14px; border-radius: 6px; overflow-x: auto; }
+  pre.xml .add { background: rgba(0,169,28,.22); display: block; }
+  pre.xml .del { background: rgba(181,9,9,.3); display: block; }
+  pre.xml .c { color: #9aa5b1; }
+  pre.xml .t { color: #8cc8ff; }
+  pre.xml .a { color: #ffc68a; }
+
+  .scen td .exp { font-weight: 700; }
+  .res-ok { color: #2e6213; font-weight: 700; }
+  .res-bad { color: var(--bad); font-weight: 700; }
+
+  .diff-plain { border: 1px solid var(--va-line); border-radius: 8px; padding: 4px 16px; background: #fff; }
+  .diff-item { display: grid; grid-template-columns: 26px minmax(0,1fr); gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--va-line); }
+  .diff-item:last-child { border-bottom: 0; }
+  .diff-item .sym { width: 22px; height: 22px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; background: var(--va-orange); font-size: 13px; }
+  .diff-item .sym.add { background: var(--ok); }
+  .diff-item p { margin: 0 0 3px; }
+
+  .approvals { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .appr { border: 1px solid var(--va-line); border-radius: 8px; padding: 12px 14px; background: #fff; }
+  .appr.done { border-color: #8fc27c; background: var(--ok-tint); }
+  .appr h4 { margin: 0 0 6px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .appr p { margin: 0; font-size: 13.5px; color: var(--va-muted); }
+
+  .thread { border-left: 3px solid var(--va-line); padding-left: 12px; margin-top: 12px; font-size: 13.5px; }
+  .msg { display: flex; gap: 10px; margin-bottom: 10px; }
+  .msg .b { background: var(--va-navy-tint); border-radius: 8px; padding: 8px 10px; }
+  .msg .b .who { font-weight: 700; font-size: 12.5px; }
+
+  .form-row { margin-bottom: 14px; }
+  .form-row label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+  .form-row .hint { color: var(--va-muted); font-size: 13px; margin-bottom: 5px; }
+  .field { border: 1px solid #a9aeb1; border-radius: 4px; padding: 8px 10px; font-size: 14px; background: #fff; }
+  .field.tall { min-height: 70px; }
+  .field.ai { border-color: #8168b3; background: #f5f2fa; }
+  .ai-badge { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: #54278f; background: #ebe3f9; padding: 2px 7px; border-radius: 3px; }
+
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--va-muted); margin-top: 10px; }
+  .legend > span { display: inline-flex; gap: 5px; align-items: center; }
+
+  /* How the screens connect */
+  .flowmap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; font-size: 13.5px; }
+  .flowmap a { text-decoration: none; color: var(--va-ink); background: var(--va-navy-tint); border: 1px solid var(--va-line); border-radius: 6px; padding: 5px 10px; }
+  .flowmap a b { color: var(--va-orange); margin-right: 4px; }
+  .flowmap .arr { color: var(--va-muted); }
+  .flowmap .side-branch { border-style: dashed; }
+  .attn { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .attn a { text-decoration: none; color: inherit; border: 1px solid var(--va-line); border-radius: 6px; padding: 10px 12px; background: #fff; border-top: 3px solid var(--va-orange); font-size: 13.5px; }
+  .attn a b { display: block; font-size: 14.5px; }
+  .attn a .cite { display: block; margin-top: 2px; }
+  .attn a.wait { border-top-color: #8168b3; }
+  .attn a.ok { border-top-color: var(--ok); }
+
+  @media (max-width: 1250px) {
+    .row { grid-template-columns: 1fr; }
+    .notes { position: static; }
+  }
+  @media (max-width: 980px) {
+    .split { grid-template-columns: 1fr; }
+    .wb { grid-template-columns: 1fr; }
+    .side { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="doc-head">
+  <h1>Virginia Rules Workbench: admin mockups</h1>
+  <p>An admin tool where policy staff and engineers change the Virginia return together. Policy staff edit
+    values and rules in plain language. The tool writes the XML in <code>facts/virginia.xml</code>, and every
+    change goes through worked examples, a plain-language diff and two sign-offs before it ships.</p>
+  <p>Static mockups. Tax year 2024 values come from <code>facts/virginia.xml</code>. The 2025 values,
+    the people and the change request are invented to show how the work flows.</p>
+  <div class="flowmap" aria-label="How the screens connect">
+    <a href="#home"><b>1</b>Find the line</a><span class="arr">→</span>
+    <a href="#values"><b>2</b>Change a value</a><span class="arr">or</span>
+    <a href="#rule"><b>3</b>Change a rule</a><span class="arr">→</span>
+    <a href="#scenarios"><b>4</b>Check worked examples</a><span class="arr">→</span>
+    <a href="#review"><b>5</b>Two approvals, then publish</a>
+    <span class="arr" style="margin-left:14px">Rule needs a new question?</span>
+    <a class="side-branch" href="#request"><b>6</b>Ask engineering</a><span class="arr">→ back to 3</span>
+  </div>
+</header>
+
+<nav class="doc-nav" aria-label="Mockup screens">
+  <a href="#home">1. Rules home</a>
+  <a href="#values">2. Values table</a>
+  <a href="#rule">3. Rule editor</a>
+  <a href="#scenarios">4. Worked examples</a>
+  <a href="#review">5. Review &amp; approve</a>
+  <a href="#request">6. Ask engineering</a>
+</nav>
+
+<!-- ======================================================================= -->
+<section class="board" id="home">
+  <h2>1. Rules home: the return, line by line</h2>
+  <p class="lede">The starting point for everyone. Form 760 is listed in the order a policy person already
+    knows it, not by fact path. Each line shows what kind of rule it is and whether anyone is changing it.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/2025</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2025 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="wb">
+        <nav class="side">
+          <a class="on" href="#home">Form 760 lines</a>
+          <a href="#values">Values <span class="count">14</span></a>
+          <a href="#scenarios">Worked examples <span class="count">41</span></a>
+          <a href="#review">Changes <span class="count">2</span></a>
+          <a href="#request">Requests <span class="count">1</span></a>
+          <div class="sect">Read only</div>
+          <a href="#home">Federal facts Virginia uses <span class="count">57</span></a>
+          <a href="#home">Screens filers see</a>
+        </nav>
+        <div class="main">
+          <div class="toolbar">
+            <div>
+              <h1>Form 760 — Resident return</h1>
+              <p class="sub" style="margin:0">17 rules · 14 values · last published 12 Oct 2026</p>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center">
+              <span class="search">Search rules, lines or Va. Code §…</span>
+              <span class="btn">+ Start a change</span>
+            </div>
+          </div>
+          <div class="attn">
+            <a href="#scenarios"><b>3 examples differ</b><span class="cite">from your 2 drafts. Confirm or fix.</span></a>
+            <a class="wait" href="#review"><b>Change #12 in review</b><span class="cite">Policy approved · waiting on engineering (AK)</span></a>
+            <a class="wait" href="#request"><b>Request #4 with engineering</b><span class="cite">New question for Line 7 · your draft waits on it</span></a>
+          </div>
+          <div class="lines">
+            <div class="line">
+              <span class="no">Line 1</span>
+              <div><div class="t">Federal adjusted gross income</div><div class="kind">Copied from the federal return · not editable here</div></div>
+              <span class="cite">IRC § 62</span>
+              <span class="pill blue">Federal</span>
+            </div>
+            <div class="line">
+              <span class="no">Line 4</span>
+              <div><div class="t">Age deduction</div><div class="kind">Rule with 2 exceptions · uses 3 values</div></div>
+              <span class="cite">§ 58.1-322.03(5)</span>
+              <span class="pill ok">Published</span>
+            </div>
+            <div class="line" style="border-color: var(--va-orange); background: #fffaf3">
+              <span class="no">Line 7</span>
+              <div><div class="t">Virginia Lottery prizes under $600</div><div class="kind">Rule with 1 exception (draft) · 1 question asked of the filer</div></div>
+              <span class="cite">§ 58.1-322.02(7)</span>
+              <span class="pill warn">Draft · waits on #4</span>
+            </div>
+            <div class="line">
+              <span class="no">Line 9</span>
+              <div><div class="t">Virginia adjusted gross income</div><div class="kind">Arithmetic: Line 3 − Line 8</div></div>
+              <span class="cite">§ 58.1-322</span>
+              <span class="pill ok">Published</span>
+            </div>
+            <div class="line" style="border-color: var(--va-orange); background: #fffaf3">
+              <span class="no">Line 11</span>
+              <div><div class="t">Standard deduction</div><div class="kind">Rule with 1 exception · uses 2 values</div></div>
+              <span class="cite">§ 58.1-322.03(1)(b)</span>
+              <span class="pill warn">In review</span>
+            </div>
+            <div class="line">
+              <span class="no">Line 12</span>
+              <div><div class="t">Exemptions</div><div class="kind">Rule · uses 2 values</div></div>
+              <span class="cite">§ 58.1-322.03(2)</span>
+              <span class="pill ok">Published</span>
+            </div>
+            <div class="line">
+              <span class="no">Line 16</span>
+              <div><div class="t">Tax from the rate schedule</div><div class="kind">Bracket table · 4 brackets</div></div>
+              <span class="cite">§ 58.1-320</span>
+              <span class="pill ok">Published</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li>Organized by <b>form line and statute</b>, the two things policy staff look things up by. The fact path (<code>/vaLotterySubtraction</code>) only shows up in the engineer's view.</li>
+        <li>Federal lines are visible but locked. Only <code>virginia.xml</code> and <code>virginiaLocalities.xml</code> can be edited, because the federal modules must stay byte-for-byte copies.</li>
+        <li>The status pill tells everyone who is touching what, so two people don't edit Line 11 at once.</li>
+        <li>The tax year switcher picks which <code>&lt;TaxYear&gt;</code> values you see and edit.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="values">
+  <h2>2. Values table: the numbers that change every year</h2>
+  <p class="lede">Level 1 editing. Most annual updates are a new dollar amount or rate, so this is a
+    spreadsheet with a required citation. There's no logic to get wrong here. The author types the 2025
+    column, and the tool reruns every worked example as they type.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/values</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2025 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="draft-strip">
+        <span><b>Draft:</b> “2025 standard deduction” · 2 values changed · saved 1 min ago</span>
+        <span style="display:flex; gap:8px"><span class="btn sec sm">Discard</span><span class="btn sm">Send for review →</span></span>
+      </div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#home">Form 760 lines</a>
+          <a class="on" href="#values">Values <span class="count">14</span></a>
+          <a href="#scenarios">Worked examples <span class="count">41</span></a>
+          <a href="#review">Changes <span class="count">2</span></a>
+          <a href="#request">Requests <span class="count">1</span></a>
+        </nav>
+        <div class="main">
+          <div class="split">
+            <div>
+              <h1>Values</h1>
+              <p class="sub">Dollar amounts, rates and thresholds the rules use. Changing one here changes every rule that uses it.</p>
+              <table class="grid">
+                <thead>
+                  <tr><th>Value</th><th class="num">2024</th><th class="num">2025</th><th>Law</th><th>Used by</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="group"><td colspan="5">Deductions</td></tr>
+                  <tr class="changed">
+                    <td><b>Standard deduction</b><br><span class="cite">Single and married filing separately</span></td>
+                    <td class="num">$8,500</td>
+                    <td class="num"><span class="cell-input">$8,750</span></td>
+                    <td class="cite"><a href="#values">§ 58.1-322.03(1)(b)</a></td>
+                    <td class="cite">Line 11</td>
+                  </tr>
+                  <tr class="changed">
+                    <td><b>Standard deduction</b><br><span class="cite">Married filing jointly</span></td>
+                    <td class="num">$17,000</td>
+                    <td class="num"><span class="cell-input">$17,500</span></td>
+                    <td class="cite"><a href="#values">§ 58.1-322.03(1)(b)</a></td>
+                    <td class="cite">Line 11</td>
+                  </tr>
+                  <tr>
+                    <td><b>Age deduction</b><br><span class="cite">Per filer 65 or older</span></td>
+                    <td class="num">$12,000</td>
+                    <td class="num"><span class="cell-empty">$12,000</span></td>
+                    <td class="cite"><a href="#values">§ 58.1-322.03(5)</a></td>
+                    <td class="cite">Line 4</td>
+                  </tr>
+                  <tr class="group"><td colspan="5">Exemptions</td></tr>
+                  <tr>
+                    <td><b>Personal exemption</b></td>
+                    <td class="num">$930</td>
+                    <td class="num"><span class="cell-empty">$930</span></td>
+                    <td class="cite"><a href="#values">§ 58.1-322.03(2)</a></td>
+                    <td class="cite">Line 12</td>
+                  </tr>
+                  <tr>
+                    <td><b>Extra exemption</b><br><span class="cite">65 or older, or blind</span></td>
+                    <td class="num">$800</td>
+                    <td class="num"><span class="cell-empty">$800</span></td>
+                    <td class="cite"><a href="#values">§ 58.1-322.03(2)</a></td>
+                    <td class="cite">Line 12</td>
+                  </tr>
+                  <tr class="group"><td colspan="5">Subtractions</td></tr>
+                  <tr>
+                    <td><b>Lottery prize limit</b><br><span class="cite">Prizes below this are subtracted</span></td>
+                    <td class="num">$600</td>
+                    <td class="num"><span class="cell-empty">$600</span></td>
+                    <td class="cite"><a href="#values">§ 58.1-322.02(7)</a></td>
+                    <td class="cite">Line 7</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="cite" style="margin-top:10px">Empty 2025 cells carry the 2024 value forward. Type into one to change it.</p>
+            </div>
+
+            <div style="display:grid; gap:14px">
+              <div class="panel">
+                <div class="panel-h">Source for this change <span class="pill warn">Required</span></div>
+                <div class="panel-b">
+                  <div class="form-row" style="margin-bottom:8px">
+                    <label style="font-size:13px">Where does the new value come from?</label>
+                    <div class="field">2025 Appropriation Act, Item 3-5.xx; Virginia Tax Bulletin 25-x</div>
+                  </div>
+                  <div class="form-row" style="margin:0">
+                    <label style="font-size:13px">Effective for</label>
+                    <div class="field">Taxable years beginning on or after 1 Jan 2025</div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-h">Effect on worked examples <span class="pill blue">Live</span></div>
+                <div class="panel-b">
+                  <div class="big">2 of 41</div>
+                  <div class="cite" style="margin-bottom:8px">examples get a different result</div>
+                  <div class="impact"><span>Single, $40k wages</span><span class="n">Line 16 −$14</span><span class="d">Taxable income $30,570 → $30,320</span></div>
+                  <div class="impact"><span>Married, $85k</span><span class="n">Line 16 −$29</span><span class="d">Taxable income $66,140 → $65,640</span></div>
+                  <div class="impact"><span>Dependent, $6k wages</span><span class="n">no change</span><span class="d">Exception: capped at earned income</span></div>
+                  <a class="btn quiet sm" href="#scenarios">Confirm them in Worked examples →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li>A <b>column per tax year</b> fits how the law changes: by year, and usually just the number. Behind the scenes each cell is one <code>&lt;Fact&gt;</code> with a <code>&lt;TaxYear&gt;</code>, like <code>/vaStandardDeductionSingle</code>.</li>
+        <li>The <b>source is required</b> before anything can go to review. It becomes the fact's <code>&lt;Description&gt;</code>, so the citation stays next to the number in the code.</li>
+        <li>The <b>live effect</b> panel runs <code>factgraph-3.1.0.js</code> in the browser against every worked example. Nothing is saved yet, so it's safe to try values.</li>
+        <li>Dependent-filer row: it shows that the exception on Line 11 still applies, without the author having to know the exception exists.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="rule">
+  <h2>3. Rule editor: rules and exceptions as fill-in sentences</h2>
+  <p class="lede">Level 2 editing. Each rule reads as “If … then … otherwise …”. Every blank is a dropdown
+    of things the return already knows, named in plain English. Here an author adds an exception
+    to Line 7. Each block maps to exactly one Fact Graph operator, so the plain view and the XML say the same
+    thing.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/line-7</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2025 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="draft-strip">
+        <span><b>Draft:</b> “Line 7: don't subtract prizes already reported on a W-2G” · 1 exception · waits on request #4</span>
+        <span style="display:flex; gap:8px"><span class="btn sec sm">Save</span><span class="btn sm" aria-disabled="true" style="opacity:.45">Send for review →</span></span>
+      </div>
+      <div class="main">
+        <div class="crumb"><a href="#home">Form 760</a> › Line 7</div>
+        <div class="split">
+          <div style="display:grid; gap:14px; min-width:0">
+          <div class="card">
+            <div class="card-h">
+              <div>
+                <h2>Line 7 — Virginia Lottery prizes under $600</h2>
+                <div class="cite">Va. Code <a href="#rule">§ 58.1-322.02(7)</a>: “Any amount included therein less than $600 from a prize awarded by the Virginia Lottery.”</div>
+                <div class="cite" style="margin-top:2px">Published 12 Oct 2026 by JR · 3 earlier versions</div>
+              </div>
+              <div class="tabs"><span class="on">Plain language</span><span>XML</span><span>History</span></div>
+            </div>
+            <div class="card-b">
+              <div class="clause">
+                <span class="kw">If</span>
+                <div class="body">
+                  <span class="chip"><span class="ty asked">Asked</span> Filer won a Virginia Lottery prize under $600 <span class="caret">▾</span></span>
+                  <span>is</span>
+                  <span class="chip">Yes <span class="caret">▾</span></span>
+                </div>
+                <span class="kw" style="padding-top:2px">Then</span>
+                <div class="body">
+                  <span class="then-arrow">→</span>
+                  <span class="chip"><span class="ty asked">Asked</span> Total of those prizes <span class="caret">▾</span></span>
+                </div>
+              </div>
+
+              <div class="clause new">
+                <span class="handle" aria-hidden="true">⋮⋮</span>
+                <span class="kw">Except if</span>
+                <div class="body">
+                  <span class="chip req"><span class="ty req">Requested #4</span> Lottery prizes reported on a W-2G <span class="caret">▾</span></span>
+                  <span class="chip op">is more than</span>
+                  <span class="chip num"><span class="ty val">Value</span> $0 <span class="caret">▾</span></span>
+                  <span class="pill blue" title="Exceptions compile to the first Case">checked before the rule above</span>
+                </div>
+                <span class="kw" style="padding-top:2px">Because</span>
+                <div class="body">
+                  <span class="field" style="padding:4px 8px; flex:1">Prizes on a W-2G are $600 or more and stay taxable. A filer who adds them into the total shouldn't get to subtract them.</span>
+                </div>
+                <span class="kw" style="padding-top:2px">Then</span>
+                <div class="body">
+                  <span class="then-arrow">→</span>
+                  <span class="chip"><span class="ty asked">Asked</span> Total of those prizes <span class="caret">▾</span></span>
+                  <span class="chip op">minus</span>
+                  <span class="chip req"><span class="ty req">Requested #4</span> Lottery prizes reported on a W-2G <span class="caret">▾</span></span>
+                  <span class="chip op">but no less than</span>
+                  <span class="chip num"><span class="ty val">Value</span> $0 <span class="caret">▾</span></span>
+                </div>
+              </div>
+
+              <div class="clause">
+                <span class="kw">Otherwise</span>
+                <div class="body">
+                  <span class="then-arrow">→</span>
+                  <span class="chip num"><span class="ty val">Value</span> $0</span>
+                </div>
+              </div>
+
+              <div class="add-row">
+                <span class="btn sec sm">+ Add exception</span>
+                <span class="btn quiet sm">+ Add a limit</span>
+              </div>
+
+              <div class="legend">
+                <span><span class="ty asked">Asked</span> the filer answers it</span>
+                <span><span class="ty fed">Federal</span> from the federal return</span>
+                <span><span class="ty calc">Calc</span> another rule</span>
+                <span><span class="ty val">Value</span> from the values table</span>
+                <span><span class="ty req">Requested</span> engineering is adding it</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-h">The same rule in the XML tab <span class="cite" style="font-weight:400">what AK, the engineer, sees and can edit</span></div>
+            <div class="panel-b" style="padding:0">
+<pre class="xml" style="border-radius:0"><span class="t">&lt;Fact</span> <span class="a">path</span>=<span class="a">"/vaLotterySubtraction"</span><span class="t">&gt;</span>
+  <span class="t">&lt;Derived&gt;&lt;Switch&gt;</span>
+<span class="add">    <span class="c">&lt;!-- Except: prizes on a W-2G are $600 or more and stay taxable. (MT, draft) --&gt;</span></span><span class="add">    <span class="t">&lt;Case&gt;</span></span><span class="add">      <span class="t">&lt;When&gt;&lt;GreaterThan&gt;</span>…<span class="a">/vaLotteryPrizesOnW2G</span>…<span class="t">&lt;/GreaterThan&gt;&lt;/When&gt;</span> <span class="c">&lt;!-- #4 --&gt;</span></span><span class="add">      <span class="t">&lt;Then&gt;&lt;GreaterOf&gt;</span>&lt;Dollar&gt;0&lt;/Dollar&gt; <span class="t">&lt;Subtract&gt;</span>…<span class="t">&lt;/Subtract&gt;&lt;/GreaterOf&gt;&lt;/Then&gt;</span></span><span class="add">    <span class="t">&lt;/Case&gt;</span></span>    <span class="t">&lt;Case&gt;</span>
+      <span class="t">&lt;When&gt;&lt;Dependency</span> <span class="a">path</span>=<span class="a">"/vaHasLotteryPrizesUnder600"</span> <span class="t">/&gt;&lt;/When&gt;</span>
+      <span class="t">&lt;Then&gt;&lt;Dependency</span> <span class="a">path</span>=<span class="a">"/vaLotteryPrizesUnder600"</span> <span class="t">/&gt;&lt;/Then&gt;</span>
+    <span class="t">&lt;/Case&gt;</span>
+    <span class="t">&lt;Case&gt;&lt;When&gt;&lt;True /&gt;&lt;/When&gt;&lt;Then&gt;&lt;Dollar&gt;</span>0<span class="t">&lt;/Dollar&gt;&lt;/Then&gt;&lt;/Case&gt;</span>
+  <span class="t">&lt;/Switch&gt;&lt;/Derived&gt;</span>
+<span class="t">&lt;/Fact&gt;</span></pre>
+            </div>
+          </div>
+          </div>
+
+          <div style="display:grid; gap:14px">
+            <div class="panel">
+              <div class="panel-h">Checks <span class="pill warn">1 waiting</span></div>
+              <div class="panel-b">
+                <ul class="checks">
+                  <li><span class="dot ok">✓</span> <span>Every blank is filled</span></li>
+                  <li><span class="dot" style="background:#8168b3">#</span> <span>One blank uses something engineering is still building (<a href="#request" style="color:var(--link)">request #4</a>). You can save, but not send for review yet.</span></li>
+                  <li><span class="dot ok">✓</span> <span>Can't go below $0 (limit added)</span></li>
+                  <li><span class="dot ok">✓</span> <span>No rule depends on itself</span></li>
+                  <li><span class="dot bad">!</span> <span>Worked examples: 3 of 4 pass. <a href="#scenarios" style="color:var(--link)">“Big win plus small wins”</a> passes once #4 is built.</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-h">How MT got here</div>
+              <div class="panel-b">
+                <div class="field" style="margin-bottom:8px">Search things the return knows… <b>w-2g</b></div>
+                <p style="margin:0 0 6px">Nothing in the return matches. Direct File never asked about gambling income.</p>
+                <p class="cite" style="margin:0 0 10px">Closest: <span class="ty fed">Federal</span> Total other income (Sch 1, Line 9). Too broad: it includes much more than lottery prizes.</p>
+                <a class="btn sec sm" href="#request" style="text-decoration:none">Ask engineering to add a question →</a>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-h">What this rule touches</div>
+              <div class="panel-b">
+                <div class="impact"><span>Feeds into</span><span class="n">Line 8 → 9 → 15 → 16</span></div>
+                <div class="impact"><span>Screens filers see</span><span class="n">1 now, +1 from #4</span></div>
+                <div class="impact"><span>Worked examples</span><span class="n">4 use Line 7</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>Only sentences that convert cleanly to code.</b> “If / Except if / Otherwise” is a <code>&lt;Switch&gt;</code>, “minus” is <code>&lt;Subtract&gt;</code>, “but no less than” is <code>&lt;GreaterOf&gt;</code>. There's no free-text formula box.</li>
+        <li><b>Exceptions are checked first.</b> Authors write them under the rule, the way a statute reads, but they become the first <code>&lt;Case&gt;</code>s, since the first match wins. The blue tag says so. Drag handles order several exceptions among themselves.</li>
+        <li><b>The XML panel is the same rule</b>, not a copy. That's what lets AK and MT work on one thing: either one can edit it, and the other view updates.</li>
+        <li><b>The search hits a wall, and the tool shows it.</b> Direct File has no W-2G facts, so MT files request #4 (screen 6). The blank becomes a purple <i>Requested</i> chip, and the draft can be saved but not reviewed until engineering finishes.</li>
+        <li><b>“Because” is required</b> on every exception. It becomes the XML comment and appears in review.</li>
+        <li>Federal facts in the search are only those ADR-001's integration rule allows: exported to states or on MeF.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="scenarios">
+  <h2>4. Worked examples: the shared language</h2>
+  <p class="lede">Policy staff describe a household and the answer the law requires. Engineers make sure
+    the code produces it. Every change reruns all of them. A red row is a conversation, not a bug report.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/examples</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2025 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#home">Form 760 lines</a>
+          <a href="#values">Values <span class="count">14</span></a>
+          <a class="on" href="#scenarios">Worked examples <span class="count">41</span></a>
+          <a href="#review">Changes <span class="count">2</span></a>
+          <a href="#request">Requests <span class="count">1</span></a>
+        </nav>
+        <div class="main">
+          <div class="toolbar">
+            <div>
+              <h1>Worked examples</h1>
+              <p class="sub" style="margin:0">Against your 2 drafts: <span class="res-ok">38 match</span> · <span class="res-bad">3 differ</span></p>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center">
+              <span class="pill">Line: All ▾</span><span class="pill">Status: All ▾</span>
+              <span class="btn">+ New example</span>
+            </div>
+          </div>
+          <table class="grid scen">
+            <thead>
+              <tr><th>Example</th><th>The household</th><th>Line</th><th class="num">Law says</th><th class="num">Draft gives</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Small lottery win</b><br><span class="cite">by MT · 3 Oct</span></td>
+                <td>Single, $40,000 wages; won $450 in scratch-offs</td>
+                <td>7 <span class="cite">Lottery</span></td>
+                <td class="num exp">$450</td>
+                <td class="num res-ok">$450 ✓</td>
+                <td></td>
+              </tr>
+              <tr class="changed">
+                <td><b>Big win plus small wins</b><br><span class="cite">by MT · today</span></td>
+                <td>Single; $2,000 prize on a W-2G, plus $300 in small prizes; says yes to the question and enters $2,300</td>
+                <td>7 <span class="cite">Lottery</span></td>
+                <td class="num exp">$300</td>
+                <td class="num res-bad">$2,300 ✗</td>
+                <td><a class="pill" href="#request" style="background:#ebe3f9; color:#54278f; text-decoration:none">Waits on #4</a></td>
+              </tr>
+              <tr>
+                <td><b>Exactly $600</b><br><span class="cite">by JR · 8 Oct</span></td>
+                <td>Single; one $600 prize (not “less than $600”)</td>
+                <td>7 <span class="cite">Lottery</span></td>
+                <td class="num exp">$0</td>
+                <td class="num res-ok">$0 ✓</td>
+                <td></td>
+              </tr>
+              <tr class="changed">
+                <td><b>Single, 40k</b><br><span class="cite">engineering · 2 Sep</span></td>
+                <td>Single, under 65, $40,000 wages</td>
+                <td>16 <span class="cite">Tax</span></td>
+                <td class="num exp">$1,500</td>
+                <td class="num res-bad">$1,486 ✗</td>
+                <td><span class="pill warn">Expected?</span></td>
+              </tr>
+              <tr class="changed">
+                <td><b>Married, 85k</b><br><span class="cite">engineering · 2 Sep</span></td>
+                <td>Married filing jointly, both under 65, $85,000 wages</td>
+                <td>16 <span class="cite">Tax</span></td>
+                <td class="num exp">$3,546</td>
+                <td class="num res-bad">$3,517 ✗</td>
+                <td><span class="pill warn">Expected?</span></td>
+              </tr>
+              <tr>
+                <td><b>Dependent student</b><br><span class="cite">engineering · 2 Sep</span></td>
+                <td>Claimed on a parent's return, $6,000 wages</td>
+                <td style="white-space:nowrap">11 <span class="cite">Std. ded.</span></td>
+                <td class="num exp">$6,000</td>
+                <td class="num res-ok">$6,000 ✓</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="panel" style="margin-top:14px">
+            <div class="panel-h">2 examples changed because of your “2025 standard deduction” draft</div>
+            <div class="panel-b" style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap">
+              <span>Single, 40k: Line 16 is $14 lower. Married, 85k: $29 lower. Both come from the higher standard deduction. If that's what the law now says, update the expected answers and they go into the same review.</span>
+              <span style="display:flex; gap:8px"><span class="btn sm">Yes, update both</span><span class="btn sec sm">No, flag it</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li>The household is written in <b>a sentence</b>. The inputs behind it are filled in through a short form that uses the same search as the rule editor.</li>
+        <li><b>“Big win plus small wins” fails on purpose.</b> MT wrote the example before the rule. It stays red until request #4 is built, which makes it the engineer's definition of done.</li>
+        <li>When a values change moves a result, the tool <b>asks</b> whether it's expected. The answer, updated or flagged, goes into the same change, so the reviewer sees both.</li>
+        <li>Saved as JSON in an authored folder of their own. Not <code>scenarios/</code>, which <code>make export-scenarios</code> regenerates. CI and the Playwright harness run them.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="review">
+  <h2>5. Review &amp; approve: two keys, one change</h2>
+  <p class="lede">What a reviewer sees. The plain-language summary and the XML diff are generated from the
+    same edit. A policy reviewer signs off that it matches the law, an engineer signs off that the code
+    is sound, and only then does it merge. Underneath this is a pull request, but nobody on the policy
+    side ever has to see one.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/changes/12</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2025 ▾</span></div>
+        <div class="who"><span class="role eng">Engineer</span><span class="avatar eng">AK</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="main">
+        <div class="crumb"><a href="#review">Changes</a> › #12</div>
+        <div class="toolbar">
+          <div>
+            <h1>2025 standard deduction</h1>
+            <p class="sub" style="margin:0">Proposed by <b>MT</b> (policy author) · 2 values · 2 examples updated · <a href="#review" style="color:var(--link)">Preview the filer's screens ↗</a></p>
+          </div>
+          <span class="pill warn">Waiting on 1 approval</span>
+        </div>
+
+        <div class="split">
+          <div style="display:grid; gap:14px; min-width:0">
+            <div class="diff-plain">
+              <div class="diff-item">
+                <span class="sym">~</span>
+                <div><p><b>Standard deduction, single</b>: 2025 value is <span class="was">$8,500</span><b>$8,750</b></p><span class="cite">Source: 2025 Appropriation Act, Item 3-5.xx · § 58.1-322.03(1)(b)</span></div>
+              </div>
+              <div class="diff-item">
+                <span class="sym">~</span>
+                <div><p><b>Standard deduction, married filing jointly</b>: 2025 value is <span class="was">$17,000</span><b>$17,500</b></p><span class="cite">Same source</span></div>
+              </div>
+              <div class="diff-item">
+                <span class="sym add">+</span>
+                <div><p><b>Example “Single, 40k”</b>: expected Line 16 is now <span class="was">$1,500</span><b>$1,486</b></p><span class="cite">MT: “Expected. The deduction went up $250.”</span></div>
+              </div>
+              <div class="diff-item">
+                <span class="sym add">+</span>
+                <div><p><b>Example “Married, 85k”</b>: expected Line 16 is now <span class="was">$3,546</span><b>$3,517</b></p><span class="cite">MT: “Expected. The deduction went up $500.”</span></div>
+              </div>
+            </div>
+
+            <details open>
+              <summary style="font-weight:700; font-size:14px; cursor:default; margin-bottom:8px">Code change (facts/virginia.xml)</summary>
+<pre class="xml"><span class="c">@@ facts/virginia.xml @@</span>
+  <span class="t">&lt;Fact</span> <span class="a">path</span>=<span class="a">"/vaStandardDeductionSingle"</span><span class="t">&gt;</span>
+    <span class="t">&lt;Name&gt;</span>Virginia standard deduction, Filing Status 1 and 3<span class="t">&lt;/Name&gt;</span>
+<span class="del">-   <span class="t">&lt;TaxYear&gt;</span>2024<span class="t">&lt;/TaxYear&gt;</span></span><span class="del">-   <span class="t">&lt;Derived&gt;&lt;Dollar&gt;</span>8500<span class="t">&lt;/Dollar&gt;&lt;/Derived&gt;</span></span><span class="add">+   <span class="t">&lt;TaxYear&gt;</span>2025<span class="t">&lt;/TaxYear&gt;</span></span><span class="add">+   <span class="t">&lt;Derived&gt;&lt;Dollar&gt;</span>8750<span class="t">&lt;/Dollar&gt;&lt;/Derived&gt;</span></span>  <span class="t">&lt;/Fact&gt;</span>
+  <span class="c">… 1 more fact, 2 worked-example files</span></pre>
+            </details>
+
+            <div class="approvals">
+              <div class="appr done">
+                <h4><span class="avatar rev">JR</span> Policy review <span class="pill ok">Approved</span></h4>
+                <p>“Matches the Appropriation Act and the draft 2025 Form 760 instructions.” — JR, 10:42</p>
+              </div>
+              <div class="appr">
+                <h4><span class="avatar eng">AK</span> Engineering review <span class="pill">Your turn</span></h4>
+                <p style="margin-bottom:10px">Code, tests and screens for the change.</p>
+                <span style="display:flex; gap:8px"><span class="btn ok sm">Approve</span><span class="btn sec sm">Ask a question</span></span>
+              </div>
+            </div>
+
+            <div class="thread">
+              <div class="msg"><span class="avatar eng">AK</span><div class="b"><div class="who">AK · engineer</div>Values look right. Can we add a married example with one spouse 65+, so the deduction and the extra exemption are both covered?</div></div>
+              <div class="msg"><span class="avatar">MT</span><div class="b"><div class="who">MT · policy author</div>Adding it now. The law says Line 11 = $17,500, Line 12 = $2,660.</div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-h">Automatic checks <span class="pill ok">6 / 7</span></div>
+            <div class="panel-b">
+              <ul class="checks">
+                <li><span class="dot ok">✓</span> <span>XML matches the schema (<code>FactDictionaryModule.rng</code>)</span></li>
+                <li><span class="dot ok">✓</span> Fact graph loads; no cycles</li>
+                <li><span class="dot ok">✓</span> <span>41 / 41 worked examples <span class="cite">(this change only)</span></span></li>
+                <li><span class="dot ok">✓</span> Federal files unchanged</li>
+                <li><span class="dot ok">✓</span> English and Spanish text present</li>
+                <li><span class="dot ok">✓</span> Accessibility check on changed screens</li>
+                <li><span class="dot wait">…</span> Preview site building</li>
+              </ul>
+              <hr style="border:0; border-top:1px solid var(--va-line); margin:10px 0">
+              <div class="cite">After both approvals: merge to <code>main</code>, build the site, publish. Every value keeps who, when, why and the citation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>The plain summary comes first</b> for the policy reviewer. The XML diff is right below it for the engineer. Both come from the same edit, so they can't disagree.</li>
+        <li>The tool writes XML in <b>one fixed format</b>, so a value change is a two-line diff, not a reformatted file.</li>
+        <li><b>Two different approvals</b>, each with its own question: “is it the law?” and “is it sound?”. The author can't approve their own change.</li>
+        <li>The comment thread shows the collaboration working. The engineer asks for an <b>example</b>, not a code change.</li>
+        <li>The checks are the repo's own: schema, examples, parity, Spanish, axe.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="request">
+  <h2>6. Ask engineering: when the rule needs something new</h2>
+  <p class="lede">Level 3. A new question for the filer means new screens, English and Spanish text,
+    accessibility work and tests, so policy staff don't build it. They write the request in their own terms,
+    and the request becomes the engineer's spec. An AI draft can help fill it in, but a person confirms
+    every field.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/requests/new</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2025 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#home">Form 760 lines</a>
+          <a href="#values">Values <span class="count">14</span></a>
+          <a href="#scenarios">Worked examples <span class="count">41</span></a>
+          <a href="#review">Changes <span class="count">2</span></a>
+          <a class="on" href="#request">Requests <span class="count">1</span></a>
+        </nav>
+        <div class="main">
+          <div class="split">
+            <div>
+              <h1>Request #4: a new question</h1>
+              <p class="sub">For when the return needs to know something it doesn't yet. Engineering builds the screen. You own what it asks and what the law says.</p>
+
+              <div class="form-row">
+                <label>What does the law say?</label>
+                <div class="hint">Paste the statute or the form instruction.</div>
+                <div class="field tall">§ 58.1-322.02(7): “Any amount included therein less than $600 from a prize awarded by the Virginia Lottery.”</div>
+              </div>
+
+              <div class="form-row">
+                <label>What do we need to ask the filer? <span class="ai-badge">AI draft · check it</span></label>
+                <div class="hint">In the words the filer would see.</div>
+                <div class="field ai">Of the lottery prizes you entered, how much came from prizes that were reported to you on a Form W-2G?</div>
+              </div>
+
+              <div class="form-row">
+                <label>What kind of answer?</label>
+                <div style="display:flex; gap:8px; align-items:center">
+                  <span class="chip">Yes / No</span>
+                  <span class="chip" style="border:2px solid var(--va-orange); font-weight:700">Dollar amount</span>
+                  <span class="chip">Pick from a list</span>
+                  <span class="chip">Date</span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label>Which rule will use it?</label>
+                <div class="field">Line 7 — Virginia Lottery prizes under $600 (draft “don't subtract prizes already reported on a W-2G”)</div>
+              </div>
+
+              <div class="form-row">
+                <label>Examples the new question must get right</label>
+                <div class="hint">These are added to Worked examples and stay failing until the question is built.</div>
+                <table class="grid">
+                  <tr><td>$2,000 on a W-2G plus $300 in small prizes</td><td class="num exp"><b>Line 7 = $300</b></td></tr>
+                  <tr><td>$450 in small prizes, nothing on a W-2G</td><td class="num"><b>Line 7 = $450</b></td></tr>
+                </table>
+              </div>
+
+              <span class="btn">Send to engineering</span>
+            </div>
+
+            <div style="display:grid; gap:14px">
+              <div class="panel">
+                <div class="panel-h">What engineering will build</div>
+                <div class="panel-b">
+                  <ul class="checks">
+                    <li><span class="dot wait">1</span> New fact <code>/vaLotteryPrizesOnW2G</code></li>
+                    <li><span class="dot wait">2</span> Screen in <code>your-taxes-virginia.xml</code></li>
+                    <li><span class="dot wait">3</span> English and Spanish text</li>
+                    <li><span class="dot wait">4</span> Accessibility pass</li>
+                    <li><span class="dot wait">5</span> Your 2 examples go green</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-h">After it's built</div>
+                <div class="panel-b">The purple <span class="ty req">Requested #4</span> chips in your Line 7 draft turn into <span class="ty asked">Asked</span>. “Big win plus small wins” goes green, and your draft can go to review. You don't redo anything.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li>The <b>boundary is explicit</b>. Policy staff can change values and logic. A new writable fact touches flow, both locales and accessibility, so engineers own it.</li>
+        <li>The request is a <b>spec</b>: the law, the wording, the answer type and failing examples. Engineering's done-condition is “the examples go green”.</li>
+        <li><b>AI is marked</b> as a draft with its own color, and it only fills in fields. It never writes XML, and its output goes through the same review.</li>
+        <li>The loop closes back in screen 3. Once the fact exists, the author finishes their own rule.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<div style="height:40px"></div>
+</body>
+</html>

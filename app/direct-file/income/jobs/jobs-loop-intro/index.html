@@ -1,0 +1,2177 @@
+<!doctype html>
+<html lang="en">
+ <!-- Google Tag Manager -->
+ <head>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KV978ZL');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct File - Jobs | Internal Revenue Service</title>
+  <!-- Favicons for mobile and desktop -->
+  <link rel="icon" type="image/ico" href="/direct-file-virginia/app/direct-file/resources/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/direct-file-virginia/app/direct-file/resources/img/apple-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/direct-file-virginia/app/direct-file/resources/img/android-icon-192x192.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/direct-file-virginia/app/direct-file/resources/img/apple-icon-72x72.png">
+  <link rel="stylesheet" href="/direct-file-virginia/app/direct-file/resources/styles/main.css">
+  <noscript>
+   <style>#page-content-wrapper { display: none; }</style>
+  </noscript>
+  <meta name="form-builder:storage-prefix" content="direct-file">
+  <meta name="form-builder:base-path" content="/direct-file-virginia/app/direct-file">
+  <script type="module" src="/direct-file-virginia/app/direct-file/resources/js/fg-components.js"></script>
+  <script type="module" src="/direct-file-virginia/app/direct-file/resources/vendor/form-builder/flow-runtime/js/modals.js"></script>
+  <!--
+  The workspace slot, filled only in an --auditMode build.
+
+  Two application-owned fragments, and the scaffold names nothing inside either of them: what mounts
+  a workspace is `taxpert`'s business and an app's, not this library's. See
+  fragments/workspace-head.html for why that seam exists rather than the paths being spelled out
+  here, and fragments/taxpert-config.html for the configuration half.
+
+  `flags` is set on the page context but not on the all-screens one, so `flags != null` is exactly
+  "this is a product page" — the only place the workspace mounts. all-screens is generated with the
+  workspace's stylesheet disabled and has no .app-container for its flex layout, so loading these
+  modules there would buy nothing and inject unstyled chips into the one page that already draws
+  its own.
+-->
+  <script type="module" src="/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/js/taxpert.js"></script>
+  <link rel="stylesheet" href="/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/styles/audit-panel.css" id="audit-panel-styles" disabled>
+  <template id="tgn-sprite">
+   <svg class="tgn-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+    <symbol id="tgn-icon-settings" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+    </symbol>
+    <symbol id="tgn-icon-tune" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
+    </symbol>
+    <symbol id="tgn-icon-visibility" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+    </symbol>
+    <symbol id="tgn-icon-build" viewBox="0 0 24 24">
+     <path fill="currentColor" d="m22.7 19-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+    </symbol>
+    <symbol id="tgn-icon-expand_more" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+    </symbol>
+   </svg>
+  </template>
+  <template id="tgn-bar">
+   <nav class="tgn-bar" aria-label="Taxpert workspace">
+    <button class="tgn-waffle" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Open Taxpert workspace menu"><span class="tgn-waffle__grid" aria-hidden="true"> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> </span></button>
+    <!-- Its accessible name is its own text: "Taxpert", then the context when there is one. (It
+         used to also carry an aria-label composing the two, which a <span> can't be named by —
+         a generic role takes no accessible name, so nothing ever read it.) -->
+    <span class="tgn-breadcrumb"> <span class="tgn-breadcrumb__root">Taxpert</span> <!-- The workspace context (mode) only exists while the workspace is on; with it off the nav
+           reverts to its starting state — just the "Taxpert" root. --> <span class="tgn-breadcrumb__sep" aria-hidden="true" hidden>|</span> <span class="tgn-breadcrumb__ctx" hidden></span> </span> <!-- The tool strip is a workspace feature and each tool picks its own destinations; every tool
+         is rendered and `hidden` when it doesn't apply, and the strip hides itself when none do
+         (see global-nav.css). -->
+    <div class="tgn-tools" role="toolbar" aria-label="Workspace tools"></div>
+    <div class="tgn-menu" role="menu">
+     <div class="tgn-workspace">
+      <span class="tgn-workspace__label"></span>
+      <div class="tgn-workspace__controls">
+       <button class="tgn-toggle" type="button" role="switch" aria-checked="false"><span class="tgn-toggle__knob"></span></button>
+       <!-- Workspace settings. Announces itself via nav-tool-select like the tool strip;
+               <taxpert-workspace-settings-modal> is the surface that listens and opens. -->
+       <button class="workplace-settings" type="button" aria-haspopup="dialog" aria-label="Workspace settings" title="Workspace settings">
+        <svg class="workplace-settings__icon" aria-hidden="true" focusable="false">
+         <use href="#tgn-icon-settings"></use>
+        </svg>
+       </button>
+      </div>
+     </div>
+     <!-- The mode/nav taxonomy is appended here as further children of .tgn-menu, so the
+           `.tgn-menu > * + *` divider rule keeps applying to it. -->
+    </div>
+   </nav>
+  </template>
+  <template id="tgn-tool">
+   <button class="tgn-tool" type="button" aria-haspopup="dialog">
+    <svg class="tgn-tool__icon" aria-hidden="true" focusable="false">
+     <use></use>
+    </svg>
+    <span class="tgn-tool__label"></span>
+   </button>
+  </template>
+  <template id="tgn-group">
+   <div class="tgn-group">
+    <button class="tgn-group__header" type="button" aria-expanded="false"><span class="tgn-group__label"></span>
+     <svg class="tgn-group__chevron" aria-hidden="true" focusable="false">
+      <use href="#tgn-icon-expand_more"></use>
+     </svg></button>
+    <div class="tgn-group__items"></div>
+   </div>
+  </template>
+  <template id="tgn-item">
+   <a class="tgn-item" role="menuitem"> <span class="tgn-item__label"></span> <span class="tgn-item__check" aria-hidden="true">✓</span> </a>
+  </template>
+  <!-- The audit panel, the global nav and the workspace tool panels (the nav's Tools button) all
+         arrive in the bundle above; only the audit panel's stylesheet is still its own file, because
+         it is behind a toggled `disabled` link. The tool panels' is not: every selector in it is
+         scoped to the bundle's own custom elements and .ttd-/.ttp-/.ttm- classes, so it restructures
+         nothing in the product page — the same reason it loads unconditionally through main.css,
+         which now @imports one flattened dist/styles/taxpert.css in place of two @import chains. The
+         dock hides itself unless a tool is switched on. -->
+  <!-- The workspace sub-nav on the product pages (page.html mounts
+         <taxpert-screens-toolbar mode="product">): the bar under the global nav that names which
+         destination you are on. Browse All / Path Mode load the same two files from
+         fragments/workspace-all-screens.html, which is *not* gated on --auditMode — that page is
+         chrome all the way down and exists without a workspace. So on an --auditMode --allScreens
+         build the listing page links this stylesheet twice, from the two independent conditions.
+         Same URL, same rules, one fetch: keeping the conditions separate is worth more than the
+         duplicate is worth avoiding. Its script is in the bundle above. -->
+  <link rel="stylesheet" href="/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/styles/all-screens-toolbar.css">
+  <!-- The nav's workspace switch. Listened for on `document` rather than on the element, because
+         this runs in <head> and the nav does not exist yet; the event is dispatched with
+         bubbles+composed for exactly this. -->
+  <script type="module">
+        import { enable, disable } from "/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/js/taxpert.js"
+        document.addEventListener('workspace-toggle', (event) => {
+            if (event.detail.on) enable()
+            else disable()
+        })
+    </script>
+  <!--
+      Everything Direct File tells taxpert about itself.
+
+      The shared workspace — the global nav, the audit panel, the tool panels — ships knowing
+      nothing about the application under it. It has no menu, no determinations and no route prefix
+      until a host calls configure(). This is that call, and it runs on every page that mounts the
+      workspace. The scaffold ships an empty default of this file; this one wins because app
+      templates resolve ahead of the library's.
+
+      WHY A THYMELEAF FRAGMENT AND NOT A .js FILE. Everything here that a person reads and that
+      belongs to the *product* — the outcome headings, the words an outcome is spoken in — is a
+      Thymeleaf message expression, resolved per locale at build time. (The nav labels are the
+      exception, and say why at `nav:` below.) website-static/js is served as static assets
+      and never passes through Thymeleaf, so a label written there would be English in the Spanish
+      build. Behaviour that cannot be a translated literal — the fact-graph port and the fact paths
+      themselves — lives in website-static/js/taxpert/direct-file-graph.js and is imported below.
+
+      th:inline="javascript" is what makes those expressions resolve inside a script element; it
+      works on a type="module" script, and Thymeleaf JS-escapes each value as it substitutes it.
+      Note that message expressions are inlined inside comments too, which is why this one spells
+      none of them out.
+
+      ORDER DOES NOT MATTER. taxpert reads its configuration when an element *renders*, not when it
+      loads, and configure() dispatches `taxpert:config-changed` so anything already on screen
+      rebuilds.
+    -->
+  <script type="module">
+        import { configure, configureFromUrl } from "/direct-file-virginia/app/direct-file/resources/vendor/taxpert/shared/js/config.js"
+        import { directFileGraph, directFileDeterminations } from "/direct-file-virginia/app/direct-file/resources/js/taxpert/direct-file-graph.js"
+
+        // The build's locale, key by key. The determinations take a lookup rather than the strings
+        // themselves because an outcome chooses its key at runtime, from a fact value nobody knows
+        // here.
+        // Every key directFileDeterminations() asks `t` for. A key missing here does not fail the
+        // build — it renders in the tracker as the unresolved-message marker, doubled question marks
+        // around the key and the locale — so the two lists are kept in step by reading them side by
+        // side. Spelling that marker out here would put it in the page, which is the same trap the
+        // header note about comments describes.
+        const strings = new Map([
+            ['workspace.outcomes.return', "Refund or amount owed"],
+            ['workspace.outcomes.refund-due', "Refund due"],
+            ['workspace.outcomes.balance-owed', "Balance owed"],
+            ['workspace.outcomes.income-and-tax', "Income and tax"],
+            ['workspace.outcomes.payments-and-credits', "Payments and credits"],
+            ['workspace.outcomes.the-result', "The result"],
+            ['workspace.outcomes.eitc', "Earned Income Tax Credit"],
+            ['workspace.outcomes.qualifies', "Qualifies"],
+            ['workspace.outcomes.does-not-qualify', "Does not qualify"],
+            ['workspace.outcomes.eitc-eligibility', "Eligibility"],
+            ['workspace.outcomes.eitc-amount', "Amount"],
+            ['workspace.outcomes.ctc-odc', "Child Tax Credit and Credit for Other Dependents"],
+            ['workspace.outcomes.ctc-odc-eligibility', "Eligibility"],
+            ['workspace.outcomes.ctc-odc-amount', "Amount"],
+            ['workspace.outcomes.cdcc', "Child and Dependent Care Credit"],
+            ['workspace.outcomes.receiving', "Receiving the credit"],
+            ['workspace.outcomes.not-receiving', "Not receiving the credit"],
+            ['workspace.outcomes.cdcc-eligibility', "Eligibility"],
+            ['workspace.outcomes.cdcc-amount', "Amount"],
+            ['workspace.outcomes.ptc', "Premium Tax Credit"],
+            ['workspace.outcomes.ptc-eligibility', "Eligibility"],
+            ['workspace.outcomes.ptc-amount', "Amount"],
+        ])
+        const t = (key) => strings.get(key) ?? key
+
+        configure({
+            // storagePrefix is what stops this app and any other Form Builder app served from the same
+            // origin sharing a fact graph, a watchlist or a panel layout. Every storage key the
+            // workspace writes is namespaced with it.
+            app: {
+                id: 'direct-file',
+                brand: "Direct File",
+                storagePrefix: 'direct-file',
+            },
+
+            // The app switcher. `id` is what a page passes as the nav's `active` attribute and what
+            // toolsByDestination names below; `href` is a real link, so the menu navigates with no
+            // JavaScript at all. Add a destination only when the page behind it exists — a menu
+            // that offers a 404 is worse than a short menu.
+            //
+            // These labels are English literals, not #{workspace.nav.*} message expressions, and
+            // that is the one deliberate exception to this file's "everything a person reads is a
+            // message expression" rule. The language switcher is the *product's* control: picking a
+            // language asks for the questionnaire in it. Translating the workspace around it put two
+            // names on one destination in a single view — the sub-nav under the bar is taxpert's own
+            // markup and reads "Product Experience" in every locale, while the menu item pointing at
+            // it read the translated one. The workspace is one surface in one language; the product
+            // underneath it is the thing that translates. `apps.items` below follows the same rule.
+            nav: {
+                menu: [
+                    {
+                        id: 'experience-explorer',
+                        label: 'Experience Explorer',
+                        children: [
+                            { id: 'product-experience', label: 'Product Experience', href: "/direct-file-virginia/app/direct-file/"},
+                            { id: 'path-mode', label: 'Path Mode', href: "/direct-file-virginia/app/direct-file/all-screens/?mode=path"},
+                            { id: 'browse-all', label: 'Browse All', href: "/direct-file-virginia/app/direct-file/all-screens/"},
+                        ],
+                    },
+
+                    // Fact Explorer holds every application beside this one, so the app id is part of
+                    // the URL: a bare /fact-explorer lands on whichever is default rather than this
+                    // one. Absolute, because it is served by the taxpert stack rather than this app.
+                    { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/direct-file' },
+
+                    // Gated at runtime by the `author-mode` feature flag, which is credit-assistant's
+                    // spelling and now this app's: `featureFlags` below declares it, the scaffold's
+                    // <taxpert-audit-panel> carries --authorMode as its build-time *default*, and
+                    // Workspace settings overrides that default in localStorage. A plain `make dev`
+                    // still hides this and `make dev-author` still shows it — the build flag did not
+                    // stop deciding, it stopped being the only thing that decides. Someone who turns
+                    // the flag on against a build that generated no /author/ gets a 404, which is
+                    // what "override the default build" costs and is the same bargain credit-assistant
+                    // has always made. A `//` comment, never an HTML one — see the note in `apps` below.
+                    { id: 'authoring-suite', label: 'Authoring Suite', href: "/direct-file-virginia/app/direct-file/author/", ff: 'author-mode' },
+                ],
+
+                // Where each tool button in the bar applies. One generated page backs both listings,
+                // told apart by `?mode=path`: Browse All shows every screen unconditionally, so only
+                // Display applies there — nothing the other two do depends on an answer. Path Mode is
+                // a reading of one Fact Graph, so all three do.
+                toolsByDestination: [
+                    { id: 'scenario', label: 'Scenario', icon: 'tune', destinations: ['product-experience', 'path-mode', 'fact-explorer'] },
+                    { id: 'display', label: 'Display', icon: 'visibility', destinations: ['product-experience', 'path-mode', 'browse-all'] },
+                    { id: 'tools', label: 'Tools', icon: 'build', destinations: ['product-experience', 'path-mode'] },
+                ],
+            },
+
+            // The applications this workspace can be switched between — the "Applications" section
+            // of Workspace settings (the nav's gear). All four of this repo's applications, so the
+            // workspace carries over from any one of them to any other.
+            //
+            // Add a sibling by appending an entry with that app's own destinations. They have to be
+            // written out: the workspace ships no notion of what 'browse-all' means as a URL, and an
+            // app served from another origin cannot be derived from a base path. Use absolute URLs
+            // for a sibling — this app's server serves only this app, so a relative path to another
+            // would 404 — and keep our own root-relative so they survive being read through
+            // Fact Explorer's dev proxy.
+            //
+            // Switching keeps the destination: Browse All here goes to Browse All there, falling
+            // back to the sibling's first destination when it has no counterpart.
+            apps: {
+                current: 'direct-file',
+                items: [
+                    {
+                        id: 'direct-file',
+                        label: "Direct File",
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: "/direct-file-virginia/app/direct-file/"},
+                            { id: 'path-mode', label: 'Path Mode', href: "/direct-file-virginia/app/direct-file/all-screens/?mode=path"},
+                            { id: 'browse-all', label: 'Browse All', href: "/direct-file-virginia/app/direct-file/all-screens/"},
+
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/direct-file' },
+
+                            // Unconditional, the way credit-assistant lists its own. `ff` is a
+                            // nav-leaf property (taxpert-global-nav's _renderLeaf reads it); an
+                            // `apps` destination has no such gate, and the app switcher falls back
+                            // to a sibling's first destination when a counterpart is missing anyway.
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: "/direct-file-virginia/app/direct-file/author/"},
+                        ],
+                    },
+
+                    // The three siblings, by absolute URL and by the port each one's Makefile
+                    // declares — this app's server serves only this app, so a relative path to
+                    // another would 404. Their Authoring Suite entries are unconditional here, the
+                    // way theirs are for each other: this build cannot know what flags another
+                    // application was built with, and the alternative is offering nothing.
+                    {
+                        id: 'credit-assistant',
+                        label: 'EITC Assistant',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3003/app/eitc/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3003/app/eitc/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3003/app/eitc/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/credit-assistant' },
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: 'http://localhost:3003/app/eitc/author/' },
+                        ],
+                    },
+                    {
+                        id: 'twe',
+                        label: 'Tax Withholding Estimator',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3000/app/tax-withholding-estimator/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3000/app/tax-withholding-estimator/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3000/app/tax-withholding-estimator/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/twe' },
+                        ],
+                    },
+                    {
+                        id: 'benefits-enrollment',
+                        label: 'Benefits Enrollment',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3006/app/benefits/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3006/app/benefits/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3006/app/benefits/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/benefits-enrollment' },
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: 'http://localhost:3006/app/benefits/author/' },
+                        ],
+                    },
+                ],
+            },
+
+            endpoints: {
+                basePath: "/direct-file-virginia/app/direct-file",
+                scenariosBase: "/direct-file-virginia/app/direct-file/resources/scenarios",
+                factDictionaryUrl: "/direct-file-virginia/app/direct-file/resources/fact-dictionary.xml",
+            },
+
+            // The two AI features are separately flagged because they ship on separate timelines:
+            // generation writes a whole Fact Graph from a prompt, explanation only reads facts back.
+            // Both are on by default here — every one of this app's dev targets passes
+            // --aiScenarioGeneration --aiFactExplanation (Makefile's AI_FLAGS) — so these two rows
+            // are how you turn them *off*. authorMode is a third, unrelated to either: it gates the
+            // "Authoring Suite" nav item (nav.menu's `ff: 'author-mode'` above) rather than anything
+            // inside the audit panel.
+            //
+            // Each one's build-time default is the matching `*-default` attribute on
+            // <taxpert-audit-panel>. This app does not override the scaffold's
+            // fragments/audit-panel.html, and does not need to: that fragment already sets all three
+            // from the build flags, so declaring them here is the whole of the wiring.
+            //
+            // `label` is the wording on that modal's row: it renders one row per entry here, so a
+            // flag is declared in exactly one place and a host with none gets an empty state rather
+            // than another application's features.
+            featureFlags: [
+                { name: 'aiScenarioGeneration', kebab: 'ai-scenario-generation', label: "AI scenario generation" },
+                { name: 'aiFactExplanation', kebab: 'ai-fact-explanation', label: "AI fact explanations" },
+                { name: 'authorMode', kebab: 'author-mode', label: "Author Mode" },
+            ],
+
+            tools: [
+                { id: 'inspect', label: "Inspect", description: "Inspect facts, flows and text.", templateId: 'ttp-body-inspect' },
+                { id: 'outcome-tracker', label: "Outcome tracker", description: "Track the outcomes this application determines.", templateId: 'ttp-body-outcome-tracker' },
+                { id: 'watchlist', label: "Watchlist", description: "Track the value of one or more facts as you work or load scenarios.", templateId: 'ttp-body-watchlist' },
+            ],
+
+            graph: directFileGraph,
+            determinations: directFileDeterminations(t),
+        })
+
+        // The per-deployment layer: the same configuration as data, in a file this deployment
+        // serves. It lands after the call above — it is fetched — and configure() merges, so a
+        // deployment's file wins over the build's own values while a person's Workspace-settings
+        // overrides still win over both.
+        //
+        // The shipped file is `{}`: this deployment overrides nothing. Edit it to change what the
+        // workspace tracks, offers or points at without touching a template — the change is then
+        // reviewable in git, which a localStorage override never is. Anything a person *reads*
+        // belongs above rather than in it: the file is served once and is not per-locale.
+        configureFromUrl("/direct-file-virginia/app/direct-file/resources/taxpert.config.json")
+    </script>
+  <script src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/js/uswds-init.min.js"></script>
+  <script defer src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/js/uswds.min.js"></script>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KV978ZL" height="0" width="0" title="Google Tag Manager" class="gtm-noscript"&gt;</noscript>
+  <!-- End Google Tag Manager (noscript) -->
+ </head>
+ <body class="fg-conditions-pending audit-mode">
+  <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+  <div class="app-container">
+   <taxpert-global-nav workspace-label="TAXPERT WORKSPACE" app="direct-file" active="product-experience" workspace-on="true"></taxpert-global-nav> <taxpert-screens-toolbar mode="product"></taxpert-screens-toolbar>
+   <header>
+    <section class="usa-banner" aria-label="An official website of the United States government">
+     <div class="usa-accordion">
+      <header class="usa-banner__header">
+       <div class="usa-banner__inner">
+        <div class="grid-col-auto">
+         <img aria-hidden="true" class="usa-banner__header-flag" src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/us_flag_small.png" alt="">
+        </div>
+        <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+         <p class="usa-banner__header-text">An official website of the United States government</p>
+         <p class="usa-banner__header-action">Here’s how you know</p>
+        </div>
+        <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default"><span class="usa-banner__button-text">Here’s how you know</span></button>
+       </div>
+      </header>
+      <div class="usa-banner__content usa-accordion__content" id="gov-banner-default">
+       <div class="grid-row grid-gap-lg">
+        <div class="usa-banner__guidance tablet:grid-col-6">
+         <img class="usa-banner__icon usa-media-block__img" src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/icon-dot-gov.svg" role="img" alt="" aria-hidden="true">
+         <div class="usa-media-block__body">
+          <p><strong>Official websites use .gov</strong>
+           <br>
+           A <strong>.gov</strong> website belongs to an official government organization in the United States.</p>
+         </div>
+        </div>
+        <div class="usa-banner__guidance tablet:grid-col-6">
+         <img class="usa-banner__icon usa-media-block__img" src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/icon-https.svg" role="img" alt="" aria-hidden="true">
+         <div class="usa-media-block__body">
+          <strong>Secure .gov websites use HTTPS</strong>
+          <br>
+          A <strong>lock</strong> (<span class="icon-lock"> 
+           <svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewBox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-description-default" focusable="false">
+            <title id="banner-lock-title-default">Lock</title> <desc id="banner-lock-description-default">Locked padlock icon</desc> <path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z" />
+           </svg> 
+          </span> ) or <strong>https://</strong> means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <div class="logo-banner">
+     <div class="grid-container">
+      <a href="https://www.irs.gov" aria-label="IRS.gov"> <img src="/direct-file-virginia/app/direct-file/resources/img/irs-logo.svg" alt=""> </a>
+      <div class="language-switcher">
+       <label class="usa-sr-only" for="language-selector">Select Language</label> <select class="usa-select" id="language-selector" name="language-selector" onchange="if(this.value) window.location.href=this.value"> <option value="" disabled selected>Select Language</option> <option value="/direct-file-virginia/app/direct-file/income/jobs/jobs-loop-intro/">English</option> <option value="/direct-file-virginia/app/direct-file/es/income/jobs/jobs-loop-intro/">Español</option> </select>
+      </div>
+     </div>
+    </div>
+   </header>
+   <main id="main-content">
+    <h1>Direct File</h1>
+    <div class="usa-step-indicator usa-step-indicator--no-labels margin-top-3">
+     <ol class="usa-step-indicator__segments">
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="About you"><span class="usa-step-indicator__segment-label">About you</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Spouse"><span class="usa-step-indicator__segment-label">Spouse</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Family and household"><span class="usa-step-indicator__segment-label">Family and household</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Filing status"><span class="usa-step-indicator__segment-label">Filing status</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Income sources"><span class="usa-step-indicator__segment-label">Income sources</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--current" aria-current="step" title="Jobs"><span class="usa-step-indicator__segment-label">Jobs</span></li>
+      <li class="usa-step-indicator__segment" title="Unemployment compensation"><span class="usa-step-indicator__segment-label">Unemployment compensation</span></li>
+      <li class="usa-step-indicator__segment" title="Interest income"><span class="usa-step-indicator__segment-label">Interest income</span></li>
+      <li class="usa-step-indicator__segment" title="Alaska Permanent Fund Dividend"><span class="usa-step-indicator__segment-label">Alaska Permanent Fund Dividend</span></li>
+      <li class="usa-step-indicator__segment" title="Dependent care benefits"><span class="usa-step-indicator__segment-label">Dependent care benefits</span></li>
+      <li class="usa-step-indicator__segment" title="Health Savings Accounts"><span class="usa-step-indicator__segment-label">Health Savings Accounts</span></li>
+      <li class="usa-step-indicator__segment" title="Retirement income (Form 1099-R)"><span class="usa-step-indicator__segment-label">Retirement income (Form 1099-R)</span></li>
+      <li class="usa-step-indicator__segment" title="Retirement income (Form 1099-R)"><span class="usa-step-indicator__segment-label">Retirement income (Form 1099-R)</span></li>
+      <li class="usa-step-indicator__segment" title="Social Security benefits (Form SSA-1099)"><span class="usa-step-indicator__segment-label">Social Security benefits (Form SSA-1099)</span></li>
+      <li class="usa-step-indicator__segment" title="Total income"><span class="usa-step-indicator__segment-label">Total income</span></li>
+      <li class="usa-step-indicator__segment" title="Deductions"><span class="usa-step-indicator__segment-label">Deductions</span></li>
+      <li class="usa-step-indicator__segment" title="Credits"><span class="usa-step-indicator__segment-label">Credits</span></li>
+      <li class="usa-step-indicator__segment" title="Estimated taxes paid"><span class="usa-step-indicator__segment-label">Estimated taxes paid</span></li>
+      <li class="usa-step-indicator__segment" title="Amount"><span class="usa-step-indicator__segment-label">Amount</span></li>
+      <li class="usa-step-indicator__segment" title="Payment method"><span class="usa-step-indicator__segment-label">Payment method</span></li>
+      <li class="usa-step-indicator__segment" title="Other preferences"><span class="usa-step-indicator__segment-label">Other preferences</span></li>
+      <li class="usa-step-indicator__segment" title="Your Virginia return"><span class="usa-step-indicator__segment-label">Your Virginia return</span></li>
+      <li class="usa-step-indicator__segment" title="Review and confirm"><span class="usa-step-indicator__segment-label">Review and confirm</span></li>
+      <li class="usa-step-indicator__segment" title="Federal tax return digital signature"><span class="usa-step-indicator__segment-label">Federal tax return digital signature</span></li>
+      <li class="usa-step-indicator__segment" title="Print and mail"><span class="usa-step-indicator__segment-label">Print and mail</span></li>
+      <li class="usa-step-indicator__segment" title="Submit"><span class="usa-step-indicator__segment-label">Submit</span></li>
+     </ol>
+     <div class="usa-step-indicator__header">
+      <div class="usa-step-indicator__heading">
+       <span class="usa-sr-only"> Step 6 of 26: Jobs </span> <span class="usa-step-indicator__heading-counter" aria-hidden="true"> <span class="usa-step-indicator__current-step">6</span> <span class="usa-step-indicator__total-steps"> <span>of</span> <span>26</span> </span><span class="usa-step-indicator__heading-text">Jobs</span> </span>
+      </div>
+     </div>
+    </div>
+    <div class="header-bottom-border">
+     <a class="usa-link back-link" href="/direct-file-virginia/app/direct-file/income/income-sources/iras/direct-file-doesnt-yet/"> 
+      <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+       <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_before"></use>
+      </svg> Back 
+     </a>
+    </div>
+    <noscript>
+     <p class="alert--warning">JavaScript is required to use the Direct File. Please enable JavaScript or switch to a browser that is JavaScript-capable.</p>
+    </noscript>
+    <div class="loading-region">
+     <img src="/direct-file-virginia/app/direct-file/resources/img/spinner.svg" id="loading-spinner" alt="Loading spinner">
+    </div>
+    <div id="page-content-wrapper" inert>
+     <div>
+      <section class="flow usa-prose">
+       <div class="df-screen">
+        <h2>Jobs</h2>
+        <p class="df-context-heading" condition="/isNotHasW2sOrIncomplete" operator="isTrue">Jobs</p>
+        <p condition="/isNotFilingStatusMFJ" operator="isTrue">Add a <modal-link for="modal-sharedmodalw2">Form W-2</modal-link> from each employer where you worked in <fg-show path="/filerResidenceAndIncomeState"></fg-show>.</p>
+        <p condition="/isFilingStatusMFJ2" operator="isTrue">Add a <modal-link for="modal-sharedmodalw2">Form W-2</modal-link> from each employer where you and <fg-show path="/secondaryFiler/firstName"></fg-show> worked in <fg-show path="/filerResidenceAndIncomeState"></fg-show>.</p>
+        <fg-alert class="hidden" alert-type="info" condition="/isNotHasW2sOrIncomplete" operator="isTrue" blocking="false" knockout="false">
+         <div class="fg-alert usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+           <h3 class="usa-alert__heading">There are some types of employee income that you won’t be able to report using Direct File. If you have these types of income, you’ll need to file using another tool.</h3>
+           <p><modal-link for="modal-info-info-income-w2-supported-income-alert-modal-linkmodal1">What employee income isn’t yet supported in Direct File?</modal-link></p>
+          </div>
+         </div>
+        </fg-alert>
+        <p condition="/isHasW2s" operator="isTrue"><modal-link for="modal-info-info-income-w2-supported-income-linkmodal1">What employee income isn’t yet supported in Direct File?</modal-link></p>
+        <p condition="/isHasW2s" operator="isTrue"><modal-link for="modal-info-info-income-w2-wage-calculations-linkmodal1">How are wages calculated?</modal-link></p>
+       </div>
+       <fg-collection path="/formW2s" condition="/isFilingStatusMFJ2" operator="isTrue" itemname="W-2" determiner="another">
+        <div class="fg-collection__item-container margin-bottom-3">
+         <template class="fg-collection__item-template">
+          <details class="fg-collection__details">
+           <summary class="fg-collection__item-button"> 
+            <h4><span>W-2</span> <span class="collection-item-number"></span></h4> 
+           </summary>
+           <div class="details-content fg-collection__item-content">
+            <div class="fg-collection-item__fields">
+             <div class="df-screen df-knockout" condition="/formW2s/*/isImportedAndIsKnockoutFormW2s" operator="isTrue">
+              <h2>Direct File doesn’t support your tax situation</h2>
+              <p>Your Forms W-2 have information that Direct File doesn’t support. You’ll need to file your federal taxes in another tool.</p>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 3 - Social security wages</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t yet support the amount of income you received.</p>
+               </div>
+              </details>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 5 - Medicare wages and tips</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t yet support the amount of income you received.</p>
+                <p>You received <fg-show path="/formW2totalMedicareWages"></fg-show> in Medicare wages. This tool doesn’t yet support Medicare wages over $125,000 for your filing status of Married Filing Separately, as you may be required to pay Additional Medicare Tax.</p>
+               </div>
+              </details>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 5 - Medicare wages and tips</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t yet support the amount of income you and your spouse received.</p>
+                <p>You received <fg-show path="/formW2totalMedicareWages"></fg-show> in Medicare wages. This tool doesn’t yet support Medicare wages over $250,000 for your filing status of Married Filing Jointly, as you may be required to pay Additional Medicare Tax.</p>
+               </div>
+              </details>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 5 - Medicare wages and tips</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t yet support the amount of income you received.</p>
+                <p>You received <fg-show path="/formW2totalMedicareWages"></fg-show> in Medicare wages. This tool doesn’t yet support Medicare wages over $200,000 for your filing status of <fg-show path="/filingStatus"></fg-show>, as you may be required to pay Additional Medicare Tax.</p>
+               </div>
+              </details>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 8 - Allocated tips</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t support the forms required to report allocated and unreported tips yet.</p>
+               </div>
+              </details>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 11 - Nonqualified plans</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t support the tax implications of nonqualified plans yet.</p>
+               </div>
+              </details>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 13 - Third party sick pay</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t yet support the forms required to report income when third-party sick pay was received.</p>
+               </div>
+              </details>
+              <details class="fg-detail">
+               <summary> 
+                <h4>Box 13 - Statutory employee</h4> 
+               </summary>
+               <div class="usa-prose details-content">
+                <p>Direct File doesn’t yet support the forms required to report income received as a statutory employee.</p>
+               </div>
+              </details>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading">You’ll need to file using another tool. <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isImported2" operator="isTrue">
+              <h2>We added some of your Form W-2 information to your tax return</h2>
+              <p>Next, we’ll ask you to manually add any information that wasn’t imported.</p>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isFormW2sIsImportedAndIsFormW2sIsImported" operator="isTrue">
+              <h2>Refer to your copy of your W-2 from <fg-show path="/formW2s/*/employerName"></fg-show>.</h2>
+              <p>You’ll enter some information from your W-2 to answer a few additional questions.</p>
+              <p><modal-link for="modal-info-info-income-jobs-data-import-where-do-i-find-my-w2-linkmodal1">Where do I find my copy of the W-2?</modal-link></p>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isShowWhoseW2Screen" operator="isTrue">
+              <fg-set path="/formW2s/*/filer" inputtype="collection-item-reference" optional="true">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset df-item-reference" id="/formW2s/*/filer" data-collection="/filers" data-item-label="{{/filers/*/firstName}} {{/filers/*/lastName}}" data-unnamed="This entry">
+                 <legend class="usa-legend twe-question"> Whose W-2 is it? </legend>
+                 <div class="df-item-reference__options"></div>
+                 <template class="df-item-reference__option">
+                  <div class="usa-radio">
+                   <input class="usa-radio__input" type="radio" aria-invalid="false"> <label class="usa-radio__label"></label>
+                  </div>
+                 </template>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isFlowFilerTinIsSsn" operator="isTrue">
+              <h2>Look at <strong>box a</strong> and confirm the Social Security number (SSN) matches the information on this federal tax return.</h2>
+              <fg-apply path="/formW2s/*/filer" source="/primaryFiler"></fg-apply> <fg-apply path="/formW2s/*/filer" source="/primaryFiler"></fg-apply>
+              <p condition="/formW2s/*/isPrimaryFiler" operator="isTrue"><modal-link for="modal-info-info-you-and-your-family-about-you-tin-cant-change-linkmodal1">Why can’t I change my SSN?</modal-link></p>
+              <p condition="/formW2s/*/isSecondaryFiler" operator="isTrue"><modal-link for="modal-info-info-you-and-your-family-about-you-tin-cant-change-spouse-linkmodal1">Why can’t I change my SSN?</modal-link></p>
+              <p><modal-link for="modal-info-info-income-w2-what-if-w2-ssn-is-wrong-linkmodal1">What if the SSN on the Form W-2 is incorrect?</modal-link></p>
+              <p condition="/formW2s/*/isPrimaryFilerOrIncomplete" operator="isTrue"><strong>SSN on this tax return</strong> <fg-show path="/formW2s/*/filer/tin"></fg-show></p>
+              <p condition="/formW2s/*/isSecondaryFiler" operator="isTrue"><strong>SSN on this tax return</strong> <fg-show path="/formW2s/*/filer/tin"></fg-show></p>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isNotFlowFilerTinIsSsnOrIncomplete" operator="isTrue">
+              <h2>Enter the Social Security number (SSN) from <strong>box a.</strong></h2>
+              <fg-apply path="/formW2s/*/filer" source="/primaryFiler"></fg-apply>
+              <p><modal-link for="modal-info-info-income-w2-itin-linkmodal1">Can an ITIN be used instead of a SSN?</modal-link></p>
+              <p><modal-link for="modal-info-info-income-w2-what-if-w2-ssn-is-wrong-linkmodal1">What if the SSN on the Form W-2 is incorrect?</modal-link></p>
+              <fg-set path="/formW2s/*/tin" inputtype="tin" optional="false">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/tin"> <strong>Box a</strong> - Social Security number <span aria-hidden="true" class="usa-hint">(Required)</span> </label>  <input id="/formW2s/*/tin" class="usa-input" type="text" name="/formW2s/*/tin" maxlength="11" inputmode="numeric" autocomplete="off" aria-invalid="false" data-invalid-message="Enter a valid number. This should look like 123-45-6789" required>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen">
+              <h2>Look at <strong>box e</strong> and confirm the name matches the information on this federal tax return.</h2>
+              <p condition="/formW2s/*/isPrimaryFiler" operator="isTrue"><modal-link for="modal-info-info-income-w2-why-change-name-linkmodal1">Why can’t I change my name?</modal-link></p>
+              <p condition="/formW2s/*/isSecondaryFiler" operator="isTrue"><modal-link for="modal-info-info-income-w2-why-change-name-mfj-linkmodal1">Why can’t I change the name?</modal-link></p>
+              <p><modal-link for="modal-info-info-income-w2-what-if-w2-name-is-wrong-linkmodal1">What if the name on the W-2 is incorrect?</modal-link></p>
+              <p condition="/formW2s/*/isPrimaryFiler" operator="isTrue"><strong>First name on this tax return</strong> <fg-show path="/formW2s/*/filer/firstName"></fg-show></p>
+              <p condition="/formW2s/*/isSecondaryFiler" operator="isTrue"><strong>First name on this tax return</strong> <fg-show path="/formW2s/*/filer/firstName"></fg-show></p>
+              <p condition="/formW2s/*/isPrimaryFiler" operator="isTrue"><strong>Middle initial on this tax return</strong> <fg-show path="/formW2s/*/filer/writableMiddleInitial"></fg-show></p>
+              <p condition="/formW2s/*/isSecondaryFiler" operator="isTrue"><strong>Middle initial on this tax return</strong> <fg-show path="/formW2s/*/filer/writableMiddleInitial"></fg-show></p>
+              <p condition="/formW2s/*/isPrimaryFiler" operator="isTrue"><strong>Last name on this tax return</strong> <fg-show path="/formW2s/*/filer/lastName"></fg-show></p>
+              <p condition="/formW2s/*/isSecondaryFiler" operator="isTrue"><strong>Last name on this tax return</strong> <fg-show path="/formW2s/*/filer/lastName"></fg-show></p>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isNotImported" operator="isTrue">
+              <h2>Let’s add the address from <strong>box f.</strong></h2>
+              <fg-set path="/formW2s/*/addressMatchesReturn" inputtype="boolean" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Let’s add the address from <strong>box f.</strong> <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/addressMatchesReturn-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/addressMatchesReturn" aria-invalid="false" required> <label for="/formW2s/*/addressMatchesReturn-yes" class="usa-radio__label">It’s the same address that’s on this federal tax return: 
+                   <br> 
+                   <strong><fg-show path="/address"></fg-show></strong></label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/addressMatchesReturn-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/addressMatchesReturn" aria-invalid="false" required> <label for="/formW2s/*/addressMatchesReturn-no" class="usa-radio__label">It’s a different address</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+              <p><modal-link for="modal-info-info-income-w2-what-if-w2-new-address-linkmodal1">What if the address on the W-2 is outdated?</modal-link></p>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isNotAddressMatchesReturn" operator="isTrue">
+              <h2>Enter the address from <strong>box f.</strong></h2>
+              <p>Enter the address exactly as it appears on the W-2, even if it’s an old address.</p>
+              <p><modal-link for="modal-info-info-income-w2-what-if-w2-new-address-linkmodal1">What if the address on the W-2 is outdated?</modal-link></p>
+              <fg-set path="/formW2s/*/addressOverride" inputtype="address" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset" aria-describedby="/formW2s/*/addressOverride-hint" data-country="United States of America">
+                 <legend class="usa-legend twe-question"> Address <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-hint" id="/formW2s/*/addressOverride-hint">
+                  <modal-link for="modal-info-info-why-cant-i-change-country-linkmodal1">Why can’t I change the country?</modal-link>
+                 </div>
+                 <label class="usa-label" for="/formW2s/*/addressOverride-country">Country</label> <input class="usa-input" id="/formW2s/*/addressOverride-country" type="text" value="United States of America" disabled> <label class="usa-label" for="/formW2s/*/addressOverride-street">Address</label> <input class="usa-input" id="/formW2s/*/addressOverride-street" type="text" name="/formW2s/*/addressOverride-street" maxlength="35" autocomplete="address-line1" aria-invalid="false" required> <label class="usa-label" for="/formW2s/*/addressOverride-street2">Address line 2</label> <input class="usa-input" id="/formW2s/*/addressOverride-street2" type="text" name="/formW2s/*/addressOverride-street2" maxlength="35" autocomplete="address-line2" aria-invalid="false"> <label class="usa-label" for="/formW2s/*/addressOverride-city">City</label> <input class="usa-input" id="/formW2s/*/addressOverride-city" type="text" name="/formW2s/*/addressOverride-city" maxlength="22" autocomplete="address-level2" aria-invalid="false" required> <label class="usa-label" for="/formW2s/*/addressOverride-state">State or military post</label> <select class="usa-select" id="/formW2s/*/addressOverride-state" name="/formW2s/*/addressOverride-state" aria-invalid="false" required> <option value="">--Select one --</option> <option value="AL">Alabama</option> <option value="AK">Alaska</option> <option value="AZ">Arizona</option> <option value="AR">Arkansas</option> <option value="CA">California</option> <option value="CO">Colorado</option> <option value="CT">Connecticut</option> <option value="DE">Delaware</option> <option value="DC">District of Columbia</option> <option value="FL">Florida</option> <option value="GA">Georgia</option> <option value="HI">Hawaii</option> <option value="ID">Idaho</option> <option value="IL">Illinois</option> <option value="IN">Indiana</option> <option value="IA">Iowa</option> <option value="KS">Kansas</option> <option value="KY">Kentucky</option> <option value="LA">Louisiana</option> <option value="ME">Maine</option> <option value="MD">Maryland</option> <option value="MA">Massachusetts</option> <option value="MI">Michigan</option> <option value="MN">Minnesota</option> <option value="MS">Mississippi</option> <option value="MO">Missouri</option> <option value="MT">Montana</option> <option value="NE">Nebraska</option> <option value="NV">Nevada</option> <option value="NH">New Hampshire</option> <option value="NJ">New Jersey</option> <option value="NM">New Mexico</option> <option value="NY">New York</option> <option value="NC">North Carolina</option> <option value="ND">North Dakota</option> <option value="OH">Ohio</option> <option value="OK">Oklahoma</option> <option value="OR">Oregon</option> <option value="PA">Pennsylvania</option> <option value="RI">Rhode Island</option> <option value="SC">South Carolina</option> <option value="SD">South Dakota</option> <option value="TN">Tennessee</option> <option value="TX">Texas</option> <option value="UT">Utah</option> <option value="VT">Vermont</option> <option value="VA">Virginia</option> <option value="WA">Washington</option> <option value="WV">West Virginia</option> <option value="WI">Wisconsin</option> <option value="WY">Wyoming</option> <option value="AA">AA - Armed Forces Americas</option> <option value="AE">AE - Armed Forces Africa</option> <option value="AE">AE - Armed Forces Canada</option> <option value="AE">AE - Armed Forces Europe</option> <option value="AE">AE - Armed Forces Middle East</option> <option value="AP">AP - Armed Forces Pacific</option> </select> <label class="usa-label" for="/formW2s/*/addressOverride-zip">ZIP code</label> <input class="usa-input usa-input--medium" id="/formW2s/*/addressOverride-zip" type="text" name="/formW2s/*/addressOverride-zip" maxlength="10" inputmode="numeric" autocomplete="postal-code" aria-invalid="false" data-invalid-message="The ZIP code must be in the format of 12345 or 12345-1234 or 12345-1234567" required>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen">
+              <h2>Enter the employer information from <strong>box b</strong> and <strong>box c</strong>.</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <fg-set path="/formW2s/*/ein" inputtype="ein" optional="false">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/ein"> <strong>Box b</strong> - Employer identification number (EIN) <span aria-hidden="true" class="usa-hint">(Required)</span> </label>  <input id="/formW2s/*/ein" class="usa-input" type="text" name="/formW2s/*/ein" maxlength="10" inputmode="numeric" autocomplete="off" aria-invalid="false" data-invalid-message="Enter a valid EIN. This should look like 12-3456789" required>
+               </div>
+              </fg-set>
+
+              <p><strong>Box c</strong> - Employer’s name and address</p>
+              <fg-set path="/formW2s/*/employerName" inputtype="text" optional="false">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/employerName"> Employer name <span aria-hidden="true" class="usa-hint">(Required)</span> </label>  <input id="/formW2s/*/employerName" class="usa-input" type="text" name="/formW2s/*/employerName" autocomplete="off" aria-invalid="false" required>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableEmployerNameLine2" inputtype="text" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableEmployerNameLine2"> Employer name (line 2) </label>  <input id="/formW2s/*/writableEmployerNameLine2" class="usa-input" type="text" name="/formW2s/*/writableEmployerNameLine2" autocomplete="off" aria-invalid="false">
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/employerAddress" inputtype="address" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset" aria-describedby="/formW2s/*/employerAddress-hint" data-country="United States of America">
+                 <legend class="usa-legend twe-question"> Employer address <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-hint" id="/formW2s/*/employerAddress-hint">
+                  <modal-link for="modal-info-info-why-cant-i-change-country-linkmodal1">Why can’t I change the country?</modal-link>
+                 </div>
+                 <label class="usa-label" for="/formW2s/*/employerAddress-country">Country</label> <input class="usa-input" id="/formW2s/*/employerAddress-country" type="text" value="United States of America" disabled> <label class="usa-label" for="/formW2s/*/employerAddress-street">Address</label> <input class="usa-input" id="/formW2s/*/employerAddress-street" type="text" name="/formW2s/*/employerAddress-street" maxlength="35" autocomplete="address-line1" aria-invalid="false" required> <label class="usa-label" for="/formW2s/*/employerAddress-street2">Address line 2</label> <input class="usa-input" id="/formW2s/*/employerAddress-street2" type="text" name="/formW2s/*/employerAddress-street2" maxlength="35" autocomplete="address-line2" aria-invalid="false"> <label class="usa-label" for="/formW2s/*/employerAddress-city">City</label> <input class="usa-input" id="/formW2s/*/employerAddress-city" type="text" name="/formW2s/*/employerAddress-city" maxlength="22" autocomplete="address-level2" aria-invalid="false" required> <label class="usa-label" for="/formW2s/*/employerAddress-state">State or military post</label> <select class="usa-select" id="/formW2s/*/employerAddress-state" name="/formW2s/*/employerAddress-state" aria-invalid="false" required> <option value="">--Select one --</option> <option value="AL">Alabama</option> <option value="AK">Alaska</option> <option value="AZ">Arizona</option> <option value="AR">Arkansas</option> <option value="CA">California</option> <option value="CO">Colorado</option> <option value="CT">Connecticut</option> <option value="DE">Delaware</option> <option value="DC">District of Columbia</option> <option value="FL">Florida</option> <option value="GA">Georgia</option> <option value="HI">Hawaii</option> <option value="ID">Idaho</option> <option value="IL">Illinois</option> <option value="IN">Indiana</option> <option value="IA">Iowa</option> <option value="KS">Kansas</option> <option value="KY">Kentucky</option> <option value="LA">Louisiana</option> <option value="ME">Maine</option> <option value="MD">Maryland</option> <option value="MA">Massachusetts</option> <option value="MI">Michigan</option> <option value="MN">Minnesota</option> <option value="MS">Mississippi</option> <option value="MO">Missouri</option> <option value="MT">Montana</option> <option value="NE">Nebraska</option> <option value="NV">Nevada</option> <option value="NH">New Hampshire</option> <option value="NJ">New Jersey</option> <option value="NM">New Mexico</option> <option value="NY">New York</option> <option value="NC">North Carolina</option> <option value="ND">North Dakota</option> <option value="OH">Ohio</option> <option value="OK">Oklahoma</option> <option value="OR">Oregon</option> <option value="PA">Pennsylvania</option> <option value="RI">Rhode Island</option> <option value="SC">South Carolina</option> <option value="SD">South Dakota</option> <option value="TN">Tennessee</option> <option value="TX">Texas</option> <option value="UT">Utah</option> <option value="VT">Vermont</option> <option value="VA">Virginia</option> <option value="WA">Washington</option> <option value="WV">West Virginia</option> <option value="WI">Wisconsin</option> <option value="WY">Wyoming</option> <option value="AA">AA - Armed Forces Americas</option> <option value="AE">AE - Armed Forces Africa</option> <option value="AE">AE - Armed Forces Canada</option> <option value="AE">AE - Armed Forces Europe</option> <option value="AE">AE - Armed Forces Middle East</option> <option value="AP">AP - Armed Forces Pacific</option> </select> <label class="usa-label" for="/formW2s/*/employerAddress-zip">ZIP code</label> <input class="usa-input usa-input--medium" id="/formW2s/*/employerAddress-zip" type="text" name="/formW2s/*/employerAddress-zip" maxlength="10" inputmode="numeric" autocomplete="postal-code" aria-invalid="false" data-invalid-message="The ZIP code must be in the format of 12345 or 12345-1234 or 12345-1234567" required>
+                </fieldset>
+               </div>
+              </fg-set>
+
+              <p>You can skip <strong>box d</strong>, "Control number".</p>
+              <p><modal-link for="modal-info-info-income-w2-why-skipping-box-d-linkmodal1">Why are we skipping box d?</modal-link></p>
+             </div>
+             <div class="df-screen">
+              <h2>Enter the wages and <modal-link for="modal-sharedmodalwithholding">taxes withheld</modal-link> from <strong>boxes 1-8</strong>.</h2>
+              <p>If a box is blank, skip that specific box.</p>
+              <p><modal-link for="modal-info-info-income-w2-what-if-numbers-wrong-linkmodal1">What if these numbers are incorrect?</modal-link></p>
+              <fg-set path="/formW2s/*/writableWages" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableWages"> <strong>Box 1</strong> - Wages, tips, other compensation </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableWages" type="text" inputmode="numeric" name="/formW2s/*/writableWages" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableFederalWithholding" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableFederalWithholding"> <strong>Box 2</strong> - Federal income tax withheld </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableFederalWithholding" type="text" inputmode="numeric" name="/formW2s/*/writableFederalWithholding" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableOasdiWages" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableOasdiWages"> <strong>Box 3</strong> - Social security wages </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableOasdiWages" type="text" inputmode="numeric" name="/formW2s/*/writableOasdiWages" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableOasdiWithholding" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableOasdiWithholding"> <strong>Box 4</strong> - Social security tax withheld </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableOasdiWithholding" type="text" inputmode="numeric" name="/formW2s/*/writableOasdiWithholding" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableMedicareWages" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableMedicareWages"> <strong>Box 5</strong> - Medicare wages and tips </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableMedicareWages" type="text" inputmode="numeric" name="/formW2s/*/writableMedicareWages" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableMedicareWithholding" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableMedicareWithholding"> <strong>Box 6</strong> - Medicare tax withheld </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableMedicareWithholding" type="text" inputmode="numeric" name="/formW2s/*/writableMedicareWithholding" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableOasdiTips" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableOasdiTips"> <strong>Box 7</strong> - Social security tips </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableOasdiTips" type="text" inputmode="numeric" name="/formW2s/*/writableOasdiTips" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableAllocatedTips" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableAllocatedTips"> <strong>Box 8</strong> - Allocated tips </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableAllocatedTips" type="text" inputmode="numeric" name="/formW2s/*/writableAllocatedTips" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen df-knockout" condition="/isAnyFilerExceedsMaxOasdiWages" operator="isTrue">
+              <h2>Direct File doesn’t yet support the amount of income you received.</h2>
+              <p condition="/isPrimaryFilerExceedsMaxOasdiWages" operator="isTrue">You received <fg-show path="/primaryFilerTotalOasdiWagesForKnockout"></fg-show> in Social Security wages from more than one employer. This tool doesn’t yet support a taxpayer who receives over <fg-show path="/maxOasdiWagesOnMultipleW2sForOnePerson"></fg-show> in Social Security wages from more than 1 employer, as this taxpayer may have paid too much Social Security tax.</p>
+              <p condition="/isNotPrimaryFilerExceedsMaxOasdiWagesOrIncomplete" operator="isTrue"><fg-show path="/secondaryFiler/firstName"></fg-show> received <fg-show path="/secondaryFilerTotalOasdiWagesForKnockout"></fg-show> in Social Security wages from more than one employer. This tool doesn’t yet support a taxpayer who receives over <fg-show path="/maxOasdiWagesOnMultipleW2sForOnePerson"></fg-show> in Social Security wages from more than 1 employer, as this taxpayer may have paid too much Social Security tax.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen df-knockout" condition="/isKnockoutMedicareWagesAndIsAnyFilerRequiredToPayExtraMedicareTax" operator="isTrue">
+              <h2>Direct File doesn’t yet support the amount of income you and your spouse received.</h2>
+              <p condition="/isNotFilingStatusMFJOrIncomplete" operator="isTrue">You received <fg-show path="/formW2totalMedicareWages"></fg-show> in Medicare wages. This tool doesn’t yet support Medicare wages over <fg-show path="/medicareWagesAdditionalTaxThreshhold"></fg-show> for your filing status of <fg-show path="/filingStatusCapitalized"></fg-show>, as you may be required to pay Additional Medicare Tax.</p>
+              <p condition="/isFilingStatusMFJ2" operator="isTrue">You received <fg-show path="/formW2totalMedicareWages"></fg-show> in Medicare wages. This tool doesn’t yet support Medicare wages over <fg-show path="/medicareWagesAdditionalTaxThreshhold"></fg-show> for your filing status of <fg-show path="/filingStatusCapitalized"></fg-show>, as you may be required to pay Additional Medicare Tax.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen df-knockout" condition="/isKnockoutMedicareWagesAndIsAnyFilerExceedsEligibleForMedicareWagesCredit" operator="isTrue">
+              <h2>Direct File doesn’t yet support the amount of income you or your spouse received.</h2>
+              <p>You or your spouse received <fg-show path="/maxMedicareWagesForAnyFilerOnReturn"></fg-show>. This tool doesn’t yet support Medicare wages over <fg-show path="/maxIndividualMedicareWages"></fg-show> for 1 person for your filing status of <fg-show path="/filingStatusCapitalized"></fg-show> as you may be eligible for a credit for any withheld Additional Medicare Tax.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen df-knockout" condition="/isFlowKnockoutAllocatedTips" operator="isTrue">
+              <h2>Direct File doesn’t yet support the forms required to report allocated and unreported tips.</h2>
+              <p condition="/isPrimaryFiler" operator="isTrue">You said you had allocated tips, which means you had a job where you earned tips but didn’t report enough to meet the minimum amount estimated by your employer.</p>
+              <p condition="/isPrimaryFiler" operator="isTrue">To avoid paying taxes on this amount, you will need to document and report exactly what you received in unreported tips. You’ll also need to use Form 4137 to determine any Social Security and Medicare taxes on your allocated tips.</p>
+              <p condition="/isSecondaryFiler" operator="isTrue">You said <fg-show path="/formW2s/*/filer/firstName"></fg-show> had allocated tips, which means they had a job where they earned tips but didn’t report enough to meet the minimum amount estimated by their employer.</p>
+              <p condition="/isSecondaryFiler" operator="isTrue">To avoid paying taxes on this amount, they will need to document and report exactly what they received in unreported tips. You’ll also need to use Form 4137 to determine any Social Security and Medicare taxes on their allocated tips.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen">
+              <h2>Enter how much you received in benefits from <strong>boxes 10-11</strong>.</h2>
+              <p>If a box is blank, skip that specific box.</p>
+              <fg-set path="/formW2s/*/writableDependentCareBenefits" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableDependentCareBenefits"> <strong>Box 10</strong> - Dependent care benefits </label>
+                <div class="usa-hint" id="/formW2s/*/writableDependentCareBenefits-hint">
+                 <modal-link for="modal-info-info-income-w2-what-are-dependent-care-benefits-linkmodal1">What are dependent care benefits?</modal-link>
+                </div>
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableDependentCareBenefits" type="text" inputmode="numeric" name="/formW2s/*/writableDependentCareBenefits" autocomplete="off" aria-invalid="false" aria-describedby="/formW2s/*/writableDependentCareBenefits-hint">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableNonQualifiedPlans" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableNonQualifiedPlans"> <strong>Box 11</strong> - Nonqualified plans </label>
+                <div class="usa-hint" id="/formW2s/*/writableNonQualifiedPlans-hint">
+                 <modal-link for="modal-info-info-income-w2-what-are-non-qualified-plans-linkmodal1">What are nonqualified plans?</modal-link>
+                </div>
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableNonQualifiedPlans" type="text" inputmode="numeric" name="/formW2s/*/writableNonQualifiedPlans" autocomplete="off" aria-invalid="false" aria-describedby="/formW2s/*/writableNonQualifiedPlans-hint">
+                </div>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen df-knockout" condition="/isFlowKnockoutNonQualifiedPlans" operator="isTrue">
+              <h2>Direct File doesn’t support the tax implications of nonqualified plans yet.</h2>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen">
+              <h2>Does <strong>box 12</strong> have any codes or amounts?</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <p><modal-link for="modal-info-info-income-w2-whats-box-12-used-for-linkmodal1">What’s box 12 used for?</modal-link></p>
+              <fg-set path="/formW2s/*/writableHasBox12Codes" inputtype="boolean" optional="true">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Does <strong>box 12</strong> have any codes or amounts? </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/writableHasBox12Codes-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/writableHasBox12Codes" aria-invalid="false"> <label for="/formW2s/*/writableHasBox12Codes-yes" class="usa-radio__label">Yes</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/writableHasBox12Codes-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/writableHasBox12Codes" aria-invalid="false"> <label for="/formW2s/*/writableHasBox12Codes-no" class="usa-radio__label">No</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isHasBox12Codes" operator="isTrue">
+              <h2>Enter any codes and amounts in <strong>box 12</strong>.</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <p>If you have multiple codes in <strong>box 12</strong>, add them 1 at a time.</p>
+              <p><modal-link for="modal-info-info-income-w2-whats-box-12-used-for-linkmodal1">What’s box 12 used for?</modal-link></p>
+              <fg-set path="/formW2s/*/writableBox12Code" inputtype="select" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableBox12Code"> Box 12 Code </label>  <!-- This application's override of form-builder's select input: the same <select>, wrapped in a
+     USWDS combo box so a long list (Virginia's 133 localities) is typed into and filtered rather
+     than scrolled. USWDS keeps the underlying <select> in sync and dispatches `change` on it,
+     which is the event fg-set listens for, so nothing in the runtime changes. -->
+                <div class="usa-combo-box">
+                 <select id="/formW2s/*/writableBox12Code" class="usa-select" aria-invalid="false" optionspath="Some(/w2Box12CodeOptions)"> <option value="">--Select one --</option> <option value="uncollectedOasdiTaxOnTips">A</option> <option value="uncollectedMedicareTaxOnTips">B</option> <option value="taxableLifeInsuranceOver50k">C</option> <option value="401kDeferrals">D</option> <option value="403bDeferrals">E</option> <option value="sarsepDeferrals">F</option> <option value="457bDeferrals">G</option> <option value="501c18Deferrals">H</option> <option value="nontaxableSickPay">J</option> <option value="goldenParachuteExciseTax">K</option> <option value="expenseReimbursements">L</option> <option value="uncollectedOasdiTaxOnLifeInsuranceOver50k">M</option> <option value="uncollectedMedicareTaxOnLifeInsuranceOver50k">N</option> <option value="armedForcesMovingExpenses">P</option> <option value="writableCombatPay">Q</option> <option value="archerMsaContributions">R</option> <option value="simpleContributions">S</option> <option value="adoptionBenefits">T</option> <option value="nsoIncome">V</option> <option value="employerHsaContributions">W</option> <option value="409aDeferrals">Y</option> <option value="nqdcDeferrals">Z</option> <option value="roth401kContributions">AA</option> <option value="roth403bContributions">BB</option> <option value="healthCoverageCost">DD</option> <option value="roth457bContributions">EE</option> <option value="qsehraBenefits">FF</option> <option value="83iIncome">GG</option> <option value="83iDeferrals">HH</option> <option value="nonTaxableMedicaidWaiverPayments">II</option> </select>
+                </div>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen" condition="/formW2s/*/is457bDeferralsNeeded" operator="isTrue">
+              <h2>You reported contributions to a 457(b) plan. Was it a governmental 457(b) plan?</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <p><modal-link for="modal-info-info-income-w2-whats-governmental-457b-linkmodal1">What’s a governmental 457(b) plan?</modal-link></p>
+              <fg-set path="/formW2s/*/457bIsGovernmentalPlan" inputtype="boolean" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> You reported contributions to a 457(b) plan. Was it a governmental 457(b) plan? <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/457bIsGovernmentalPlan-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/457bIsGovernmentalPlan" aria-invalid="false" required> <label for="/formW2s/*/457bIsGovernmentalPlan-yes" class="usa-radio__label">Yes, I made contributions to a <strong>governmental</strong> 457(b) plan</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/457bIsGovernmentalPlan-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/457bIsGovernmentalPlan" aria-invalid="false" required> <label for="/formW2s/*/457bIsGovernmentalPlan-no" class="usa-radio__label">No, I made contributions to a <strong>non-governmental</strong> 457(b) plan</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen df-knockout" condition="/isKnockoutForBox12Value" operator="isTrue">
+              <h2>Direct File doesn’t support the forms required to report code <fg-show path="/formW2WithBox12Knockout/knockoutBox12Code"></fg-show>.</h2>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen df-knockout" condition="/isKnockoutForBox12Dependency" operator="isTrue">
+              <h2>Direct File doesn’t yet support this tax situation.</h2>
+              <p condition="/isNotFilingStatusMFJ" operator="isTrue">You entered <strong>code W</strong> in box 12, which means you had contributions to a Health Savings Account (HSA). Taxpayers who can be claimed as a dependent on someone else’s federal tax return in <fg-show path="/taxYear"></fg-show> are not eligible to have HSA contributions for <fg-show path="/taxYear"></fg-show>.</p>
+              <p condition="/isFilingStatusMFJ2" operator="isTrue">You entered <strong>code W</strong> in box 12, which means you or <fg-show path="/secondaryFiler/firstName"></fg-show> had contributions to a Health Savings Account (HSA). Taxpayers who can be claimed as a dependent on someone else’s federal tax return in <fg-show path="/taxYear"></fg-show> are not eligible to have HSA contributions for <fg-show path="/taxYear"></fg-show>.</p>
+              <p>If the HSA was opened in <fg-show path="/taxYear"></fg-show>, the account isn’t a valid HSA. In this situation, contact the HSA trustee or provider for more information.</p>
+              <p>If the HSA was opened before <fg-show path="/taxYear"></fg-show>, these contributions are considered <strong>excess (extra) contributions</strong>. Excess contributions are generally subject to a <fg-show path="/hsaExcessContributionsPenalty"></fg-show> penalty for each year they remain in the account. If you’d like to avoid having these excess contributions for <fg-show path="/taxYear"></fg-show>, you can withdraw the excess before <fg-show path="/taxDay"></fg-show>. Or you can leave them in the HSA and pay the penalty.</p>
+              <p>Direct File doesn’t yet support any of these situations. You will need to find another filing tool.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isShowBox13CodesScreen" operator="isTrue">
+              <h2>Check each item that’s checked in <strong>box 13</strong>.</h2>
+              <p>If none of the boxes are checked on the W-2, leave them blank here, too.</p>
+              <p><modal-link for="modal-info-info-income-w2-whats-box-13-used-for-linkmodal1">What’s box 13 used for?</modal-link></p>
+              <fg-set path="/formW2s/*/statutoryEmployee" inputtype="boolean" optional="true">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Check each item that’s checked in <strong>box 13</strong>. </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/statutoryEmployee-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/statutoryEmployee" aria-invalid="false"> <label for="/formW2s/*/statutoryEmployee-yes" class="usa-radio__label">Yes</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/statutoryEmployee-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/statutoryEmployee" aria-invalid="false"> <label for="/formW2s/*/statutoryEmployee-no" class="usa-radio__label">No</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/retirementPlan" inputtype="boolean" optional="true">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Check each item that’s checked in <strong>box 13</strong>. </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/retirementPlan-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/retirementPlan" aria-invalid="false"> <label for="/formW2s/*/retirementPlan-yes" class="usa-radio__label">Yes</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/retirementPlan-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/retirementPlan" aria-invalid="false"> <label for="/formW2s/*/retirementPlan-no" class="usa-radio__label">No</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/thirdPartySickPay" inputtype="boolean" optional="true">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Check each item that’s checked in <strong>box 13</strong>. </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/thirdPartySickPay-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/thirdPartySickPay" aria-invalid="false"> <label for="/formW2s/*/thirdPartySickPay-yes" class="usa-radio__label">Yes</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/thirdPartySickPay-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/thirdPartySickPay" aria-invalid="false"> <label for="/formW2s/*/thirdPartySickPay-no" class="usa-radio__label">No</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen df-knockout" condition="/isFlowKnockoutStatutoryEmployee" operator="isTrue">
+              <h2>Direct File doesn’t yet support the forms required to report income received as a statutory employee.</h2>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen df-knockout" condition="/isFlowKnockoutThirdPartySickPay" operator="isTrue">
+              <h2>Direct File doesn’t yet support the forms required to report income when third-party sick pay was received.</h2>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen">
+              <h2>Does <strong>box 14</strong> have any codes or amounts?</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <p><modal-link for="modal-info-info-income-w2-whats-box-14-used-for-linkmodal1">What’s box 14 used for?</modal-link></p>
+              <fg-set path="/formW2s/*/writableHasBox14Codes" inputtype="boolean" optional="true">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Does <strong>box 14</strong> have any codes or amounts? </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/writableHasBox14Codes-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/writableHasBox14Codes" aria-invalid="false"> <label for="/formW2s/*/writableHasBox14Codes-yes" class="usa-radio__label">Yes</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/writableHasBox14Codes-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/writableHasBox14Codes" aria-invalid="false"> <label for="/formW2s/*/writableHasBox14Codes-no" class="usa-radio__label">No</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isHasBox14CodesAndIsNotFlowStateToolNeedsBox14" operator="isTrue">
+              <h2>Does box 14 have any of the following codes?</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <ul>
+               <li><strong>Additional Medicare tax</strong></li>
+               <li><strong>Medicare tax</strong></li>
+               <li><strong>RRTA compensation</strong></li>
+               <li><strong>Tier 1 tax</strong></li>
+               <li><strong>Tier 2 tax</strong></li>
+              </ul>
+              <p>These codes are related to the Railroad Retirement Tax Act (RRTA) for railroad industry employees. They usually won’t be abbreviated.</p>
+              <p><modal-link for="modal-info-info-income-w2-what-is-box-14-linkmodal1">Why are only some box 14 codes listed here?</modal-link></p>
+              <fg-set path="/formW2s/*/hasRRTACodes" inputtype="boolean" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Does box 14 have any of the following codes? <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/hasRRTACodes-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/hasRRTACodes" aria-invalid="false" required> <label for="/formW2s/*/hasRRTACodes-yes" class="usa-radio__label">Yes, box 14 has 1 or more of these codes</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/hasRRTACodes-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/hasRRTACodes" aria-invalid="false" required> <label for="/formW2s/*/hasRRTACodes-no" class="usa-radio__label">No, but box 14 has different code(s)</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen df-knockout" condition="/formW2s/*/isHasBox14CodesAndIsFlowKnockoutHasRRTACodesInBox14NotInNY" operator="isTrue">
+              <h2>Direct File doesn’t support the forms required to report Railroad Retirement Tax Act (RRTA) compensation yet.</h2>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isHasBox14CodesAndIsFlowStateToolNeedsBox14" operator="isTrue">
+              <h2>Enter the codes and amounts in <strong>box 14</strong>.</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <p>We only need information about the box 14 codes listed here. If you have multiple codes, add them 1 at a time.</p>
+              <p>If a code on a Form W-2 isn’t in this list, select <strong>Box 14 has other code(s) than these</strong></p>
+              <p condition="/isNotLivedInMd" operator="isTrue"><modal-link for="modal-info-info-income-w2-what-is-box-14-ny-linkmodal1">Why are only some box 14 codes listed here?</modal-link></p>
+              <p condition="/isLivedInMd" operator="isTrue"><modal-link for="modal-info-info-income-w2-what-is-box-14-md-linkmodal1">Why are only some box 14 codes listed here?</modal-link></p>
+              <fg-set path="/formW2s/*/writableBox14CodeMd" inputtype="select" condition="/isLivedInMd" operator="isTrue" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableBox14CodeMd"> <strong>Box 14</strong> - Code </label>  <!-- This application's override of form-builder's select input: the same <select>, wrapped in a
+     USWDS combo box so a long list (Virginia's 133 localities) is typed into and filtered rather
+     than scrolled. USWDS keeps the underlying <select> in sync and dispatches `change` on it,
+     which is the event fg-set listens for, so nothing in the runtime changes. -->
+                <div class="usa-combo-box">
+                 <select id="/formW2s/*/writableBox14CodeMd" class="usa-select" aria-invalid="false" optionspath="Some(/box14MDCodeOptions)"> <option value="">--Select one --</option> <option value="hasOtherBox14Code">Box 14 has other code(s) than these</option> <option value="ADDITIONAL_MEDICARE_TAX">Additional Medicare Tax</option> <option value="MEDICARE_TAX">Medicare Tax</option> <option value="RRTA_COMPENSATION">RRTA Compensation</option> <option value="TIER_1_TAX">Tier 1 Tax</option> <option value="TIER_2_TAX">Tier 2 Tax</option> <option value="BOX14_MD_STPICKUP">STPICKUP</option> </select>
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableBox14Code" inputtype="select" condition="/isLivedInNy" operator="isTrue" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableBox14Code"> <strong>Box 14</strong> - Code </label>  <!-- This application's override of form-builder's select input: the same <select>, wrapped in a
+     USWDS combo box so a long list (Virginia's 133 localities) is typed into and filtered rather
+     than scrolled. USWDS keeps the underlying <select> in sync and dispatches `change` on it,
+     which is the event fg-set listens for, so nothing in the runtime changes. -->
+                <div class="usa-combo-box">
+                 <select id="/formW2s/*/writableBox14Code" class="usa-select" aria-invalid="false" optionspath="Some(/box14NYCodeOptions)"> <option value="">--Select one --</option> <option value="hasOtherBox14Code">Box 14 has other code(s) than these</option> <option value="414_H">414 (H)</option> <option value="414_H_CU">414 (H) (CU)</option> <option value="414H">414H</option> <option value="414HCU">414HCU</option> <option value="414HSUB">414HSUB</option> <option value="ADDITIONAL_MEDICARE_TAX">Additional Medicare Tax</option> <option value="ERS">ERS</option> <option value="ERSNYSRE">ERSNYSRE</option> <option value="ERSRETCO">ERSRETCO</option> <option value="IRC125S">IRC125S</option> <option value="MEDICARE_TAX">Medicare Tax</option> <option value="NYRET">NYRET</option> <option value="NYSERS">NYSERS</option> <option value="NYSRETCO">NYSRETCO</option> <option value="PUBRET">PUBRET</option> <option value="RET">RET</option> <option value="RETDEF">RETDEF</option> <option value="RETMT">RETMT</option> <option value="RETSH">RETSH</option> <option value="RETSM">RETSM</option> <option value="RETSUM">RETSUM</option> <option value="RRTA_COMPENSATION">RRTA Compensation</option> <option value="TIER_1_TAX">Tier 1 Tax</option> <option value="TIER_2_TAX">Tier 2 Tax</option> <option value="TIER3RET">TIER3RET</option> <option value="TIER4">TIER4</option> <option value="TIER4RET">TIER4RET</option> </select>
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableBox14CodeNj" inputtype="select" condition="/isLivedInNj" operator="isTrue" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableBox14CodeNj"> <strong>Box 14</strong> - Code </label>  <!-- This application's override of form-builder's select input: the same <select>, wrapped in a
+     USWDS combo box so a long list (Virginia's 133 localities) is typed into and filtered rather
+     than scrolled. USWDS keeps the underlying <select> in sync and dispatches `change` on it,
+     which is the event fg-set listens for, so nothing in the runtime changes. -->
+                <div class="usa-combo-box">
+                 <select id="/formW2s/*/writableBox14CodeNj" class="usa-select" aria-invalid="false" optionspath="Some(/box14NJCodeOptions)"> <option value="">--Select one --</option> <option value="hasOtherBox14Code">Box 14 has other code(s) than these</option> <option value="ADDITIONAL_MEDICARE_TAX">Additional Medicare Tax</option> <option value="BOX14_NJ_FLI">FLI</option> <option value="MEDICARE_TAX">Medicare Tax</option> <option value="RRTA_COMPENSATION">RRTA Compensation</option> <option value="TIER_1_TAX">Tier 1 Tax</option> <option value="TIER_2_TAX">Tier 2 Tax</option> <option value="BOX14_NJ_UIHCWD">UI/HC/WD</option> <option value="BOX14_NJ_UIWFSWF">UI/WF/SWF</option> </select>
+                </div>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen df-knockout" condition="/isHasABox14NYRRTAValueWeKnockout" operator="isTrue">
+              <h2>Direct File doesn’t support the forms required to report Railroad Retirement Tax Act (RRTA) compensation yet.</h2>
+              <p>You said you had code <fg-show path="/formW2WithBox14NYRRTAKnockout/knockoutBox14NYRRTACode"></fg-show> in box 14, which means you received RRTA compensation.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isMdResidentHasOtherBox14Codes" operator="isTrue">
+              <h2>Does <strong>box 14</strong> have any codes related to dues you paid for union membership?</h2>
+              <p><modal-link for="modal-info-info-income-w2-which-box-14-codes-are-union-dues-linkmodal1">How do I know if codes in box 14 relate to union dues?</modal-link></p>
+              <fg-set path="/formW2s/*/paidUnionDues" inputtype="boolean" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Does <strong>box 14</strong> have any codes related to dues you paid for union membership? <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/paidUnionDues-yes" class="usa-radio__input" type="radio" value="true" name="/formW2s/*/paidUnionDues" aria-invalid="false" required> <label for="/formW2s/*/paidUnionDues-yes" class="usa-radio__label">Yes</label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/paidUnionDues-no" class="usa-radio__input" type="radio" value="false" name="/formW2s/*/paidUnionDues" aria-invalid="false" required> <label for="/formW2s/*/paidUnionDues-no" class="usa-radio__label">No</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isMdResidentHasOtherBox14CodesAndIsPaidUnionDues" operator="isTrue">
+              <h2>Enter the <strong>box 14</strong> amount for union membership dues.</h2>
+              <p><modal-link for="modal-info-info-income-w2-box-14-union-dues-other-payments-linkmodal1">What if the total listed includes funds for things other than membership dues?</modal-link></p>
+              <fg-set path="/formW2s/*/writableUnionDuesAmount" inputtype="dollar" optional="false">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableUnionDuesAmount"> Union dues amount <span aria-hidden="true" class="usa-hint">(Required)</span> </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableUnionDuesAmount" type="text" inputmode="numeric" name="/formW2s/*/writableUnionDuesAmount" autocomplete="off" aria-invalid="false" required>
+                </div>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen">
+              <h2>Enter the state and local tax information from <strong>boxes 15-20</strong>.</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <p>If a box is blank, skip that specific box.</p>
+              <p><modal-link for="modal-info-info-income-w2-boxes-15-20-linkmodal1">What if there are multiple entries in a box?</modal-link></p>
+              <fg-set path="/formW2s/*/writableState" inputtype="enum" optional="true">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> <strong>Box 15</strong> - Employer’s state </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/writableState-sameState" class="usa-radio__input" type="radio" value="sameState" name="/formW2s/*/writableState" aria-invalid="false"> <label for="/formW2s/*/writableState-sameState" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span><fg-show path="/filerResidenceAndIncomeState"></fg-show></span> </label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/writableState-differentState" class="usa-radio__input" type="radio" value="differentState" name="/formW2s/*/writableState" aria-invalid="false"> <label for="/formW2s/*/writableState-differentState" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Another state</span> </label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableStateEmployerId" inputtype="text" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableStateEmployerId"> <strong>Box 15</strong> - Employer’s state ID number </label>  <input id="/formW2s/*/writableStateEmployerId" class="usa-input" type="text" name="/formW2s/*/writableStateEmployerId" autocomplete="off" aria-invalid="false">
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableStateWages" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableStateWages"> <strong>Box 16</strong> - State wages, tips, etc. </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableStateWages" type="text" inputmode="numeric" name="/formW2s/*/writableStateWages" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableStateWithholding" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableStateWithholding"> <strong>Box 17</strong> - State income tax </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableStateWithholding" type="text" inputmode="numeric" name="/formW2s/*/writableStateWithholding" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableLocalWages" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableLocalWages"> <strong>Box 18</strong> - Local wages, tips, etc. </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableLocalWages" type="text" inputmode="numeric" name="/formW2s/*/writableLocalWages" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableLocalWithholding" inputtype="dollar" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableLocalWithholding"> <strong>Box 19</strong> - Local income tax </label> 
+                <div class="usa-input-group">
+                 <div class="usa-input-prefix" aria-hidden="true">
+                  <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+                   <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#attach_money"></use>
+                  </svg>
+                 </div>
+                 <input class="usa-input" id="/formW2s/*/writableLocalWithholding" type="text" inputmode="numeric" name="/formW2s/*/writableLocalWithholding" autocomplete="off" aria-invalid="false">
+                </div>
+               </div>
+              </fg-set>
+
+              <fg-set path="/formW2s/*/writableLocality" inputtype="text" optional="true">
+               <div class="usa-form-group">
+                <label class="usa-label twe-question" for="/formW2s/*/writableLocality"> <strong>Box 20</strong> - Locality name </label>  <input id="/formW2s/*/writableLocality" class="usa-input" type="text" name="/formW2s/*/writableLocality" autocomplete="off" aria-invalid="false">
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isMissingStateIncome" operator="isTrue">
+              <h2>Most taxpayers in <fg-show path="/filerResidenceAndIncomeState"></fg-show> have state income, but you didn’t enter state income information in <strong>boxes 15-20</strong>.</h2>
+              <p class="df-context-heading" condition="/formW2s/*/isImported2" operator="isTrue">Form W-2: <fg-show path="/formW2s/*/employerName"></fg-show>, <fg-show path="/formW2s/*/wages"></fg-show></p>
+              <fg-alert class="hidden" alert-type="warning" condition="/flowAlwaysTrue" operator="isTrue" blocking="false" knockout="false">
+               <div class="fg-alert usa-alert usa-alert--warning">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading">Go back and check that your information for boxes 15-20 matches what’s shown on the Form W-2.</h3>
+                </div>
+               </div>
+              </fg-alert>
+              <p><modal-link for="modal-info-info-income-jobs-w2-missing-state-income-linkmodal1">What if my Form W-2 doesn’t have information for boxes 15-20?</modal-link></p>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isPaidYonkersTaxes" operator="isTrue">
+              <h2>You paid taxes in Yonkers. Did you live outside of Yonkers for any part of <fg-show path="/taxYear"></fg-show>?</h2>
+              <p>Box 20 of your W-2 indicates that you paid taxes in Yonkers.</p>
+              <fg-set path="/partYearYonkersResident" inputtype="boolean" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> You paid taxes in Yonkers. Did you live outside of Yonkers for any part of <fg-show path="/taxYear"></fg-show>? <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-radio">
+                  <input id="/partYearYonkersResident-yes" class="usa-radio__input" type="radio" value="true" name="/partYearYonkersResident" aria-invalid="false" required> <label for="/partYearYonkersResident-yes" class="usa-radio__label">Yes, I lived outside of Yonkers for all or part of <fg-show path="/taxYear"></fg-show></label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/partYearYonkersResident-no" class="usa-radio__input" type="radio" value="false" name="/partYearYonkersResident" aria-invalid="false" required> <label for="/partYearYonkersResident-no" class="usa-radio__label">No, I lived in Yonkers for the whole year</label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+             <div class="df-screen df-knockout" condition="/isKnockoutYonkersPartYear" operator="isTrue">
+              <h2>New York’s free filing tool doesn’t support your tax situation yet.</h2>
+              <p>You earned income in Yonkers but didn’t live in Yonkers, or you lived in Yonkers for only part of <fg-show path="/taxYear"></fg-show>.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen df-knockout" condition="/isFlowKnockoutBox15IncomeFromDifferentState" operator="isTrue">
+              <h2>Direct File doesn’t support the reporting of employment income in all U.S. states and territories yet.</h2>
+              <p>You can only report employment income from <fg-show path="/filerResidenceAndIncomeState"></fg-show> within Direct File.</p>
+              <fg-alert class="hidden" alert-type="error" condition="/flowAlwaysTrue" operator="isTrue" blocking="true" knockout="true">
+               <div class="fg-alert usa-alert usa-alert--error">
+                <div class="usa-alert__body">
+                 <h3 class="usa-alert__heading"><a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></h3>
+                </div>
+               </div>
+              </fg-alert>
+             </div>
+             <div class="df-screen" condition="/formW2s/*/isShowW2NonStandardOrCorrectedScreen" operator="isTrue">
+              <h2>Is the Form W-2 nonstandard or corrected?</h2>
+              <fg-apply path="/formW2s/*/hasSeenLastAvailableScreen" source="/flowTrue"></fg-apply>
+              <p>This is rare, and most Forms W-2 don’t fall into these categories. If this is a standard Form W-2, select <strong>No</strong>.</p>
+              <fg-set path="/formW2s/*/nonstandardOrCorrectedChoice" inputtype="enum" optional="false">
+               <div class="usa-form-group">
+                <fieldset class="usa-fieldset">
+                 <legend class="usa-legend twe-question"> Is the Form W-2 nonstandard or corrected? <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/nonstandardOrCorrectedChoice-nonstandard" class="usa-radio__input" type="radio" value="nonstandard" name="/formW2s/*/nonstandardOrCorrectedChoice" aria-invalid="false" required> <label for="/formW2s/*/nonstandardOrCorrectedChoice-nonstandard" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Yes, this Form W-2 is <strong>nonstandard</strong>. It is handwritten, altered, or typed on a typewriter.</span> </label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/nonstandardOrCorrectedChoice-corrected" class="usa-radio__input" type="radio" value="corrected" name="/formW2s/*/nonstandardOrCorrectedChoice" aria-invalid="false" required> <label for="/formW2s/*/nonstandardOrCorrectedChoice-corrected" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Yes, this Form W-2 is <strong>corrected</strong>. The title is <strong>Form W-2c, Corrected Wage and Tax Statement</strong>.</span> </label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/nonstandardOrCorrectedChoice-both" class="usa-radio__input" type="radio" value="both" name="/formW2s/*/nonstandardOrCorrectedChoice" aria-invalid="false" required> <label for="/formW2s/*/nonstandardOrCorrectedChoice-both" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Yes, this Form W-2 is <strong>nonstandard</strong> and <strong>corrected</strong></span> </label>
+                 </div>
+                 <div class="usa-radio">
+                  <input id="/formW2s/*/nonstandardOrCorrectedChoice-neither" class="usa-radio__input" type="radio" value="neither" name="/formW2s/*/nonstandardOrCorrectedChoice" aria-invalid="false" required> <label for="/formW2s/*/nonstandardOrCorrectedChoice-neither" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>No, this is a standard Form W-2</span> </label>
+                 </div>
+                </fieldset>
+               </div>
+              </fg-set>
+
+             </div>
+            </div>
+            <div class="fg-collection-item__controls">
+             <modal-link class="fg-collection-item__remove-item" for="fg-collection-remove-W-2-modal">
+              <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-left-neg-1 margin-y-neg-05">
+               <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#delete"></use>
+              </svg>
+              <span> Remove W-2 <span class="collection-item-number"></span> </span>
+             </modal-link>
+            </div>
+           </div>
+          </details>
+         </template>
+        </div>
+        <button type="button" class="fg-collection__add-item usa-button usa-button--outline">
+         <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-left-neg-1 margin-y-neg-05">
+          <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#add"></use>
+         </svg>
+         <span class="fg-collection__without-determiner">Add W-2</span> <span class="fg-collection__with-determiner">Add another W-2</span>
+        </button>
+        <dialog id="fg-collection-remove-W-2-modal" class="usa-modal--dialog" closedby="any">
+         <div class="usa-modal__content">
+          <div class="usa-modal__main">
+           <h1 class="usa-modal__heading">Are you sure you want to remove this W-2?</h1>
+           <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+            <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+             <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+            </svg>
+           </button>
+           <div class="usa-prose">This will delete any information you’ve already entered about this W-2.</div>
+           <div class="usa-modal__footer">
+            <div class="usa-modal__button-group">
+             <button type="button" class="usa-button fg-collection__remove-item-modal__button-confirm" data-close-modal>Yes, remove this W-2</button>
+             <button type="button" class="usa-button usa-button--outline" data-close-modal>No, keep this W-2</button>
+            </div>
+           </div>
+          </div>
+         </div>
+        </dialog>
+       </fg-collection>
+      </section>
+      <dialog id="modal-sharedmodalw2" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What’s a W-2?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>A W-2 shows how much money an employee earned and the amount of taxes withheld from their paycheck throughout the year.</p>
+          <p>Depending on the employer, W-2 forms may look different, but they should all have the name "Form W-2 Wage and Tax Statement" on the form.</p>
+          <p><a href="https://www.irs.gov/pub/irs-pdf/fw2.pdf" target="_blank">See an example W-2</a></p>
+          <p><strong>Who gets a W-2?</strong></p>
+          <p>Employees should receive their W-2 from their employer by January 31 of each year. Employers may mail a paper copy or share an electronic version.</p>
+          <p><strong>Missing W-2s</strong></p>
+          <p>If you lost or never received your W-2, ask your employer for a copy. If you still haven’t received the missing form(s) by the end of February, call the IRS at <fg-show path="/irsPhoneNumber"></fg-show> for help.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-supported-income-alert-modal-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What employee income isn’t yet supported in Direct File?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>In Direct File, you can report everything that appears on a W-2 in <fg-show path="/filerResidenceAndIncomeState"></fg-show> except:</p>
+          <ul>
+           <li>Allocated tips <strong>(box 8)</strong></li>
+           <li>Nonqualified plans <strong>(box 11)</strong></li>
+           <li>Some of the codes in <strong>boxes 12 and 14</strong>. We’ll let you know if this situation applies to you</li>
+           <li>Certain payments received from the state for caring for someone living in your home that are excluded from gross income</li>
+           <li>Amounts received for services performed while an inmate in a penal institution</li>
+          </ul>
+          <p>You also can’t report any income from a job that doesn’t appear on a W-2. For example:</p>
+          <ul>
+           <li>Tips not reported on a W-2 (unreported tips)</li>
+           <li>Household employee wages not reported on a W-2</li>
+          </ul>
+          <p>Reporting these types of income requires filing additional forms and schedules that Direct File doesn’t currently support.</p>
+          <p>If you received money from any of these sources, you’ll need to file using another tool. <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-supported-income-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What employee income isn’t yet supported in Direct File?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>In Direct File, you can report everything that appears on a W-2 in <fg-show path="/filerResidenceAndIncomeState"></fg-show> except:</p>
+          <ul>
+           <li>Allocated tips <strong>(box 8)</strong></li>
+           <li>Nonqualified plans <strong>(box 11)</strong></li>
+           <li>Some of the codes in <strong>boxes 12 and 14</strong>. We’ll let you know if this situation applies to you</li>
+           <li>Certain payments received from the state for caring for someone living in your home that are excluded from gross income</li>
+           <li>Amounts received for services performed while an inmate in a penal institution</li>
+          </ul>
+          <p>You also can’t report any income from a job that doesn’t appear on a W-2. For example:</p>
+          <ul>
+           <li>Tips not reported on a W-2 (unreported tips)</li>
+           <li>Household employee wages not reported on a W-2</li>
+          </ul>
+          <p>Reporting these types of income requires filing additional forms and schedules that Direct File doesn’t currently support.</p>
+          <p>If you received money from any of these sources, you’ll need to file using another tool. <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-wage-calculations-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">How are wages calculated?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>To calculate your wages, we add the amounts from <strong>box 1</strong> (Wages, tips, other compensation) from any <strong>Forms W-2</strong> you reported.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-jobs-data-import-where-do-i-find-my-w2-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Where do I find my copy of the W-2?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Your employer should send you a Form W-2 by the end of February.</p>
+          <p>If you don’t have it by the end of February, call the IRS at <fg-show path="/irsPhoneNumber"></fg-show>.</p>
+          <p><a href="https://www.irs.gov/filing/if-you-dont-get-a-w-2-or-your-w-2-is-wrong" target="_blank">Learn more about what to do if you don’t get a Form W-2</a>.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-you-and-your-family-about-you-tin-cant-change-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why can’t I change my SSN?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>You gave the IRS your SSN when you used your ID.me account to sign in to Direct File.</p>
+          <p>ID.me collected this information from you when you created your account.</p>
+          <p>You can’t change your SSN in Direct File unless you change your SSN in ID.me first. This helps prevent identity theft.</p>
+          <p>If you need to change your SSN, <a href="https://help.id.me/hc/en-us/p/contact_support" target="_blank">contact ID.me</a>, then try signing in to Direct File again.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-you-and-your-family-about-you-tin-cant-change-spouse-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why can’t I change my SSN?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>This is the Social Security number entered in the <strong>Spouse</strong> section of this federal tax return.</p>
+          <p>It’s shown here again to help you confirm that the Social Security number in <strong>box a</strong> of the W-2 matches the Social Security number entered earlier.</p>
+          <p>If the Social Security number entered earlier in the <strong>Spouse</strong> section is incorrect, go back to the <strong>Spouse</strong> section and update it.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-if-w2-ssn-is-wrong-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What if the Social Security number on the Form W-2 is incorrect?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>If the Social Security number on the Form W-2 is incorrect, the federal tax return could be rejected or delayed.</p>
+          <p>Request a corrected W-2 from the employer before proceeding.</p>
+          <p>If it’s the end of February and you didn’t get the corrected forms that you requested, call the IRS at <fg-show path="/irsPhoneNumber"></fg-show> for help.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-itin-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Can an ITIN be used instead of a SSN?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>No. An ITIN cannot be used in place of a SSN for work purposes. There must be a Social Security number listed on the W-2.</p>
+          <p>An individual with an ITIN who later becomes eligible to work in the United States must obtain an SSN.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-why-change-name-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why can’t I change my name?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>This is the name entered in the <strong>About you</strong> section of this federal tax return.</p>
+          <p>It’s shown here again to help you confirm that the name in <strong>box e</strong> of the W-2 matches the name entered earlier.</p>
+          <p>If the name entered earlier in the <strong>About you</strong> section is incorrect, go back to the <strong>About you</strong> section and update it.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-why-change-name-mfj-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why can’t I change the name?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>This is the name entered in the <strong>Spouse</strong> section of this federal tax return.</p>
+          <p>It’s shown here again to help you confirm that the name in <strong>box e</strong> of the W-2 matches the name entered earlier.</p>
+          <p>If the name entered earlier in the <strong>Spouse</strong> section is incorrect, go back to the <strong>Spouse</strong> section and update it.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-if-w2-name-is-wrong-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What if the name on the W-2 is incorrect?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p><strong>Incorrect last name</strong></p>
+          <p>If the last name on the W-2 doesn’t match the name on the federal tax return, your return could be delayed or rejected. Request a corrected W-2 from the employer before you file your return in Direct File.</p>
+          <p>If you still haven’t received the corrected form(s) by the end of February, call the IRS at <fg-show path="/irsPhoneNumber"></fg-show> for help.</p>
+          <p><strong>Incorrect first name or middle initial</strong></p>
+          <p>If the first or middle initial are incorrect on the W-2 (for example, it uses a nickname), you can continue filing your return with this W-2. You don’t need to request a corrected W-2.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-if-w2-new-address-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What if the address on the W-2 is outdated?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>If the address is outdated, let the employer know. They’ll need to update their records, but they won’t need to issue a new W-2.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-why-cant-i-change-country-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why can’t I change the country?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Currently, Direct File only supports mailing written communications and refunds from the IRS to addresses in the United States.</p>
+          <p>If you must use an address outside the U.S., you’ll need to file using another product. <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Learn more about your filing options.</a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-why-skipping-box-d-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why are we skipping box d?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>A control number is an internal number used by your employer. We don’t need it to calculate your taxes.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-sharedmodalwithholding" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What are federal income tax withholdings?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Your <strong>withholding</strong> is the amount of federal income tax withheld from your paycheck and other sources. If you’re an employee, your employer probably withholds income tax and pays it to the IRS in your name. Tax may also be withheld from certain other income — including pensions, bonuses, commissions, and gambling winnings.</p>
+          <p>If too little is withheld, you’ll generally owe tax when you file your tax return and may owe a penalty. If too much is withheld, you’ll generally be due a refund.</p>
+          <p>If you’re self-employed or don’t pay your taxes through withholding, you may need to pay estimated tax directly to the IRS as quarterly payments.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-if-numbers-wrong-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What if these numbers are incorrect?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>If Direct File imported your Form W-2 information and if any of the numbers that we imported are incorrect, you can edit them to match your Form W-2.</p>
+          <p>If you think that your employer reported incorrect information on your copy of your W-2, reach out to your employer. You may need to request a corrected W-2 from your employer before proceeding.</p>
+          <p>If it’s the end of February and you didn’t get the corrected forms that you requested, call the IRS at <fg-show path="/irsPhoneNumber"></fg-show> for help.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-are-dependent-care-benefits-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What are dependent care benefits?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Box 10 shows the total value of dependent care benefits provided by an employer. These benefits are used to care for dependents, such as young children and family members with disabilities.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-are-non-qualified-plans-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What are nonqualified plans?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>A nonqualified deferred compensation plan is an agreement between an employer and its employees to defer a portion of their salary to a future tax year.</p>
+          <p>Box 11 shows how much the employer distributed to the employee from a nonqualified deferred compensation plan. This amount is taxable.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-whats-box-12-used-for-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What’s box 12 used for?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Employers enter the codes in box 12 to further itemize their employees’ earnings and provide them with additional information that may be helpful to them.</p>
+          <p>Employers can enter up to 4 different codes, from A - II, on a single W-2. They’ll issue another W-2 if they need to enter more than 4 codes. If there are more than 4 box 12 codes distributed across multiple W-2s that are otherwise identical, enter all of the box 12 codes here.</p>
+          <p><strong>Box 12 is sometimes divided into 4 sections labeled 12a - 12d. These labels are not code names.</strong></p>
+          <p><a href="https://www.irs.gov/pub/irs-pdf/iw2w3.pdf#page=30" target="_blank">Learn what each code means.</a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-whats-governmental-457b-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What’s a governmental 457(b) plan?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>A governmental 457(b) plan is a plan established by a state or local government that allows its employees to defer income taxation on retirement savings into future years.</p>
+          <p><a href="https://www.irs.gov/retirement-plans/irc-457b-deferred-compensation-plans" target="_blank">Learn more about 457(b) plans.</a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-whats-box-13-used-for-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What’s box 13 used for?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>In box 13, employers will check the appropriate box if the employee during the year:</p>
+          <ul>
+           <li>Was a statutory employee</li>
+           <li>Participated in the employer’s retirement plan</li>
+           <li>Received sick pay under the employer’s third-party insurance policy</li>
+          </ul>
+          <p><strong>Statutory employee:</strong> A statutory employee is someone whose earnings are subject to Social Security and Medicare taxes, but not subject to federal income tax withholding. They are independent contractors under the common-law rules but are treated by statute as employees.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-whats-box-14-used-for-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What’s box 14 used for?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Employers may use box 14 to report anything that doesn’t belong somewhere else on a Form W-2. For example, box 14 may list state disability insurance taxes withheld, union dues, health insurance premiums deducted, nontaxable income, and educational assistance payments.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-is-box-14-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why are only some box 14 codes listed here?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>The codes listed in this question are related to the Railroad Retirement Tax Act (RRTA) for railroad industry employees.</p>
+          <p>These RRTA codes will be listed like this example and usually won’t be abbreviated.</p>
+          <p><a href="box14-sample.png" target="_blank">Image of sample box 14 Other with 2 codes: RRTA compensation 1401.16 and Tier 2 tax 63.20</a></p>
+          <p><strong>There may be other codes in box 14.</strong> That’s okay. Those other codes don’t need to be reported within this tool. Other codes are generally used for itemizing deductions, which isn’t yet supported in Direct File. Currently, Direct File only supports the standard deduction. If itemizing your deductions is better for your tax situation, you’ll need to <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">file using another tool</a>.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-is-box-14-ny-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why are only some box 14 codes listed here?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>The codes listed in this question are used:</p>
+          <ul>
+           <li>by <fg-show path="/filerResidenceAndIncomeState"></fg-show> to report payments they made through state programs</li>
+           <li>for Railroad Retirement Tax Act (RRTA) compensation</li>
+          </ul>
+          <p><strong>There may be other codes in box 14.</strong> That’s okay. Those other codes don’t need to be reported within this tool. Other codes are generally used for itemizing deductions, which isn’t yet supported in Direct File. Currently, Direct File only supports the standard deduction. If itemizing your deductions is better for your tax situation, you’ll need to <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">file using another tool</a>.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-what-is-box-14-md-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why are only some box 14 codes listed here?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>The codes listed in this question are used:</p>
+          <ul>
+           <li>by Maryland to report contributions to any mandatory state retirement system</li>
+           <li>for Railroad Retirement Tax Act (RRTA) compensation</li>
+          </ul>
+          <p><strong>There may be other codes in box 14.</strong> Select Box 14 has other code(s) than these, and we’ll ask you about those codes if we need to. For example, if you earned income in Maryland, we’ll ask if your other codes include any amounts for union dues.</p>
+          <p>Any other codes don’t need to be reported within this tool. Those codes are generally used for itemizing deductions, which isn’t yet supported in Direct File. Currently, Direct File only supports the standard deduction. If itemizing your deductions is better for your tax situation, you’ll need to <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">file using another tool</a>.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-which-box-14-codes-are-union-dues-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">How do I know if codes in box 14 relate to union dues?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Employers may list your union dues on your Form W-2 in box 14. Each employer can choose the code(s) they use for this information.</p>
+          <p>If you’re not sure if the codes in box 14 are for dues you paid for union membership, ask your employer.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-box-14-union-dues-other-payments-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What if the total listed includes funds for things other than membership dues?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Only enter the part of the amount that represents what you paid for union membership.</p>
+          <p>Don’t enter any part of the total that was for:</p>
+          <ul>
+           <li>Payment of sick, accident, or death benefits</li>
+           <li>Pension funds (even if the union required you to contribute)</li>
+           <li>Certain lobbying and political activities</li>
+          </ul>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-w2-boxes-15-20-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What if there are multiple entries in a box?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Sometimes a Form W-2 may have more than one entry in boxes 15-20.</p>
+          <p>If a box has multiple entries, you’ll need to file your federal taxes using another tool. <a href="https://www.irs.gov/filing/individuals/how-to-file" target="_blank">Find other ways to file your federal taxes.</a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-jobs-w2-missing-state-income-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What if my Form W-2 doesn’t have information for boxes 15-20?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Sometimes an employer will send multiple copies of a Form W-2 and state income information may only appear on one copy.</p>
+          <p>If you received multiple copies of a Form W-2 from an employer, check all of the forms for state income information.</p>
+          <p>If you think you need a corrected Form W-2, contact the employer.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+     </div>
+     <div class="form-actions">
+      <!-- [html-validate-disable prefer-native-element -- Do not remove the .usa-button class - this class enables Space key functionality from USWDS needed for `role="button"`] -->
+      <a role="button" class="usa-button usa-button--outline back-btn--desktop" href="/direct-file-virginia/app/direct-file/income/income-sources/iras/direct-file-doesnt-yet/"> 
+       <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-left-neg-1 margin-y-neg-05">
+        <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_before"></use>
+       </svg> Back 
+      </a> <a role="button" class="usa-button" href="/direct-file-virginia/app/direct-file/income/unemployment/unemployment-loop-intro/" onclick="return handleSectionContinue(event)"> Next 
+       <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-right-neg-1 margin-y-neg-05">
+        <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_next"></use>
+       </svg> </a> <a role="button" class="usa-button usa-button--outline back-btn--mobile" href="/direct-file-virginia/app/direct-file/income/income-sources/iras/direct-file-doesnt-yet/"> 
+       <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-left-neg-1 margin-y-neg-05">
+        <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_before"></use>
+       </svg> Back 
+      </a> <!-- [html-validate-enable prefer-native-element] -->
+     </div>
+    </div>
+   </main>
+   <footer aria-label="Direct File" class="footer">
+    <div data-testid="identifier" class="usa-identifier">
+     <section data-testid="identifierMasthead" class="usa-identifier__section usa-identifier__section--masthead" aria-label="Agency identifier">
+      <div class="usa-identifier__container">
+       <div data-testid="identifierLogos" class="usa-identifier__logos">
+        <a class="usa-identifier__logo" href="https://irs.gov" aria-label="IRS.gov"> <img src="/direct-file-virginia/app/direct-file/resources/img/irs_logo_bk.svg" class="usa-identifier__logo-img" alt=""> </a>
+       </div>
+       <div data-testid="identifierIdentity" class="usa-identifier__identity">
+        <p class="usa-identifier__identity-domain">IRS.gov</p>
+        <p class="usa-identifier__identity-disclaimer">An official website of the <a class="usa-link" target="_blank" href="https://irs.gov">IRS<span class="usa-sr-only"> (opens in a new tab)</span></a></p>
+       </div>
+      </div>
+     </section>
+     <nav class="usa-identifier__section usa-identifier__section--required-links" aria-label="Important links">
+      <div class="usa-identifier__container">
+       <ul class="usa-identifier__required-links-list">
+        <li class="usa-identifier__required-links-item"><a target="_blank" class="usa-link usa-identifier__required-link" href="https://www.irs.gov/about-irs">About</a></li>
+        <li class="usa-identifier__required-links-item"><a target="_blank" class="usa-link usa-identifier__required-link" href="https://www.irs.gov/accessibility">Accessibility</a></li>
+        <li class="usa-identifier__required-links-item"><a target="_blank" class="usa-link usa-identifier__required-link" href="https://www.irs.gov/privacy-disclosure/irs-privacy-policy">Privacy policy</a></li>
+       </ul>
+      </div>
+     </nav>
+    </div>
+   </footer>
+   <template id="validate-alert-template">
+    <div class="usa-alert usa-alert--error validate-alert" role="alert">
+     <div class="usa-alert__body">
+      <p class="usa-alert__text" id="alert-message">Please complete the required fields</p>
+     </div>
+    </div>
+   </template>
+   <!-- I did this with text scripts because getting innerHTML from a template doesn't work for some reason -->
+   <script type="text" id="errors.InvalidCharacters">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.InvalidDollar">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.InvalidHyphens">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.InvalidParentheses">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.TooManyDecimals">Enter a number with only one decimal.</script>
+   <script type="text" id="errors.TooManyFractionalDigits">Enter only two digits after the decimal.</script>
+   <script type="text" id="errors.InvalidDay">Enter a valid day.</script>
+   <script type="text" id="errors.InvalidDayDueToLeapYear">Invalid day due to leap year.</script>
+   <script type="text" id="errors.InvalidMonth">Enter a valid month.</script>
+   <script type="text" id="errors.InvalidDate">Enter a valid date.</script>
+   <script type="text" id="errors.InvalidLimit">Invalid limit set.</script>
+   <script type="text" id="errors.IncompleteWritableDate">Enter a complete date or leave blank</script>
+   <script type="text" id="errors.BlankEnum">Value was blank.</script>
+   <script type="text" id="errors.InvalidEnum">Value not found.</script>
+   <script type="text" id="errors.Match">Check the format and try again.</script>
+   <script type="text" id="errors.Max">Enter an amount less than</script>
+   <script type="text" id="errors.Min">Enter an amount more than</script>
+   <script type="text" id="errors.Required">This question is required</script>
+   <script type="text" id="errors.Default">Sorry, something went wrong</script>
+  </div>
+  <!--
+  The Taxpert Workspace panel. It owns the Scenario, Display and Workspace-settings modals; the
+  Inspect / Outcome tracker / Watchlist tools mount separately from fragments/tool-dock.html.
+
+  Every URL here is derived from ${basePath}, so this works unchanged in any application. An app
+  that needs to register panel extensions of its own — an extra dashboard, a scenario vocabulary —
+  copies this file into its own templates/fragments/ and adds them; app templates resolve first, so
+  its copy wins. That is deliberately a copy of twenty lines rather than a hook: the alternative is
+  every application having to supply an extensions fragment whether it has extensions or not.
+-->
+  <taxpert-audit-panel id="audit-panel" aria-label="Audit Panel" api-base="http://localhost:8000" scenarios-base="/direct-file-virginia/app/direct-file/resources/scenarios" fact-dictionary-url="/direct-file-virginia/app/direct-file/resources/fact-dictionary.xml" ai-scenario-generation-default="false" ai-fact-explanation-default="false" author-mode-default="false">
+   <!-- Host-supplied scenario options (light-DOM children, read on connect). Wrapped in a
+        <template> so the page HTML stays valid; only emitted in scenario mode. -->
+   <template>
+    <option value="1040_withholdings_without_attachments.json">1040 Withholdings Without Attachments</option> <option value="1099_r_no_state_tax_group.json">1099 R No State Tax Group</option> <option value="1099_r_optional_state_local_tax_group.json">1099 R Optional State Local Tax Group</option> <option value="1099r_box_2b_total_distribution.json">1099r Box 2b Total Distribution</option> <option value="1099r_no_recipient_address.json">1099r No Recipient Address</option> <option value="1099r_savers_mfj_primary.json">1099r Savers Mfj Primary</option> <option value="1099r_savers_mfj_spouse_both.json">1099r Savers Mfj Spouse Both</option> <option value="1099r_savers_mfj_spouse_eligible.json">1099r Savers Mfj Spouse Eligible</option> <option value="1099r_savers_single.json">1099r Savers Single</option> <option value="1099r_savers_single_line_6.json">1099r Savers Single Line 6</option> <option value="8862_ats_5.json">8862 Ats 5</option> <option value="8862_ctc_no_eitc.json">8862 Ctc No Eitc</option> <option value="8862_ctc_no_letter_for_improper_claims.json">8862 Ctc No Letter For Improper Claims</option> <option value="8862_eitc_no_ctc.json">8862 Eitc No Ctc</option> <option value="HOH_32k_EITC.json">HOH 32k EITC</option> <option value="HOH_35K_dep_credits.json">HOH 35K Dep Credits</option> <option value="apf_single_resident_no_apf_related_income.json">Apf Single Resident No Apf Related Income</option> <option value="apf_single_resident_no_dep.json">Apf Single Resident No Dep</option> <option value="apf_single_resident_no_dep_withholding.json">Apf Single Resident No Dep Withholding</option> <option value="ats_1.json">Ats 1</option> <option value="ats_1_1099r.json">Ats 1 1099r</option> <option value="ats_1_1099r_disabled.json">Ats 1 1099r Disabled</option> <option value="ats_2.json">Ats 2</option> <option value="ats_2_1099r.json">Ats 2 1099r</option> <option value="ats_2_1099r_blank_taxable.json">Ats 2 1099r Blank Taxable</option> <option value="ats_2_1099r_nonzero_taxable.json">Ats 2 1099r Nonzero Taxable</option> <option value="ats_2_occupation_test.json">Ats 2 Occupation Test</option> <option value="ats_3_1099r.json">Ats 3 1099r</option> <option value="cdcc_hoh_net_allowable_less_than_zero.json">Cdcc Hoh Net Allowable Less Than Zero</option> <option value="cdcc_mfj_carryover_equal_income.json">Cdcc Mfj Carryover Equal Income</option> <option value="cdcc_mfj_dep_care_benefits_only.json">Cdcc Mfj Dep Care Benefits Only</option> <option value="cdcc_mfj_filer_qp_multiple_qps.json">Cdcc Mfj Filer Qp Multiple Qps</option> <option value="cfa_npe_01_26.json">Cfa Npe 01 26</option> <option value="cfa_xml_error_1.json">Cfa Xml Error 1</option> <option value="cfa_xml_error_2.json">Cfa Xml Error 2</option> <option value="edc_ats_1.json">Edc Ats 1</option> <option value="edc_disqualified_disability_income.json">Edc Disqualified Disability Income</option> <option value="edc_failing_validation_ats.json">Edc Failing Validation Ats</option> <option value="edc_failing_validation_dev.json">Edc Failing Validation Dev</option> <option value="edc_mfj_both_disabled.json">Edc Mfj Both Disabled</option> <option value="edc_mfj_spouse_disability_income.json">Edc Mfj Spouse Disability Income</option> <option value="edc_qualified_disability_income.json">Edc Qualified Disability Income</option> <option value="edc_qualified_single_elderly.json">Edc Qualified Single Elderly</option> <option value="edc_single_disqualified_edit_condition.json">Edc Single Disqualified Edit Condition</option> <option value="hoh_12k_income.json">Hoh 12k Income</option> <option value="hoh_13936_actc_eitc.json">Hoh 13936 Actc Eitc</option> <option value="hoh_13k.json">Hoh 13k</option> <option value="hoh_20k.json">Hoh 20k</option> <option value="hoh_35k.json">Hoh 35k</option> <option value="hoh_35k_2.json">Hoh 35k 2</option> <option value="hoh_38k.json">Hoh 38k</option> <option value="hoh_40k.json">Hoh 40k</option> <option value="hoh_40k_2.json">Hoh 40k 2</option> <option value="hoh_43k_plus_interest.json">Hoh 43k Plus Interest</option> <option value="hoh_48k_ctc.json">Hoh 48k Ctc</option> <option value="hoh_49k_ctc.json">Hoh 49k Ctc</option> <option value="hoh_9300.json">Hoh 9300</option> <option value="hoh_benefit_split_combat_pay_sched_lep_other_withholding.json">Hoh Benefit Split Combat Pay Sched Lep Other Withholding</option> <option value="hoh_cdcc.json">Hoh Cdcc</option> <option value="hoh_cdcc_combat_pay.json">Hoh Cdcc Combat Pay</option> <option value="hoh_cdcc_income_excluded.json">Hoh Cdcc Income Excluded</option> <option value="hoh_cdcc_multiple_careproviders.json">Hoh Cdcc Multiple Careproviders</option> <option value="hoh_itin_ctc.json">Hoh Itin Ctc</option> <option value="hoh_self_only_eic_third_party_designee_form_9000.json">Hoh Self Only Eic Third Party Designee Form 9000</option> <option value="hsa_ats_1.json">Hsa Ats 1</option> <option value="hsa_mfj_contributions_only.json">Hsa Mfj Contributions Only</option> <option value="hsa_mfj_one_8889.json">Hsa Mfj One 8889</option> <option value="hsa_mfj_one_8889_v2.json">Hsa Mfj One 8889 V2</option> <option value="hsa_mfj_over_55.json">Hsa Mfj Over 55</option> <option value="hsa_mfj_over_under_55.json">Hsa Mfj Over Under 55</option> <option value="hsa_mfj_separate_8889s.json">Hsa Mfj Separate 8889s</option> <option value="hsa_mfj_ticket_11914.json">Hsa Mfj Ticket 11914</option> <option value="hsa_mfs_over_55_edit.json">Hsa Mfs Over 55 Edit</option> <option value="hsa_single_filer_contributions_only.json">Hsa Single Filer Contributions Only</option> <option value="mef_ats_1.json">Mef Ats 1</option> <option value="mef_ats_1040sr_eic.json">Mef Ats 1040sr Eic</option> <option value="mef_ats_1_dd.json">Mef Ats 1 Dd</option> <option value="mef_ats_2.json">Mef Ats 2</option> <option value="mef_ats_2a.json">Mef Ats 2a</option> <option value="mef_ats_4.json">Mef Ats 4</option> <option value="mef_ats_5.json">Mef Ats 5</option> <option value="mef_ats_SSA.json">Mef Ats SSA</option> <option value="mef_ats_balance_due.json">Mef Ats Balance Due</option> <option value="mfj_11k.json">Mfj 11k</option> <option value="mfj_15k.json">Mfj 15k</option> <option value="mfj_1dep_1nondep.json">Mfj 1dep 1nondep</option> <option value="mfj_20k.json">Mfj 20k</option> <option value="mfj_30k.json">Mfj 30k</option> <option value="mfj_30k_eitc_ctc_actc.json">Mfj 30k Eitc Ctc Actc</option> <option value="mfj_40k_eitc_ctc.json">Mfj 40k Eitc Ctc</option> <option value="mfj_42505_ctck12.json">Mfj 42505 Ctck12</option> <option value="mfj_43k.json">Mfj 43k</option> <option value="mfj_44k.json">Mfj 44k</option> <option value="mfj_44k_ak_pfd.json">Mfj 44k Ak Pfd</option> <option value="mfj_50k_ctc_odc.json">Mfj 50k Ctc Odc</option> <option value="mfj_70_none.json">Mfj 70 None</option> <option value="mfj_adjustments_spouse_didnt_file_last_year.json">Mfj Adjustments Spouse Didnt File Last Year</option> <option value="mfj_all_income_types_withholding.json">Mfj All Income Types Withholding</option> <option value="mfj_both_savers_credit.json">Mfj Both Savers Credit</option> <option value="mfj_cdcc_combat_pay_2024_verified.json">Mfj Cdcc Combat Pay 2024 Verified</option> <option value="mfj_deceased_spouse.json">Mfj Deceased Spouse</option> <option value="mfj_noncitizen_47000_none_signed.json">Mfj Noncitizen 47000 None Signed</option> <option value="mfs_20k_no_credits.json">Mfs 20k No Credits</option> <option value="mfs_26k_no_credits.json">Mfs 26k No Credits</option> <option value="mfs_35k_cod_eitc.json">Mfs 35k Cod Eitc</option> <option value="mfs_4300_none.json">Mfs 4300 None</option> <option value="mfs_nra_spouse_combat_pay_not_used_didnt_file_last_year.json">Mfs Nra Spouse Combat Pay Not Used Didnt File Last Year</option> <option value="nj_box_14.json">Nj Box 14</option> <option value="npe_form_2441_without_cdcc.json">Npe Form 2441 Without Cdcc</option> <option value="ny_rejected_0126.json">Ny Rejected 0126</option> <option value="primary_only_savers_credit.json">Primary Only Savers Credit</option> <option value="ptc_annual_amounts_rounding.json">Ptc Annual Amounts Rounding</option> <option value="ptc_edit_has_annual_zero_cov_months.json">Ptc Edit Has Annual Zero Cov Months</option> <option value="ptc_high_income.json">Ptc High Income</option> <option value="ptc_no_aptc_negative_magi.json">Ptc No Aptc Negative Magi</option> <option value="qss_12k.json">Qss 12k</option> <option value="qss_34K_ctc_2dependents.json">Qss 34K Ctc 2dependents</option> <option value="qss_35K_1 dependent_signed.json">Qss 35K 1 dependent Signed</option> <option value="qss_75k.json">Qss 75k</option> <option value="qss_additional_standard_deduction_disabled_eic_ip_pin_other_withholding.json">Qss Additional Standard Deduction Disabled Eic Ip Pin Other Withholding</option> <option value="rounding_issues_schedule_2.json">Rounding Issues Schedule 2</option> <option value="schedule_b_multiple_interest_rounding.json">Schedule B Multiple Interest Rounding</option> <option value="schedule_b_single_50k.json">Schedule B Single 50k</option> <option value="single_10k_eitc_qcs_without_ssn.json">Single 10k Eitc Qcs Without Ssn</option> <option value="single_21500_no_credits_never_moved_to_ca.json">Single 21500 No Credits Never Moved To Ca</option> <option value="single_33k_no_credits.json">Single 33k No Credits</option> <option value="single_35k.json">Single 35k</option> <option value="single_35k_ip_pin_entered_after_agi.json">Single 35k Ip Pin Entered After Agi</option> <option value="single_43k_no_credits.json">Single 43k No Credits</option> <option value="single_45k.json">Single 45k</option> <option value="single_46k.json">Single 46k</option> <option value="single_50k.json">Single 50k</option> <option value="single_50k_no_credits.json">Single 50k No Credits</option> <option value="single_can_be_claimed_no_job_est_payments_pay_later_didnt_file_last_year.json">Single Can Be Claimed No Job Est Payments Pay Later Didnt File Last Year</option> <option value="single_eitc_agi_exceeds_earned_income.json">Single Eitc Agi Exceeds Earned Income</option> <option value="single_simple_savers_credit.json">Single Simple Savers Credit</option> <option value="spouse_only_savers_credit.json">Spouse Only Savers Credit</option> <option value="third_party_designee_5545.json">Third Party Designee 5545</option> <option value="ticket_10278_negative.json">Ticket 10278 Negative</option> <option value="ticket_11265.json">Ticket 11265</option> <option value="ticket_11278.json">Ticket 11278</option> <option value="ticket_11416.json">Ticket 11416</option> <option value="ticket_12386.json">Ticket 12386</option> <option value="ticket_14906.json">Ticket 14906</option> <option value="ticket_4893.json">Ticket 4893</option> <option value="ticket_4953.json">Ticket 4953</option> <option value="ticket_5987.json">Ticket 5987</option> <option value="ticket_6192_ctc.json">Ticket 6192 Ctc</option> <option value="ticket_6192_odc.json">Ticket 6192 Odc</option> <option value="ticket_6196.json">Ticket 6196</option> <option value="ticket_6197.json">Ticket 6197</option> <option value="ticket_6256.json">Ticket 6256</option> <option value="ticket_6269.json">Ticket 6269</option> <option value="ticket_6718.json">Ticket 6718</option> <option value="ticket_8689_1099r_no_federalwithhold.json">Ticket 8689 1099r No Federalwithhold</option> <option value="ticket_8689_1099r_nonzero_federalwithold.json">Ticket 8689 1099r Nonzero Federalwithold</option> <option value="ticket_8689_1099r_zero_federalwithold.json">Ticket 8689 1099r Zero Federalwithold</option> <option value="ticket_9717_nonzero.json">Ticket 9717 Nonzero</option> <option value="ticket_9717_zero.json">Ticket 9717 Zero</option> <option value="virginia_demo_1_riley_rappahannock_single_33k.json">Virginia Demo 1 Riley Rappahannock Single 33k</option> <option value="virginia_demo_2_morgan_shenandoah_age_65_56k.json">Virginia Demo 2 Morgan Shenandoah Age 65 56k</option> <option value="virginia_demo_3_jordan_elizabeth_hoh_20k_eitc.json">Virginia Demo 3 Jordan Elizabeth Hoh 20k Eitc</option> <option value="virginia_demo_4_taylor_york_single_27k_military.json">Virginia Demo 4 Taylor York Single 27k Military</option> <option value="w2_with_box_14_value_set_to_0.json">W2 With Box 14 Value Set To 0</option> <option value="zero_coded_W2_box_12_ko.json">Zero Coded W2 Box 12 KO</option>
+   </template>
+  </taxpert-audit-panel>
+  <!--
+      The workspace tool panels: Inspect, Outcome tracker and Watchlist, opened from the global nav's
+      Tools button. Like the audit panel, this sits outside .app-container as a direct child of
+      <body>, because `.audit-mode` turns <body> into a flex row and the dock is one of its columns —
+      that is what makes the page content reflow beside it with no fixed positioning.
+
+      `hidden` mirrors the workspace toggle. The nav only offers the Tools button while the workspace
+      is on (`.tgn-tools` is hidden otherwise), so the panels it opens should not outlive it — and
+      the dock remembers which tools were on in localStorage, so without this they would come back on
+      a page where the button that closes them isn't there.
+    -->
+  <taxpert-tool-dock></taxpert-tool-dock>
+  <script type="module">
+        // The nav owns the workspace switch; the dock and the audit panel both follow it. The panel's
+        // own enable()/disable() wiring is in the application's fragments/workspace-head.html, since
+        // it needs a path into taxpert and this library names none.
+        //
+        // Listened for on `document` rather than on the nav element: the event is dispatched with
+        // bubbles+composed, and this way the two listeners do not have to agree about which of the two
+        // elements parses first.
+        const dock = document.querySelector('taxpert-tool-dock')
+        document.addEventListener('workspace-toggle', (event) => {
+            dock?.toggleAttribute('hidden', !event.detail.on)
+        })
+    </script>
+  <script type="module">
+        import { enable } from "/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/js/taxpert.js"
+        enable()
+
+        // The Scenario picker's three dropdowns. Registered from here rather than by overriding the
+        // scaffold's audit-panel.html the way credit-assistant does: the only thing this application
+        // adds to that fragment is a filter vocabulary, and a whole template override to reach one
+        // method is a copy that has to be kept in step with a library file forever. This fragment
+        // already renders at the end of <body> with the panel in the document.
+        //
+        // 161 scenarios; a flat list of them is not browsable. Nothing happens without a corpus, so
+        // this is inert until `make export-scenarios` has run.
+        import { registerScenarioFilters } from "/direct-file-virginia/app/direct-file/resources/js/scenario-filters.js"
+        registerScenarioFilters(document.querySelector('#audit-panel'))
+    </script>
+ </body>
+</html>

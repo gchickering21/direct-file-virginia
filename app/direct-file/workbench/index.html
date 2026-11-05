@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virginia Rules Workbench</title>
+<link rel="stylesheet" href="ui/styles.css">
+</head>
+<body>
+<header class="wb-top">
+  <a class="wb-brand" href="#/"><span class="name">Virginia Rules Workbench</span><span class="yr">Form 760 · prototype</span></a>
+  <label class="year"><span class="visually-hidden" hidden>Tax year</span><select id="year-select" aria-label="Tax year"></select></label>
+  <div class="who">
+    <span class="proto">No sign-in: pick who you are</span>
+    <label for="who-select" class="visually-hidden" hidden>Who you are</label>
+    <select id="who-select" aria-label="Who you are"></select>
+    <span id="who-role" class="role"></span>
+    <span id="who-avatar" class="avatar"></span>
+  </div>
+</header>
+<div class="wb-rule"></div>
+<div id="static-strip" class="draft-strip static-strip" hidden></div>
+<div id="draft-strip" class="draft-strip" hidden></div>
+<div class="wb">
+  <nav class="side" aria-label="Workbench">
+    <a href="#/" data-nav="home">Form 760 lines</a>
+    <a href="#/values" data-nav="values">Values by year <span class="count" id="n-values"></span></a>
+    <a href="#/questions" data-nav="questions">Questions asked <span class="count" id="n-questions"></span></a>
+    <a href="#/screens" data-nav="screens">Screens filers see <span class="count" id="n-screens"></span></a>
+    <a href="#/examples" data-nav="examples">Worked examples <span class="count" id="n-examples"></span></a>
+    <a href="#/changes" data-nav="changes">Changes <span class="count" id="n-changes"></span></a>
+    <a href="#/requests" data-nav="requests">Requests <span class="count" id="n-requests"></span></a>
+    <div class="sect">Read only</div>
+    <a href="#/federal" data-nav="federal">Federal facts Virginia uses <span class="count" id="n-federal"></span></a>
+    <a href="#/all" data-nav="all">Every fact <span class="count" id="n-all"></span></a>
+    <div class="sect">Reports</div>
+    <a href="#/coverage" data-nav="coverage">Coverage</a>
+    <a href="#/exports" data-nav="exports">Export contract</a>
+    <a href="#/spanish" data-nav="spanish">Spanish</a>
+    <a href="#/history" data-nav="history">History</a>
+    <div class="foot" id="file-info"></div>
+  </nav>
+  <main class="main" id="main" tabindex="-1"><p class="muted"><span class="spin"></span> Loading the rules…</p></main>
+</div>
+<dialog id="dialog"></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<script>window.WB_STATIC = {"commit":"3fb45959","built":"2026-11-05","dirty":true}</script>
+<script type="module" src="ui/app.js"></script>
+</body>
+</html>

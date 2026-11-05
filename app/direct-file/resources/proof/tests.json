@@ -1,0 +1,17 @@
+{
+ "ran": "2026-11-05T14:13:00",
+ "succeeded": 27,
+ "failed": 0,
+ "canceled": 0,
+ "ignored": 0,
+ "pending": 0,
+ "virginia": [
+  "the Virginia corpora",
+  "Virginia Demo 1 (Riley Rappahannock)",
+  "Virginia Demo 2 (Morgan Shenandoah)",
+  "Virginia Demo 3 (Jordan Elizabeth)",
+  "Virginia Demo 4 (Taylor York)",
+  "every Virginia resident household",
+  "a generated case"
+ ]
+}

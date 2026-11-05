@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+ <!-- Google Tag Manager -->
+ <head>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KV978ZL');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct File - Combat pay and dependent care benefits | Internal Revenue Service</title>
+  <!-- Favicons for mobile and desktop -->
+  <link rel="icon" type="image/ico" href="/direct-file-virginia/app/direct-file/resources/img/favicon.ico">
+  <link rel="icon" type="image/png" href="/direct-file-virginia/app/direct-file/resources/img/apple-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/direct-file-virginia/app/direct-file/resources/img/android-icon-192x192.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/direct-file-virginia/app/direct-file/resources/img/apple-icon-72x72.png">
+  <link rel="stylesheet" href="/direct-file-virginia/app/direct-file/resources/styles/main.css">
+  <noscript>
+   <style>#page-content-wrapper { display: none; }</style>
+  </noscript>
+  <meta name="form-builder:storage-prefix" content="direct-file">
+  <meta name="form-builder:base-path" content="/direct-file-virginia/app/direct-file">
+  <script type="module" src="/direct-file-virginia/app/direct-file/resources/js/fg-components.js"></script>
+  <script type="module" src="/direct-file-virginia/app/direct-file/resources/vendor/form-builder/flow-runtime/js/modals.js"></script>
+  <!--
+  The workspace slot, filled only in an --auditMode build.
+
+  Two application-owned fragments, and the scaffold names nothing inside either of them: what mounts
+  a workspace is `taxpert`'s business and an app's, not this library's. See
+  fragments/workspace-head.html for why that seam exists rather than the paths being spelled out
+  here, and fragments/taxpert-config.html for the configuration half.
+
+  `flags` is set on the page context but not on the all-screens one, so `flags != null` is exactly
+  "this is a product page" — the only place the workspace mounts. all-screens is generated with the
+  workspace's stylesheet disabled and has no .app-container for its flex layout, so loading these
+  modules there would buy nothing and inject unstyled chips into the one page that already draws
+  its own.
+-->
+  <script type="module" src="/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/js/taxpert.js"></script>
+  <link rel="stylesheet" href="/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/styles/audit-panel.css" id="audit-panel-styles" disabled>
+  <template id="tgn-sprite">
+   <svg class="tgn-sprite" aria-hidden="true" focusable="false" width="0" height="0">
+    <symbol id="tgn-icon-settings" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+    </symbol>
+    <symbol id="tgn-icon-tune" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
+    </symbol>
+    <symbol id="tgn-icon-visibility" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+    </symbol>
+    <symbol id="tgn-icon-build" viewBox="0 0 24 24">
+     <path fill="currentColor" d="m22.7 19-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+    </symbol>
+    <symbol id="tgn-icon-expand_more" viewBox="0 0 24 24">
+     <path fill="currentColor" d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+    </symbol>
+   </svg>
+  </template>
+  <template id="tgn-bar">
+   <nav class="tgn-bar" aria-label="Taxpert workspace">
+    <button class="tgn-waffle" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Open Taxpert workspace menu"><span class="tgn-waffle__grid" aria-hidden="true"> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> <span class="tgn-waffle__dot"></span> </span></button>
+    <!-- Its accessible name is its own text: "Taxpert", then the context when there is one. (It
+         used to also carry an aria-label composing the two, which a <span> can't be named by —
+         a generic role takes no accessible name, so nothing ever read it.) -->
+    <span class="tgn-breadcrumb"> <span class="tgn-breadcrumb__root">Taxpert</span> <!-- The workspace context (mode) only exists while the workspace is on; with it off the nav
+           reverts to its starting state — just the "Taxpert" root. --> <span class="tgn-breadcrumb__sep" aria-hidden="true" hidden>|</span> <span class="tgn-breadcrumb__ctx" hidden></span> </span> <!-- The tool strip is a workspace feature and each tool picks its own destinations; every tool
+         is rendered and `hidden` when it doesn't apply, and the strip hides itself when none do
+         (see global-nav.css). -->
+    <div class="tgn-tools" role="toolbar" aria-label="Workspace tools"></div>
+    <div class="tgn-menu" role="menu">
+     <div class="tgn-workspace">
+      <span class="tgn-workspace__label"></span>
+      <div class="tgn-workspace__controls">
+       <button class="tgn-toggle" type="button" role="switch" aria-checked="false"><span class="tgn-toggle__knob"></span></button>
+       <!-- Workspace settings. Announces itself via nav-tool-select like the tool strip;
+               <taxpert-workspace-settings-modal> is the surface that listens and opens. -->
+       <button class="workplace-settings" type="button" aria-haspopup="dialog" aria-label="Workspace settings" title="Workspace settings">
+        <svg class="workplace-settings__icon" aria-hidden="true" focusable="false">
+         <use href="#tgn-icon-settings"></use>
+        </svg>
+       </button>
+      </div>
+     </div>
+     <!-- The mode/nav taxonomy is appended here as further children of .tgn-menu, so the
+           `.tgn-menu > * + *` divider rule keeps applying to it. -->
+    </div>
+   </nav>
+  </template>
+  <template id="tgn-tool">
+   <button class="tgn-tool" type="button" aria-haspopup="dialog">
+    <svg class="tgn-tool__icon" aria-hidden="true" focusable="false">
+     <use></use>
+    </svg>
+    <span class="tgn-tool__label"></span>
+   </button>
+  </template>
+  <template id="tgn-group">
+   <div class="tgn-group">
+    <button class="tgn-group__header" type="button" aria-expanded="false"><span class="tgn-group__label"></span>
+     <svg class="tgn-group__chevron" aria-hidden="true" focusable="false">
+      <use href="#tgn-icon-expand_more"></use>
+     </svg></button>
+    <div class="tgn-group__items"></div>
+   </div>
+  </template>
+  <template id="tgn-item">
+   <a class="tgn-item" role="menuitem"> <span class="tgn-item__label"></span> <span class="tgn-item__check" aria-hidden="true">✓</span> </a>
+  </template>
+  <!-- The audit panel, the global nav and the workspace tool panels (the nav's Tools button) all
+         arrive in the bundle above; only the audit panel's stylesheet is still its own file, because
+         it is behind a toggled `disabled` link. The tool panels' is not: every selector in it is
+         scoped to the bundle's own custom elements and .ttd-/.ttp-/.ttm- classes, so it restructures
+         nothing in the product page — the same reason it loads unconditionally through main.css,
+         which now @imports one flattened dist/styles/taxpert.css in place of two @import chains. The
+         dock hides itself unless a tool is switched on. -->
+  <!-- The workspace sub-nav on the product pages (page.html mounts
+         <taxpert-screens-toolbar mode="product">): the bar under the global nav that names which
+         destination you are on. Browse All / Path Mode load the same two files from
+         fragments/workspace-all-screens.html, which is *not* gated on --auditMode — that page is
+         chrome all the way down and exists without a workspace. So on an --auditMode --allScreens
+         build the listing page links this stylesheet twice, from the two independent conditions.
+         Same URL, same rules, one fetch: keeping the conditions separate is worth more than the
+         duplicate is worth avoiding. Its script is in the bundle above. -->
+  <link rel="stylesheet" href="/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/styles/all-screens-toolbar.css">
+  <!-- The nav's workspace switch. Listened for on `document` rather than on the element, because
+         this runs in <head> and the nav does not exist yet; the event is dispatched with
+         bubbles+composed for exactly this. -->
+  <script type="module">
+        import { enable, disable } from "/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/js/taxpert.js"
+        document.addEventListener('workspace-toggle', (event) => {
+            if (event.detail.on) enable()
+            else disable()
+        })
+    </script>
+  <!--
+      Everything Direct File tells taxpert about itself.
+
+      The shared workspace — the global nav, the audit panel, the tool panels — ships knowing
+      nothing about the application under it. It has no menu, no determinations and no route prefix
+      until a host calls configure(). This is that call, and it runs on every page that mounts the
+      workspace. The scaffold ships an empty default of this file; this one wins because app
+      templates resolve ahead of the library's.
+
+      WHY A THYMELEAF FRAGMENT AND NOT A .js FILE. Everything here that a person reads and that
+      belongs to the *product* — the outcome headings, the words an outcome is spoken in — is a
+      Thymeleaf message expression, resolved per locale at build time. (The nav labels are the
+      exception, and say why at `nav:` below.) website-static/js is served as static assets
+      and never passes through Thymeleaf, so a label written there would be English in the Spanish
+      build. Behaviour that cannot be a translated literal — the fact-graph port and the fact paths
+      themselves — lives in website-static/js/taxpert/direct-file-graph.js and is imported below.
+
+      th:inline="javascript" is what makes those expressions resolve inside a script element; it
+      works on a type="module" script, and Thymeleaf JS-escapes each value as it substitutes it.
+      Note that message expressions are inlined inside comments too, which is why this one spells
+      none of them out.
+
+      ORDER DOES NOT MATTER. taxpert reads its configuration when an element *renders*, not when it
+      loads, and configure() dispatches `taxpert:config-changed` so anything already on screen
+      rebuilds.
+    -->
+  <script type="module">
+        import { configure, configureFromUrl } from "/direct-file-virginia/app/direct-file/resources/vendor/taxpert/shared/js/config.js"
+        import { directFileGraph, directFileDeterminations } from "/direct-file-virginia/app/direct-file/resources/js/taxpert/direct-file-graph.js"
+
+        // The build's locale, key by key. The determinations take a lookup rather than the strings
+        // themselves because an outcome chooses its key at runtime, from a fact value nobody knows
+        // here.
+        // Every key directFileDeterminations() asks `t` for. A key missing here does not fail the
+        // build — it renders in the tracker as the unresolved-message marker, doubled question marks
+        // around the key and the locale — so the two lists are kept in step by reading them side by
+        // side. Spelling that marker out here would put it in the page, which is the same trap the
+        // header note about comments describes.
+        const strings = new Map([
+            ['workspace.outcomes.return', "Refund or amount owed"],
+            ['workspace.outcomes.refund-due', "Refund due"],
+            ['workspace.outcomes.balance-owed', "Balance owed"],
+            ['workspace.outcomes.income-and-tax', "Income and tax"],
+            ['workspace.outcomes.payments-and-credits', "Payments and credits"],
+            ['workspace.outcomes.the-result', "The result"],
+            ['workspace.outcomes.eitc', "Earned Income Tax Credit"],
+            ['workspace.outcomes.qualifies', "Qualifies"],
+            ['workspace.outcomes.does-not-qualify', "Does not qualify"],
+            ['workspace.outcomes.eitc-eligibility', "Eligibility"],
+            ['workspace.outcomes.eitc-amount', "Amount"],
+            ['workspace.outcomes.ctc-odc', "Child Tax Credit and Credit for Other Dependents"],
+            ['workspace.outcomes.ctc-odc-eligibility', "Eligibility"],
+            ['workspace.outcomes.ctc-odc-amount', "Amount"],
+            ['workspace.outcomes.cdcc', "Child and Dependent Care Credit"],
+            ['workspace.outcomes.receiving', "Receiving the credit"],
+            ['workspace.outcomes.not-receiving', "Not receiving the credit"],
+            ['workspace.outcomes.cdcc-eligibility', "Eligibility"],
+            ['workspace.outcomes.cdcc-amount', "Amount"],
+            ['workspace.outcomes.ptc', "Premium Tax Credit"],
+            ['workspace.outcomes.ptc-eligibility', "Eligibility"],
+            ['workspace.outcomes.ptc-amount', "Amount"],
+        ])
+        const t = (key) => strings.get(key) ?? key
+
+        configure({
+            // storagePrefix is what stops this app and any other Form Builder app served from the same
+            // origin sharing a fact graph, a watchlist or a panel layout. Every storage key the
+            // workspace writes is namespaced with it.
+            app: {
+                id: 'direct-file',
+                brand: "Direct File",
+                storagePrefix: 'direct-file',
+            },
+
+            // The app switcher. `id` is what a page passes as the nav's `active` attribute and what
+            // toolsByDestination names below; `href` is a real link, so the menu navigates with no
+            // JavaScript at all. Add a destination only when the page behind it exists — a menu
+            // that offers a 404 is worse than a short menu.
+            //
+            // These labels are English literals, not #{workspace.nav.*} message expressions, and
+            // that is the one deliberate exception to this file's "everything a person reads is a
+            // message expression" rule. The language switcher is the *product's* control: picking a
+            // language asks for the questionnaire in it. Translating the workspace around it put two
+            // names on one destination in a single view — the sub-nav under the bar is taxpert's own
+            // markup and reads "Product Experience" in every locale, while the menu item pointing at
+            // it read the translated one. The workspace is one surface in one language; the product
+            // underneath it is the thing that translates. `apps.items` below follows the same rule.
+            nav: {
+                menu: [
+                    {
+                        id: 'experience-explorer',
+                        label: 'Experience Explorer',
+                        children: [
+                            { id: 'product-experience', label: 'Product Experience', href: "/direct-file-virginia/app/direct-file/"},
+                            { id: 'path-mode', label: 'Path Mode', href: "/direct-file-virginia/app/direct-file/all-screens/?mode=path"},
+                            { id: 'browse-all', label: 'Browse All', href: "/direct-file-virginia/app/direct-file/all-screens/"},
+                        ],
+                    },
+
+                    // Fact Explorer holds every application beside this one, so the app id is part of
+                    // the URL: a bare /fact-explorer lands on whichever is default rather than this
+                    // one. Absolute, because it is served by the taxpert stack rather than this app.
+                    { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/direct-file' },
+
+                    // Gated at runtime by the `author-mode` feature flag, which is credit-assistant's
+                    // spelling and now this app's: `featureFlags` below declares it, the scaffold's
+                    // <taxpert-audit-panel> carries --authorMode as its build-time *default*, and
+                    // Workspace settings overrides that default in localStorage. A plain `make dev`
+                    // still hides this and `make dev-author` still shows it — the build flag did not
+                    // stop deciding, it stopped being the only thing that decides. Someone who turns
+                    // the flag on against a build that generated no /author/ gets a 404, which is
+                    // what "override the default build" costs and is the same bargain credit-assistant
+                    // has always made. A `//` comment, never an HTML one — see the note in `apps` below.
+                    { id: 'authoring-suite', label: 'Authoring Suite', href: "/direct-file-virginia/app/direct-file/author/", ff: 'author-mode' },
+                ],
+
+                // Where each tool button in the bar applies. One generated page backs both listings,
+                // told apart by `?mode=path`: Browse All shows every screen unconditionally, so only
+                // Display applies there — nothing the other two do depends on an answer. Path Mode is
+                // a reading of one Fact Graph, so all three do.
+                toolsByDestination: [
+                    { id: 'scenario', label: 'Scenario', icon: 'tune', destinations: ['product-experience', 'path-mode', 'fact-explorer'] },
+                    { id: 'display', label: 'Display', icon: 'visibility', destinations: ['product-experience', 'path-mode', 'browse-all'] },
+                    { id: 'tools', label: 'Tools', icon: 'build', destinations: ['product-experience', 'path-mode'] },
+                ],
+            },
+
+            // The applications this workspace can be switched between — the "Applications" section
+            // of Workspace settings (the nav's gear). All four of this repo's applications, so the
+            // workspace carries over from any one of them to any other.
+            //
+            // Add a sibling by appending an entry with that app's own destinations. They have to be
+            // written out: the workspace ships no notion of what 'browse-all' means as a URL, and an
+            // app served from another origin cannot be derived from a base path. Use absolute URLs
+            // for a sibling — this app's server serves only this app, so a relative path to another
+            // would 404 — and keep our own root-relative so they survive being read through
+            // Fact Explorer's dev proxy.
+            //
+            // Switching keeps the destination: Browse All here goes to Browse All there, falling
+            // back to the sibling's first destination when it has no counterpart.
+            apps: {
+                current: 'direct-file',
+                items: [
+                    {
+                        id: 'direct-file',
+                        label: "Direct File",
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: "/direct-file-virginia/app/direct-file/"},
+                            { id: 'path-mode', label: 'Path Mode', href: "/direct-file-virginia/app/direct-file/all-screens/?mode=path"},
+                            { id: 'browse-all', label: 'Browse All', href: "/direct-file-virginia/app/direct-file/all-screens/"},
+
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/direct-file' },
+
+                            // Unconditional, the way credit-assistant lists its own. `ff` is a
+                            // nav-leaf property (taxpert-global-nav's _renderLeaf reads it); an
+                            // `apps` destination has no such gate, and the app switcher falls back
+                            // to a sibling's first destination when a counterpart is missing anyway.
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: "/direct-file-virginia/app/direct-file/author/"},
+                        ],
+                    },
+
+                    // The three siblings, by absolute URL and by the port each one's Makefile
+                    // declares — this app's server serves only this app, so a relative path to
+                    // another would 404. Their Authoring Suite entries are unconditional here, the
+                    // way theirs are for each other: this build cannot know what flags another
+                    // application was built with, and the alternative is offering nothing.
+                    {
+                        id: 'credit-assistant',
+                        label: 'EITC Assistant',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3003/app/eitc/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3003/app/eitc/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3003/app/eitc/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/credit-assistant' },
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: 'http://localhost:3003/app/eitc/author/' },
+                        ],
+                    },
+                    {
+                        id: 'twe',
+                        label: 'Tax Withholding Estimator',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3000/app/tax-withholding-estimator/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3000/app/tax-withholding-estimator/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3000/app/tax-withholding-estimator/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/twe' },
+                        ],
+                    },
+                    {
+                        id: 'benefits-enrollment',
+                        label: 'Benefits Enrollment',
+                        destinations: [
+                            { id: 'product-experience', label: 'Product Experience', href: 'http://localhost:3006/app/benefits/' },
+                            { id: 'path-mode', label: 'Path Mode', href: 'http://localhost:3006/app/benefits/all-screens/?mode=path' },
+                            { id: 'browse-all', label: 'Browse All', href: 'http://localhost:3006/app/benefits/all-screens/' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/benefits-enrollment' },
+                            { id: 'authoring-suite', label: 'Authoring Suite', href: 'http://localhost:3006/app/benefits/author/' },
+                        ],
+                    },
+                ],
+            },
+
+            endpoints: {
+                basePath: "/direct-file-virginia/app/direct-file",
+                scenariosBase: "/direct-file-virginia/app/direct-file/resources/scenarios",
+                factDictionaryUrl: "/direct-file-virginia/app/direct-file/resources/fact-dictionary.xml",
+            },
+
+            // The two AI features are separately flagged because they ship on separate timelines:
+            // generation writes a whole Fact Graph from a prompt, explanation only reads facts back.
+            // Both are on by default here — every one of this app's dev targets passes
+            // --aiScenarioGeneration --aiFactExplanation (Makefile's AI_FLAGS) — so these two rows
+            // are how you turn them *off*. authorMode is a third, unrelated to either: it gates the
+            // "Authoring Suite" nav item (nav.menu's `ff: 'author-mode'` above) rather than anything
+            // inside the audit panel.
+            //
+            // Each one's build-time default is the matching `*-default` attribute on
+            // <taxpert-audit-panel>. This app does not override the scaffold's
+            // fragments/audit-panel.html, and does not need to: that fragment already sets all three
+            // from the build flags, so declaring them here is the whole of the wiring.
+            //
+            // `label` is the wording on that modal's row: it renders one row per entry here, so a
+            // flag is declared in exactly one place and a host with none gets an empty state rather
+            // than another application's features.
+            featureFlags: [
+                { name: 'aiScenarioGeneration', kebab: 'ai-scenario-generation', label: "AI scenario generation" },
+                { name: 'aiFactExplanation', kebab: 'ai-fact-explanation', label: "AI fact explanations" },
+                { name: 'authorMode', kebab: 'author-mode', label: "Author Mode" },
+            ],
+
+            tools: [
+                { id: 'inspect', label: "Inspect", description: "Inspect facts, flows and text.", templateId: 'ttp-body-inspect' },
+                { id: 'outcome-tracker', label: "Outcome tracker", description: "Track the outcomes this application determines.", templateId: 'ttp-body-outcome-tracker' },
+                { id: 'watchlist', label: "Watchlist", description: "Track the value of one or more facts as you work or load scenarios.", templateId: 'ttp-body-watchlist' },
+            ],
+
+            graph: directFileGraph,
+            determinations: directFileDeterminations(t),
+        })
+
+        // The per-deployment layer: the same configuration as data, in a file this deployment
+        // serves. It lands after the call above — it is fetched — and configure() merges, so a
+        // deployment's file wins over the build's own values while a person's Workspace-settings
+        // overrides still win over both.
+        //
+        // The shipped file is `{}`: this deployment overrides nothing. Edit it to change what the
+        // workspace tracks, offers or points at without touching a template — the change is then
+        // reviewable in git, which a localStorage override never is. Anything a person *reads*
+        // belongs above rather than in it: the file is served once and is not per-locale.
+        configureFromUrl("/direct-file-virginia/app/direct-file/resources/taxpert.config.json")
+    </script>
+  <script src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/js/uswds-init.min.js"></script>
+  <script defer src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/js/uswds.min.js"></script>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KV978ZL" height="0" width="0" title="Google Tag Manager" class="gtm-noscript"&gt;</noscript>
+  <!-- End Google Tag Manager (noscript) -->
+ </head>
+ <body class="fg-conditions-pending audit-mode">
+  <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+  <div class="app-container">
+   <taxpert-global-nav workspace-label="TAXPERT WORKSPACE" app="direct-file" active="product-experience" workspace-on="true"></taxpert-global-nav> <taxpert-screens-toolbar mode="product"></taxpert-screens-toolbar>
+   <header>
+    <section class="usa-banner" aria-label="An official website of the United States government">
+     <div class="usa-accordion">
+      <header class="usa-banner__header">
+       <div class="usa-banner__inner">
+        <div class="grid-col-auto">
+         <img aria-hidden="true" class="usa-banner__header-flag" src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/us_flag_small.png" alt="">
+        </div>
+        <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+         <p class="usa-banner__header-text">An official website of the United States government</p>
+         <p class="usa-banner__header-action">Here’s how you know</p>
+        </div>
+        <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default"><span class="usa-banner__button-text">Here’s how you know</span></button>
+       </div>
+      </header>
+      <div class="usa-banner__content usa-accordion__content" id="gov-banner-default">
+       <div class="grid-row grid-gap-lg">
+        <div class="usa-banner__guidance tablet:grid-col-6">
+         <img class="usa-banner__icon usa-media-block__img" src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/icon-dot-gov.svg" role="img" alt="" aria-hidden="true">
+         <div class="usa-media-block__body">
+          <p><strong>Official websites use .gov</strong>
+           <br>
+           A <strong>.gov</strong> website belongs to an official government organization in the United States.</p>
+         </div>
+        </div>
+        <div class="usa-banner__guidance tablet:grid-col-6">
+         <img class="usa-banner__icon usa-media-block__img" src="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/icon-https.svg" role="img" alt="" aria-hidden="true">
+         <div class="usa-media-block__body">
+          <strong>Secure .gov websites use HTTPS</strong>
+          <br>
+          A <strong>lock</strong> (<span class="icon-lock"> 
+           <svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewBox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-description-default" focusable="false">
+            <title id="banner-lock-title-default">Lock</title> <desc id="banner-lock-description-default">Locked padlock icon</desc> <path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z" />
+           </svg> 
+          </span> ) or <strong>https://</strong> means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+    <div class="logo-banner">
+     <div class="grid-container">
+      <a href="https://www.irs.gov" aria-label="IRS.gov"> <img src="/direct-file-virginia/app/direct-file/resources/img/irs-logo.svg" alt=""> </a>
+      <div class="language-switcher">
+       <label class="usa-sr-only" for="language-selector">Select Language</label> <select class="usa-select" id="language-selector" name="language-selector" onchange="if(this.value) window.location.href=this.value"> <option value="" disabled selected>Select Language</option> <option value="/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/do-you-want-to/">English</option> <option value="/direct-file-virginia/app/direct-file/es/income/dependent-care/dep-care-combat-pay/do-you-want-to/">Español</option> </select>
+      </div>
+     </div>
+    </div>
+   </header>
+   <main id="main-content">
+    <h1>Direct File</h1>
+    <div class="usa-step-indicator usa-step-indicator--no-labels margin-top-3">
+     <ol class="usa-step-indicator__segments">
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="About you"><span class="usa-step-indicator__segment-label">About you</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Spouse"><span class="usa-step-indicator__segment-label">Spouse</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Family and household"><span class="usa-step-indicator__segment-label">Family and household</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Filing status"><span class="usa-step-indicator__segment-label">Filing status</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Income sources"><span class="usa-step-indicator__segment-label">Income sources</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Jobs"><span class="usa-step-indicator__segment-label">Jobs</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Unemployment compensation"><span class="usa-step-indicator__segment-label">Unemployment compensation</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Interest income"><span class="usa-step-indicator__segment-label">Interest income</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--complete" title="Alaska Permanent Fund Dividend"><span class="usa-step-indicator__segment-label">Alaska Permanent Fund Dividend</span></li>
+      <li class="usa-step-indicator__segment usa-step-indicator__segment--current" aria-current="step" title="Dependent care benefits"><span class="usa-step-indicator__segment-label">Dependent care benefits</span></li>
+      <li class="usa-step-indicator__segment" title="Health Savings Accounts"><span class="usa-step-indicator__segment-label">Health Savings Accounts</span></li>
+      <li class="usa-step-indicator__segment" title="Retirement income (Form 1099-R)"><span class="usa-step-indicator__segment-label">Retirement income (Form 1099-R)</span></li>
+      <li class="usa-step-indicator__segment" title="Retirement income (Form 1099-R)"><span class="usa-step-indicator__segment-label">Retirement income (Form 1099-R)</span></li>
+      <li class="usa-step-indicator__segment" title="Social Security benefits (Form SSA-1099)"><span class="usa-step-indicator__segment-label">Social Security benefits (Form SSA-1099)</span></li>
+      <li class="usa-step-indicator__segment" title="Total income"><span class="usa-step-indicator__segment-label">Total income</span></li>
+      <li class="usa-step-indicator__segment" title="Deductions"><span class="usa-step-indicator__segment-label">Deductions</span></li>
+      <li class="usa-step-indicator__segment" title="Credits"><span class="usa-step-indicator__segment-label">Credits</span></li>
+      <li class="usa-step-indicator__segment" title="Estimated taxes paid"><span class="usa-step-indicator__segment-label">Estimated taxes paid</span></li>
+      <li class="usa-step-indicator__segment" title="Amount"><span class="usa-step-indicator__segment-label">Amount</span></li>
+      <li class="usa-step-indicator__segment" title="Payment method"><span class="usa-step-indicator__segment-label">Payment method</span></li>
+      <li class="usa-step-indicator__segment" title="Other preferences"><span class="usa-step-indicator__segment-label">Other preferences</span></li>
+      <li class="usa-step-indicator__segment" title="Your Virginia return"><span class="usa-step-indicator__segment-label">Your Virginia return</span></li>
+      <li class="usa-step-indicator__segment" title="Review and confirm"><span class="usa-step-indicator__segment-label">Review and confirm</span></li>
+      <li class="usa-step-indicator__segment" title="Federal tax return digital signature"><span class="usa-step-indicator__segment-label">Federal tax return digital signature</span></li>
+      <li class="usa-step-indicator__segment" title="Print and mail"><span class="usa-step-indicator__segment-label">Print and mail</span></li>
+      <li class="usa-step-indicator__segment" title="Submit"><span class="usa-step-indicator__segment-label">Submit</span></li>
+     </ol>
+     <div class="usa-step-indicator__header">
+      <div class="usa-step-indicator__heading">
+       <span class="usa-sr-only"> Step 10 of 26: Dependent care benefits </span> <span class="usa-step-indicator__heading-counter" aria-hidden="true"> <span class="usa-step-indicator__current-step">10</span> <span class="usa-step-indicator__total-steps"> <span>of</span> <span>26</span> </span><span class="usa-step-indicator__heading-text">Dependent care benefits</span> </span>
+      </div>
+     </div>
+    </div>
+    <div class="header-bottom-border">
+     <a class="usa-link back-link" href="/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/it-looks-like-you/"> 
+      <svg aria-hidden="true" role="img" focusable="false" class="usa-icon">
+       <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_before"></use>
+      </svg> Back 
+     </a>
+    </div>
+    <noscript>
+     <p class="alert--warning">JavaScript is required to use the Direct File. Please enable JavaScript or switch to a browser that is JavaScript-capable.</p>
+    </noscript>
+    <div class="loading-region">
+     <img src="/direct-file-virginia/app/direct-file/resources/img/spinner.svg" id="loading-spinner" alt="Loading spinner">
+    </div>
+    <div id="page-content-wrapper" inert>
+     <div>
+      <section class="flow usa-prose">
+       <div class="df-screen" condition="/isMaybeEligibleForDependentCareBenefitsAndIsCombatPayCouldImpactDependentCareBenefits" operator="isTrue">
+        <h2>Do you want to include your nontaxable combat pay in your earned income when calculating how much of your dependent care benefits are taxable?</h2>
+        <fg-alert class="hidden" alert-type="success" condition="/flowAlwaysTrue" operator="isTrue" blocking="false" knockout="false">
+         <div class="fg-alert usa-alert usa-alert--success">
+          <div class="usa-alert__body">
+           <h3 class="usa-alert__heading">Do you want to include your nontaxable combat pay in your earned income when calculating how much of your dependent care benefits are taxable?</h3>
+           <p condition="/isOnlyOneFilerHasCombatPay" operator="isTrue"><strong>Less of your benefits may be taxed</strong> if you include all of your combat pay in your earned income. You can choose another option, but this means more of your benefits could be taxed.</p>
+           <p condition="/isBothFilersHasCombatPay" operator="isTrue"><strong>Less of your benefits may be taxed</strong> if you include all of your and <fg-show path="/secondaryFiler/firstName"></fg-show>’s combat pay in your earned income. You can choose another option, but this means more of your benefits could be taxed.</p>
+           <p><modal-link for="modal-info-info-income-dependent-care-combat-pay-modal-linkmodal1">How does including combat pay affect your taxable dependent care benefits?</modal-link></p>
+          </div>
+         </div>
+        </fg-alert>
+        <fg-set path="/cdccCombatPayElectionForBenefits" inputtype="enum" optional="false">
+         <div class="usa-form-group">
+          <fieldset class="usa-fieldset">
+           <legend class="usa-legend twe-question"> Do you want to include your nontaxable combat pay in your earned income when calculating how much of your dependent care benefits are taxable? <span aria-hidden="true" class="usa-hint">(Required)</span> </legend>
+           <div class="usa-radio">
+            <input id="/cdccCombatPayElectionForBenefits-useSpouseCombatPay" class="usa-radio__input" type="radio" value="useSpouseCombatPay" name="/cdccCombatPayElectionForBenefits" aria-invalid="false" required> <label for="/cdccCombatPayElectionForBenefits-useSpouseCombatPay" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Include all combat pay</span> </label>
+           </div>
+           <div class="usa-radio">
+            <input id="/cdccCombatPayElectionForBenefits-usePrimaryCombatPay" class="usa-radio__input" type="radio" value="usePrimaryCombatPay" name="/cdccCombatPayElectionForBenefits" aria-invalid="false" required> <label for="/cdccCombatPayElectionForBenefits-usePrimaryCombatPay" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Include all combat pay</span> </label>
+           </div>
+           <div class="usa-radio">
+            <input id="/cdccCombatPayElectionForBenefits-useBothCombatPay" class="usa-radio__input" type="radio" value="useBothCombatPay" name="/cdccCombatPayElectionForBenefits" aria-invalid="false" required> <label for="/cdccCombatPayElectionForBenefits-useBothCombatPay" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Include all of my and <fg-show path="/secondaryFiler/firstName"></fg-show>’s combat pay</span> </label>
+           </div>
+           <div class="usa-radio">
+            <input id="/cdccCombatPayElectionForBenefits-usePrimaryNotSpouseCombatPay" class="usa-radio__input" type="radio" value="usePrimaryNotSpouseCombatPay" name="/cdccCombatPayElectionForBenefits" aria-invalid="false" required> <label for="/cdccCombatPayElectionForBenefits-usePrimaryNotSpouseCombatPay" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Include all of my combat pay and exclude all of <fg-show path="/secondaryFiler/firstName"></fg-show>’s combat pay</span> </label>
+           </div>
+           <div class="usa-radio">
+            <input id="/cdccCombatPayElectionForBenefits-useSpouseNotPrimaryCombatPay" class="usa-radio__input" type="radio" value="useSpouseNotPrimaryCombatPay" name="/cdccCombatPayElectionForBenefits" aria-invalid="false" required> <label for="/cdccCombatPayElectionForBenefits-useSpouseNotPrimaryCombatPay" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Include all of <fg-show path="/secondaryFiler/firstName"></fg-show>’s combat pay and exclude all of my combat pay</span> </label>
+           </div>
+           <div class="usa-radio">
+            <input id="/cdccCombatPayElectionForBenefits-noCombatPay" class="usa-radio__input" type="radio" value="noCombatPay" name="/cdccCombatPayElectionForBenefits" aria-invalid="false" required> <label for="/cdccCombatPayElectionForBenefits-noCombatPay" class="usa-radio__label radio-option"> <!-- utext, not text: an option's label may carry markup. FgSet.scala stores the option's
+             inner XML as the translation value (`option.head.child.mkString`), so `<strong>` and
+             `<fg-show path="/taxYear"></fg-show>` both arrive here intact and escaping them would print the
+             tags. The boolean input's options have always been rendered this way; this is the same
+             rule, applied to the two that were not. --> <span>Exclude all combat pay</span> </label>
+           </div>
+          </fieldset>
+         </div>
+        </fg-set>
+
+       </div>
+      </section>
+      <dialog id="modal-info-info-income-dependent-care-combat-pay-modal-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">How does including combat pay affect your taxable dependent care benefits?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>Including combat pay in your earned income can help reduce the amount of your dependent care benefits that are taxed.</p>
+          <p>If you decide to include combat pay in your earned income, this will only be used to calculate how much of your dependent care benefits are taxed. It can only be helpful, and will never lead to more of your benefits being taxed.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-dependent-care-earned-income-rule-breather-which-situation-chang-c126c285" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Which tax situations may lower the amount of taxable dependent care benefits?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>To figure how much of your dependent care benefits are taxable, the IRS allows one or both taxpayers to be treated as having earned income for any month that they are:</p>
+          <ul>
+           <li>Full-time students</li>
+           <li>Physically or mentally unable to care for themselves</li>
+          </ul>
+          <p>For every month that they’re a full-time student or unable to care for themselves, they can be treated as having up to $250 in earned income if they have one qualifying person, and up to $500 in earned income if they have two or more qualifying people. This could mean that less of their benefits will be taxed.</p>
+          <p><a href="https://www.irs.gov/publications/p503#en_US_2023_publink1000203287" target="_blank">Learn more about the rule for student-spouse or spouse not able to care for self. </a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-dependent-care-earned-income-rule-tp1-why-ask-if-made-under-bene-fa0d5be2" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">Why are we asking if you made under a certain amount?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>To figure how much of your dependent care benefits are taxable, the IRS allows one or both taxpayers to be treated as having earned income for any month that they are:</p>
+          <ul>
+           <li>Full-time students</li>
+           <li>Physically or mentally unable to care for themselves</li>
+          </ul>
+          <p>For every month that they’re a full-time student or unable to care for themselves, they can be treated as having up to $250 in earned income if they have one qualifying person, and up to $500 in earned income if they have two or more qualifying people. This could mean that less of their benefits will be taxed.</p>
+          <p><a href="https://www.irs.gov/publications/p503#en_US_2023_publink1000203287" target="_blank">Learn more about the rule for student-spouse or spouse not able to care for self. </a></p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+      <dialog id="modal-info-info-income-dependent-care-what-is-earned-income-modal-linkmodal1" class="usa-modal--dialog" closedby="any">
+       <div class="usa-modal__content">
+        <div class="usa-modal__main">
+         <h1 class="usa-modal__heading">What’s earned income?</h1>
+         <button type="button" class="usa-button usa-modal__close" aria-label="Close this window" data-close-modal>
+          <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+           <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#close"></use>
+          </svg>
+         </button>
+         <div class="usa-prose">
+          <p>The IRS uses earned income to figure out how much of your dependent care benefits can be excluded from tax. When used for this purpose, the IRS defines earned income as:</p>
+          <ul>
+           <li>Total amount from Form 1040 line 1z</li>
+           <li>Nontaxable combat pay</li>
+          </ul>
+          <p>Earned income includes other kinds of income too, but they’re not supported in Direct File this year.</p>
+          <p>Refer to <a href="https://www.irs.gov/instructions/i2441#en_US_2023_publink100077779:~:text= by%20your%20employer.-,Lines%204%20and%205,-If%20filing%20jointly" target="_blank">Instructions for Form 2441 (lines 4 and 5)</a> for more information on how to calculate earned income for the purposes of excluding dependent care benefits from tax.</p>
+         </div>
+         <div class="usa-modal__footer"></div>
+        </div>
+       </div>
+      </dialog>
+     </div>
+     <div class="form-actions">
+      <!-- [html-validate-disable prefer-native-element -- Do not remove the .usa-button class - this class enables Space key functionality from USWDS needed for `role="button"`] -->
+      <a role="button" class="usa-button usa-button--outline back-btn--desktop" href="/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/it-looks-like-you/"> 
+       <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-left-neg-1 margin-y-neg-05">
+        <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_before"></use>
+       </svg> Back 
+      </a> <a role="button" class="usa-button" href="/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/we-need-more-information/" onclick="return handleSectionContinue(event)"> Next 
+       <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-right-neg-1 margin-y-neg-05">
+        <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_next"></use>
+       </svg> </a> <a role="button" class="usa-button usa-button--outline back-btn--mobile" href="/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/it-looks-like-you/"> 
+       <svg aria-hidden="true" role="img" focusable="false" class="usa-icon usa-icon--size-3 margin-left-neg-1 margin-y-neg-05">
+        <use href="/direct-file-virginia/app/direct-file/resources/vendor/uswds-3.13.0/img/sprite.svg#navigate_before"></use>
+       </svg> Back 
+      </a> <!-- [html-validate-enable prefer-native-element] -->
+     </div>
+    </div>
+   </main>
+   <footer aria-label="Direct File" class="footer">
+    <div data-testid="identifier" class="usa-identifier">
+     <section data-testid="identifierMasthead" class="usa-identifier__section usa-identifier__section--masthead" aria-label="Agency identifier">
+      <div class="usa-identifier__container">
+       <div data-testid="identifierLogos" class="usa-identifier__logos">
+        <a class="usa-identifier__logo" href="https://irs.gov" aria-label="IRS.gov"> <img src="/direct-file-virginia/app/direct-file/resources/img/irs_logo_bk.svg" class="usa-identifier__logo-img" alt=""> </a>
+       </div>
+       <div data-testid="identifierIdentity" class="usa-identifier__identity">
+        <p class="usa-identifier__identity-domain">IRS.gov</p>
+        <p class="usa-identifier__identity-disclaimer">An official website of the <a class="usa-link" target="_blank" href="https://irs.gov">IRS<span class="usa-sr-only"> (opens in a new tab)</span></a></p>
+       </div>
+      </div>
+     </section>
+     <nav class="usa-identifier__section usa-identifier__section--required-links" aria-label="Important links">
+      <div class="usa-identifier__container">
+       <ul class="usa-identifier__required-links-list">
+        <li class="usa-identifier__required-links-item"><a target="_blank" class="usa-link usa-identifier__required-link" href="https://www.irs.gov/about-irs">About</a></li>
+        <li class="usa-identifier__required-links-item"><a target="_blank" class="usa-link usa-identifier__required-link" href="https://www.irs.gov/accessibility">Accessibility</a></li>
+        <li class="usa-identifier__required-links-item"><a target="_blank" class="usa-link usa-identifier__required-link" href="https://www.irs.gov/privacy-disclosure/irs-privacy-policy">Privacy policy</a></li>
+       </ul>
+      </div>
+     </nav>
+    </div>
+   </footer>
+   <template id="validate-alert-template">
+    <div class="usa-alert usa-alert--error validate-alert" role="alert">
+     <div class="usa-alert__body">
+      <p class="usa-alert__text" id="alert-message">Please complete the required fields</p>
+     </div>
+    </div>
+   </template>
+   <!-- I did this with text scripts because getting innerHTML from a template doesn't work for some reason -->
+   <script type="text" id="errors.InvalidCharacters">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.InvalidDollar">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.InvalidHyphens">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.InvalidParentheses">Enter only numbers and a decimal.</script>
+   <script type="text" id="errors.TooManyDecimals">Enter a number with only one decimal.</script>
+   <script type="text" id="errors.TooManyFractionalDigits">Enter only two digits after the decimal.</script>
+   <script type="text" id="errors.InvalidDay">Enter a valid day.</script>
+   <script type="text" id="errors.InvalidDayDueToLeapYear">Invalid day due to leap year.</script>
+   <script type="text" id="errors.InvalidMonth">Enter a valid month.</script>
+   <script type="text" id="errors.InvalidDate">Enter a valid date.</script>
+   <script type="text" id="errors.InvalidLimit">Invalid limit set.</script>
+   <script type="text" id="errors.IncompleteWritableDate">Enter a complete date or leave blank</script>
+   <script type="text" id="errors.BlankEnum">Value was blank.</script>
+   <script type="text" id="errors.InvalidEnum">Value not found.</script>
+   <script type="text" id="errors.Match">Check the format and try again.</script>
+   <script type="text" id="errors.Max">Enter an amount less than</script>
+   <script type="text" id="errors.Min">Enter an amount more than</script>
+   <script type="text" id="errors.Required">This question is required</script>
+   <script type="text" id="errors.Default">Sorry, something went wrong</script>
+  </div>
+  <!--
+  The Taxpert Workspace panel. It owns the Scenario, Display and Workspace-settings modals; the
+  Inspect / Outcome tracker / Watchlist tools mount separately from fragments/tool-dock.html.
+
+  Every URL here is derived from ${basePath}, so this works unchanged in any application. An app
+  that needs to register panel extensions of its own — an extra dashboard, a scenario vocabulary —
+  copies this file into its own templates/fragments/ and adds them; app templates resolve first, so
+  its copy wins. That is deliberately a copy of twenty lines rather than a hook: the alternative is
+  every application having to supply an extensions fragment whether it has extensions or not.
+-->
+  <taxpert-audit-panel id="audit-panel" aria-label="Audit Panel" api-base="http://localhost:8000" scenarios-base="/direct-file-virginia/app/direct-file/resources/scenarios" fact-dictionary-url="/direct-file-virginia/app/direct-file/resources/fact-dictionary.xml" ai-scenario-generation-default="false" ai-fact-explanation-default="false" author-mode-default="false">
+   <!-- Host-supplied scenario options (light-DOM children, read on connect). Wrapped in a
+        <template> so the page HTML stays valid; only emitted in scenario mode. -->
+   <template>
+    <option value="1040_withholdings_without_attachments.json">1040 Withholdings Without Attachments</option> <option value="1099_r_no_state_tax_group.json">1099 R No State Tax Group</option> <option value="1099_r_optional_state_local_tax_group.json">1099 R Optional State Local Tax Group</option> <option value="1099r_box_2b_total_distribution.json">1099r Box 2b Total Distribution</option> <option value="1099r_no_recipient_address.json">1099r No Recipient Address</option> <option value="1099r_savers_mfj_primary.json">1099r Savers Mfj Primary</option> <option value="1099r_savers_mfj_spouse_both.json">1099r Savers Mfj Spouse Both</option> <option value="1099r_savers_mfj_spouse_eligible.json">1099r Savers Mfj Spouse Eligible</option> <option value="1099r_savers_single.json">1099r Savers Single</option> <option value="1099r_savers_single_line_6.json">1099r Savers Single Line 6</option> <option value="8862_ats_5.json">8862 Ats 5</option> <option value="8862_ctc_no_eitc.json">8862 Ctc No Eitc</option> <option value="8862_ctc_no_letter_for_improper_claims.json">8862 Ctc No Letter For Improper Claims</option> <option value="8862_eitc_no_ctc.json">8862 Eitc No Ctc</option> <option value="HOH_32k_EITC.json">HOH 32k EITC</option> <option value="HOH_35K_dep_credits.json">HOH 35K Dep Credits</option> <option value="apf_single_resident_no_apf_related_income.json">Apf Single Resident No Apf Related Income</option> <option value="apf_single_resident_no_dep.json">Apf Single Resident No Dep</option> <option value="apf_single_resident_no_dep_withholding.json">Apf Single Resident No Dep Withholding</option> <option value="ats_1.json">Ats 1</option> <option value="ats_1_1099r.json">Ats 1 1099r</option> <option value="ats_1_1099r_disabled.json">Ats 1 1099r Disabled</option> <option value="ats_2.json">Ats 2</option> <option value="ats_2_1099r.json">Ats 2 1099r</option> <option value="ats_2_1099r_blank_taxable.json">Ats 2 1099r Blank Taxable</option> <option value="ats_2_1099r_nonzero_taxable.json">Ats 2 1099r Nonzero Taxable</option> <option value="ats_2_occupation_test.json">Ats 2 Occupation Test</option> <option value="ats_3_1099r.json">Ats 3 1099r</option> <option value="cdcc_hoh_net_allowable_less_than_zero.json">Cdcc Hoh Net Allowable Less Than Zero</option> <option value="cdcc_mfj_carryover_equal_income.json">Cdcc Mfj Carryover Equal Income</option> <option value="cdcc_mfj_dep_care_benefits_only.json">Cdcc Mfj Dep Care Benefits Only</option> <option value="cdcc_mfj_filer_qp_multiple_qps.json">Cdcc Mfj Filer Qp Multiple Qps</option> <option value="cfa_npe_01_26.json">Cfa Npe 01 26</option> <option value="cfa_xml_error_1.json">Cfa Xml Error 1</option> <option value="cfa_xml_error_2.json">Cfa Xml Error 2</option> <option value="edc_ats_1.json">Edc Ats 1</option> <option value="edc_disqualified_disability_income.json">Edc Disqualified Disability Income</option> <option value="edc_failing_validation_ats.json">Edc Failing Validation Ats</option> <option value="edc_failing_validation_dev.json">Edc Failing Validation Dev</option> <option value="edc_mfj_both_disabled.json">Edc Mfj Both Disabled</option> <option value="edc_mfj_spouse_disability_income.json">Edc Mfj Spouse Disability Income</option> <option value="edc_qualified_disability_income.json">Edc Qualified Disability Income</option> <option value="edc_qualified_single_elderly.json">Edc Qualified Single Elderly</option> <option value="edc_single_disqualified_edit_condition.json">Edc Single Disqualified Edit Condition</option> <option value="hoh_12k_income.json">Hoh 12k Income</option> <option value="hoh_13936_actc_eitc.json">Hoh 13936 Actc Eitc</option> <option value="hoh_13k.json">Hoh 13k</option> <option value="hoh_20k.json">Hoh 20k</option> <option value="hoh_35k.json">Hoh 35k</option> <option value="hoh_35k_2.json">Hoh 35k 2</option> <option value="hoh_38k.json">Hoh 38k</option> <option value="hoh_40k.json">Hoh 40k</option> <option value="hoh_40k_2.json">Hoh 40k 2</option> <option value="hoh_43k_plus_interest.json">Hoh 43k Plus Interest</option> <option value="hoh_48k_ctc.json">Hoh 48k Ctc</option> <option value="hoh_49k_ctc.json">Hoh 49k Ctc</option> <option value="hoh_9300.json">Hoh 9300</option> <option value="hoh_benefit_split_combat_pay_sched_lep_other_withholding.json">Hoh Benefit Split Combat Pay Sched Lep Other Withholding</option> <option value="hoh_cdcc.json">Hoh Cdcc</option> <option value="hoh_cdcc_combat_pay.json">Hoh Cdcc Combat Pay</option> <option value="hoh_cdcc_income_excluded.json">Hoh Cdcc Income Excluded</option> <option value="hoh_cdcc_multiple_careproviders.json">Hoh Cdcc Multiple Careproviders</option> <option value="hoh_itin_ctc.json">Hoh Itin Ctc</option> <option value="hoh_self_only_eic_third_party_designee_form_9000.json">Hoh Self Only Eic Third Party Designee Form 9000</option> <option value="hsa_ats_1.json">Hsa Ats 1</option> <option value="hsa_mfj_contributions_only.json">Hsa Mfj Contributions Only</option> <option value="hsa_mfj_one_8889.json">Hsa Mfj One 8889</option> <option value="hsa_mfj_one_8889_v2.json">Hsa Mfj One 8889 V2</option> <option value="hsa_mfj_over_55.json">Hsa Mfj Over 55</option> <option value="hsa_mfj_over_under_55.json">Hsa Mfj Over Under 55</option> <option value="hsa_mfj_separate_8889s.json">Hsa Mfj Separate 8889s</option> <option value="hsa_mfj_ticket_11914.json">Hsa Mfj Ticket 11914</option> <option value="hsa_mfs_over_55_edit.json">Hsa Mfs Over 55 Edit</option> <option value="hsa_single_filer_contributions_only.json">Hsa Single Filer Contributions Only</option> <option value="mef_ats_1.json">Mef Ats 1</option> <option value="mef_ats_1040sr_eic.json">Mef Ats 1040sr Eic</option> <option value="mef_ats_1_dd.json">Mef Ats 1 Dd</option> <option value="mef_ats_2.json">Mef Ats 2</option> <option value="mef_ats_2a.json">Mef Ats 2a</option> <option value="mef_ats_4.json">Mef Ats 4</option> <option value="mef_ats_5.json">Mef Ats 5</option> <option value="mef_ats_SSA.json">Mef Ats SSA</option> <option value="mef_ats_balance_due.json">Mef Ats Balance Due</option> <option value="mfj_11k.json">Mfj 11k</option> <option value="mfj_15k.json">Mfj 15k</option> <option value="mfj_1dep_1nondep.json">Mfj 1dep 1nondep</option> <option value="mfj_20k.json">Mfj 20k</option> <option value="mfj_30k.json">Mfj 30k</option> <option value="mfj_30k_eitc_ctc_actc.json">Mfj 30k Eitc Ctc Actc</option> <option value="mfj_40k_eitc_ctc.json">Mfj 40k Eitc Ctc</option> <option value="mfj_42505_ctck12.json">Mfj 42505 Ctck12</option> <option value="mfj_43k.json">Mfj 43k</option> <option value="mfj_44k.json">Mfj 44k</option> <option value="mfj_44k_ak_pfd.json">Mfj 44k Ak Pfd</option> <option value="mfj_50k_ctc_odc.json">Mfj 50k Ctc Odc</option> <option value="mfj_70_none.json">Mfj 70 None</option> <option value="mfj_adjustments_spouse_didnt_file_last_year.json">Mfj Adjustments Spouse Didnt File Last Year</option> <option value="mfj_all_income_types_withholding.json">Mfj All Income Types Withholding</option> <option value="mfj_both_savers_credit.json">Mfj Both Savers Credit</option> <option value="mfj_cdcc_combat_pay_2024_verified.json">Mfj Cdcc Combat Pay 2024 Verified</option> <option value="mfj_deceased_spouse.json">Mfj Deceased Spouse</option> <option value="mfj_noncitizen_47000_none_signed.json">Mfj Noncitizen 47000 None Signed</option> <option value="mfs_20k_no_credits.json">Mfs 20k No Credits</option> <option value="mfs_26k_no_credits.json">Mfs 26k No Credits</option> <option value="mfs_35k_cod_eitc.json">Mfs 35k Cod Eitc</option> <option value="mfs_4300_none.json">Mfs 4300 None</option> <option value="mfs_nra_spouse_combat_pay_not_used_didnt_file_last_year.json">Mfs Nra Spouse Combat Pay Not Used Didnt File Last Year</option> <option value="nj_box_14.json">Nj Box 14</option> <option value="npe_form_2441_without_cdcc.json">Npe Form 2441 Without Cdcc</option> <option value="ny_rejected_0126.json">Ny Rejected 0126</option> <option value="primary_only_savers_credit.json">Primary Only Savers Credit</option> <option value="ptc_annual_amounts_rounding.json">Ptc Annual Amounts Rounding</option> <option value="ptc_edit_has_annual_zero_cov_months.json">Ptc Edit Has Annual Zero Cov Months</option> <option value="ptc_high_income.json">Ptc High Income</option> <option value="ptc_no_aptc_negative_magi.json">Ptc No Aptc Negative Magi</option> <option value="qss_12k.json">Qss 12k</option> <option value="qss_34K_ctc_2dependents.json">Qss 34K Ctc 2dependents</option> <option value="qss_35K_1 dependent_signed.json">Qss 35K 1 dependent Signed</option> <option value="qss_75k.json">Qss 75k</option> <option value="qss_additional_standard_deduction_disabled_eic_ip_pin_other_withholding.json">Qss Additional Standard Deduction Disabled Eic Ip Pin Other Withholding</option> <option value="rounding_issues_schedule_2.json">Rounding Issues Schedule 2</option> <option value="schedule_b_multiple_interest_rounding.json">Schedule B Multiple Interest Rounding</option> <option value="schedule_b_single_50k.json">Schedule B Single 50k</option> <option value="single_10k_eitc_qcs_without_ssn.json">Single 10k Eitc Qcs Without Ssn</option> <option value="single_21500_no_credits_never_moved_to_ca.json">Single 21500 No Credits Never Moved To Ca</option> <option value="single_33k_no_credits.json">Single 33k No Credits</option> <option value="single_35k.json">Single 35k</option> <option value="single_35k_ip_pin_entered_after_agi.json">Single 35k Ip Pin Entered After Agi</option> <option value="single_43k_no_credits.json">Single 43k No Credits</option> <option value="single_45k.json">Single 45k</option> <option value="single_46k.json">Single 46k</option> <option value="single_50k.json">Single 50k</option> <option value="single_50k_no_credits.json">Single 50k No Credits</option> <option value="single_can_be_claimed_no_job_est_payments_pay_later_didnt_file_last_year.json">Single Can Be Claimed No Job Est Payments Pay Later Didnt File Last Year</option> <option value="single_eitc_agi_exceeds_earned_income.json">Single Eitc Agi Exceeds Earned Income</option> <option value="single_simple_savers_credit.json">Single Simple Savers Credit</option> <option value="spouse_only_savers_credit.json">Spouse Only Savers Credit</option> <option value="third_party_designee_5545.json">Third Party Designee 5545</option> <option value="ticket_10278_negative.json">Ticket 10278 Negative</option> <option value="ticket_11265.json">Ticket 11265</option> <option value="ticket_11278.json">Ticket 11278</option> <option value="ticket_11416.json">Ticket 11416</option> <option value="ticket_12386.json">Ticket 12386</option> <option value="ticket_14906.json">Ticket 14906</option> <option value="ticket_4893.json">Ticket 4893</option> <option value="ticket_4953.json">Ticket 4953</option> <option value="ticket_5987.json">Ticket 5987</option> <option value="ticket_6192_ctc.json">Ticket 6192 Ctc</option> <option value="ticket_6192_odc.json">Ticket 6192 Odc</option> <option value="ticket_6196.json">Ticket 6196</option> <option value="ticket_6197.json">Ticket 6197</option> <option value="ticket_6256.json">Ticket 6256</option> <option value="ticket_6269.json">Ticket 6269</option> <option value="ticket_6718.json">Ticket 6718</option> <option value="ticket_8689_1099r_no_federalwithhold.json">Ticket 8689 1099r No Federalwithhold</option> <option value="ticket_8689_1099r_nonzero_federalwithold.json">Ticket 8689 1099r Nonzero Federalwithold</option> <option value="ticket_8689_1099r_zero_federalwithold.json">Ticket 8689 1099r Zero Federalwithold</option> <option value="ticket_9717_nonzero.json">Ticket 9717 Nonzero</option> <option value="ticket_9717_zero.json">Ticket 9717 Zero</option> <option value="virginia_demo_1_riley_rappahannock_single_33k.json">Virginia Demo 1 Riley Rappahannock Single 33k</option> <option value="virginia_demo_2_morgan_shenandoah_age_65_56k.json">Virginia Demo 2 Morgan Shenandoah Age 65 56k</option> <option value="virginia_demo_3_jordan_elizabeth_hoh_20k_eitc.json">Virginia Demo 3 Jordan Elizabeth Hoh 20k Eitc</option> <option value="virginia_demo_4_taylor_york_single_27k_military.json">Virginia Demo 4 Taylor York Single 27k Military</option> <option value="w2_with_box_14_value_set_to_0.json">W2 With Box 14 Value Set To 0</option> <option value="zero_coded_W2_box_12_ko.json">Zero Coded W2 Box 12 KO</option>
+   </template>
+  </taxpert-audit-panel>
+  <!--
+      The workspace tool panels: Inspect, Outcome tracker and Watchlist, opened from the global nav's
+      Tools button. Like the audit panel, this sits outside .app-container as a direct child of
+      <body>, because `.audit-mode` turns <body> into a flex row and the dock is one of its columns —
+      that is what makes the page content reflow beside it with no fixed positioning.
+
+      `hidden` mirrors the workspace toggle. The nav only offers the Tools button while the workspace
+      is on (`.tgn-tools` is hidden otherwise), so the panels it opens should not outlive it — and
+      the dock remembers which tools were on in localStorage, so without this they would come back on
+      a page where the button that closes them isn't there.
+    -->
+  <taxpert-tool-dock></taxpert-tool-dock>
+  <script type="module">
+        // The nav owns the workspace switch; the dock and the audit panel both follow it. The panel's
+        // own enable()/disable() wiring is in the application's fragments/workspace-head.html, since
+        // it needs a path into taxpert and this library names none.
+        //
+        // Listened for on `document` rather than on the nav element: the event is dispatched with
+        // bubbles+composed, and this way the two listeners do not have to agree about which of the two
+        // elements parses first.
+        const dock = document.querySelector('taxpert-tool-dock')
+        document.addEventListener('workspace-toggle', (event) => {
+            dock?.toggleAttribute('hidden', !event.detail.on)
+        })
+    </script>
+  <script type="module">
+        import { enable } from "/direct-file-virginia/app/direct-file/resources/vendor/taxpert/dist/js/taxpert.js"
+        enable()
+
+        // The Scenario picker's three dropdowns. Registered from here rather than by overriding the
+        // scaffold's audit-panel.html the way credit-assistant does: the only thing this application
+        // adds to that fragment is a filter vocabulary, and a whole template override to reach one
+        // method is a copy that has to be kept in step with a library file forever. This fragment
+        // already renders at the end of <body> with the panel in the document.
+        //
+        // 161 scenarios; a flat list of them is not browsable. Nothing happens without a corpus, so
+        // this is inert until `make export-scenarios` has run.
+        import { registerScenarioFilters } from "/direct-file-virginia/app/direct-file/resources/js/scenario-filters.js"
+        registerScenarioFilters(document.querySelector('#audit-panel'))
+    </script>
+ </body>
+</html>

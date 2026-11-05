@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-05T18:19:07.836Z",
+  "defaultAppId": "direct-file",
+  "apps": [
+    {
+      "id": "direct-file",
+      "label": "Direct File, with the Virginia return",
+      "appId": "direct-file",
+      "basePath": "/direct-file-virginia/app/direct-file",
+      "storagePrefix": "direct-file",
+      "devOrigin": "http://localhost:3008",
+      "engine": {
+        "bundle": "/direct-file-virginia/app/direct-file/resources/vendor/fact-graph/factgraph-3.1.0.js",
+        "dictionary": "/direct-file-virginia/app/direct-file/resources/fact-dictionary.xml"
+      },
+      "capabilities": {
+        "allScreens": true,
+        "scenarioMode": true,
+        "authorMode": true
+      },
+      "scenarios": {
+        "base": "/direct-file-virginia/app/direct-file/resources/scenarios",
+        "index": "/direct-file-virginia/fact-explorer/data/direct-file/scenarios-index.json",
+        "vocabulary": "direct-file"
+      },
+      "fgm": {
+        "remote": "/direct-file-virginia/app/direct-file/resources/form-builder-graph.json",
+        "local": "/direct-file-virginia/fact-explorer/data/direct-file/form-builder-graph.json"
+      },
+      "customFlowTags": []
+    }
+  ]
+}

@@ -1,0 +1,700 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-05T18:19:07.432Z",
+  "taxYear": 2025,
+  "flowTags": [],
+  "_note": "Generated beside the whole graph by scripts/make-static-fgm.mjs. One file per slice-picker option; the \"full\" option names the whole graph. Do not edit by hand; rerun the script.",
+  "defaultKey": "pagefile::you-and-your-family-about-you.xml",
+  "facets": {
+    "flowTags": [
+      "fg-set",
+      "fg-alert",
+      "fg-collection",
+      "fg-detail"
+    ],
+    "factKinds": [
+      "writable",
+      "derived"
+    ],
+    "edgeKinds": [
+      "sequential",
+      "exits",
+      "gates",
+      "binds",
+      "shows",
+      "knocks-out",
+      "displays",
+      "depends"
+    ],
+    "knockoutsOnly": false
+  },
+  "wholeFile": "form-builder-graph.json",
+  "shards": [
+    {
+      "key": "pagefile::you-and-your-family-about-you.xml",
+      "group": "Flow pages",
+      "label": "you-and-your-family-about-you (35)",
+      "file": "shards/pagefile__you-and-your-family-about-you.xml.json",
+      "focus": 35,
+      "nodes": 47,
+      "edges": 57
+    },
+    {
+      "key": "pagefile::you-and-your-family-spouse.xml",
+      "group": "Flow pages",
+      "label": "you-and-your-family-spouse (64)",
+      "file": "shards/pagefile__you-and-your-family-spouse.xml.json",
+      "focus": 64,
+      "nodes": 96,
+      "edges": 115
+    },
+    {
+      "key": "pagefile::you-and-your-family-dependents.xml",
+      "group": "Flow pages",
+      "label": "you-and-your-family-dependents (75)",
+      "file": "shards/pagefile__you-and-your-family-dependents.xml.json",
+      "focus": 75,
+      "nodes": 136,
+      "edges": 253
+    },
+    {
+      "key": "pagefile::you-and-your-family-filing-status.xml",
+      "group": "Flow pages",
+      "label": "you-and-your-family-filing-status (15)",
+      "file": "shards/pagefile__you-and-your-family-filing-status.xml.json",
+      "focus": 15,
+      "nodes": 22,
+      "edges": 27
+    },
+    {
+      "key": "pagefile::income-income-sources.xml",
+      "group": "Flow pages",
+      "label": "income-income-sources (13)",
+      "file": "shards/pagefile__income-income-sources.xml.json",
+      "focus": 13,
+      "nodes": 24,
+      "edges": 31
+    },
+    {
+      "key": "pagefile::income-jobs.xml",
+      "group": "Flow pages",
+      "label": "income-jobs (65)",
+      "file": "shards/pagefile__income-jobs.xml.json",
+      "focus": 65,
+      "nodes": 113,
+      "edges": 124
+    },
+    {
+      "key": "pagefile::income-unemployment.xml",
+      "group": "Flow pages",
+      "label": "income-unemployment (23)",
+      "file": "shards/pagefile__income-unemployment.xml.json",
+      "focus": 23,
+      "nodes": 39,
+      "edges": 50
+    },
+    {
+      "key": "pagefile::income-interest.xml",
+      "group": "Flow pages",
+      "label": "income-interest (44)",
+      "file": "shards/pagefile__income-interest.xml.json",
+      "focus": 44,
+      "nodes": 69,
+      "edges": 77
+    },
+    {
+      "key": "pagefile::income-alaska-pfd.xml",
+      "group": "Flow pages",
+      "label": "income-alaska-pfd (5)",
+      "file": "shards/pagefile__income-alaska-pfd.xml.json",
+      "focus": 5,
+      "nodes": 11,
+      "edges": 8
+    },
+    {
+      "key": "pagefile::income-dependent-care.xml",
+      "group": "Flow pages",
+      "label": "income-dependent-care (34)",
+      "file": "shards/pagefile__income-dependent-care.xml.json",
+      "focus": 34,
+      "nodes": 72,
+      "edges": 94
+    },
+    {
+      "key": "pagefile::income-hsa.xml",
+      "group": "Flow pages",
+      "label": "income-hsa (53)",
+      "file": "shards/pagefile__income-hsa.xml.json",
+      "focus": 53,
+      "nodes": 100,
+      "edges": 138
+    },
+    {
+      "key": "pagefile::income-retirement-launch.xml",
+      "group": "Flow pages",
+      "label": "income-retirement-launch (3)",
+      "file": "shards/pagefile__income-retirement-launch.xml.json",
+      "focus": 3,
+      "nodes": 7,
+      "edges": 5
+    },
+    {
+      "key": "pagefile::income-retirement.xml",
+      "group": "Flow pages",
+      "label": "income-retirement (67)",
+      "file": "shards/pagefile__income-retirement.xml.json",
+      "focus": 67,
+      "nodes": 114,
+      "edges": 140
+    },
+    {
+      "key": "pagefile::income-social-security.xml",
+      "group": "Flow pages",
+      "label": "income-social-security (10)",
+      "file": "shards/pagefile__income-social-security.xml.json",
+      "focus": 10,
+      "nodes": 19,
+      "edges": 19
+    },
+    {
+      "key": "pagefile::income-total-income-summary.xml",
+      "group": "Flow pages",
+      "label": "income-total-income-summary (1)",
+      "file": "shards/pagefile__income-total-income-summary.xml.json",
+      "focus": 1,
+      "nodes": 2,
+      "edges": 1
+    },
+    {
+      "key": "pagefile::credits-and-deductions-deductions.xml",
+      "group": "Flow pages",
+      "label": "credits-and-deductions-deductions (10)",
+      "file": "shards/pagefile__credits-and-deductions-deductions.xml.json",
+      "focus": 10,
+      "nodes": 21,
+      "edges": 23
+    },
+    {
+      "key": "pagefile::credits-and-deductions-credits.xml",
+      "group": "Flow pages",
+      "label": "credits-and-deductions-credits (205)",
+      "file": "shards/pagefile__credits-and-deductions-credits.xml.json",
+      "focus": 205,
+      "nodes": 401,
+      "edges": 470
+    },
+    {
+      "key": "pagefile::your-taxes-estimated-taxes-paid.xml",
+      "group": "Flow pages",
+      "label": "your-taxes-estimated-taxes-paid (10)",
+      "file": "shards/pagefile__your-taxes-estimated-taxes-paid.xml.json",
+      "focus": 10,
+      "nodes": 20,
+      "edges": 21
+    },
+    {
+      "key": "pagefile::your-taxes-amount.xml",
+      "group": "Flow pages",
+      "label": "your-taxes-amount (0)",
+      "file": "shards/pagefile__your-taxes-amount.xml.json",
+      "focus": 0,
+      "nodes": 0,
+      "edges": 0
+    },
+    {
+      "key": "pagefile::your-taxes-payment-method.xml",
+      "group": "Flow pages",
+      "label": "your-taxes-payment-method (12)",
+      "file": "shards/pagefile__your-taxes-payment-method.xml.json",
+      "focus": 12,
+      "nodes": 26,
+      "edges": 23
+    },
+    {
+      "key": "pagefile::your-taxes-other-preferences.xml",
+      "group": "Flow pages",
+      "label": "your-taxes-other-preferences (9)",
+      "file": "shards/pagefile__your-taxes-other-preferences.xml.json",
+      "focus": 9,
+      "nodes": 19,
+      "edges": 16
+    },
+    {
+      "key": "pagefile::your-taxes-virginia.xml",
+      "group": "Flow pages",
+      "label": "your-taxes-virginia (31)",
+      "file": "shards/pagefile__your-taxes-virginia.xml.json",
+      "focus": 31,
+      "nodes": 60,
+      "edges": 49
+    },
+    {
+      "key": "pagefile::complete-review.xml",
+      "group": "Flow pages",
+      "label": "complete-review (0)",
+      "file": "shards/pagefile__complete-review.xml.json",
+      "focus": 0,
+      "nodes": 0,
+      "edges": 0
+    },
+    {
+      "key": "pagefile::complete-sign-and-submit.xml",
+      "group": "Flow pages",
+      "label": "complete-sign-and-submit (12)",
+      "file": "shards/pagefile__complete-sign-and-submit.xml.json",
+      "focus": 12,
+      "nodes": 24,
+      "edges": 24
+    },
+    {
+      "key": "pagefile::complete-print-and-mail.xml",
+      "group": "Flow pages",
+      "label": "complete-print-and-mail (1)",
+      "file": "shards/pagefile__complete-print-and-mail.xml.json",
+      "focus": 1,
+      "nodes": 2,
+      "edges": 1
+    },
+    {
+      "key": "pagefile::complete-submit.xml",
+      "group": "Flow pages",
+      "label": "complete-submit (1)",
+      "file": "shards/pagefile__complete-submit.xml.json",
+      "focus": 1,
+      "nodes": 2,
+      "edges": 1
+    },
+    {
+      "key": "file::flowGates.xml",
+      "group": "Fact files",
+      "label": "flowGates.xml (799)",
+      "file": "shards/file__flowGates.xml.json",
+      "focus": 799,
+      "nodes": 1671,
+      "edges": 2744
+    },
+    {
+      "key": "file::ptc.xml",
+      "group": "Fact files",
+      "label": "ptc.xml (392)",
+      "file": "shards/file__ptc.xml.json",
+      "focus": 392,
+      "nodes": 597,
+      "edges": 1449
+    },
+    {
+      "key": "file::formW2s.xml",
+      "group": "Fact files",
+      "label": "formW2s.xml (374)",
+      "file": "shards/file__formW2s.xml.json",
+      "focus": 374,
+      "nodes": 544,
+      "edges": 691
+    },
+    {
+      "key": "file::familyAndHousehold.xml",
+      "group": "Fact files",
+      "label": "familyAndHousehold.xml (263)",
+      "file": "shards/file__familyAndHousehold.xml.json",
+      "focus": 263,
+      "nodes": 485,
+      "edges": 966
+    },
+    {
+      "key": "file::filers.xml",
+      "group": "Fact files",
+      "label": "filers.xml (242)",
+      "file": "shards/file__filers.xml.json",
+      "focus": 242,
+      "nodes": 617,
+      "edges": 975
+    },
+    {
+      "key": "file::hsa.xml",
+      "group": "Fact files",
+      "label": "hsa.xml (222)",
+      "file": "shards/file__hsa.xml.json",
+      "focus": 222,
+      "nodes": 344,
+      "edges": 578
+    },
+    {
+      "key": "file::cdcc.xml",
+      "group": "Fact files",
+      "label": "cdcc.xml (199)",
+      "file": "shards/file__cdcc.xml.json",
+      "focus": 199,
+      "nodes": 419,
+      "edges": 863
+    },
+    {
+      "key": "file::form1099Rs.xml",
+      "group": "Fact files",
+      "label": "form1099Rs.xml (177)",
+      "file": "shards/file__form1099Rs.xml.json",
+      "focus": 177,
+      "nodes": 276,
+      "edges": 352
+    },
+    {
+      "key": "file::eitc.xml",
+      "group": "Fact files",
+      "label": "eitc.xml (99)",
+      "file": "shards/file__eitc.xml.json",
+      "focus": 99,
+      "nodes": 205,
+      "edges": 387
+    },
+    {
+      "key": "file::elderlyAndDisabled.xml",
+      "group": "Fact files",
+      "label": "elderlyAndDisabled.xml (97)",
+      "file": "shards/file__elderlyAndDisabled.xml.json",
+      "focus": 97,
+      "nodes": 159,
+      "edges": 307
+    },
+    {
+      "key": "file::income.xml",
+      "group": "Fact files",
+      "label": "income.xml (87)",
+      "file": "shards/file__income.xml.json",
+      "focus": 87,
+      "nodes": 179,
+      "edges": 272
+    },
+    {
+      "key": "file::saversCredits.xml",
+      "group": "Fact files",
+      "label": "saversCredits.xml (86)",
+      "file": "shards/file__saversCredits.xml.json",
+      "focus": 86,
+      "nodes": 128,
+      "edges": 221
+    },
+    {
+      "key": "file::interest.xml",
+      "group": "Fact files",
+      "label": "interest.xml (83)",
+      "file": "shards/file__interest.xml.json",
+      "focus": 83,
+      "nodes": 160,
+      "edges": 206
+    },
+    {
+      "key": "file::ctcOdc.xml",
+      "group": "Fact files",
+      "label": "ctcOdc.xml (78)",
+      "file": "shards/file__ctcOdc.xml.json",
+      "focus": 78,
+      "nodes": 143,
+      "edges": 245
+    },
+    {
+      "key": "file::imported.xml",
+      "group": "Fact files",
+      "label": "imported.xml (68)",
+      "file": "shards/file__imported.xml.json",
+      "focus": 68,
+      "nodes": 98,
+      "edges": 47
+    },
+    {
+      "key": "file::unemployment.xml",
+      "group": "Fact files",
+      "label": "unemployment.xml (50)",
+      "file": "shards/file__unemployment.xml.json",
+      "focus": 50,
+      "nodes": 93,
+      "edges": 110
+    },
+    {
+      "key": "file::constants.xml",
+      "group": "Fact files",
+      "label": "constants.xml (48)",
+      "file": "shards/file__constants.xml.json",
+      "focus": 48,
+      "nodes": 239,
+      "edges": 339
+    },
+    {
+      "key": "file::filingStatus.xml",
+      "group": "Fact files",
+      "label": "filingStatus.xml (46)",
+      "file": "shards/file__filingStatus.xml.json",
+      "focus": 46,
+      "nodes": 381,
+      "edges": 676
+    },
+    {
+      "key": "file::signing.xml",
+      "group": "Fact files",
+      "label": "signing.xml (46)",
+      "file": "shards/file__signing.xml.json",
+      "focus": 46,
+      "nodes": 100,
+      "edges": 153
+    },
+    {
+      "key": "file::taxCalculations.xml",
+      "group": "Fact files",
+      "label": "taxCalculations.xml (46)",
+      "file": "shards/file__taxCalculations.xml.json",
+      "focus": 46,
+      "nodes": 141,
+      "edges": 170
+    },
+    {
+      "key": "file::socialSecurity.xml",
+      "group": "Fact files",
+      "label": "socialSecurity.xml (43)",
+      "file": "shards/file__socialSecurity.xml.json",
+      "focus": 43,
+      "nodes": 82,
+      "edges": 109
+    },
+    {
+      "key": "file::dependentsBenefitSplit.xml",
+      "group": "Fact files",
+      "label": "dependentsBenefitSplit.xml (39)",
+      "file": "shards/file__dependentsBenefitSplit.xml.json",
+      "focus": 39,
+      "nodes": 129,
+      "edges": 241
+    },
+    {
+      "key": "file::flow.xml",
+      "group": "Fact files",
+      "label": "flow.xml (36)",
+      "file": "shards/file__flow.xml.json",
+      "focus": 36,
+      "nodes": 370,
+      "edges": 633
+    },
+    {
+      "key": "file::virginiaIncome.xml",
+      "group": "Fact files",
+      "label": "virginiaIncome.xml (35)",
+      "file": "shards/file__virginiaIncome.xml.json",
+      "focus": 35,
+      "nodes": 69,
+      "edges": 103
+    },
+    {
+      "key": "file::spouseSection.xml",
+      "group": "Fact files",
+      "label": "spouseSection.xml (34)",
+      "file": "shards/file__spouseSection.xml.json",
+      "focus": 34,
+      "nodes": 135,
+      "edges": 292
+    },
+    {
+      "key": "file::virginiaConstants.xml",
+      "group": "Fact files",
+      "label": "virginiaConstants.xml (29)",
+      "file": "shards/file__virginiaConstants.xml.json",
+      "focus": 29,
+      "nodes": 59,
+      "edges": 70
+    },
+    {
+      "key": "file::form1099Misc.xml",
+      "group": "Fact files",
+      "label": "form1099Misc.xml (25)",
+      "file": "shards/file__form1099Misc.xml.json",
+      "focus": 25,
+      "nodes": 39,
+      "edges": 32
+    },
+    {
+      "key": "file::refundPrefs.xml",
+      "group": "Fact files",
+      "label": "refundPrefs.xml (24)",
+      "file": "shards/file__refundPrefs.xml.json",
+      "focus": 24,
+      "nodes": 49,
+      "edges": 63
+    },
+    {
+      "key": "file::studentLoanAdjustment.xml",
+      "group": "Fact files",
+      "label": "studentLoanAdjustment.xml (23)",
+      "file": "shards/file__studentLoanAdjustment.xml.json",
+      "focus": 23,
+      "nodes": 41,
+      "edges": 65
+    },
+    {
+      "key": "file::virginiaTax.xml",
+      "group": "Fact files",
+      "label": "virginiaTax.xml (22)",
+      "file": "shards/file__virginiaTax.xml.json",
+      "focus": 22,
+      "nodes": 44,
+      "edges": 74
+    },
+    {
+      "key": "file::dependentsRelationship.xml",
+      "group": "Fact files",
+      "label": "dependentsRelationship.xml (21)",
+      "file": "shards/file__dependentsRelationship.xml.json",
+      "focus": 21,
+      "nodes": 50,
+      "edges": 63
+    },
+    {
+      "key": "file::virginiaCredits.xml",
+      "group": "Fact files",
+      "label": "virginiaCredits.xml (21)",
+      "file": "shards/file__virginiaCredits.xml.json",
+      "focus": 21,
+      "nodes": 45,
+      "edges": 63
+    },
+    {
+      "key": "file::virginiaScreens.xml",
+      "group": "Fact files",
+      "label": "virginiaScreens.xml (20)",
+      "file": "shards/file__virginiaScreens.xml.json",
+      "focus": 20,
+      "nodes": 33,
+      "edges": 22
+    },
+    {
+      "key": "file::virginiaDeductions.xml",
+      "group": "Fact files",
+      "label": "virginiaDeductions.xml (18)",
+      "file": "shards/file__virginiaDeductions.xml.json",
+      "focus": 18,
+      "nodes": 45,
+      "edges": 59
+    },
+    {
+      "key": "file::paymentMethod.xml",
+      "group": "Fact files",
+      "label": "paymentMethod.xml (16)",
+      "file": "shards/file__paymentMethod.xml.json",
+      "focus": 16,
+      "nodes": 50,
+      "edges": 77
+    },
+    {
+      "key": "file::standardDeduction.xml",
+      "group": "Fact files",
+      "label": "standardDeduction.xml (15)",
+      "file": "shards/file__standardDeduction.xml.json",
+      "focus": 15,
+      "nodes": 31,
+      "edges": 44
+    },
+    {
+      "key": "file::schedule3.xml",
+      "group": "Fact files",
+      "label": "schedule3.xml (14)",
+      "file": "shards/file__schedule3.xml.json",
+      "focus": 14,
+      "nodes": 30,
+      "edges": 58
+    },
+    {
+      "key": "file::educatorAdjustment.xml",
+      "group": "Fact files",
+      "label": "educatorAdjustment.xml (13)",
+      "file": "shards/file__educatorAdjustment.xml.json",
+      "focus": 13,
+      "nodes": 26,
+      "edges": 36
+    },
+    {
+      "key": "file::estimatedPayments.xml",
+      "group": "Fact files",
+      "label": "estimatedPayments.xml (13)",
+      "file": "shards/file__estimatedPayments.xml.json",
+      "focus": 13,
+      "nodes": 30,
+      "edges": 44
+    },
+    {
+      "key": "file::virginiaPayments.xml",
+      "group": "Fact files",
+      "label": "virginiaPayments.xml (10)",
+      "file": "shards/file__virginiaPayments.xml.json",
+      "focus": 10,
+      "nodes": 20,
+      "edges": 23
+    },
+    {
+      "key": "file::virginiaLocalities.xml",
+      "group": "Fact files",
+      "label": "virginiaLocalities.xml (9)",
+      "file": "shards/file__virginiaLocalities.xml.json",
+      "focus": 9,
+      "nodes": 13,
+      "edges": 9
+    },
+    {
+      "key": "file::virginiaFiler.xml",
+      "group": "Fact files",
+      "label": "virginiaFiler.xml (7)",
+      "file": "shards/file__virginiaFiler.xml.json",
+      "focus": 7,
+      "nodes": 19,
+      "edges": 18
+    },
+    {
+      "key": "file::mefTypes.xml",
+      "group": "Fact files",
+      "label": "mefTypes.xml (6)",
+      "file": "shards/file__mefTypes.xml.json",
+      "focus": 6,
+      "nodes": 17,
+      "edges": 11
+    },
+    {
+      "key": "file::virginiaResult.xml",
+      "group": "Fact files",
+      "label": "virginiaResult.xml (5)",
+      "file": "shards/file__virginiaResult.xml.json",
+      "focus": 5,
+      "nodes": 13,
+      "edges": 14
+    },
+    {
+      "key": "file::copy.xml",
+      "group": "Fact files",
+      "label": "copy.xml (2)",
+      "file": "shards/file__copy.xml.json",
+      "focus": 2,
+      "nodes": 3,
+      "edges": 2
+    },
+    {
+      "key": "file::schedule2.xml",
+      "group": "Fact files",
+      "label": "schedule2.xml (2)",
+      "file": "shards/file__schedule2.xml.json",
+      "focus": 2,
+      "nodes": 5,
+      "edges": 5
+    },
+    {
+      "key": "file::validations.xml",
+      "group": "Fact files",
+      "label": "validations.xml (1)",
+      "file": "shards/file__validations.xml.json",
+      "focus": 1,
+      "nodes": 1,
+      "edges": 0
+    },
+    {
+      "key": "full",
+      "group": "",
+      "label": "Full graph (4803 nodes)",
+      "file": "form-builder-graph.json",
+      "focus": 4803,
+      "nodes": 4803,
+      "edges": 8946
+    }
+  ]
+}
