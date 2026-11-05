@@ -44,11 +44,9 @@ if (scenarios.length === 0) {
 // Generated contents, one writer. Clearing first is what keeps a scenario upstream has renamed or
 // dropped from lingering as a file nothing regenerates — but only the `.json` it wrote, rather than
 // the directory: `.gitkeep` is checked in so the folder survives a clean checkout with no corpus in
-// it, and removing the directory removed that too. Nor the port's own hand-written scenarios (the
-// Virginia demo households), which share the directory and are named `virginia_*.json`.
-const HAND_WRITTEN = /^virginia_/;
+// it, and removing the directory removed that too.
 mkdirSync(OUT, { recursive: true });
-for (const stale of readdirSync(OUT).filter((f) => f.endsWith(`.json`) && !HAND_WRITTEN.test(f))) {
+for (const stale of readdirSync(OUT).filter((f) => f.endsWith(`.json`))) {
   rmSync(join(OUT, stale));
 }
 

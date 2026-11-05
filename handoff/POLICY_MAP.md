@@ -2,7 +2,7 @@
 
 Written for a Virginia policy analyst or engineer. One row per rule the prototype
 implements. Tax year 2024. Fact paths are in the Virginia modules,
-`form-builder-examples/direct-file/src/main/resources/direct-file/facts/virginia*.xml`
+`virginia/direct-file/src/main/resources/direct-file/facts/virginia*.xml`
 (one per section of the return; every tax-year figure in `virginiaConstants.xml`, the
 localities in `virginiaLocalities.xml`); the Virginia screens are in
 `flow/your-taxes-virginia.xml`. "Federal facts read" names what the rule consumes from the
@@ -91,10 +91,10 @@ The engine gives exactly these on the Virginia summary page, and the 50 househol
 
 | What | Why |
 |---|---|
-| The Virginia Lottery subtraction, Schedule ADJ code 24 (§ 58.1-322.02(7)) | Removed. The Code subtracts only an amount "included therein", in federal AGI, from a prize under $600. Direct File has no gambling or other-income fact, so no prize is ever on Line 1, and a filer with one is outside Direct File's scope; a question could only subtract what was never added. The earlier version asked it; the comment at the subtractions block in `virginia.xml` records the removal |
+| The Virginia Lottery subtraction, Schedule ADJ code 24 (§ 58.1-322.02(7)) | Removed. The Code subtracts only an amount "included therein", in federal AGI, from a prize under $600. Direct File has no gambling or other-income fact, so no prize is ever on Line 1, and a filer with one is outside Direct File's scope; a question could only subtract what was never added. The earlier version asked it; the comment at the subtractions block in `virginiaIncome.xml` records the removal |
 | Line 19b, the spouse's withholding on a joint return | Which filer a W-2 belongs to is not among the exported facts. The total on Line 19 is right; the split is not derivable. A state would match each W-2's employee TIN (exported) against the filers' TINs |
 | Line 6, the state income tax refund (§ 58.1-322.02(5)) | Direct File has no fact for a taxable state refund (Form 1040 Schedule 1 line 1); nothing to read |
 | Interest on U.S. obligations (§ 58.1-322.02(1)) | Not yet. Direct File exports each 1099-INT's box 3 (`/interestReports/*/interestOnGovernmentBonds`) to states, so this is the next subtraction to take, the way the unemployment one was |
 | Line 2, additions (Schedule ADJ) | Interest on other states' bonds and the federal deductions Virginia adds back; the demo households have none, and the conformity additions need Virginia Tax's reading of the year's conformity act |
 | Line 17, the spouse tax adjustment | Needs each spouse's share of Virginia AGI; the federal per-filer wage facts are not exported |
-| Itemized deductions (Line 10), the other Schedule ADJ deductions, Lines 24 and 25, Lines 29 to 32, part-year and nonresident returns, married filing separately on a combined return, the carryforward of excess 529 contributions, a dependent's own income in family VAGI (taken as $0) | Out of scope for the prototype; the gap list in `form-builder-examples/direct-file/docs/virginia/README.md` orders them by size |
+| Itemized deductions (Line 10), the other Schedule ADJ deductions, Lines 24 and 25, Lines 29 to 32, part-year and nonresident returns, married filing separately on a combined return, the carryforward of excess 529 contributions, a dependent's own income in family VAGI (taken as $0) | Out of scope for the prototype; the gap list in `virginia/direct-file/docs/virginia/README.md` orders them by size |

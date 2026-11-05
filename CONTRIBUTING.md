@@ -6,8 +6,9 @@ how to run it if you want to see it.
 
 ## Where things are
 
-Everything Virginia lives in the Virginia site, `form-builder-examples/direct-file/` (or
-`virginia/` at the root, a link to the same folder). Paths below are relative to its
+Everything Virginia lives in the Virginia site, `virginia/direct-file/`: the IRS's `direct-file`
+application, copied out of `form-builder-examples/` and changed here. Nothing under
+`form-builder-examples/`, `fact-graph/`, `form-builder/` or `taxpert/` is ever edited (ADR-004). Paths below are relative to its
 `src/main/resources/direct-file/` unless they start with `scripts/`, `workbench/` or `docs/`.
 
 The inventory, one row per file with what it is, is the "What is here" section of the Virginia
@@ -37,15 +38,17 @@ Fact Explorer and the Workbench.
    with a tax year, and no date or dollar literal appears in any other module. Every locality is listed exactly once in each locality
    switch, with no default, so an unlisted locality fails loudly. `scripts/check-virginia-constants.py`
    enforces both.
-3. **Every rule names its law.** A fact without a section of Va. Code Title 58.1 and a line of
-   the Form 760 instructions in its description is a bug, not a placeholder.
+3. **Every rule names its law.** A fact that computes a line or a figure cites its section of
+   Va. Code Title 58.1 and its line of the Form 760 instructions in its `<Description>`; a helper
+   (a rate as a percent for a sentence, a screen's gate) says which rule or screen it serves.
+   A fact with no `<Description>` at all fails `scripts/check-virginia-constants.py`.
 
 ## Making a change
 
 - One policy concept per commit, on a branch, rebased onto `main` before merging; never
   force-push `main`. The subject names the rule and the body cites the law, the form line, the
-  figure and its source, and what the test proves. The patch series is the document a state
-  engineer reads first, so it has to read as a narrative. `report/PLAN.md` §9 is the full
+  figure and its source, and what the test proves. The commit log becomes the handoff's changelog,
+  the document a state engineer reads first, so it has to read as a narrative. `report/PLAN.md` §9 is the full
   statement of what "done" means.
 - A new fact gets a `<Name>`, a `<Description>` with its citation, and a row in
   `handoff/POLICY_MAP.md`. A changed figure gets a source. A changed sentence on a screen gets

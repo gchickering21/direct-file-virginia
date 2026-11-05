@@ -37,7 +37,7 @@ nvm install 22
 ```
 
 `stack/toolchain.sh` puts `~/.dpi-toolchain` on the path and selects Node 22; every
-`make port-*` target sources it. On a newer Mac the file finds nothing there and leaves
+native target at the root (`make dev`, `make test`, `make check`, …) sources it. On a newer Mac the file finds nothing there and leaves
 Homebrew's tools in charge.
 
 ## Playwright: no Chromium for 13
@@ -46,6 +46,20 @@ The Virginia site's own Playwright (1.62) has no Chromium build for macOS 13, so
 `make site && make smoke` fails before opening a page. The Virginia browser checks
 (`make cases`, `make a11y`) carry a Playwright and axe-core pinned in
 `stack/browser-tools/` that still run on 13. The IRS's smoke suite wants a newer Mac.
+
+## The Fact Explorer: sass-embedded wants 14
+
+The Fact Explorer (`stack/fact-explorer.sh`, run by `make site-demo`) is a Vite app that compiles its
+styles with `sass-embedded`, whose Dart VM refuses macOS 13 ("Current Mac OS X version 13.0 is lower
+than minimum supported version 14.0") and then hangs the build with no further output. The
+pure-JavaScript `sass` compiles the same files and Vite takes it when `sass-embedded` is absent.
+Machine-local, under `node_modules` only, so the IRS tree stays as pinned:
+
+```bash
+cd taxpert && npm install --no-save sass && rm -rf node_modules/sass-embedded node_modules/sass-embedded-darwin-* packages/fact-explorer/node_modules/sass-embedded
+```
+
+`npm install` in `taxpert/` puts `sass-embedded` back; repeat after one.
 
 ## The 2025 archive on 13
 

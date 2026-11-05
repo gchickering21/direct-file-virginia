@@ -6,16 +6,16 @@
 #   make check    every check that needs no built site, about a minute
 #   make publish  build the demo site and push it to GitHub Pages, so nobody has to install anything (docs/hosting.md)
 #
-# Every target drives the Virginia site: form-builder-examples/direct-file/, the IRS's port of Direct File
-# on Form Builder, where the Virginia work lives. The 2025 archive's targets are in stack/archive.mk.
+# Every target drives the Virginia site: virginia/direct-file/, the IRS's port of Direct File on Form
+# Builder, copied out of form-builder-examples/ and changed here (the IRS trees are never edited). The 2025 archive's targets are in stack/archive.mk.
 # The older names (port-dev, port-up, ci-local, virginia-cases, …) still work; they are aliases at the end.
-PORT      := form-builder-examples/direct-file
+PORT      := virginia/direct-file
 TOOLCHAIN := . stack/toolchain.sh &&
 TOOLS     := stack/browser-tools/node_modules
 STAMP     := stack/.bootstrapped
 
 # Variables the browser checks take, each overridable on the command line (make cases CASES_DIR=/somewhere):
-#   BASE_URL   the site the checks drive, no trailing slash (the a11y script has its own copy of the default)
+#   BASE_URL   the site the two browser checks drive, no trailing slash
 #   CASES_DIR  where the households are written and read (the port's .gitignore ignores the default)
 BASE_URL  ?= http://localhost:3008/app/direct-file
 SITE      := $(BASE_URL)/
@@ -28,7 +28,7 @@ PORT_COMPOSE := docker compose --project-directory $(PORT) -f $(PORT)/docker-com
 
 .PHONY: help demo demo-links dev up down logs author workbench bootstrap \
         check test cases a11y workbench-check doctor \
-        stats handoff handoff-verify bump-pin browser-tools site-demo publish \
+        stats handoff handoff-verify bump-pin browser-tools site-demo proof publish \
         port-dev port-up port-down port-logs port-author port-bootstrap port-test ci-local virginia-check virginia-cases virginia-a11y
 
 help:
@@ -67,13 +67,18 @@ author: $(STAMP) ## native: the site with Author Mode on, editing the flow XML f
 workbench: ## the Virginia Rules Workbench for policy staff at http://localhost:3011 (Node only; docs/surfaces.md)
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) workbench
 
-site-demo: $(STAMP) ## native: build the demo site once into form-builder-examples/direct-file/out (the demo surfaces, no AI, the read-only Workbench); SITE_BASE_PATH=… for a host
+site-demo: $(STAMP) ## native: build the demo site once into virginia/direct-file/out (the demo surfaces, no AI, the read-only Workbench, the Fact Explorer); SITE_BASE_PATH=… for a host, FACT_EXPLORER=0 to skip the Explorer
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) copy-fg copy-shared-ui copy-uswds
 	$(TOOLCHAIN) cd $(PORT) && sbt $(if $(SITE_BASE_PATH),-Dsite.basePath=$(SITE_BASE_PATH)) 'run --auditMode --allScreens --scenarioMode --singleQuestionPerScreen'
 	$(TOOLCHAIN) node $(PORT)/workbench/snapshot.mjs $(PORT)/out/app/direct-file/workbench
+	@mkdir -p $(PORT)/out/app/direct-file/mockups && cp report/mockups/*.html $(PORT)/out/app/direct-file/mockups/ && echo "==> mockups: $(PORT)/out/app/direct-file/mockups/"
+	$(if $(filter 0,$(FACT_EXPLORER)),@echo "==> the Fact Explorer skipped (FACT_EXPLORER=0)",stack/fact-explorer.sh $(or $(SITE_BASE_PATH),/app/direct-file) $(patsubst %/app/direct-file,%,$(or $(SITE_BASE_PATH),/app/direct-file))/fact-explorer $(PORT)/out/fact-explorer)
 	@echo "==> built: $(PORT)/out/app/direct-file/, links under $(or $(SITE_BASE_PATH),/app/direct-file)  (serve it: cd $(PORT)/out && python3 -m http.server 3008)"
 
-publish: ## build the demo site under the hosted prefix and push it to the gh-pages branch, for GitHub Pages (docs/hosting.md; stack/site.env)
+proof: browser-tools ## run the households, the axe pass and the test suite against the built site and write the proof page's data (docs/hosting.md)
+	stack/proof.sh
+
+publish: ## build the demo site under the hosted prefix, run the checks into the proof page, push it to the gh-pages branch (docs/hosting.md; PROOF=0 skips the checks)
 	stack/publish-pages.sh
 
 bootstrap: ## native, once (make dev runs it for you): publish the two IRS libraries, npm installs, vendor assets
@@ -107,7 +112,7 @@ cases: browser-tools ## 50 households against an independent model of the rules,
 
 a11y: browser-tools ## axe over every Virginia screen, English and Spanish (site must be running)
 	$(REQUIRE_SITE)
-	$(TOOLCHAIN) PORT_DIR=$(PORT) AXE_PATH=$(CURDIR)/$(TOOLS)/axe-core/axe.min.js PLAYWRIGHT_MODULE=$(CURDIR)/$(TOOLS)/playwright-core node $(PORT)/scripts/virginia-a11y.cjs
+	$(TOOLCHAIN) BASE_URL=$(BASE_URL) PORT_DIR=$(PORT) AXE_PATH=$(CURDIR)/$(TOOLS)/axe-core/axe.min.js PLAYWRIGHT_MODULE=$(CURDIR)/$(TOOLS)/playwright-core node $(PORT)/scripts/virginia-a11y.cjs
 
 workbench-check: ## the workbench's worked examples against the Virginia fact modules, from the command line
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) workbench-check

@@ -391,3 +391,25 @@ record; this is the working note.
   CONTRIBUTING, `virginia-check` and the hooks object.
 - **Not done, on purpose:** a `STATE=` parameter. Everything says Virginia in one place each now,
   which is what makes a second state a mechanical move later and speculation today.
+
+## 2026-11-05 the audit, and the Virginia site moved beside the IRS trees
+
+- **A full read of the repository**, with three reviewers over the Workbench server, its page and
+  the scripts. What they found and what was fixed: saving a rule edit in the Workbench threw (the
+  operator list was never imported, and the operators the files already use were collected into a
+  Set that `flatMap` does not spread, so the README's promise was false twice over); two drafts that
+  only changed wording blocked each other; a draft save ran outside the change's lock; a UTF-8
+  character split across two chunks was mangled; Cancel on the Approve dialog approved; the page
+  preview showed raw tags; `make a11y BASE_URL=…` ignored the override; the handoff export would
+  have broken after the first `make bump-pin`; the household generator keyed the records stand-in
+  on the wrong filer's surname. Twenty-seven facts had no `<Description>`; every fact has one now
+  and `check-virginia-constants.py` fails on a fact without one. `make check` and `make test` pass.
+- **The Virginia site is `virginia/direct-file/`**, the IRS's `direct-file` application copied out
+  of `form-builder-examples/` and changed there, and the four IRS trees are byte for byte the
+  pinned commits (`git diff` against the squash is empty). Two levels deep so the IRS's `../../`
+  paths still find the libraries: compose `config`, `make dev`, the npm `file:` link and every
+  check resolve unchanged. The handoff is one patch (`git diff` of the two trees) and a changelog
+  from the commits; applied to a fresh clone of the IRS repository at the pin today, with the
+  schemas, the export rule, the constants and the Spanish keys passing inside it. ADR-004 is the
+  record; the patch series of the earlier rounds is retired because the move changes every path.
+  `make bump-pin`'s drift report is empty by construction now.

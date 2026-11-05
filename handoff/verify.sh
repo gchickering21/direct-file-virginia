@@ -2,10 +2,10 @@
 # `make handoff-verify`: prove that the Virginia change set still lands on the IRS's repository.
 #
 # Clones IRS-Public/form-builder-examples at the commit IRS_PINS.md pins (a shallow fetch of that
-# one commit, into a temporary directory), refreshes handoff/patches/ with export.sh, applies the
-# series with `git am`, and then runs the checks that need no JVM inside the clone's direct-file
-# app: the Virginia XML modules against the IRS schemas, the export rule, and the Spanish keys. One line of
-# verdict at the end; exit 1 on any failure.
+# one commit, into a temporary directory), refreshes handoff/patches/ with export.sh, applies
+# virginia.patch to the clone's direct-file application, and then runs the checks that need no JVM
+# inside it: the Virginia XML modules against the IRS schemas, the export rule, and the Spanish keys.
+# One line of verdict at the end; exit 1 on any failure.
 #
 #   handoff/verify.sh                  # needs network (GitHub), git, xmllint, python3 with PyYAML
 #   KEEP=1 handoff/verify.sh           # leave the clone behind, and say where
@@ -39,12 +39,11 @@ case "$SHA" in "$PIN"*) ;; *) die "PIN_SHA $SHA does not start with the pin $PIN
 # Network, checked once with a clear message rather than a git stack trace later.
 git ls-remote --exit-code -h "$URL" >/dev/null 2>&1 || die "cannot reach $URL: no network, or GitHub is down"
 
-# 1. The patch series, refreshed from the commits (export.sh is commit-based, so uncommitted edits
-#    are not in it; commit first if that is what you mean to verify).
+# 1. The patch, refreshed from the commits (export.sh is commit-based, so uncommitted edits are not in
+#    it; commit first if that is what you mean to verify).
 PATCHES=$ROOT/handoff/patches
 handoff/export.sh "$PATCHES"
-COUNT=$(ls "$PATCHES"/*.patch 2>/dev/null | wc -l | tr -d ' ')
-[ "$COUNT" -gt 0 ] || die "export.sh wrote no patches"
+[ -s "$PATCHES/virginia.patch" ] || die "export.sh wrote no patch"
 
 # 2. A fresh clone of the IRS repository at the pin: one commit, no history.
 TMP=$(mktemp -d "${TMPDIR:-/tmp}/handoff-verify.XXXXXX")
@@ -55,16 +54,13 @@ git -C "$TMP" remote add origin "$URL"
 git -C "$TMP" fetch -q --depth 1 origin "$SHA" || die "GitHub would not serve commit $SHA (is the pin on a branch upstream still has?)"
 git -C "$TMP" checkout -q FETCH_HEAD
 
-# 3. Apply. --3way is not possible on a shallow clone without the blobs, so a failure is a real
-#    conflict with the pin; the patch that failed is named.
-echo "==> git am: $COUNT patches"
-if ! git -C "$TMP" -c user.name=handoff-verify -c user.email=handoff-verify@localhost \
-       am -q "$PATCHES"/*.patch; then
-  git -C "$TMP" am --show-current-patch=diff 2>/dev/null | head -5 >&2 || true
-  die "the series does not apply cleanly at ${SHA:0:12} (see $TMP, rerun with KEEP=1)"
-fi
+# 3. Apply. The patch is relative to the application folder, so --directory puts it there. A failure
+#    is a real difference between the pin and the tree the patch was made from.
+echo "==> git apply --directory=$APP virginia.patch"
+git -C "$TMP" apply --directory="$APP" --index "$PATCHES/virginia.patch" \
+  || die "virginia.patch does not apply cleanly at ${SHA:0:12} (see $TMP, rerun with KEEP=1)"
 
-# 4. The checks, as the port's own Makefile runs them. validate-xml is xmllint over the two
+# 4. The checks, as the application's own Makefile runs them. validate-xml is xmllint over the two
 #    directories and nothing else; it is run through make when make is here so an upstream change
 #    to the target is honoured, and spelled out otherwise.
 cd "$TMP/$APP"
@@ -82,4 +78,4 @@ echo "==> merge-virginia-es.py --check"
 python3 scripts/merge-virginia-es.py --check || die "the Spanish keys fail in the clone"
 
 [ "${KEEP:-}" = 1 ] && echo "==> clone kept at $TMP"
-echo "handoff-verify: OK: $COUNT patches apply to IRS-Public/$REPO@${SHA:0:12}; the schemas, the export rule and the Spanish keys pass there"
+echo "handoff-verify: OK: virginia.patch applies to IRS-Public/$REPO@${SHA:0:12}; the schemas, the export rule and the Spanish keys pass there"

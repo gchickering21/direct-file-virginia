@@ -24,7 +24,7 @@ File onto its maintained Fact Graph and Form Builder stack. It is:
 - **A stand-in for your own records** (Lines 20 to 22), keyed by last name and date of birth.
 - **A lookup from the federal ZIP code to the locality**, so the locality question is
   confirmed rather than answered when the ZIP lies in one city or county.
-- **A rules workbench** (`form-builder-examples/direct-file/workbench/`, `make workbench`,
+- **A rules workbench** (`virginia/direct-file/workbench/`, `make workbench`,
   port 3011): policy staff change a figure or a rule in plain language, with a source for
   every number, watch fifteen worked examples rerun, and send the change for a policy and
   an engineering approval; publishing writes the XML. Node only, no build.
@@ -35,7 +35,7 @@ File onto its maintained Fact Graph and Form Builder stack. It is:
   through the engine; an axe pass over every Virginia screen; and the port's own suite.
 
 What it is not: a complete return, a filing system, or anything with identity in it. The
-gap list in `form-builder-examples/direct-file/docs/virginia/README.md` says exactly what a
+gap list in `virginia/direct-file/docs/virginia/README.md` says exactly what a
 state would still build, in order of size.
 
 ## The one design rule
@@ -56,28 +56,29 @@ fails loudly. `scripts/check-virginia-constants.py` enforces both.
 
 ## How to take it
 
-You do not need this repository. The change set is a series of ordinary commits on top of
-the IRS's `form-builder-examples` repository at one pinned commit, and `export.sh` turns
-them into patches:
+You do not need this repository. The change set is the difference between the IRS's
+`direct-file` application at one pinned commit of `form-builder-examples` and the Virginia
+site, and `export.sh` writes it as one patch, with the commits that built it as a changelog
+beside it:
 
 ```bash
 # in this repository
-handoff/export.sh                     # writes handoff/patches/*.patch
+handoff/export.sh                     # writes handoff/patches/virginia.patch and CHANGELOG.md
 
 # in a fresh clone of the IRS repository
 git clone https://github.com/IRS-Public/form-builder-examples.git
 cd form-builder-examples
 git checkout 2eed6d4424f89680f48cb19290ddcb2a0147b09b   # the pin; see IRS_PINS.md
-git am ../path/to/handoff/patches/*.patch
+git apply --directory=direct-file --index ../path/to/handoff/patches/virginia.patch
 ```
 
 `make handoff-verify` does exactly that against a fresh clone and runs the no-JVM checks
-inside it; it ran clean on 2026-11-02.
+inside it. It ran clean on 2026-11-05.
 The other IRS repositories the port builds against (`fact-graph`, `form-builder`,
 `taxpert`) are cloned beside it at the commits in `IRS_PINS.md`; the IRS's own quickstart
 in the `taxpert` repository covers the layout and the toolchain.
 
-Then, from `form-builder-examples/direct-file/`:
+Then, from `direct-file/` in that clone:
 
 ```bash
 make bootstrap        # once
@@ -89,7 +90,7 @@ scenario) and step through to the return. Riley owes $698. The Virginia README i
 
 ## Reading order
 
-1. `form-builder-examples/direct-file/docs/adr/001-virginia-state-return.md`: what was
+1. `virginia/direct-file/docs/adr/001-virginia-state-return.md`: what was
    added and left out, and why. One page. Then `002-virginia-scope-extended.md`: the
    credits, the military and unemployment subtractions, the spouse, what was removed, and
    the files of the IRS's own that the change set touches. Then `003-the-layout-for-growth.md`:
@@ -102,8 +103,9 @@ scenario) and step through to the return. Riley owes $698. The Virginia README i
    from in a prepopulated return: the federal return, a document, your own records, the
    filer, or arithmetic. The local-tax section explains why the only locality effects are
    the locality code and the use-tax rate.
-4. The commit messages, in order. Each names the rule, the law and the figure.
-5. `form-builder-examples/direct-file/docs/virginia/README.md`: how to see it, the checks,
+4. `CHANGELOG.md` beside the patch: the commits that built the site, oldest first. Each names
+   the rule, the law and the figure.
+5. `virginia/direct-file/docs/virginia/README.md`: how to see it, the checks,
    the gap list. `workbench/README.md` beside it for the policy-staff tool.
 
 ## Licence and provenance

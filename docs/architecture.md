@@ -11,7 +11,7 @@ rules rather than inside them.
 
 ```mermaid
 flowchart TB
-    subgraph VA["Virginia (ours): form-builder-examples/direct-file/, the Virginia commits"]
+    subgraph VA["Virginia (ours): virginia/direct-file/, the diff from the IRS application"]
         direction LR
         rules["facts/virginia*.xml<br/>10 rule modules, 176 facts<br/>every figure in virginiaConstants.xml"]
         screens["flow/your-taxes-virginia.xml<br/>14 screens, English and Spanish"]
@@ -19,7 +19,7 @@ flowchart TB
         wb["workbench/<br/>the Rules Workbench, Node only, port 3011"]
         checks["scripts/, VirginiaSpec.scala<br/>export rule, constants rule, 50 households, axe"]
     end
-    subgraph PORT["The port (IRS): form-builder-examples/direct-file/"]
+    subgraph PORT["The port (IRS): form-builder-examples/direct-file/, copied to virginia/direct-file/"]
         fed["Direct File's federal interview, transpiled:<br/>facts/*.xml (3,030 facts), flow/*.xml (727 screens), locales, scenarios"]
     end
     subgraph LIBS["The libraries (IRS)"]
@@ -54,7 +54,8 @@ In words, bottom to top:
   transpiled from the 2025 service onto Form Builder. It is where the federal rules and screens
   live, untouched by the Virginia work.
 - **Virginia** is ten rule modules, fourteen screens, a handful of browser scripts, the
-  Workbench and the checks, all inside the port's folder as ordinary commits. The dotted line
+  Workbench and the checks, all in the Virginia site, a copy of the port's folder changed beside
+  the IRS trees, which are never edited. The dotted line
   is the one design rule: a Virginia fact may read a federal fact only if the federal return
   already exports it to states, so the same module would be fed by the federal state API if
   that service came back.
@@ -115,7 +116,7 @@ In words:
 - The IRS's own architecture page for the stack, with the build pipeline and the browser
   runtime in detail: `taxpert/docs/architecture.md`. Its ADR on what each of the three
   libraries owns: `taxpert/docs/adr/taxpert-form-builder-fact-graph.md`.
-- The decisions behind the Virginia layer: `form-builder-examples/direct-file/docs/adr/`.
+- The decisions behind the Virginia layer: `virginia/direct-file/docs/adr/`.
 - What each Virginia file is: the "What is here" section of
-  `form-builder-examples/direct-file/docs/virginia/README.md`.
+  `virginia/direct-file/docs/virginia/README.md`.
 - To change X, go here: `docs/changing-the-return.md`. The admin pages: `docs/surfaces.md`.

@@ -55,12 +55,14 @@ PY
 fi
 
 # The squash commit whose tree is the folder at the old pin (the newest one, if it was pulled before).
-SQUASH=$(git log --format=%H --grep="^Squashed '$FOLDER/' content" | head -1)
+SQUASH=$(git log --format=%H -E --grep="^Squashed '$FOLDER/' (content|changes)" | head -1)
 [ -n "$SQUASH" ] || die "no squash commit for $FOLDER/: was it added with git subtree --squash?"
 
-# IRS-owned files the Virginia work touches: changed since the squash (committed or not) AND present at the pin.
-TOUCHED=$( { git log --format= --name-only "$SQUASH"..HEAD -- "$FOLDER"; git diff --name-only HEAD -- "$FOLDER"; } \
-           | sed -n "s|^$FOLDER/||p" | sort -u | comm -12 - <(git ls-tree -r --name-only "$SQUASH" | sort) )
+# IRS-owned files that differ from the pin: in HEAD's tree or the working tree, AND present at the pin. The
+# Virginia site lives beside the IRS trees (virginia/direct-file), so this is empty by design; anything
+# listed is a stray edit to an IRS tree, and where the subtree pull would conflict.
+TOUCHED=$( { git diff --name-only "$SQUASH" "HEAD:$FOLDER"; git diff --name-only HEAD -- "$FOLDER" | sed -n "s|^$FOLDER/||p"; } \
+           | sort -u | comm -12 - <(git ls-tree -r --name-only "$SQUASH" | sort) )
 
 # Fetch the new commit into a scratch repository that can also see this one's objects, so the old
 # tree ($SQUASH) and the new (FETCH_HEAD) can be diffed without touching this repository.

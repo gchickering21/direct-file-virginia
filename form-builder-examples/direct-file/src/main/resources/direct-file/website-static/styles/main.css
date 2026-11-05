@@ -24,15 +24,9 @@
 /* This app's own. Add your brand overrides here. */
 @import "components/brand.css";
 
-/* The Virginia section's look, on /your-taxes/virginia/ routes. */
-@import "components/virginia.css";
-
 /* Utilities — generated from this app's own flow conditions, so not part of the theme. */
 @import "utilities/display-conditions.css";
 
-/* Cross-document view transitions, only for people who have not asked for less motion. */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
+@view-transition {
+  navigation: auto;
 }

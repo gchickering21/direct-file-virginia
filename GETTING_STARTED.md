@@ -79,7 +79,7 @@ When you see
 the site is up. The top bar is the Taxpert workspace the IRS ships for developers.
 
 `make site-demo` builds the same site once, without serving it, into
-`form-builder-examples/direct-file/out/`; `make publish` builds it and puts it on GitHub Pages so
+`virginia/direct-file/out/`; `make publish` builds it and puts it on GitHub Pages so
 that nobody has to install anything (`docs/hosting.md`).
 
 ## 4. See the Virginia return
@@ -108,19 +108,20 @@ anyone else. That is the gate working. Load a demo and try again.
 ## 5. The checks
 
 ```bash
-make check           # every check that needs no built site, in one run: the IRS schemas, the export
-                        # rule, the constants module, the Spanish keys, the doc counts, the fact paths the
-                        # docs cite, the demo households, the workbench's worked examples
-make test          # the port's ScalaTest suite, VirginiaSpec included (native toolchain)
-make cases     # 50 households against an independent model of the rules (site must be running)
-make a11y      # axe over every Virginia screen, English and Spanish (site must be running)
-make stats              # the true counts; STATS=--check scans the docs for stale numbers
+make check       # every check that needs no built site, in one run: the IRS schemas, the export rule,
+                 # the constants module, every fact described, the Spanish keys, the doc counts, the fact
+                 # paths the docs cite, the demo households, the workbench's worked examples
+make test        # the port's ScalaTest suite, VirginiaSpec included (native toolchain)
+make cases       # 50 households against an independent model of the rules (site must be running)
+make a11y        # axe over every Virginia screen, English and Spanish (site must be running)
+make stats       # the true counts; STATS=--check scans the docs for stale numbers
 make workbench          # the rules workbench at http://localhost:3011
+make proof              # the three checks above against a built site (make site-demo), written into the proof page
 ```
 
 The two browser checks need only Node. Their first run installs a Playwright and axe-core
 pinned in `stack/browser-tools/`, and Playwright's Chromium, once (`make browser-tools`). The
-households are written to `form-builder-examples/direct-file/target/va-cases`, which git
+households are written to `virginia/direct-file/target/va-cases`, which git
 ignores; `CASES_DIR=…` moves them.
 
 ## 6. When something is wrong
@@ -134,7 +135,7 @@ ignores; `CASES_DIR=…` moves them.
 | `make check` reports stale numbers in the docs | a count in the prose drifted from the code | `make stats` prints the true counts; fix the sentence |
 | `make check` says a doc cites a fact path the XML does not have | a fact was renamed or removed | the script names the path and the file |
 | a four-megabyte diff in `vendor/fact-graph/factgraph-3.1.0.js` | a real rebuild of the engine (a reorder alone is never copied: `make copy-fg` keeps the vendored copy then) | expected after a `fact-graph` pin bump; otherwise `git checkout -- <the file>` |
-| the site is up but there is no top bar, no Scenario menu, and the console shows 404s under `vendor/taxpert/dist/` | the Taxpert bundle was vendored one folder too deep, because a stray empty `taxpert/packages/ui/src/dist` was copied first | `make doctor` names it: remove that folder, then `make -C form-builder-examples/direct-file copy-shared-ui` and rebuild |
+| the site is up but there is no top bar, no Scenario menu, and the console shows 404s under `vendor/taxpert/dist/` | the Taxpert bundle was vendored one folder too deep, because a stray empty `taxpert/packages/ui/src/dist` was copied first | `make doctor` names it: remove that folder, then `make -C virginia/direct-file copy-shared-ui` and rebuild |
 | the Docker VM is nearly full | the first build's cache | `docker builder prune -af`; never `docker volume prune` |
 | "port is already allocated" on 3008 | the other path is still serving | `make down`, or stop `make dev` |
 

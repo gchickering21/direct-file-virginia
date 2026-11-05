@@ -85,7 +85,7 @@ form-builder/           IRS-Public/form-builder, pinned. Flow XML + dictionary â
 taxpert/                IRS-Public/taxpert, pinned. Fact Explorer, Browse All, Author Mode.
 form-builder-examples/  IRS-Public/form-builder-examples, pinned. Its direct-file/ is the
                         IRS's port of Direct File. ALL Virginia work is commits inside
-                        form-builder-examples/direct-file/, so the change set is
+                        form-builder-examples/direct-file/ (since ADR-004, `virginia/direct-file/`), so the change set is
                         `git diff <squash> -- form-builder-examples/direct-file`.
 stack/ + Makefile       How we run the archived app (overrides outside its tree).
 report/                 Course material only: this plan, notes, sources, figures, drafts.

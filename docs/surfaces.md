@@ -7,6 +7,7 @@ with the site. All but Fact Explorer run from this repository.
 | Surface | What it shows | Who it is for | How to open it |
 |---|---|---|---|
 | **The start page** | The front door: the four demo households as cards, what to look for, and links to Browse All, the fact dictionary and the Workbench. A static page in `website-static/start/`, drawn from the demo manifest, outside the flow. | everyone; the link to give someone | `make demo` prints it: http://localhost:3008/app/direct-file/resources/start/ (and the hosted site, `docs/hosting.md`) |
+| **The proof page** | What the checks found for the build you are looking at: the households against the independent model, the axe pass, the test suite, each with the commit it ran on. A static page in `website-static/proof/`, reading the JSON that `make proof` writes beside it; a development build shows a note instead. | reviewers, the class | the start page, "The proof"; on the hosted site at `/resources/proof/` |
 | **The site** | The interview itself: the federal screens, then the fourteen Virginia screens for a Virginia resident. One question per page. | everyone; the filer's view | `make demo` or `make dev`, then http://localhost:3008/app/direct-file/ |
 | **Scenario** (top bar) | Load a saved household into the browser's Fact Graph, or copy the current one out. The four Virginia demos are under Existing scenarios. | anyone who wants a filled-in return | the Scenario button; or a `?demo=1` to `?demo=4` link, which loads the household without the menu |
 | **Browse All** (top bar) | Every screen in the flow, federal and Virginia, grouped by section, with its conditions. The place to see where the Virginia screens sit and what gates them. | engineers, reviewers | the Browse All button; also `/all-screens/` |
@@ -35,5 +36,5 @@ There is no sign-in. Pick who you are in the top right. Five fictional people st
 roles: a policy author, a policy reviewer, two engineers (the engineering approval must come
 from an engineer who is not the author), and a translator. Publishing writes the files and
 appends to `workbench/data/audit.jsonl`; with `WORKBENCH_GIT_COMMIT=1` it also commits, and
-with `WORKBENCH_GIT_PR=1` it opens a pull request. `form-builder-examples/direct-file/workbench/README.md`
+with `WORKBENCH_GIT_PR=1` it opens a pull request. `virginia/direct-file/workbench/README.md`
 is the full record.

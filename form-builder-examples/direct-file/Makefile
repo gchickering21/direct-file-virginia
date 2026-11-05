@@ -101,14 +101,6 @@ dev-author: copy-fg copy-shared-ui copy-uswds ## Same as `dev`, with Author Mode
 	@# split: you would be editing a page the splitter invented rather than the one on disk.
 	sbt -Dsmol.port=$(PORT) -Dsmol.author.port=$(AUTHOR_PORT) '~run --serve --auditMode --allScreens --scenarioMode --authorMode $(AI_FLAGS)'
 
-.PHONY: workbench
-workbench: ## Run the Virginia Rules Workbench on port 3011 (Node only; see workbench/README.md)
-	node workbench/server.mjs
-
-.PHONY: workbench-check
-workbench-check: ## Run the workbench's worked examples against the Virginia fact modules
-	node workbench/check.mjs
-
 .PHONY: debug
 debug: copy-fg copy-shared-ui copy-uswds ## Same as `dev`, but also opens a port to attach a debugger
 	sbt -Dsmol.port=$(PORT) -jvm-debug $(DEBUGGER_PORT) '~run --serve $(FLAGS)'
@@ -184,20 +176,10 @@ copy-fg: ## Copy the compiled Fact Graph bundle from the fact-graph checkout
 	@# Skipped rather than fatal when that checkout has not been built: this runs ahead of every
 	@# dev server and production build, and someone working on templates or locales does not
 	@# need an sbt-built fact-graph to hand.
-	@# A Scala.js build orders the same definitions differently from run to run, so a fresh copy can
-	@# differ from the vendored (committed) one by a four-megabyte reorder with no change of meaning.
-	@# When the two have the same lines in a different order the vendored copy is kept, so the diff a
-	@# reviewer reads is never the reorder; a real rebuild (new or changed lines) replaces it.
 	@if [ -f $(FG_SOURCE_DIR)/main.mjs ]; then \
-		if [ -f $(FG_TARGET_DIR)/factgraph-3.1.0.js ] && sort $(FG_SOURCE_DIR)/main.mjs > $(FG_TARGET_DIR)/.new.sorted && sort $(FG_TARGET_DIR)/factgraph-3.1.0.js > $(FG_TARGET_DIR)/.old.sorted && cmp -s $(FG_TARGET_DIR)/.new.sorted $(FG_TARGET_DIR)/.old.sorted; then \
-			rm -f $(FG_TARGET_DIR)/.new.sorted $(FG_TARGET_DIR)/.old.sorted; \
-			echo "==> fact-graph bundle unchanged apart from ordering; keeping the vendored copy"; \
-		else \
-			rm -f $(FG_TARGET_DIR)/.new.sorted $(FG_TARGET_DIR)/.old.sorted; \
-			cp $(FG_SOURCE_DIR)/main.mjs $(FG_TARGET_DIR)/factgraph-3.1.0.js; \
-			cp $(FG_SOURCE_DIR)/main.mjs.map $(FG_TARGET_DIR); \
-			echo "==> copied the fact-graph bundle from $(FG_SOURCE_DIR)"; \
-		fi; \
+		cp $(FG_SOURCE_DIR)/main.mjs $(FG_TARGET_DIR)/factgraph-3.1.0.js; \
+		cp $(FG_SOURCE_DIR)/main.mjs.map $(FG_TARGET_DIR); \
+		echo "==> copied the fact-graph bundle from $(FG_SOURCE_DIR)"; \
 	else \
 		echo "==> no build at $(FG_SOURCE_DIR); keeping the vendored fact-graph bundle"; \
 		echo "    (run 'cd ../../fact-graph && sbt fastOptJS' to refresh it)"; \
@@ -488,9 +470,6 @@ transpile-es: ## Reseed locales/flow_es.yaml from Direct File's Spanish (needs `
 		codemod/translate.ts $(RESOURCES_DIR)
 	npx --prefix $(DF_CLIENT_APP) vite-node --root $(DF_CLIENT_APP) \
 		codemod/verify-translation.ts $(RESOURCES_DIR)
-	@# The reseed starts from Direct File's Spanish alone, so it drops the port's own Virginia Spanish;
-	@# put it back (and check its keys still match the English) before anything reads flow_es.yaml.
-	python3 scripts/merge-virginia-es.py
 	@echo "==> rebuild to serve it: make site"
 
 .PHONY: export-scenarios

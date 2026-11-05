@@ -1,7 +1,6 @@
 # To change X, go here
 
-Paths are inside the Virginia site, `form-builder-examples/direct-file/` (`virginia/` at the
-root is a link to it), relative to `src/main/resources/direct-file/` unless they start with
+Paths are inside the Virginia site, `virginia/direct-file/`, relative to `src/main/resources/direct-file/` unless they start with
 `scripts/` or `workbench/`. Every row ends with `make check` at the root, about a minute.
 
 | To change | Go to | Then |
@@ -18,7 +17,7 @@ root is a link to it), relative to `src/main/resources/direct-file/` unless they
 | What Virginia's records hold for a demo (Lines 20 to 22) | `website-static/data/virginia-records.json`, keyed by last name and date of birth | |
 | The start page, the front door with the four households | `website-static/start/index.html`, a static page outside the flow; the cards are drawn from `website-static/data/virginia-demos.json`, so a new demo appears without an edit | `make a11y` scans it with the screens |
 | The Virginia look: masthead, footer, step track, colours | `templates/fragments/va-masthead.html`, `usa-banner.html`, `usa-step-indicator.html`, `js-templates.html`; `website-static/styles/components/virginia.css` | `make a11y` once at the end |
-| How a Virginia screen behaves in the browser | `website-static/js/virginia-*.js`, each one thing: records, locality, corrections, the combo box, sign, save, chrome, the demo link; a new one is one import in `virginia.js` | `make -C virginia validate-js` |
+| How a Virginia screen behaves in the browser | `website-static/js/virginia-*.js`, each one thing: records, locality, corrections, the combo box, sign, save, chrome, the demo link; a new one is one import in `virginia.js` | `make -C virginia/direct-file validate-js` |
 | A new section of rules | a new `facts/virginiaSomething.xml` module beside the others, with the shared preamble; refer to another module's fact with `module="…"` | nothing else: the checks, the stats and the Workbench find every `facts/virginia*.xml` |
 | The independent model the households are checked against | `scripts/lib/virginia-model.cjs`, written from the Code, not from the XML | `make cases` with the site running |
 | Which federal facts Virginia may read | nothing: only facts the federal return exports to states, enforced by `scripts/check-virginia-exports.py` | if the fact is not exported, the Workbench's Requests page is where a policy author asks for it |

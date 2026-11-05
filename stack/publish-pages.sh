@@ -7,7 +7,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 . stack/site.env
-PORT=form-builder-examples/direct-file
+PORT=virginia/direct-file
 
 OUT="$PORT/out"
 # From nothing: a local build leaves its own tree in out/, and the host would serve it beside this one.
@@ -19,6 +19,13 @@ make site-demo SITE_BASE_PATH="$SITE_BASE_PATH"
 grep -q "content=\"$SITE_BASE_PATH\"" "$OUT/app/direct-file/index.html" "$OUT"/app/direct-file/*/index.html 2>/dev/null \
   || grep -rq "form-builder:base-path\" content=\"$SITE_BASE_PATH\"" "$OUT/app/direct-file/your-taxes" \
   || { echo "==> the pages do not carry $SITE_BASE_PATH as their base path: Main.scala did not see -Dsite.basePath"; exit 1; }
+
+# The checks, into the proof page (stack/proof.sh). PROOF=0 skips them; PROOF_STRICT=0 publishes even if one fails.
+if [ "${PROOF:-1}" != "0" ]; then
+  if ! make proof; then
+    [ "${PROOF_STRICT:-1}" = "0" ] || { echo "==> a check failed; not publishing (PROOF_STRICT=0 to publish anyway, PROOF=0 to skip the checks)"; exit 1; }
+  fi
+fi
 
 SRC=$(git rev-parse --short HEAD)
 DIRTY=$(git status --porcelain --untracked-files=no | grep -q . && echo " (with uncommitted changes)" || true)

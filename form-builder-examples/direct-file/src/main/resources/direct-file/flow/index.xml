@@ -27,7 +27,6 @@
   <module src="./your-taxes-amount.xml"/>
   <module src="./your-taxes-payment-method.xml"/>
   <module src="./your-taxes-other-preferences.xml"/>
-  <module src="./your-taxes-virginia.xml"/>
   <module src="./complete-review.xml"/>
   <module src="./complete-sign-and-submit.xml"/>
   <module src="./complete-print-and-mail.xml"/>

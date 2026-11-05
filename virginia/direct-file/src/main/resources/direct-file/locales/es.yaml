@@ -1,0 +1,267 @@
+# Spanish. Declare only the keys this application owns and wants translated; anything absent falls
+# through to the scaffold's own es.yaml, which already carries the chrome.
+#
+# The all-screens headings below are Direct File's own `checklist.*.heading` strings out of its
+# es.yaml, so they are real translations rather than seeded English. The workspace strings are not:
+# the workspace is developer chrome, and these are translated here so a Spanish-speaking author can
+# read the tool they work in.
+title:
+  prefix: Direct File
+  suffix: Servicio de Impuestos Internos
+layout:
+  title: Direct File
+
+all-screens:
+  section:
+    you-and-your-family-about-you: Acerca de ti
+    you-and-your-family-spouse: Cónyuge
+    you-and-your-family-dependents: Familia y hogar
+    you-and-your-family-filing-status: Estado civil tributario
+    income-income-sources: Fuentes de ingresos
+    income-jobs: Trabajos
+    income-unemployment: Compensación por desempleo
+    income-interest: Ingreso por intereses
+    income-alaska-pfd: Dividendo del Fondo Permanente de Alaska
+    income-dependent-care: Beneficios por cuidado de dependientes
+    income-hsa: Cuentas de ahorros para la salud
+    income-retirement-launch: Ingresos de jubiliación (Formulario 1099-R)
+    income-retirement: Ingresos de jubiliación (Formulario 1099-R)
+    income-social-security: Beneficios de Seguro Social (Formulario SSA-1099)
+    income-total-income-summary: Ingreso total
+    credits-and-deductions-deductions: Deducciones
+    credits-and-deductions-credits: Créditos
+    your-taxes-estimated-taxes-paid: Impuestos estimados pagados
+    your-taxes-amount: Cantidad
+    your-taxes-payment-method: Método de pago
+    your-taxes-other-preferences: Otras preferencias
+    your-taxes-virginia: Su declaración de Virginia
+    complete-review: Revisar y confirmar
+    complete-sign-and-submit: Firma digital para la declaración del impuesto federal
+    complete-print-and-mail: Imprimir y enviar por correo
+    complete-submit: Enviar
+    other: Otros
+
+workspace:
+  flags:
+    ai-scenario-generation: Generación de escenarios con IA
+    ai-fact-explanation: Explicaciones de hechos con IA
+    author-mode: Modo de autor
+  tools:
+    inspect: Inspeccionar
+    inspect-description: Inspeccione hechos, flujos y texto.
+    outcome-tracker: Seguimiento de resultados
+    outcome-tracker-description: Siga los resultados que determina esta aplicación.
+    watchlist: Lista de seguimiento
+    watchlist-description: Siga el valor de uno o más hechos mientras trabaja o carga escenarios.
+  outcomes:
+    return: Reembolso o cantidad adeudada
+    refund-due: Reembolso a favor
+    balance-owed: Saldo adeudado
+    income-and-tax: Ingresos e impuestos
+    payments-and-credits: Pagos y créditos
+    the-result: El resultado
+
+    eitc: Crédito Tributario por Ingreso del Trabajo
+    qualifies: Califica
+    does-not-qualify: No califica
+    eitc-eligibility: Elegibilidad
+    eitc-amount: Cantidad
+
+    ctc-odc: Crédito Tributario por Hijos y Crédito por Otros Dependientes
+    ctc-odc-eligibility: Elegibilidad
+    ctc-odc-amount: Cantidad
+
+    cdcc: Crédito por Cuidado de Hijos y Dependientes
+    receiving: Recibe el crédito
+    not-receiving: No recibe el crédito
+    cdcc-eligibility: Elegibilidad
+    cdcc-amount: Cantidad
+
+    ptc: Crédito Tributario de Prima
+    ptc-eligibility: Elegibilidad
+    ptc-amount: Cantidad
+
+# The seven custom input types this application registers (Main.scala's `inputTypes`), and the words
+# their templates need. Every string below is Direct File's own — the field labels from
+# `fields.generics.address` and `fields./bankAccount`, the state names from `enums.statesAndProvinces`
+# and `enums.armedForces`, and each `invalid` from that type's own `errorMessages` entry — so the port
+# says what upstream says rather than paraphrasing it.
+#
+# `invalid` is one message per type rather than one per failure reason. The browser handlers build
+# the value with the Fact Graph's own factory and get back a JSEither whose Left is a typed reason,
+# but `fg-set` has no place to put a per-reason message for a value it never sees as a string (see
+# website-static/js/inputs/masked-number.js). One accurate sentence beats a reason code.
+#
+# AE appears four times in the state list on purpose: upstream offers Africa, Canada, Europe and the
+# Middle East separately over the one code the Fact Graph stores.
+inputs:
+  tin:
+    invalid: "Ingresa un número válido. Esto debe verse así: 123-45-6789"
+  ein:
+    invalid: Esto debe verse de esta manera 12-3456789
+  pin:
+    invalid: El PIN debe tener 5 dígitos
+  ip-pin:
+    invalid: El PIN tiene que tener 6 dígitos
+  phone-number:
+    invalid: "Esto debe verse así: 212-555-0134"
+  address:
+    country: País
+    street: Dirección
+    street2: Línea 2 de la dirección
+    city: Ciudad
+    state: Estado o puesto militar
+    zip: Código postal
+    invalid: El código postal tiene que tener el formato de 12345 ó 12345-1234 ó 12345-1234567
+    states:
+      AL: Alabama
+      AK: Alaska
+      AZ: Arizona
+      AR: Arkansas
+      CA: California
+      CO: Colorado
+      CT: Connecticut
+      DE: Delaware
+      DC: Distrito de Columbia
+      FL: Florida
+      GA: Georgia
+      HI: Hawái
+      ID: Idaho
+      IL: Illinois
+      IN: Indiana
+      IA: Iowa
+      KS: Kansas
+      KY: Kentucky
+      LA: Luisiana
+      ME: Maine
+      MD: Maryland
+      MA: Massachusetts
+      MI: Michigan
+      MN: Minnesota
+      MS: Misisipi
+      MO: Misuri
+      MT: Montana
+      NE: Nebraska
+      NV: Nevada
+      NH: Nuevo Hampshire
+      NJ: Nueva Jersey
+      NM: Nuevo México
+      NY: Nueva York
+      NC: Carolina del Norte
+      ND: Dakota del Norte
+      OH: Ohio
+      OK: Oklahoma
+      OR: Oregón
+      PA: Pensilvania
+      RI: Rhode Island
+      SC: Carolina del Sur
+      SD: Dakota del Sur
+      TN: Tennessee
+      TX: Texas
+      UT: Utah
+      VT: Vermont
+      VA: Virginia
+      WA: Washington
+      WV: Virginia Occidental
+      WI: Wisconsin
+      WY: Wyoming
+      armedForcesAmericas: AA - Fuerzas Armadas Américas
+      armedForcesAfrica: AE - Fuerzas Armadas África
+      armedForcesCanada: AE - Fuerzas Armadas Canadá
+      armedForcesEurope: AE - Fuerzas Armadas Europa
+      armedForcesMiddleEast: AE - Fuerzas Armadas Medio Oriente
+      armedForcesPacific: AP - Fuerzas Armadas Pacífico
+  bank-account:
+    checking: Cheques
+    savings: Ahorros
+    routingNumber: Número de ruta
+    accountNumber: Número de cuenta
+    invalid: No es un número de ruta válido
+
+# Spanish for the Virginia section's chrome; the English and the reason are in en.yaml.
+virginia:
+  demo:
+    label: Demostración
+    text: Un prototipo de clase. No es un servicio de Virginia Tax. No se presenta nada.
+  masthead:
+    kicker: Mancomunidad de Virginia
+    name: Declaración del estado de Virginia
+    federal: Respuestas federales
+    federal-status: Completas
+    language: Seleccione el idioma
+  track:
+    label: Su declaración de Virginia
+    federal: Respuestas federales
+    known: Lo que Virginia ya sabe
+    answers: Sus respuestas
+    review: Revisión
+    sign: Firma
+    done: completado
+    current: paso actual
+  footer:
+    label: Declaración del estado de Virginia
+    identity: Declaración del estado de Virginia, un prototipo de clase
+    disclaimer: >-
+      Hecho para un curso de posgrado para mostrar cómo una declaración de Virginia podría seguir a
+      Direct File. No lo administra Virginia Tax ni la Mancomunidad de Virginia, ni está afiliado a
+      ellas, y nada de lo que se ingresa aquí se presenta.
+    links: Dónde obtener ayuda
+    state-help: Virginia Tax, para preguntas sobre una declaración real de Virginia
+    federal-help: IRS, para preguntas sobre su declaración federal
+  ui:
+    corrections:
+      same: "Lo que debe no cambió: {0}."
+      changed: "Ahora {0}. Antes de esta corrección, {1}."
+      owe: usted debe {0}
+      refund: su reembolso es de {0}
+      nothing: no debe nada
+      none: "—"
+      caption: Lo que corrigió
+      col-item: Dato
+      col-was: Antes
+      col-now: Ahora
+      nothing-changed: Nada cambió. Los valores que guardó son los que ya teníamos.
+      dob: Fecha de nacimiento
+      dob-note: También se corrigió en su declaración federal.
+      records-note: Virginia Tax lo compararía con sus propios libros.
+      w2-from: W-2 de {0}
+      your-employer: su empleador
+      w2-note: Virginia lo comparará con el W-2 que presentó su empleador.
+      w2-federal-note: También se corrigió en su declaración federal. Virginia lo comparará con el W-2 que presentó su empleador.
+      lines-one: Una línea del Formulario 760 cambió
+      lines-many: "{0} líneas del Formulario 760 cambiaron"
+      no-line-changed: Ninguna línea del Formulario 760 cambió.
+      no-round: No se hizo ninguna corrección en esta ronda, así que no hay nada que comparar.
+      to: a
+    line:
+      "1": Línea 1, ingreso bruto ajustado federal
+      "4": Línea 4, deducción por edad
+      "9": Línea 9, ingreso bruto ajustado de Virginia
+      "11": Línea 11, deducción estándar
+      "12": Línea 12, exenciones
+      "15": Línea 15, ingreso tributable de Virginia
+      "16": Línea 16, impuesto sobre la renta de Virginia
+      19a: Línea 19a, impuesto de Virginia retenido
+      "20": Línea 20, pagos estimados
+      "21": Línea 21, pago en exceso del año anterior aplicado
+      "22": Línea 22, pagos de prórroga
+      "23": Línea 23, crédito para trabajadores y familias de bajos ingresos
+      "27": Línea 27, impuesto que debe antes del impuesto sobre el uso
+      "28": Línea 28, su pago en exceso
+      "35": Línea 35, monto que debe
+      "36": Línea 36, su reembolso
+    records:
+      "20": Línea 20, pagos estimados que Virginia tenía registrados
+      "21": Línea 21, pago en exceso del año anterior que Virginia tenía registrado
+      "22": Línea 22, pagos de prórroga que Virginia tenía registrados
+    w2:
+      employer: Empleador
+      box1: Casilla 1, salarios
+      box2: Casilla 2, impuesto federal retenido
+      box16: Casilla 16, salarios de Virginia
+      box17: Casilla 17, impuesto de Virginia retenido
+    sign:
+      need-declaration: Marque primero la casilla de la declaración. Virginia Tax no puede aceptar una declaración sin firmar.
+    save:
+      filename: respuestas-declaracion-virginia.json
+      resume-error: Ese archivo no es un archivo de respuestas de este prototipo. Descargue uno desde la pantalla de revisión y elíjalo aquí.

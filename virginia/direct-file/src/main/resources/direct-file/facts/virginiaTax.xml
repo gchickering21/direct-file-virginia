@@ -1,0 +1,502 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return. One of the Virginia
+  modules (facts/virginia*.xml), loaded as one dictionary beside the federal modules; the
+  Virginia README in docs/virginia/ lists them and docs/adr/003-the-layout-for-growth.md says
+  why they are split. Every fact names its source: Va. Code Title 58.1, Chapter 3
+  (https://law.lis.virginia.gov/vacode/title58.1/) and the 2024 Form 760 instructions. A module
+  reads federal facts only through what the federal return exports to states
+  (stateSystems="true") or to MeF (mef="true"); scripts/check-virginia-exports.py enforces it.
+
+  This module: Line 16, the tax from the rate schedule, both ways, and the tax taken apart for the
+  summary's "why this number" disclosure: the bracket, the tax at its base, the marginal rate.
+-->
+<FactDictionaryModule>
+  <Facts>
+
+
+    <!-- ============ Line 16: the tax. ============ -->
+
+    <Fact path="/vaWithoutCreditTaxFromRateSchedule">
+      <Name>Tax from the rate schedule, keeping the age deduction</Name>
+      <Description>Va. Code § 58.1-320, taxable years from 1990: 2% of income not exceeding
+        $3,000; 3% of income over $3,000 to $5,000; 5% of income over $5,000 to $17,000; 5.75% of
+        income over $17,000. Written as the cumulative schedule the 2024 Form 760 instructions
+        print: $60 at $3,000, $120 at $5,000, $720 at $17,000 (the /vaRateSchedule… figures).
+        Rounded to the dollar.</Description>
+      <Derived>
+        <Round>
+          <Switch>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency module="virginiaDeductions" path="/vaWithoutCreditTaxableIncome" /></Left>
+                  <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Multiply>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleRate1" />
+                  <Dependency module="virginiaDeductions" path="/vaWithoutCreditTaxableIncome" />
+                </Multiply>
+              </Then>
+            </Case>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency module="virginiaDeductions" path="/vaWithoutCreditTaxableIncome" /></Left>
+                  <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Add>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket1Top" />
+                  <Multiply>
+                    <Dependency module="virginiaConstants" path="/vaRateScheduleRate2" />
+                    <Subtract>
+                      <Minuend><Dependency module="virginiaDeductions" path="/vaWithoutCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency module="virginiaDeductions" path="/vaWithoutCreditTaxableIncome" /></Left>
+                  <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Add>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket2Top" />
+                  <Multiply>
+                    <Dependency module="virginiaConstants" path="/vaRateScheduleRate3" />
+                    <Subtract>
+                      <Minuend><Dependency module="virginiaDeductions" path="/vaWithoutCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+            <Case>
+              <When><True /></When>
+              <Then>
+                <Add>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket3Top" />
+                  <Multiply>
+                    <Dependency module="virginiaConstants" path="/vaRateScheduleRate4" />
+                    <Subtract>
+                      <Minuend><Dependency module="virginiaDeductions" path="/vaWithoutCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+          </Switch>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTaxFromRateSchedule">
+      <Name>Tax from the rate schedule, claiming a low-income credit</Name>
+      <Description>Va. Code § 58.1-320, the same schedule as /vaWithoutCreditTaxFromRateSchedule,
+        on the taxable income of a return that claims a low-income credit. Rounded to the dollar.</Description>
+      <Derived>
+        <Round>
+          <Switch>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency module="virginiaDeductions" path="/vaWithCreditTaxableIncome" /></Left>
+                  <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Multiply>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleRate1" />
+                  <Dependency module="virginiaDeductions" path="/vaWithCreditTaxableIncome" />
+                </Multiply>
+              </Then>
+            </Case>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency module="virginiaDeductions" path="/vaWithCreditTaxableIncome" /></Left>
+                  <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Add>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket1Top" />
+                  <Multiply>
+                    <Dependency module="virginiaConstants" path="/vaRateScheduleRate2" />
+                    <Subtract>
+                      <Minuend><Dependency module="virginiaDeductions" path="/vaWithCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+            <Case>
+              <When>
+                <LessThanOrEqual>
+                  <Left><Dependency module="virginiaDeductions" path="/vaWithCreditTaxableIncome" /></Left>
+                  <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Right>
+                </LessThanOrEqual>
+              </When>
+              <Then>
+                <Add>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket2Top" />
+                  <Multiply>
+                    <Dependency module="virginiaConstants" path="/vaRateScheduleRate3" />
+                    <Subtract>
+                      <Minuend><Dependency module="virginiaDeductions" path="/vaWithCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+            <Case>
+              <When><True /></When>
+              <Then>
+                <Add>
+                  <Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket3Top" />
+                  <Multiply>
+                    <Dependency module="virginiaConstants" path="/vaRateScheduleRate4" />
+                    <Subtract>
+                      <Minuend><Dependency module="virginiaDeductions" path="/vaWithCreditTaxableIncome" /></Minuend>
+                      <Subtrahends><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Subtrahends>
+                    </Subtract>
+                  </Multiply>
+                </Add>
+              </Then>
+            </Case>
+          </Switch>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithoutCreditTax">
+      <Name>Line 16 if the return keeps the age deduction and exemptions</Name>
+      <Description>The tax from the rate schedule, or $0 when Virginia adjusted gross income is
+        below the filing threshold (Va. Code § 58.1-321(A)).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency module="virginiaIncome" path="/vaWithoutCreditIsBelowFilingThreshold" /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditTaxFromRateSchedule" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTax">
+      <Name>Line 16 if the return claims a low-income credit</Name>
+      <Description>The tax from the rate schedule, or $0 when Virginia adjusted gross income is
+        below the filing threshold (Va. Code § 58.1-321(A)).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency module="virginiaIncome" path="/vaWithCreditIsBelowFilingThreshold" /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithCreditTaxFromRateSchedule" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTax">
+      <Name>Form 760 Line 16, Virginia income tax</Name>
+      <Description>The tax on whichever way of filing the return claims. Line 17 (the spouse tax
+        adjustment) is out of scope, so Line 18 equals Line 16.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency module="virginiaCredits" path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaWithCreditTax" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/vaWithoutCreditTax" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <!-- Line 16, taken apart for its disclosure: Virginia's schedule is cumulative, so the tax is the
+         tax at the top of the bracket below the filer's plus the marginal rate on what is above it. -->
+
+    <Fact path="/vaTaxBracketBase">
+      <Name>The bottom of the rate bracket Line 15 falls in</Name>
+      <Description>Helper for Line 16, § 58.1-320: the bottom of the rate-schedule bracket Line 15 falls in, from the bracket tops in virginiaConstants.xml.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTaxAtBracketBase">
+      <Name>The tax at the bottom of the bracket Line 15 falls in</Name>
+      <Description>Helper for Line 16, § 58.1-320: the tax on everything up to the bottom of that bracket, from the rate schedule in virginiaConstants.xml.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket1Top" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket2Top" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleTaxAtBracket3Top" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMarginalRate">
+      <Name>The rate on the part of Line 15 above the bracket's bottom</Name>
+      <Description>Helper for Line 16, § 58.1-320: the rate on the part of Line 15 above the bracket's bottom.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket1Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleRate1" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket2Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleRate2" /></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Left>
+                <Right><Dependency module="virginiaConstants" path="/vaRateScheduleBracket3Top" /></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleRate3" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency module="virginiaConstants" path="/vaRateScheduleRate4" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMarginalRateTimes100">
+      <Name>The marginal rate as a number of percent</Name>
+      <Description>The marginal rate times 100, for /vaMarginalRatePercent in the "why this number" sentence on the summary. Display only.</Description>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency path="/vaMarginalRate" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMarginalRatePercent">
+      <Name>The marginal rate, printed: 2, 3, 5 or 5.75</Name>
+      <Description>The percent sign is in the sentence that shows this.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaMarginalRateTimes100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaIncomeAboveBracketBase">
+      <Name>The part of Line 15 above the bracket's bottom</Name>
+      <Description>Helper for Line 16, § 58.1-320: Line 15 less the bracket's bottom, the part taxed at the marginal rate.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency module="virginiaDeductions" path="/vaTaxableIncome" /></Minuend>
+          <Subtrahends><Dependency path="/vaTaxBracketBase" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTaxOnIncomeAboveBracketBase">
+      <Name>The marginal rate times the part of Line 15 above the bracket's bottom</Name>
+      <Description>Line 16 before rounding is the tax at the bracket's bottom plus this; the schedule's
+        tax-at-top figures are whole dollars, so the rounding falls here.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/vaMarginalRate" />
+            <Dependency path="/vaIncomeAboveBracketBase" />
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate1Times100">
+      <Name>Rate schedule rate 1 as a number of percent</Name>
+      <Description>Rate schedule rate 1 times 100, for the rate schedule as the summary prints it. Display only; the rate is in virginiaConstants.xml.</Description>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency module="virginiaConstants" path="/vaRateScheduleRate1" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate1Percent">
+      <Name>Rate schedule rate 1, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate1Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate2Times100">
+      <Name>Rate schedule rate 2 as a number of percent</Name>
+      <Description>Rate schedule rate 2 times 100, for the rate schedule as the summary prints it. Display only; the rate is in virginiaConstants.xml.</Description>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency module="virginiaConstants" path="/vaRateScheduleRate2" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate2Percent">
+      <Name>Rate schedule rate 2, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate2Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate3Times100">
+      <Name>Rate schedule rate 3 as a number of percent</Name>
+      <Description>Rate schedule rate 3 times 100, for the rate schedule as the summary prints it. Display only; the rate is in virginiaConstants.xml.</Description>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency module="virginiaConstants" path="/vaRateScheduleRate3" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate3Percent">
+      <Name>Rate schedule rate 3, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate3Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate4Times100">
+      <Name>Rate schedule rate 4 as a number of percent</Name>
+      <Description>Rate schedule rate 4 times 100, for the rate schedule as the summary prints it. Display only; the rate is in virginiaConstants.xml.</Description>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency module="virginiaConstants" path="/vaRateScheduleRate4" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate4Percent">
+      <Name>Rate schedule rate 4, printed</Name>
+      <Description>For the Line 16 disclosure; the percent sign is in the sentence.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaRateScheduleRate4Times100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaUseTaxRateTimes100">
+      <Name>The use tax rate as a number of percent</Name>
+      <Description>The locality's use-tax rate times 100, for /vaUseTaxRatePercent on the untaxed-purchases screen and the summary. Display only; the rate is in virginiaLocalities.xml.</Description>
+      <Derived>
+        <Multiply>
+          <Rational>100/1</Rational>
+          <Dependency module="virginiaLocalities" path="/vaUseTaxRate" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaUseTaxRatePercent">
+      <Name>The use tax rate where the filer lives, printed: 5.3, 6, 6.3 or 7</Name>
+      <Description>The percent sign is in the sentence that shows this.</Description>
+      <Derived>
+        <AsDecimalString scale="2"><Dependency path="/vaUseTaxRateTimes100" /></AsDecimalString>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

@@ -19,39 +19,8 @@
        the label span carries it and the modifier hides that span. That is a real trade and it is
        made deliberately: those links were already unreachable at 138 segments, the header below
        still names the section you are in, and Browse All is this application's navigation surface.
-       Each segment keeps a `title`, so hovering one still says which section it is.
-
-       THE VIRGINIA SECTION GETS ITS OWN TRACK. On /your-taxes/virginia/ routes the 25 federal
-       segments give way to five labelled steps of Virginia's: the federal answers (done), what
-       Virginia knows, your answers, review, sign. Labelled, because five fit; under 400px the
-       labels wrap and the bars stay (styles/components/virginia.css). The step comes from the
-       route: split pages keep their source page's route as a prefix, so `contains` on the page slug
-       still places them. Paired with fragments/va-masthead.html. */-->
-<th:block th:if="${exclude == false and currentPageRoute != null and #strings.startsWith(currentPageRoute, '/your-taxes/virginia/')}"
-          th:with="r=${currentPageRoute},
-                   vaStep=${#strings.contains(r, '/virginia-sign') ? 4
-                          : (#strings.contains(r, '/virginia-summary') ? 3
-                          : ((#strings.contains(r, '/virginia-locality') or #strings.contains(r, '/virginia-military')
-                              or #strings.contains(r, '/virginia-savers') or #strings.contains(r, '/virginia-use-tax')) ? 2 : 1))}">
-<nav class="va-track" th:aria-label="#{virginia.track.label}">
-    <ol class="va-track__steps">
-        <li class="va-track__step va-track__step--federal">
-            <span th:text="#{virginia.track.federal}"></span>
-            <span class="usa-sr-only" th:text="|, #{virginia.track.done}|"></span>
-        </li>
-        <li th:each="key, it : ${ {'known', 'answers', 'review', 'sign'} }"
-            th:with="n=${it.index + 1}"
-            th:class="${n lt vaStep} ? 'va-track\_\_step va-track\_\_step--done' : (${n == vaStep} ? 'va-track\_\_step va-track\_\_step--current' : 'va-track\_\_step')"
-            th:attr="aria-current=${n == vaStep} ? 'step' : null">
-            <span th:text="#{${'virginia.track.' + key}}"></span>
-            <span class="usa-sr-only" th:if="${n lt vaStep}" th:text="|, #{virginia.track.done}|"></span>
-            <span class="usa-sr-only" th:if="${n == vaStep}" th:text="|, #{virginia.track.current}|"></span>
-        </li>
-    </ol>
-</nav>
-</th:block>
-<div class="usa-step-indicator usa-step-indicator--no-labels margin-top-3"
-     th:if="${exclude == false and !(currentPageRoute != null and #strings.startsWith(currentPageRoute, '/your-taxes/virginia/'))}"
+       Each segment keeps a `title`, so hovering one still says which section it is. */-->
+<div class="usa-step-indicator usa-step-indicator--no-labels margin-top-3" th:if="${exclude == false}"
      th:with="currentSection=${sections[sectionIndex]}">
     <ol class="usa-step-indicator__segments">
         <!--/* Three variants rather than one with a computed class, which is the shape the

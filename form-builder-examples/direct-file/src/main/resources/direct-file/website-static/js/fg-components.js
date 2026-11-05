@@ -26,7 +26,3 @@ import './inputs/masked-number.js'
 import './inputs/address.js'
 import './inputs/bank-account.js'
 import './inputs/collection-item-reference.js'
-
-// The Virginia section's own behaviour, all on /your-taxes/virginia/ routes only: one import, so this
-// file of the IRS's carries one line for the state. virginia.js lists the scripts and what each does.
-import './virginia.js'

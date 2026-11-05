@@ -15,7 +15,7 @@
 #
 # `command` replaces the IRS file's command outright (Compose does not merge lists for it), so the
 # whole line is repeated here. Keep it in step with the watcher's command in
-# form-builder-examples/direct-file/docker-compose.override.yml and with FLAGS in its Makefile.
+# virginia/direct-file/docker-compose.override.yml and with FLAGS in its Makefile.
 services:
   direct-file-watch:
     command:

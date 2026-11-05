@@ -2,6 +2,9 @@
 node_modules/
 stack/.bootstrapped
 # The 2025 archive at the root, fetched by `make fetch-archive` (stack/archive.mk), not vendored.
-# Anchored: form-builder-examples/direct-file/ is the Virginia site and is tracked.
+# Anchored: virginia/direct-file/ is the Virginia site and is tracked.
 /direct-file/
+# The engine's Scala.js sourcemap, vendored by `make copy-fg` beside the committed bundle (the IRS's own
+# .gitignore has the same rule, and the Virginia site no longer sits under it).
+virginia/direct-file/src/main/resources/direct-file/website-static/vendor/fact-graph/*.map
 __pycache__/

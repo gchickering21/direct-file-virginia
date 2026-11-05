@@ -52,20 +52,30 @@ worked examples (run in the browser, as in the live one), the changes and reques
 on the publishing machine, and the four reports. `workbench/snapshot.mjs` writes it at build
 time: the page, its scripts and the engine, plus every answer the live server gives to a read,
 as JSON files; the page then refuses every save with a message that names `make workbench`.
-What the hosted copy does not have: the live Workbench (drafts, approvals, publishing), Author
-Mode, Fact Explorer. Nothing on the hosted site can write anywhere.
+Also on the hosted copy: **the proof page** at `/resources/proof/`, which shows what the checks
+found for that build (`make publish` runs `make proof`: the fifty households against the
+independent model, axe over every route in both languages, and the ScalaTest suite, each
+writing its result as JSON beside the page; a failing check stops the publish unless
+`PROOF_STRICT=0`, and `PROOF=0` skips the checks); **the three design mockups** from
+`report/mockups/`, copied in at `/mockups/`; and links to the write-up as GitHub renders it.
+And **the Fact Explorer**, the IRS's graph of the whole dictionary, at `/fact-explorer/direct-file`:
+`stack/fact-explorer.sh` builds the IRS's Vite app over this site's flow and dictionary with the
+Explorer's own generator, rewrites the root-relative paths in the built output for the host's
+prefix, and places it beside the site; no IRS file is edited. `FACT_EXPLORER=0` skips it.
+What the hosted copy does not have: the live Workbench (drafts, approvals, publishing) and
+Author Mode. Nothing on the hosted site can write anywhere.
 
 ## Other free hosts, if GitHub Pages does not suit
 
 All serve at the root of their own domain, so the build keeps its normal prefix: `make site-demo`
-(no `SITE_BASE_PATH`), then upload `form-builder-examples/direct-file/out/`. The start page is then
+(no `SITE_BASE_PATH`), then upload `virginia/direct-file/out/`. The start page is then
 at `<their address>/app/direct-file/resources/start/`.
 
 | Host | Free tier | How | Notes |
 |---|---|---|---|
-| **Cloudflare Pages** | unlimited bandwidth, 500 deploys a month | `npx wrangler pages deploy form-builder-examples/direct-file/out --project-name direct-file-virginia` after `npx wrangler login` | a Cloudflare account; no git connection needed, the folder is uploaded as is; 20,000 files per deploy |
-| **Netlify** | 100 GB a month | drag the `out/` folder onto app.netlify.com/drop, or `npx netlify-cli deploy --dir form-builder-examples/direct-file/out --prod` | a Netlify account; the drop needs no CLI at all |
-| **Surge** | unlimited basic sites | `npx surge form-builder-examples/direct-file/out direct-file-virginia.surge.sh` | the simplest; an email address is the account |
+| **Cloudflare Pages** | unlimited bandwidth, 500 deploys a month | `npx wrangler pages deploy virginia/direct-file/out --project-name direct-file-virginia` after `npx wrangler login` | a Cloudflare account; no git connection needed, the folder is uploaded as is; 20,000 files per deploy |
+| **Netlify** | 100 GB a month | drag the `out/` folder onto app.netlify.com/drop, or `npx netlify-cli deploy --dir virginia/direct-file/out --prod` | a Netlify account; the drop needs no CLI at all |
+| **Surge** | unlimited basic sites | `npx surge virginia/direct-file/out direct-file-virginia.surge.sh` | the simplest; an email address is the account |
 
 Any of these is fine for a demo. GitHub Pages is recommended only because it needs no second
 account and the address outlives the course.

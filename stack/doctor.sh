@@ -70,7 +70,7 @@ done
 # An empty taxpert/packages/ui/src/dist (a stray from an older build) makes the port's copy-shared-ui nest the
 # bundle at vendor/taxpert/dist/dist, and every page then 404s on taxpert.js: no workspace bar, no Scenario menu.
 if [ -d taxpert/packages/ui/src/dist ]; then
-  missing "taxpert/packages/ui/src/dist exists (the bundle will vendor one folder too deep)" "rmdir taxpert/packages/ui/src/dist, then make -C form-builder-examples/direct-file copy-shared-ui"
+  missing "taxpert/packages/ui/src/dist exists (the bundle will vendor one folder too deep)" "rmdir taxpert/packages/ui/src/dist, then make -C virginia/direct-file copy-shared-ui"
 else ok "no stray taxpert/packages/ui/src/dist"; fi
 if [ -f stack/browser-tools/node_modules/.installed ] || ls "$HOME/.cache/ms-playwright" 2>/dev/null | grep -q chromium; then
   ok "Playwright Chromium (make cases / make a11y)"
