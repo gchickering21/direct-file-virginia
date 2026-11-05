@@ -14,9 +14,16 @@ import scala.collection.immutable.ListMap
   * `appId`, the URL segment and the sbt project name are deliberately independent, even though the template set all
   * three from one answer. Changing one later does not force the others.
   */
+// The route prefix every link is written with. `/app/direct-file` everywhere but the hosted copy, which a
+// static host mounts under its own prefix (a GitHub Pages project site is /<repo>/...): `make publish`
+// passes -Dsite.basePath with the value in stack/site.env (docs/hosting.md). The templates render it into
+// every link and the runtime reads it from the page, so nothing else has to know. The output folder does
+// not move with it: the host supplies its prefix, so `out/app/direct-file/` is what it serves either way.
+val sitePath: String = sys.props.getOrElse("site.basePath", "/app/direct-file")
+
 val app: FormBuilderApp = FormBuilderApp(
   appId = "direct-file",
-  basePath = "/app/direct-file",
+  basePath = sitePath,
   outSubdir = "app/direct-file",
   // Insertion-ordered: the first entry is the default language, generated at the site root, and
   // every other one gets its own path segment underneath it.

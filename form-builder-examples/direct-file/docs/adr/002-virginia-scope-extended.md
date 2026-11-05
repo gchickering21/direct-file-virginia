@@ -123,7 +123,7 @@ other Virginia file is new. Nothing in the engine or the libraries (`fact-graph/
 | `templates/fragments/usa-step-indicator.html` | on `/your-taxes/virginia/` routes, five labelled Virginia steps in place of the 25 federal segments | the Virginia track |
 | `website-static/js/fg-components.js` | one import, `virginia.js`, which imports the Virginia scripts (`virginia-demo-link.js`, `virginia-corrections.js`, `virginia-records.js`, `virginia-locality.js`, `virginia-combo-box.js`, `virginia-sign.js`, `virginia-save.js`, `virginia-chrome.js`) | the Virginia behaviour loads with the runtime and the IRS's file carries one line for the state; each script does one thing and none writes a fact except sign and save |
 | `website-static/styles/main.css` | `@import "components/virginia.css"` | the Virginia look on its routes |
-| `src/main/scala/gov/irs/directfile/Main.scala` | `basePath` and `outSubdir` read `-Dsite.basePath`, default `/app/direct-file` | the hosted copy of the demo site sits under a static host's own prefix (`docs/hosting.md`); every local build is unchanged |
+| `src/main/scala/gov/irs/directfile/Main.scala` | `basePath` reads `-Dsite.basePath`, default `/app/direct-file`; `outSubdir` stays `app/direct-file` | the hosted copy of the demo site sits under a static host's own prefix (`docs/hosting.md`); every local build is unchanged |
 | `tests/smoke.spec.js` | the step indicator counts 26 sections, not 25 | one Virginia section joins the five federal categories |
 | `Makefile` | `workbench` and `workbench-check` targets; `transpile-es` re-merges the Virginia Spanish; `copy-fg` keeps the vendored engine bundle when a fresh build only reorders it | the tool, the reseed, and no four-megabyte no-op diffs |
 

@@ -70,7 +70,7 @@ workbench: ## the Virginia Rules Workbench for policy staff at http://localhost:
 site-demo: $(STAMP) ## native: build the demo site once into form-builder-examples/direct-file/out (the demo surfaces, no AI); SITE_BASE_PATH=… for a host
 	$(TOOLCHAIN) $(MAKE) -C $(PORT) copy-fg copy-shared-ui copy-uswds
 	$(TOOLCHAIN) cd $(PORT) && sbt $(if $(SITE_BASE_PATH),-Dsite.basePath=$(SITE_BASE_PATH)) 'run --auditMode --allScreens --scenarioMode --singleQuestionPerScreen'
-	@echo "==> built: $(PORT)/out$(or $(SITE_BASE_PATH),/app/direct-file)/  (serve it: cd $(PORT)/out && python3 -m http.server 3008)"
+	@echo "==> built: $(PORT)/out/app/direct-file/, links under $(or $(SITE_BASE_PATH),/app/direct-file)  (serve it: cd $(PORT)/out && python3 -m http.server 3008)"
 
 publish: ## build the demo site under the hosted prefix and push it to the gh-pages branch, for GitHub Pages (docs/hosting.md; stack/site.env)
 	stack/publish-pages.sh
