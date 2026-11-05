@@ -4,7 +4,7 @@
 // checkbox). The button sets one fact and nothing else: /vaDeclarationSigned, true, once the box is
 // checked; the flow shows a "nothing was sent" confirmation on that fact. Clearing the box clears
 // the fact again. Demonstration only: nothing leaves the browser.
-import { factGraph, saveFactGraph } from '../vendor/form-builder/flow-runtime/js/fg-fact-graph.js'
+import { factGraph, update } from './virginia-graph.js'
 import { t } from './virginia-strings.js'
 
 const declaration = () => document.querySelector('fg-set[path="/vaDeclaration"]')
@@ -13,8 +13,7 @@ function setSigned (value) {
   const current = factGraph.get('/vaDeclarationSigned')
   if (current.hasValue && current.get === value) return
   factGraph.set('/vaDeclarationSigned', value)
-  saveFactGraph()
-  document.dispatchEvent(new CustomEvent('fg-update'))
+  update()
 }
 
 window.vaSendToVirginia = function vaSendToVirginia (event) {

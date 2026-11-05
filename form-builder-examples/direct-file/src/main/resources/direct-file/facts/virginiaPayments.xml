@@ -1,0 +1,154 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return. One of the Virginia
+  modules (facts/virginia*.xml), loaded as one dictionary beside the federal modules; the
+  Virginia README in docs/virginia/ lists them and docs/adr/003-the-layout-for-growth.md says
+  why they are split. Every fact names its source: Va. Code Title 58.1, Chapter 3
+  (https://law.lis.virginia.gov/vacode/title58.1/) and the 2024 Form 760 instructions. A module
+  reads federal facts only through what the federal return exports to states
+  (stateSystems="true") or to MeF (mef="true"); scripts/check-virginia-exports.py enforces it.
+
+  This module: Lines 19a to 28: withholding from the W-2s whose MeF state code names Virginia, the
+  three payments Virginia Tax's own records hold (writable, filled by the records stand-in on the
+  page), the total paid, and the tax owed or overpaid.
+-->
+<FactDictionaryModule>
+  <Facts>
+
+
+
+    <!-- ============ Lines 19a to 28: what has already been paid, and the result. ============ -->
+
+    <Fact path="/formW2s/*/vaStateIsVirginia">
+      <Name>This W-2's box 15 names Virginia</Name>
+      <Description>Direct File derives each W-2's MeF state code (/formW2s/*/xmlStateCd, the
+        StateAbbreviationCd of the W-2 in the Form 1040 XML a state receives) from the residence
+        answer whenever box 15 is filled in, and knocks a return out when a W-2 is from another state
+        (/flowKnockoutBox15IncomeFromDifferentState); the box 15 answer itself (/formW2s/*/state) is
+        not exported. So on a Virginia resident return the code is "VA" exactly when box 15 is
+        filled in, and that is the test here: a resident return and a state code present. Written
+        as a completeness test rather than a comparison with "VA" because the workbench sandbox stands
+        each federal fact in by type and has no per-form string; the two tests agree on every return
+        this module can see, and the ScalaTest asserts the stricter one.</Description>
+      <Derived>
+        <All>
+          <Dependency module="virginiaFiler" path="/vaIsResident" />
+          <IsComplete><Dependency module="formW2s" path="../xmlStateCd" /></IsComplete>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/formW2s/*/vaWithholding">
+      <Name>This W-2's Virginia income tax withheld</Name>
+      <Description>Box 17 (/formW2s/*/stateWithholding, exported to MeF in each W-2) when box 15 names
+        Virginia; otherwise $0.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="../vaStateIsVirginia" /></When>
+            <Then><Dependency module="formW2s" path="../stateWithholding" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithholding">
+      <Name>Form 760 Line 19a, Virginia income tax withheld</Name>
+      <Description>The sum of box 17 across the W-2s on the federal return whose box 15 names
+        Virginia. The employer files the same W-2 with Virginia. Line 19b (the spouse's share on a
+        joint return) is folded in here: which filer a W-2 belongs to (/formW2s/*/filer,
+        /formW2s/*/belongsToPrimaryFiler) is not exported to states, so the split cannot be made
+        from the export; a state would match each W-2's employee TIN (/formW2s/*/usedTin, exported)
+        against the filers' TINs instead. Line 19 (19a + 19b) is unchanged by the split.</Description>
+      <Derived>
+        <CollectionSum>
+          <Dependency path="/formW2s/*/vaWithholding" />
+        </CollectionSum>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaEstimatedPayments">
+      <Name>Form 760 Line 20, estimated payments made for 2024</Name>
+      <Description>Virginia Tax received these and holds the record; a state-run filer would fill this
+        line from its own books. This prototype has no connection to those records, so the line is
+        writable and defaults to $0.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaPriorYearOverpaymentApplied">
+      <Name>Form 760 Line 21, last year's overpayment applied to 2024</Name>
+      <Description>From Virginia Tax's own record of the 2023 return. Writable here, default $0, for the
+        same reason as Line 20.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaExtensionPayments">
+      <Name>Form 760 Line 22, extension payments</Name>
+      <Description>Payments made with Form 760IP; Virginia Tax holds the record. Writable here, default
+        $0.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaPaymentsMade">
+      <Name>Form 760 Lines 19a to 22, tax withheld and paid</Name>
+      <Description>Withholding plus the payments Virginia Tax holds a record of.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaWithholding" />
+          <Dependency path="/vaEstimatedPayments" />
+          <Dependency path="/vaPriorYearOverpaymentApplied" />
+          <Dependency path="/vaExtensionPayments" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTotalPayments">
+      <Name>Form 760 Line 26, total payments and credits</Name>
+      <Description>Lines 19a to 25. Lines 24 and 25 (credit for tax paid to another state, Schedule
+        CR credits) are out of scope and taken as $0.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/vaPaymentsMade" />
+          <Dependency module="virginiaCredits" path="/vaLowIncomeCredit" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaTaxYouOwe">
+      <Name>Form 760 Line 27, tax you owe before use tax</Name>
+      <Description>Line 18 minus Line 26 when positive. Line 17 (the spouse tax adjustment) is out of
+        scope, so Line 18 equals Line 16.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency module="virginiaTax" path="/vaTax" /></Minuend>
+            <Subtrahends><Dependency path="/vaTotalPayments" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaOverpayment">
+      <Name>Form 760 Line 28, your tax overpayment</Name>
+      <Description>Line 26 minus Line 18 when positive.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/vaTotalPayments" /></Minuend>
+            <Subtrahends><Dependency module="virginiaTax" path="/vaTax" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

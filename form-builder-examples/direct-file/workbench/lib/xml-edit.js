@@ -2,14 +2,14 @@
 //
 // Edits are spliced into the file as it stands, never by re-serializing the whole module: a value
 // edit replaces one number, a rule edit replaces one fact's <Derived> block. Everything else in
-// virginia.xml, its comments and its hand formatting, is left byte-for-byte alone, so the diff a
+// the module, its comments and its hand formatting, is left byte-for-byte alone, so the diff a
 // reviewer reads is exactly the change and nothing more.
 //
 // Each edit carries what it expected to find (`from` for a value, `before` for a rule). When the
 // file has moved on since the draft was made, applying it fails with a conflict instead of writing
 // over someone else's work.
 
-import { scanFacts } from './sandbox.js'
+import { fileOfFact, scanFacts } from './sandbox.js'
 import { insertScreen, keyFor, pages, questionBlock, questionKeys, removeMarked, renumberEyebrows, replaceText } from './flow.js'
 import { removeEsKey, renameEsKey, setEsKey } from './locale.js'
 
@@ -275,7 +275,25 @@ export function scheduleLabel (schedule) {
 
 // ---------------------------------------------------------------------------------------------
 // Edits that reach past the fact files: a new question (fact + screen + words), a change to the
-// words on a screen, and their reversal. `files` carries { virginia, localities, flow, es }.
+// words on a screen, and their reversal. `files` carries { facts: { <module>: xml }, flow, es }.
+
+/**
+ * The module a new question's fact goes into: the one that holds the fact gating it, else the one
+ * that holds a question already on the same screen, else the screens module. Shared with the
+ * question builder's "files it writes" panel so the two agree.
+ */
+export const DEFAULT_QUESTIONS_MODULE = 'virginiaScreens'
+export function questionTargetModule (facts, e, flow) {
+  const byGate = e.condition && e.condition !== '/vaIsResident' ? fileOfFact(facts, e.condition) : null
+  if (byGate) return byGate
+  if (flow !== undefined && e.route) {
+    try {
+      const page = pages(flow).find(p => p.route === e.route)
+      for (const q of page?.questions || []) { const k = fileOfFact(facts, q.path); if (k) return k }
+    } catch { /* an unreadable flow is reported by the flow edit itself */ }
+  }
+  return DEFAULT_QUESTIONS_MODULE in facts ? DEFAULT_QUESTIONS_MODULE : Object.keys(facts).sort()[0]
+}
 
 export const MARK = (change, what) => `workbench change #${change.id ?? '?'}: ${what}`
 
@@ -347,7 +365,9 @@ function applyWideEdit (files, e, change) {
   if (e.type === 'question') {
     if (files.flow === undefined) throw new Error('This change adds a question to the flow, which is not loaded.')
     const marker = MARK(change, e.path)
-    files.virginia = insertFact(files.virginia, factXmlFor(e, change), e.condition && e.condition !== '/vaIsResident' && scanFacts(files.virginia).some(f => f.path === e.condition) ? e.condition : null)
+    const target = questionTargetModule(files.facts, e, files.flow)
+    const after = e.condition && e.condition !== '/vaIsResident' && fileOfFact(files.facts, e.condition) === target ? e.condition : null
+    files.facts = { ...files.facts, [target]: insertFact(files.facts[target], factXmlFor(e, change), after) }
     const route = e.placement === 'own-screen' ? e.pageRoute : e.route
     let block = questionBlock({ ...e, marker })
     if (e.placement === 'own-screen') {
@@ -372,7 +392,9 @@ function applyWideEdit (files, e, change) {
     return
   }
   if (e.type === 'remove-question') {
-    files.virginia = removeFactMarked(files.virginia, e.marker)
+    const k = Object.keys(files.facts).find(k => files.facts[k].includes(`<!-- ${e.marker} -->`))
+    if (!k) throw new EditConflict('The fact this change added is no longer in the files.')
+    files.facts = { ...files.facts, [k]: removeFactMarked(files.facts[k], e.marker) }
     if (files.flow !== undefined) {
       files.flow = removeMarked(files.flow, e.marker, e.placement === 'own-screen' ? 'page' : 'div')
       if (e.placement === 'own-screen') {
@@ -392,16 +414,19 @@ function applyWideEdit (files, e, change) {
 }
 
 /**
- * Apply every edit of a change. `files` is { virginia, localities } and, for a change that touches
- * screens, also { flow, es }. Returns the new texts (same keys).
+ * Apply every edit of a change. `files` is { facts: { <module>: xml } } and, for a change that
+ * touches screens, also { flow, es }. Returns the new texts (same keys). An edit finds its module by
+ * the fact's path, so a fact that moved between modules since the draft was made is still found;
+ * `edit.file` is only a hint for the reader.
  */
 export function applyChange (files, change, date) {
-  const out = { ...files }
+  const out = { ...files, facts: { ...files.facts } }
   const ctx = { id: change.id, source: change.source || {}, date: date || (change.published?.at || new Date().toISOString()).slice(0, 10) }
   for (const e of change.edits || []) {
     if (e.type === 'value' || e.type === 'rule' || e.type === 'schedule') {
-      const key = e.file || 'virginia'
-      out[key] = applyEdit(out[key], e, ctx)
+      const key = fileOfFact(out.facts, e.path)
+      if (!key) throw new EditConflict(`The fact ${e.path} is no longer in the files.`, e)
+      out.facts[key] = applyEdit(out.facts[key], e, ctx)
     } else applyWideEdit(out, e, change)
   }
   return out

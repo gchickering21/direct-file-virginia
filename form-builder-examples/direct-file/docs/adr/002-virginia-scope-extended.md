@@ -6,6 +6,7 @@ Licence: the Virginia additions are CC0 1.0, public domain, like the IRS code th
 - Published: 2026-11-02
 - Status: accepted (class project, Digital Public Infrastructure, Georgetown; not an IRS or Virginia Tax decision)
 - Amends: [ADR-001](001-virginia-state-return.md), whose decision, integration rule and non-goals stand
+- Amended by: [ADR-003](003-the-layout-for-growth.md), which split `virginia.xml` into the `facts/virginia*.xml` modules and made the constants block the `virginiaConstants.xml` module; the file names in this record are as of its date
 
 ## Primary author(s)
 
@@ -120,31 +121,32 @@ other Virginia file is new. Nothing in the engine or the libraries (`fact-graph/
 | `locales/en.yaml`, `locales/es.yaml` | the "Your Virginia return" section title; the `virginia:` strings for the masthead, the demonstration strip and the five-step track | the Virginia chrome's text, in both languages |
 | `locales/flow_en.yaml`, `locales/flow_es.yaml` | the Virginia screens' generated keys; the Spanish merged in by `scripts/merge-virginia-es.py` | generated files, committed as the IRS commits them |
 | `templates/fragments/usa-step-indicator.html` | on `/your-taxes/virginia/` routes, five labelled Virginia steps in place of the 25 federal segments | the Virginia track |
-| `website-static/js/fg-components.js` | three imports: `virginia-corrections.js`, `virginia-records.js`, `virginia-locality.js` | the correction view, the records stand-in and the ZIP lookup load with the runtime |
+| `website-static/js/fg-components.js` | one import, `virginia.js`, which imports the Virginia scripts (`virginia-demo-link.js`, `virginia-corrections.js`, `virginia-records.js`, `virginia-locality.js`, `virginia-combo-box.js`, `virginia-sign.js`, `virginia-save.js`, `virginia-chrome.js`) | the Virginia behaviour loads with the runtime and the IRS's file carries one line for the state; each script does one thing and none writes a fact except sign and save |
 | `website-static/styles/main.css` | `@import "components/virginia.css"` | the Virginia look on its routes |
+| `src/main/scala/gov/irs/directfile/Main.scala` | `basePath` and `outSubdir` read `-Dsite.basePath`, default `/app/direct-file` | the hosted copy of the demo site sits under a static host's own prefix (`docs/hosting.md`); every local build is unchanged |
 | `tests/smoke.spec.js` | the step indicator counts 26 sections, not 25 | one Virginia section joins the five federal categories |
-| `Makefile` | `workbench` and `workbench-check` targets; `transpile-es` re-merges the Virginia Spanish | the tool and the reseed |
-| `website-static/vendor/fact-graph/factgraph-3.1.0.js` | appears in the diff by reorder only: `make copy-fg` rewrites it from a fresh Scala.js build that orders the same definitions differently | not a Virginia change; `stack/check-vendor-drift.sh --fix` restores HEAD's copy before a commit |
+| `Makefile` | `workbench` and `workbench-check` targets; `transpile-es` re-merges the Virginia Spanish; `copy-fg` keeps the vendored engine bundle when a fresh build only reorders it | the tool, the reseed, and no four-megabyte no-op diffs |
 
 ## The test layers
 
 From cheap to dear, each one a Makefile target at the repository root:
 
-1. **Fast checks, no JVM** (`make ci-local`): the two XML files against the IRS schemas;
-   the export rule (`check-virginia-exports.py`, 17 federal facts read); the constants block
-   and the locality listing (`check-virginia-constants.py`); the Spanish keys
-   (`merge-virginia-es.py --check`); the counts in the prose (`virginia-stats.py --check`);
-   the fact paths the docs cite (`check-virginia-docs.py`); and the workbench's worked
-   examples (`workbench/check.mjs`, fifteen examples, each also run through the
-   independent model).
-2. **The 50-household harness** (`make virginia-cases`, site running): `virginia-cases.py`
+1. **Fast checks, no JVM** (`make check`): the Virginia XML modules against the IRS schemas;
+   the export rule (`check-virginia-exports.py`, 17 federal facts read, and the workbench's
+   stand-ins kept in step); the constants module and the locality listing
+   (`check-virginia-constants.py`); the Spanish keys (`merge-virginia-es.py --check`); the
+   counts and demo results in the prose (`virginia-stats.py --check`); the fact paths the docs
+   cite (`check-virginia-docs.py`); the demo scenario files against their manifest
+   (`virginia-demos.py check`); and the workbench's worked examples (`workbench/check.mjs`,
+   fifteen examples, each also run through the independent model).
+2. **The 50-household harness** (`make cases`, site running): `virginia-cases.py`
    generates the households, `virginia-cases.cjs` drives the site and compares every Form
    760 line with `scripts/lib/virginia-model.cjs`, a model of the rules written from the
    Code rather than from the XML. Thresholds and caps are hit exactly, both sides of each.
-3. **VirginiaSpec** (`make port-test`): the four demos' lines pinned, the same 50
+3. **VirginiaSpec** (`make test`): the four demos' lines pinned, the same 50
    households through the full dictionary in the engine, and the invariants of any Form
    760 this module can produce.
-4. **axe** (`make virginia-a11y`): WCAG 2.0 and 2.1 A and AA over every Virginia screen,
+4. **axe** (`make a11y`): WCAG 2.0 and 2.1 A and AA over every Virginia screen,
    with a correction round open and the military questions answered yes.
 5. **The port's own suite and `make handoff-verify`**, which clones the IRS repository at
    the pin, applies the patch series and runs layer 1 inside it.
@@ -153,7 +155,7 @@ From cheap to dear, each one a Makefile target at the repository root:
 
 - The Virginia screens ask four questions; everything else on the return is federal, from
   a document, from Virginia's records, or arithmetic.
-- `facts/virginia.xml` is 167 facts and `virginiaLocalities.xml` 9. Half of the first are
+- The Virginia modules other than the localities are 167 facts and `virginiaLocalities.xml` 9. Half of the first are
   the both-ways computation; a state that accepted a cycle-free engine could not avoid it.
 - Two readings of the law are flagged for Virginia Tax rather than settled here: the
   joint-return phase-out of the age deduction (decision 5) and the subdivision for the

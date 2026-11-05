@@ -1,0 +1,363 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return. One of the Virginia
+  modules (facts/virginia*.xml), loaded as one dictionary beside the federal modules; the
+  Virginia README in docs/virginia/ lists them and docs/adr/003-the-layout-for-growth.md says
+  why they are split. Every fact names its source: Va. Code Title 58.1, Chapter 3
+  (https://law.lis.virginia.gov/vacode/title58.1/) and the 2024 Form 760 instructions. A module
+  reads federal facts only through what the federal return exports to states
+  (stateSystems="true") or to MeF (mef="true"); scripts/check-virginia-exports.py enforces it.
+
+  This module: facts the screens need and the return does not: the correction round's gates, the
+  declaration and the Send button's fact, the records match, the locality names for the notes, who
+  owes what, and the over-the-cap notes on the question screens.
+-->
+<FactDictionaryModule>
+  <Facts>
+
+
+    <!-- ============ The correction round: gates for the correction screens. ============ -->
+
+    <Fact path="/vaEverythingRight">
+      <Name>Everything on the what-is-known screen is right</Name>
+      <Description>Asked after the facts are shown. No sends the filer to the correction screens.
+        Flow control only; not a return value.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaWantsToCorrect">
+      <Name>The filer wants to correct something</Name>
+      <Derived><Not><Dependency path="/vaEverythingRight" /></Not></Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetOptions">
+      <Name>What can be corrected here</Name>
+      <Description>The three things the prototype lets a filer correct on the Virginia side: the date
+        of birth (a fact the filer stated), a W-2 (a document, corrected as a whole) and a payment
+        Virginia's records show (Lines 20 to 22, the records stand-in). Calculated amounts are never
+        editable.</Description>
+      <Derived>
+        <EnumOptions>
+          <String>dateOfBirth</String>
+          <String>w2</String>
+          <String>records</String>
+        </EnumOptions>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTarget">
+      <Name>What the filer chose to correct</Name>
+      <Writable><Enum optionsPath="/vaCorrectionTargetOptions" /></Writable>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetIsDateOfBirth">
+      <Name>Correcting the date of birth</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaWantsToCorrect" />
+          <Equal>
+            <Left><Dependency path="/vaCorrectionTarget" /></Left>
+            <Right><Enum optionsPath="/vaCorrectionTargetOptions">dateOfBirth</Enum></Right>
+          </Equal>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetIsW2">
+      <Name>Correcting a W-2</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaWantsToCorrect" />
+          <Equal>
+            <Left><Dependency path="/vaCorrectionTarget" /></Left>
+            <Right><Enum optionsPath="/vaCorrectionTargetOptions">w2</Enum></Right>
+          </Equal>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCorrectionTargetIsRecords">
+      <Name>Correcting a payment Virginia's records show</Name>
+      <Description>Lines 20 to 22 are filled from the records stand-in (js/virginia-records.js) once
+        per identity and never overwritten after that, so a correction made here persists.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaWantsToCorrect" />
+          <Equal>
+            <Left><Dependency path="/vaCorrectionTarget" /></Left>
+            <Right><Enum optionsPath="/vaCorrectionTargetOptions">records</Enum></Right>
+          </Equal>
+        </All>
+      </Derived>
+    </Fact>
+
+    <!-- ============ Screen facts: the declaration and the records match. ============ -->
+    <!-- Facts the screens need and the return does not: what the filer signed, what the records
+         stand-in found, which of two rows to show, the pieces of a line for its "why this number"
+         disclosure. None of them changes a Form 760 figure. -->
+
+    <Fact path="/vaDeclarationOptions">
+      <Name>The one box on the sign screen</Name>
+      <Derived>
+        <EnumOptions>
+          <String>signed</String>
+        </EnumOptions>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaDeclaration">
+      <Name>The declaration box on the sign screen, checked</Name>
+      <Description>A single USWDS checkbox (a multi-enum with one option, the only checkbox the
+        runtime renders) carrying the Form 760 declaration as its label. Required: the sign screen
+        cannot be left until it is checked, and js/virginia-sign.js refuses to send without it.</Description>
+      <Writable>
+        <MultiEnum optionsPath="/vaDeclarationOptions" />
+      </Writable>
+    </Fact>
+
+    <Fact path="/vaDeclarationSigned">
+      <Name>The filer signed the declaration and pressed Send to Virginia Tax</Name>
+      <Description>Set to true by the Send button on the sign screen (js/virginia-sign.js) once the
+        declaration box is checked, and back to false when the box is cleared. False until then.
+        Demonstration only: nothing is transmitted; the screen says so when this is true.</Description>
+      <Writable><Boolean /></Writable>
+      <Placeholder><False /></Placeholder>
+    </Fact>
+
+    <Fact path="/vaRecordsKey">
+      <Name>The identity the records stand-in was last applied for</Name>
+      <Description>Last name and date of birth, joined with a bar, as js/virginia-records.js keys the
+        stand-in. The stand-in writes Lines 20 to 22 only when this differs from the identity on the
+        return, so a correction the filer makes to those lines is never overwritten.</Description>
+      <Writable><String /></Writable>
+    </Fact>
+
+    <Fact path="/vaRecordsMatched">
+      <Name>Virginia's records hold a match for this filer</Name>
+      <Description>Set by js/virginia-records.js: true when the stand-in has a record under the
+        filer's last name and date of birth, false when it has none (and Lines 20 to 22 are $0).
+        Incomplete until the stand-in has been consulted.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaLocalityFromAddressName">
+      <Name>The name of the locality the filer's ZIP code lies in</Name>
+      <Description>Written beside /vaLocalityFromAddress by js/virginia-locality.js, from the ZIP
+        table's names. A proper noun, the same in every language.</Description>
+      <Writable><String /></Writable>
+    </Fact>
+
+    <Fact path="/vaLocalityName">
+      <Name>The name of the locality the filer chose</Name>
+      <Description>/vaLocality as the filer reads it, for the confirmation callout and the use-tax
+        screen. Proper nouns, the same in every language; one case per option of /vaLocalityOptions.</Description>
+      <Derived>
+        <Switch>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">accomack-county</Enum></Right></Equal></When><Then><String>Accomack County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">albemarle-county</Enum></Right></Equal></When><Then><String>Albemarle County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">alexandria-city</Enum></Right></Equal></When><Then><String>Alexandria City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">alleghany-county</Enum></Right></Equal></When><Then><String>Alleghany County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">amelia-county</Enum></Right></Equal></When><Then><String>Amelia County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">amherst-county</Enum></Right></Equal></When><Then><String>Amherst County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">appomattox-county</Enum></Right></Equal></When><Then><String>Appomattox County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">arlington-county</Enum></Right></Equal></When><Then><String>Arlington County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">augusta-county</Enum></Right></Equal></When><Then><String>Augusta County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bath-county</Enum></Right></Equal></When><Then><String>Bath County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bedford-county</Enum></Right></Equal></When><Then><String>Bedford County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bland-county</Enum></Right></Equal></When><Then><String>Bland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">botetourt-county</Enum></Right></Equal></When><Then><String>Botetourt County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">bristol-city</Enum></Right></Equal></When><Then><String>Bristol City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">brunswick-county</Enum></Right></Equal></When><Then><String>Brunswick County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buchanan-county</Enum></Right></Equal></When><Then><String>Buchanan County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buckingham-county</Enum></Right></Equal></When><Then><String>Buckingham County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">buena-vista-city</Enum></Right></Equal></When><Then><String>Buena Vista City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">campbell-county</Enum></Right></Equal></When><Then><String>Campbell County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">caroline-county</Enum></Right></Equal></When><Then><String>Caroline County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">carroll-county</Enum></Right></Equal></When><Then><String>Carroll County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">charles-city-county</Enum></Right></Equal></When><Then><String>Charles City County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">charlotte-county</Enum></Right></Equal></When><Then><String>Charlotte County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">charlottesville-city</Enum></Right></Equal></When><Then><String>Charlottesville City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">chesapeake-city</Enum></Right></Equal></When><Then><String>Chesapeake City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">chesterfield-county</Enum></Right></Equal></When><Then><String>Chesterfield County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">clarke-county</Enum></Right></Equal></When><Then><String>Clarke County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">colonial-heights-city</Enum></Right></Equal></When><Then><String>Colonial Heights City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">covington-city</Enum></Right></Equal></When><Then><String>Covington City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">craig-county</Enum></Right></Equal></When><Then><String>Craig County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">culpeper-county</Enum></Right></Equal></When><Then><String>Culpeper County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">cumberland-county</Enum></Right></Equal></When><Then><String>Cumberland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">danville-city</Enum></Right></Equal></When><Then><String>Danville City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">dickenson-county</Enum></Right></Equal></When><Then><String>Dickenson County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">dinwiddie-county</Enum></Right></Equal></When><Then><String>Dinwiddie County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">emporia-city</Enum></Right></Equal></When><Then><String>Emporia City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">essex-county</Enum></Right></Equal></When><Then><String>Essex County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fairfax-city</Enum></Right></Equal></When><Then><String>Fairfax City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fairfax-county</Enum></Right></Equal></When><Then><String>Fairfax County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">falls-church-city</Enum></Right></Equal></When><Then><String>Falls Church City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fauquier-county</Enum></Right></Equal></When><Then><String>Fauquier County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">floyd-county</Enum></Right></Equal></When><Then><String>Floyd County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fluvanna-county</Enum></Right></Equal></When><Then><String>Fluvanna County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">franklin-city</Enum></Right></Equal></When><Then><String>Franklin City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">franklin-county</Enum></Right></Equal></When><Then><String>Franklin County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">frederick-county</Enum></Right></Equal></When><Then><String>Frederick County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">fredericksburg-city</Enum></Right></Equal></When><Then><String>Fredericksburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">galax-city</Enum></Right></Equal></When><Then><String>Galax City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">giles-county</Enum></Right></Equal></When><Then><String>Giles County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">gloucester-county</Enum></Right></Equal></When><Then><String>Gloucester County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">goochland-county</Enum></Right></Equal></When><Then><String>Goochland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">grayson-county</Enum></Right></Equal></When><Then><String>Grayson County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">greene-county</Enum></Right></Equal></When><Then><String>Greene County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">greensville-county</Enum></Right></Equal></When><Then><String>Greensville County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">halifax-county</Enum></Right></Equal></When><Then><String>Halifax County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">hampton-city</Enum></Right></Equal></When><Then><String>Hampton City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">hanover-county</Enum></Right></Equal></When><Then><String>Hanover County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">harrisonburg-city</Enum></Right></Equal></When><Then><String>Harrisonburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">henrico-county</Enum></Right></Equal></When><Then><String>Henrico County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">henry-county</Enum></Right></Equal></When><Then><String>Henry County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">highland-county</Enum></Right></Equal></When><Then><String>Highland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">hopewell-city</Enum></Right></Equal></When><Then><String>Hopewell City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">isle-of-wight-county</Enum></Right></Equal></When><Then><String>Isle of Wight County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">james-city-county</Enum></Right></Equal></When><Then><String>James City County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-and-queen-county</Enum></Right></Equal></When><Then><String>King and Queen County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-george-county</Enum></Right></Equal></When><Then><String>King George County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">king-william-county</Enum></Right></Equal></When><Then><String>King William County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lancaster-county</Enum></Right></Equal></When><Then><String>Lancaster County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lee-county</Enum></Right></Equal></When><Then><String>Lee County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lexington-city</Enum></Right></Equal></When><Then><String>Lexington City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">loudoun-county</Enum></Right></Equal></When><Then><String>Loudoun County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">louisa-county</Enum></Right></Equal></When><Then><String>Louisa County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lunenburg-county</Enum></Right></Equal></When><Then><String>Lunenburg County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">lynchburg-city</Enum></Right></Equal></When><Then><String>Lynchburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">madison-county</Enum></Right></Equal></When><Then><String>Madison County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">manassas-city</Enum></Right></Equal></When><Then><String>Manassas City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">manassas-park-city</Enum></Right></Equal></When><Then><String>Manassas Park City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">martinsville-city</Enum></Right></Equal></When><Then><String>Martinsville City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">mathews-county</Enum></Right></Equal></When><Then><String>Mathews County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">mecklenburg-county</Enum></Right></Equal></When><Then><String>Mecklenburg County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">middlesex-county</Enum></Right></Equal></When><Then><String>Middlesex County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">montgomery-county</Enum></Right></Equal></When><Then><String>Montgomery County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">nelson-county</Enum></Right></Equal></When><Then><String>Nelson County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">new-kent-county</Enum></Right></Equal></When><Then><String>New Kent County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">newport-news-city</Enum></Right></Equal></When><Then><String>Newport News City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">norfolk-city</Enum></Right></Equal></When><Then><String>Norfolk City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">northampton-county</Enum></Right></Equal></When><Then><String>Northampton County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">northumberland-county</Enum></Right></Equal></When><Then><String>Northumberland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">norton-city</Enum></Right></Equal></When><Then><String>Norton City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">nottoway-county</Enum></Right></Equal></When><Then><String>Nottoway County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">orange-county</Enum></Right></Equal></When><Then><String>Orange County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">page-county</Enum></Right></Equal></When><Then><String>Page County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">patrick-county</Enum></Right></Equal></When><Then><String>Patrick County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">petersburg-city</Enum></Right></Equal></When><Then><String>Petersburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">pittsylvania-county</Enum></Right></Equal></When><Then><String>Pittsylvania County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">poquoson-city</Enum></Right></Equal></When><Then><String>Poquoson City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">portsmouth-city</Enum></Right></Equal></When><Then><String>Portsmouth City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">powhatan-county</Enum></Right></Equal></When><Then><String>Powhatan County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-edward-county</Enum></Right></Equal></When><Then><String>Prince Edward County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-george-county</Enum></Right></Equal></When><Then><String>Prince George County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">prince-william-county</Enum></Right></Equal></When><Then><String>Prince William County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">pulaski-county</Enum></Right></Equal></When><Then><String>Pulaski County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">radford-city</Enum></Right></Equal></When><Then><String>Radford City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rappahannock-county</Enum></Right></Equal></When><Then><String>Rappahannock County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">richmond-city</Enum></Right></Equal></When><Then><String>Richmond City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">richmond-county</Enum></Right></Equal></When><Then><String>Richmond County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">roanoke-city</Enum></Right></Equal></When><Then><String>Roanoke City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">roanoke-county</Enum></Right></Equal></When><Then><String>Roanoke County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rockbridge-county</Enum></Right></Equal></When><Then><String>Rockbridge County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">rockingham-county</Enum></Right></Equal></When><Then><String>Rockingham County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">russell-county</Enum></Right></Equal></When><Then><String>Russell County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">salem-city</Enum></Right></Equal></When><Then><String>Salem City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">scott-county</Enum></Right></Equal></When><Then><String>Scott County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">shenandoah-county</Enum></Right></Equal></When><Then><String>Shenandoah County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">smyth-county</Enum></Right></Equal></When><Then><String>Smyth County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">southampton-county</Enum></Right></Equal></When><Then><String>Southampton County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">spotsylvania-county</Enum></Right></Equal></When><Then><String>Spotsylvania County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">stafford-county</Enum></Right></Equal></When><Then><String>Stafford County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">staunton-city</Enum></Right></Equal></When><Then><String>Staunton City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">suffolk-city</Enum></Right></Equal></When><Then><String>Suffolk City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">surry-county</Enum></Right></Equal></When><Then><String>Surry County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">sussex-county</Enum></Right></Equal></When><Then><String>Sussex County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">tazewell-county</Enum></Right></Equal></When><Then><String>Tazewell County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">virginia-beach-city</Enum></Right></Equal></When><Then><String>Virginia Beach City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">warren-county</Enum></Right></Equal></When><Then><String>Warren County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">washington-county</Enum></Right></Equal></When><Then><String>Washington County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">waynesboro-city</Enum></Right></Equal></When><Then><String>Waynesboro City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">westmoreland-county</Enum></Right></Equal></When><Then><String>Westmoreland County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">williamsburg-city</Enum></Right></Equal></When><Then><String>Williamsburg City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">winchester-city</Enum></Right></Equal></When><Then><String>Winchester City</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">wise-county</Enum></Right></Equal></When><Then><String>Wise County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">wythe-county</Enum></Right></Equal></When><Then><String>Wythe County</String></Then></Case>
+          <Case><When><Equal><Left><Dependency module="virginiaLocalities" path="/vaLocality" /></Left><Right><Enum optionsPath="/vaLocalityOptions">york-county</Enum></Right></Equal></When><Then><String>York County</String></Then></Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaOwesVirginia">
+      <Name>The return ends with an amount owed</Name>
+      <Description>Line 35 is positive. Gates the owe row on the summary and the running estimate.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency module="virginiaResult" path="/vaAmountYouOwe" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaIsOwedRefund">
+      <Name>The return ends with a refund</Name>
+      <Description>Line 36 is positive. Gates the refund row on the summary and the running estimate.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency module="virginiaResult" path="/vaRefund" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaOwesNothing">
+      <Name>The return ends even: nothing owed, no refund</Name>
+      <Derived>
+        <All>
+          <Not><Dependency path="/vaOwesVirginia" /></Not>
+          <Not><Dependency path="/vaIsOwedRefund" /></Not>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPayExceedsMaximum">
+      <Name>The basic pay entered is at or above the amount where the subtraction ends</Name>
+      <Description>For the note under the basic pay question: at $30,000 or more nothing is
+        subtracted (Va. Code § 58.1-322.02(15)).</Description>
+      <Derived>
+        <GreaterThanOrEqual>
+          <Left><Dependency module="virginiaIncome" path="/vaMilitaryBasicPay" /></Left>
+          <Right><Dependency module="virginiaConstants" path="/vaMilitaryBasicPayMaximum" /></Right>
+        </GreaterThanOrEqual>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryRetirementExceedsMaximum">
+      <Name>The military benefits entered exceed the $30,000 the subtraction covers</Name>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency module="virginiaIncome" path="/vaMilitaryRetirementIncome" /></Left>
+          <Right><Dependency module="virginiaConstants" path="/vaMilitaryBenefitsMaximum" /></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversExceedsCap">
+      <Name>The Commonwealth Savers contribution entered exceeds the cap, and the cap applies</Name>
+      <Description>For the note under the contribution question: above $4,000 only the cap is
+        deducted unless the filer has attained age 70 (Va. Code § 58.1-322.03(7)).</Description>
+      <Derived>
+        <All>
+          <Not><Dependency module="virginiaDeductions" path="/vaPrimaryFilerAge70OrOlder" /></Not>
+          <GreaterThan>
+            <Left><Dependency module="virginiaDeductions" path="/vaCommonwealthSaversContributions" /></Left>
+            <Right><Dependency module="virginiaConstants" path="/vaCommonwealthSaversCap" /></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

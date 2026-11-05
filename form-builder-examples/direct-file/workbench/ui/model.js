@@ -65,9 +65,9 @@ const LINE_RE = /Form 760 (?:Lines? )?(\d+)([a-z]?)/
 const SECTION_RE = /<!-- =+ ([\s\S]*?) =+ -->/g
 const CITE_RE = /(?:Va\. Code )?§§? ?[\d.]+-[\d.:]+(?:\([A-Za-z0-9]+\))*/
 
-export function buildModel ({ virginia, localities, federal, year }) {
+export function buildModel ({ facts: modules, federal, year }) {
   const facts = new Map()
-  for (const [file, xml] of [['virginia', virginia], ['localities', localities]]) {
+  for (const [file, xml] of Object.entries(modules).sort(([a], [b]) => a.localeCompare(b))) {
     const sections = [...xml.matchAll(SECTION_RE)].map(m => ({ at: m.index, title: m[1].trim() }))
     const writable = new Map(writableFacts(xml).map(w => [w.path, w]))
     for (const f of scanFacts(xml)) {

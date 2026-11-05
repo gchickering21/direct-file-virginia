@@ -11,10 +11,9 @@
 // them on the correct-records screen is kept, and a change of name or date of birth, which is a
 // different person as far as the records go, is looked up afresh. /vaRecordsMatched says whether a
 // record was found, for the card on the what-is-known screen.
-import { factGraph, saveFactGraph } from '../vendor/form-builder/flow-runtime/js/fg-fact-graph.js'
 
+import { factGraph, read, update } from './virginia-graph.js'
 const LINES = { estimatedPayments: '/vaEstimatedPayments', priorYearOverpaymentApplied: '/vaPriorYearOverpaymentApplied', extensionPayments: '/vaExtensionPayments' }
-const read = (path) => { try { const r = factGraph.get(path); return r.hasValue ? r.get.toString() : null } catch { return null } }
 
 async function apply () {
   if (!/\/your-taxes\/virginia\//.test(location.pathname)) return
@@ -33,7 +32,6 @@ async function apply () {
   }
   factGraph.set('/vaRecordsMatched', record !== null)
   factGraph.set('/vaRecordsKey', key)
-  saveFactGraph()
-  document.dispatchEvent(new CustomEvent('fg-update'))
+  update()
 }
 apply()

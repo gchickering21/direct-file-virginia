@@ -8,7 +8,7 @@ every Virginia key exists in flow_en.yaml, so a stale key is caught here rather 
 ??placeholder?? on the Spanish page.
 
     --check   report whether the merge would change flow_es.yaml (or a key is stale) and exit 1
-              if so, writing nothing. For `make ci-local`.
+              if so, writing nothing. For `make check`.
 """
 import pathlib, sys, yaml
 

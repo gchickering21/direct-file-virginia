@@ -106,7 +106,7 @@ workbench: ## Run the Virginia Rules Workbench on port 3011 (Node only; see work
 	node workbench/server.mjs
 
 .PHONY: workbench-check
-workbench-check: ## Run the workbench's worked examples against facts/virginia.xml
+workbench-check: ## Run the workbench's worked examples against the Virginia fact modules
 	node workbench/check.mjs
 
 .PHONY: debug
@@ -184,10 +184,20 @@ copy-fg: ## Copy the compiled Fact Graph bundle from the fact-graph checkout
 	@# Skipped rather than fatal when that checkout has not been built: this runs ahead of every
 	@# dev server and production build, and someone working on templates or locales does not
 	@# need an sbt-built fact-graph to hand.
+	@# A Scala.js build orders the same definitions differently from run to run, so a fresh copy can
+	@# differ from the vendored (committed) one by a four-megabyte reorder with no change of meaning.
+	@# When the two have the same lines in a different order the vendored copy is kept, so the diff a
+	@# reviewer reads is never the reorder; a real rebuild (new or changed lines) replaces it.
 	@if [ -f $(FG_SOURCE_DIR)/main.mjs ]; then \
-		cp $(FG_SOURCE_DIR)/main.mjs $(FG_TARGET_DIR)/factgraph-3.1.0.js; \
-		cp $(FG_SOURCE_DIR)/main.mjs.map $(FG_TARGET_DIR); \
-		echo "==> copied the fact-graph bundle from $(FG_SOURCE_DIR)"; \
+		if [ -f $(FG_TARGET_DIR)/factgraph-3.1.0.js ] && sort $(FG_SOURCE_DIR)/main.mjs > $(FG_TARGET_DIR)/.new.sorted && sort $(FG_TARGET_DIR)/factgraph-3.1.0.js > $(FG_TARGET_DIR)/.old.sorted && cmp -s $(FG_TARGET_DIR)/.new.sorted $(FG_TARGET_DIR)/.old.sorted; then \
+			rm -f $(FG_TARGET_DIR)/.new.sorted $(FG_TARGET_DIR)/.old.sorted; \
+			echo "==> fact-graph bundle unchanged apart from ordering; keeping the vendored copy"; \
+		else \
+			rm -f $(FG_TARGET_DIR)/.new.sorted $(FG_TARGET_DIR)/.old.sorted; \
+			cp $(FG_SOURCE_DIR)/main.mjs $(FG_TARGET_DIR)/factgraph-3.1.0.js; \
+			cp $(FG_SOURCE_DIR)/main.mjs.map $(FG_TARGET_DIR); \
+			echo "==> copied the fact-graph bundle from $(FG_SOURCE_DIR)"; \
+		fi; \
 	else \
 		echo "==> no build at $(FG_SOURCE_DIR); keeping the vendored fact-graph bundle"; \
 		echo "    (run 'cd ../../fact-graph && sbt fastOptJS' to refresh it)"; \

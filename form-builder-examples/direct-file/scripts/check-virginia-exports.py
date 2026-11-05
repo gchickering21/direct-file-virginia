@@ -7,86 +7,81 @@ mef="true" (the Form 1040 XML), both of which the state API delivered to a state
 software. The one exception is the residency answer, which gates the Virginia screens and
 computes nothing. Exit 1 and name the offenders otherwise.
 
-Scans facts/virginia.xml and facts/virginiaLocalities.xml. A federal read is a
-<Dependency> that names a module. Its path is resolved the way the engine resolves it:
-  /primaryFiler/x, /secondaryFiler/x and /vaSpouse/x are the filer's /filers/*/x;
-  ../x inside a fact at /collection/*/y is /collection/*/x;
-  a bare x inside <Find path="/c"> or <Filter path="/c"> is /c/*/x.
+Scans every facts/virginia*.xml. A federal read is a <Dependency> that names a federal
+module; its path is resolved the way the engine resolves it (scripts/lib/vafacts.py).
+
+Then the workbench's side of the same contract: workbench/federal-inputs.json stands each
+federal fact in for the worked examples. Every federal fact read must have a stand-in, and
+every stand-in must be read, so the two lists cannot drift apart. /taxYear is the
+workbench's own (it writes year switches on it); /filers/*/isPrimaryFiler is how the sandbox
+builds its two filers, not an input.
 """
-import pathlib, re, sys
+import json, pathlib, sys
 
-FACTS = pathlib.Path(__file__).resolve().parents[1] / "src/main/resources/direct-file/facts"
-VIRGINIA = ["virginia.xml", "virginiaLocalities.xml"]
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "lib"))
+from vafacts import FILER_ALIASES, PORT, all_facts, federal_exports, module_files  # noqa: E402
+
 ALLOWED_GATES = {"/filerResidenceAndIncomeState"}
-FILER_ALIASES = ("/primaryFiler/", "/secondaryFiler/", "/vaSpouse/")
+FEDERAL_INPUTS = PORT / "workbench/federal-inputs.json"
+WORKBENCH_OWN = {"/taxYear"}
+SANDBOX_IMPLICIT = {"/filers/*/isPrimaryFiler"}
 
-FACT_RE = re.compile(r'<Fact path="([^"]+)"(.*?)</Fact>', re.S)
-DEP_RE = re.compile(r'<Dependency module="([^"]+)" path="([^"]+)"')
-SCOPE_RE = re.compile(r'<(Find|Filter) path="(/[^"]+)">(.*?)</\1>', re.S)
 
-def exports():
-    flags = {}
-    for f in FACTS.glob("*.xml"):
-        if f.name.startswith("virginia"):
-            continue  # our own modules are not federal facts
-        for m in FACT_RE.finditer(f.read_text()):
-            ex = re.search(r"<Export([^/]*)/>", m.group(2))
-            flags[(f.stem, m.group(1))] = ex.group(1) if ex else ""
-    return flags
+def normalize(path):
+    for alias in FILER_ALIASES:
+        if path.startswith(alias):
+            return "/filers/*/" + path[len(alias):]
+    return path
 
-def resolve(fact_path, dep_path, body, dep_pos):
-    """The absolute wildcard path a dependency reads."""
-    if dep_path.startswith("/"):
-        for alias in FILER_ALIASES:
-            if dep_path.startswith(alias):
-                return "/filers/*/" + dep_path[len(alias):]
-        return dep_path
-    if dep_path.startswith("../"):
-        parent = fact_path.rsplit("/", 1)[0]  # /formW2s/*/vaWithholding -> /formW2s/*
-        return f"{parent}/{dep_path[3:]}"
-    for m in SCOPE_RE.finditer(body):
-        if m.start() <= dep_pos < m.end():
-            return f"{m.group(2)}/*/{dep_path}"
-    return None
 
 def main():
-    flags = exports()
+    flags = federal_exports()
     bad, seen = [], {}
-    for name in VIRGINIA:
-        text = (FACTS / name).read_text()
-        for fact in FACT_RE.finditer(text):
-            fact_path, body = fact.group(1), fact.group(2)
-            for dep in DEP_RE.finditer(body):
-                module, path = dep.group(1), dep.group(2)
-                if module.startswith("virginia"):
-                    continue
-                lookup = resolve(fact_path, path, body, dep.start())
-                key = (module, lookup or path)
-                if key in seen:
-                    continue
-                seen[key] = name
-                if lookup is None:
-                    bad.append(f"{module}:{path}  (relative path with no enclosing collection, in {fact_path})")
-                    continue
-                if lookup in ALLOWED_GATES:
-                    continue
-                attrs = flags.get((module, lookup))
-                if attrs is None:
-                    bad.append(f"{module}:{lookup}  (not found in the federal dictionary)")
-                elif 'stateSystems="true"' not in attrs and 'mef="true"' not in attrs:
-                    bad.append(f"{module}:{lookup}  (exported: {attrs.strip() or 'nothing'})")
-    for name in VIRGINIA:
-        reads = sorted(k for k, v in seen.items() if v == name)
-        print(f"{len(reads)} federal facts read by facts/{name}")
-        for s in reads:
-            print(f"  {s[0]}:{s[1]}")
+    for fact in all_facts():
+        for module, path, lookup in fact.dependencies():
+            if module is None or module.startswith("virginia"):
+                continue
+            key = (module, lookup or path)
+            if key in seen:
+                continue
+            seen[key] = fact.module
+            if lookup is None:
+                bad.append(f"{module}:{path}  (relative path with no enclosing collection, in {fact.path})")
+                continue
+            if lookup in ALLOWED_GATES:
+                continue
+            attrs = flags.get((module, lookup))
+            if attrs is None:
+                bad.append(f"{module}:{lookup}  (not found in the federal dictionary)")
+            elif 'stateSystems="true"' not in attrs and 'mef="true"' not in attrs:
+                bad.append(f"{module}:{lookup}  (exported: {attrs.strip() or 'nothing'})")
+    for file in module_files():
+        reads = sorted(k for k, v in seen.items() if v == file.stem)
+        if reads:
+            print(f"{len(reads)} federal facts read by facts/{file.name}")
+            for s in reads:
+                print(f"  {s[0]}:{s[1]}")
+    print(f"{len(seen)} federal facts read in all, by {len(module_files())} Virginia modules")
     if bad:
         print("\nNOT exported to states or MeF:")
         for b in bad:
             print("  " + b)
         return 1
-    print("\nevery one is exported to state systems or to MeF (or is the residency gate)")
+    print("every one is exported to state systems or to MeF (or is the residency gate)")
+
+    standins = {normalize(i["path"]): i for i in json.loads(FEDERAL_INPUTS.read_text())["inputs"]}
+    read = {lookup for (_, lookup) in seen}
+    missing = sorted(read - set(standins) - SANDBOX_IMPLICIT)
+    stale = sorted(set(standins) - read - WORKBENCH_OWN)
+    if missing or stale:
+        for p in missing:
+            print(f"workbench/federal-inputs.json has no stand-in for {p}: add it, with its type")
+        for p in stale:
+            print(f"workbench/federal-inputs.json stands in {p}, which no Virginia module reads: drop it")
+        return 1
+    print(f"workbench/federal-inputs.json stands in every one of them ({len(standins)} stand-ins), and nothing else")
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

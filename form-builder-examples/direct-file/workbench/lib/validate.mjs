@@ -1,4 +1,4 @@
-// What the server will accept from the page before it splices anything into virginia.xml: the
+// What the server will accept from the page before it splices anything into the fact modules: the
 // shape of a change, the value a literal may take, the XML a rule may be, and (after splicing) the
 // whole file against the RELAX NG schema, with xmllint when it is installed.
 
@@ -171,8 +171,9 @@ export function checkChangeFields (body, { literalTag }) {
     out.edits = body.edits.map(e => {
       if (!e || typeof e !== 'object') throw new ValidationError('Each edit is an object.')
       if (['value', 'rule', 'schedule'].includes(e.type) && !FACT_PATH_RE.test(e.path || '')) throw new ValidationError(`“${String(e.path).slice(0, 60)}” is not a fact path.`)
-      const file = e.file || 'virginia'
-      if (!['virginia', 'localities'].includes(file)) throw new ValidationError('An edit is to virginia or localities.')
+      // The module is a hint for the reader; the edit is applied to whichever module holds the fact.
+      const file = e.file === undefined ? undefined : String(e.file)
+      if (file !== undefined && !/^virginia[A-Za-z0-9]*$/.test(file)) throw new ValidationError('An edit names a Virginia module (virginia…) or none.')
       if (e.type === 'value') {
         const tag = literalTag(file, e.path)
         if (tag) { checkLiteral(tag, e.from); checkLiteral(tag, e.to) } else if (!/^[-\d./]{1,40}$/.test(String(e.to)) || !/^[-\d./]{1,40}$/.test(String(e.from))) throw new ValidationError('A value is a number, a fraction or a date.')

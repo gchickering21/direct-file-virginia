@@ -11,9 +11,8 @@
 // the flow's "your address now points to…" note shows instead. No user-facing words are written
 // here; they are in the flow. The combo box's visible text follows the fact through
 // virginia-combo-box.js, so no reload is needed.
-import { factGraph, saveFactGraph } from '../vendor/form-builder/flow-runtime/js/fg-fact-graph.js'
 
-const read = (path) => { try { const r = factGraph.get(path); return r.hasValue ? r.get.toString() : null } catch { return null } }
+import { factGraph, read, update } from './virginia-graph.js'
 const write = (path, value) => {
   if (read(path) === (value === null ? null : String(value))) return false
   if (value === null) factGraph.delete(path)
@@ -37,7 +36,6 @@ async function apply () {
   changed = write('/vaAddressZipLocalityNames', found.length > 1 ? found.map(([, name]) => name).join(', ') : null) || changed
   const filled = one !== null && read('/vaLocality') === null && write('/vaLocality', one[0])
   if (!changed && !filled) return
-  saveFactGraph()
-  document.dispatchEvent(new CustomEvent('fg-update'))
+  update()
 }
 apply()

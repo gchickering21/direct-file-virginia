@@ -1,6 +1,6 @@
-// The Virginia sandbox: virginia.xml and virginiaLocalities.xml loaded beside a writable stand-in
-// for each federal fact they read (federal-inputs.json), so a worked example is a short list of
-// answers rather than a whole federal return.
+// The Virginia sandbox: the Virginia fact modules (facts/virginia*.xml, a map of stem → text) loaded
+// beside a writable stand-in for each federal fact they read (federal-inputs.json), so a worked
+// example is a short list of answers rather than a whole federal return.
 //
 // Plain string work, no DOM, so the same file runs in the browser's worker and in Node for
 // `check.mjs`. The fact dictionary files are regular enough that a <Fact path="…"> … </Fact> scan is
@@ -42,6 +42,12 @@ export function writableFacts (xml) {
   return out
 }
 
+/** The module (stem) whose text defines a fact, or null. */
+export function fileOfFact (facts, path) {
+  for (const [k, xml] of Object.entries(facts)) if (xml.includes(`<Fact path="${path}">`)) return k
+  return null
+}
+
 /** Paths the modules depend on but do not define: the federal facts they read. */
 export function externalDependencies (...xmls) {
   const defined = new Set()
@@ -61,7 +67,7 @@ const optionsFact = (path, options) =>
 const TAG = { dollar: '<Dollar />', boolean: '<Boolean />', day: '<Day />', int: '<Int />' }
 
 // A per-filer federal fact: /primaryFiler/x is the primary filer's /filers/*/x, and the spouse's
-// facts, which virginia.xml reads through its own /vaSpouse (a Find over /filers on the exported
+// facts, which the filer module reads through its own /vaSpouse (a Find over /filers on the exported
 // isPrimaryFiler flag), are the second filer's. Both prefixes land on the one /filers/*/x stand-in.
 const FILER_PREFIX = { '/primaryFiler/': PRIMARY_ID, '/vaSpouse/': SECONDARY_ID, '/secondaryFiler/': SECONDARY_ID }
 export function filerField (path) {
@@ -107,16 +113,17 @@ export function federalStubXml (federal) {
  * One dictionary: the stand-ins, then the Virginia modules as written. Throws, naming them, when
  * Virginia reads a federal fact federal-inputs.json does not stand in for.
  */
-export function buildSandboxXml ({ virginia, localities, federal }) {
+export function buildSandboxXml ({ facts, federal }) {
+  const xmls = Object.keys(facts).sort().map(k => facts[k])
   const known = new Set(federal.inputs.map(i => i.path))
-  const unknown = externalDependencies(virginia, localities).filter(p => !known.has(p))
+  const unknown = externalDependencies(...xmls).filter(p => !known.has(p))
   if (unknown.length) {
     const err = new Error(`Virginia reads federal facts the workbench has no stand-in for: ${unknown.join(', ')}`)
     err.code = 'UNKNOWN_FEDERAL'
     err.paths = unknown
     throw err
   }
-  return `<FactDictionaryModule><Facts>\n${federalStubXml(federal)}\n${factsInner(virginia)}\n${factsInner(localities)}\n</Facts></FactDictionaryModule>`
+  return `<FactDictionaryModule><Facts>\n${federalStubXml(federal)}\n${xmls.map(factsInner).join('\n')}\n</Facts></FactDictionaryModule>`
 }
 
 // ---------------------------------------------------------------------------------------------

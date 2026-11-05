@@ -12,7 +12,7 @@ prepopulated state return, each field is one of five kinds.
 | **Q** | only the taxpayer knows | the taxpayer | asked, and signed for |
 | **D** | arithmetic on the lines above | the taxpayer, by hand | computed by the engine, never editable |
 
-Prototype status: **built** means the rule is in `facts/virginia.xml`; **mockup** means it
+Prototype status: **built** means the rule is in one of the `facts/virginia*.xml` modules; **mockup** means it
 is in the walkthrough mockup only; **gap** means neither.
 
 ## Page 1: who is filing

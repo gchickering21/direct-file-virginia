@@ -316,3 +316,78 @@ What this means:
   a dev-server surface, so it now seeds the graph through sessionStorage like the axe script and runs
   against any build; and a household that carries a corrected Line 20 has to carry `/vaRecordsKey` too,
   or the records stand-in rightly resets the line, so the generator sets it.
+
+## 2026-11-02 the repository made easier to enter
+
+- **Three guides instead of five.** `README.md` is the map: the question, `make demo`, three names
+  (the Virginia site, the 2025 archive, the Workbench), where to go, what is ours and what is the
+  IRS's. `GETTING_STARTED.md` is the Docker path, the native path, the four demo links, the checks
+  and the port's troubleshooting table; `CONTRIBUTING.md` opens with the Virginia site rather than
+  the 2025 archive. `DEVELOPERS.md` and `SETUP.md` are gone; the macOS 13 detours and the 2025
+  archive moved to `docs/macos-13.md` and `docs/archive-2025.md`, so the optional "before" no longer
+  sits in the main path.
+- **Two tables a state team asked for in effect.** `docs/surfaces.md`: the site, Scenario, Browse
+  All, Author Mode, Fact Explorer and the Workbench, what each is for, who it is for, how to open it,
+  and which one when. `docs/changing-the-return.md`: to change X, go here, then run Y, one row per
+  kind of change, ending with "anything federal: do not".
+- **A link that loads a household.** `website-static/js/virginia-demo-link.js`, imported ahead of the
+  runtime: `?demo=1` to `?demo=4` or `?scenario=<file name>` fetches the scenario into the
+  sessionStorage slot the runtime rehydrates from (the same seeding the browser checks use) and
+  reloads without the parameter. `make demo` runs doctor, builds and serves in Docker, waits for the
+  site and prints the four links; `make demo-links` prints them again. Author Mode and the Workbench
+  gained root targets (`make port-author`, `make workbench`, `make workbench-check`), and `virginia`
+  at the root is a symlink into `form-builder-examples/direct-file/`, so the IRS's folder name stays
+  (the handoff depends on it) and the listing still explains itself.
+- The doc checks follow: `virginia-stats.py --check` and `check-virginia-docs.py` now read the new
+  guides and `docs/`, skipping any that a clone of the IRS repository does not have.
+
+## 2026-11-02 the Makefile cut to what a newcomer types
+
+- **Plain verbs, three groups.** `make` now lists twenty targets under "run it", "check it" and
+  "maintain it": `demo`, `dev`, `up`, `down`, `logs`, `author`, `workbench`, `bootstrap`; `check`,
+  `test`, `cases`, `a11y`, `workbench-check`, `doctor`; `stats`, `handoff`, `handoff-verify`,
+  `bump-pin`. The `port-` prefix is gone from the names a person types (nobody outside this repository
+  knew what "port" meant); the old names are aliases at the end of the file so the dated notes, the
+  handoff package and muscle memory still work.
+- **The native path is one command.** `make dev` depends on a stamp (`stack/.bootstrapped`, ignored)
+  that in turn depends on `IRS_PINS.md` and the two libraries' build files, so a fresh clone
+  bootstraps itself and a pin bump bootstraps again without anyone remembering to. `make author` and
+  `make test` share the stamp.
+- **Gone or hidden.** `virginia-check` and `port-validate` (both subsets of `check`), `port-site` and
+  `port-smoke` (pass-throughs to the IRS's own targets, and smoke does not run on macOS 13) are
+  deleted; `browser-tools` is still there as a prerequisite but no longer listed. The 2025 archive's
+  six targets and their compose override moved to `stack/archive.mk`, included by the root Makefile
+  and named in one line at the foot of `make help` rather than in the listing.
+
+## 2026-11-02 the layout for growth
+
+The round after the entrance: what would make the next change cheaper, done. ADR-003 is the
+record; this is the working note.
+
+- **The rules are ten modules.** `facts/virginia.xml` (2,600 lines) became `facts/virginia*.xml`,
+  cut along the section banners it already had, by a one-off script that also put
+  `module="…"` on the 145 dependencies that now cross a file, the way the IRS's modules and the
+  locality references already did. Form Builder merges every file in `facts/`, the schema is
+  checked per file, and the engine saw no difference: all fifteen worked examples and the
+  independent model agreed before and after. `virginiaConstants.xml` is the constants block as a
+  file, so the markers are gone and the constants check works by module.
+- **The workbench reads any number of modules** and applies an edit to whichever holds the fact,
+  by path. Then the split that the hooks object had been avoiding: the page is `state`, `shell`,
+  `draft`, `runner`, `chips`, `dialogs`, `events` and one module per view; the server is HTTP,
+  `workflow`, `store`, `git`. Done by slicing the files by line range and generating the import
+  lines from identifier use, which missed two shapes the first time (`$` as a name, and a name
+  used in a spread) and nothing after a headless pass over every page.
+- **One list of the demos** (`website-static/data/virginia-demos.json`): each is an IRS scenario
+  plus 14 to 17 changed keys, which is what the generator writes out and the check holds the
+  committed files to. The Spec reads the pins from it; the demo link, the harness and the axe pass
+  read the file names; the stats check reads the result each page shows and fails if a doc quotes
+  it wrong.
+- **The a11y routes come from the flow**, cut as `PageSplitter` cuts them; the derived list
+  matched the twenty directories of the generated site exactly. `vafacts.py` counts the same way.
+- **Deleted:** the vendored 2025 archive (570 MB; `make fetch-archive` clones it at the pin when
+  wanted), the vendor-drift script and its doctor warning (`copy-fg` keeps the vendored bundle
+  when a build only reorders it), the hand copy of the sources list in `handoff/` (`export.sh`
+  writes it), the mockups from the port (`report/mockups/`), the second inventory table in
+  CONTRIBUTING, `virginia-check` and the hooks object.
+- **Not done, on purpose:** a `STATE=` parameter. Everything says Virginia in one place each now,
+  which is what makes a second state a mechanical move later and speculation today.

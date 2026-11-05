@@ -5,9 +5,9 @@
 # One change: the watcher regenerates the site with --singleQuestionPerScreen, the flag every
 # native target in the port's Makefile passes (`make dev`, `make site`, the production image) and
 # the one the IRS's dev overlay leaves off so that Author Mode edits the un-split pages it has on
-# disk. Without it `make port-up` served the four Virginia question groups as whole topic pages,
+# disk. Without it `make up` served the four Virginia question groups as whole topic pages,
 # at routes the browser checks (scripts/virginia-a11y.cjs lists the split ones) could not find,
-# and `make port-dev` served them split: two page shapes for one site. Now both split.
+# and `make dev` served them split: two page shapes for one site. Now both split.
 #
 # The cost is the one the IRS names: with Author Mode on a split page you are editing a page the
 # splitter invented, not the one on disk. The Virginia work edits the XML directly, so that is not

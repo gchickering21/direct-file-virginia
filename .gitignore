@@ -1,2 +1,7 @@
 .DS_Store
 node_modules/
+stack/.bootstrapped
+# The 2025 archive at the root, fetched by `make fetch-archive` (stack/archive.mk), not vendored.
+# Anchored: form-builder-examples/direct-file/ is the Virginia site and is tracked.
+/direct-file/
+__pycache__/

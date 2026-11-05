@@ -1,0 +1,148 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return. One of the Virginia
+  modules (facts/virginia*.xml), loaded as one dictionary beside the federal modules; the
+  Virginia README in docs/virginia/ lists them and docs/adr/003-the-layout-for-growth.md says
+  why they are split. Every fact names its source: Va. Code Title 58.1, Chapter 3
+  (https://law.lis.virginia.gov/vacode/title58.1/) and the 2024 Form 760 instructions. A module
+  reads federal facts only through what the federal return exports to states
+  (stateSystems="true") or to MeF (mef="true"); scripts/check-virginia-exports.py enforces it.
+
+  This module: the residency gate, the Form 760 filing status, and the spouse on a joint return,
+  found from the exported isPrimaryFiler flag because /secondaryFiler is not exported.
+-->
+<FactDictionaryModule>
+  <Facts>
+
+
+    <!-- ============ Residency: the gate. Reads the federal residency answer. ============ -->
+
+    <Fact path="/vaIsResident">
+      <Name>Virginia resident</Name>
+      <Description>The filer lived in Virginia for all of the tax year, as answered on the federal
+        residence question (/filerResidenceAndIncomeState, with 'va' added to the federal
+        /scopedStateOptions). Part-year and nonresident returns (Forms 760PY and 763) are out of
+        scope. This fact gates the Virginia screens; it is not an export.</Description>
+      <Derived>
+        <Equal>
+          <Left><Dependency module="filers" path="/filerResidenceAndIncomeState" /></Left>
+          <Right><Enum optionsPath="/scopedStateOptions">va</Enum></Right>
+        </Equal>
+      </Derived>
+    </Fact>
+
+    <!-- ============ Filing status, mapped to Form 760's three statuses. ============ -->
+
+    <Fact path="/vaIsFilingStatus2">
+      <Name>Virginia Filing Status 2, married filing jointly</Name>
+      <Description>Form 760 Filing Status 2 corresponds to a federal joint return. Federal single
+        and head of household file as Filing Status 1; married filing separately as Status 3.
+        Qualifying surviving spouse is out of scope and treated as Status 1 here.</Description>
+      <Derived>
+        <Equal>
+          <Left><Dependency module="filingStatus" path="/filingStatus" /></Left>
+          <Right><Enum optionsPath="/filingStatusOptions">marriedFilingJointly</Enum></Right>
+        </Equal>
+      </Derived>
+    </Fact>
+
+    <!-- ============ The spouse on a joint return. ============ -->
+
+    <Fact path="/filers/*/vaIsSpouse">
+      <Name>This filer is the spouse</Name>
+      <Description>Not the primary filer. The federal return exports each filer's
+        /filers/*/isPrimaryFiler to states; the federal /filers/*/isSecondaryFiler and the
+        /secondaryFiler pointer are not exported, so the spouse is found from the flag a state is
+        handed.</Description>
+      <Derived>
+        <Not><Dependency module="filers" path="../isPrimaryFiler" /></Not>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouse">
+      <Name>The spouse on a joint return</Name>
+      <Description>The filer who is not the primary filer: how a state's software finds the spouse in
+        what it is handed. Read only on Filing Status 2; the facts below guard that.</Description>
+      <Derived>
+        <Find path="/filers">
+          <Dependency path="vaIsSpouse" />
+        </Find>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouseAge65OrOlder">
+      <Name>Spouse 65 or older</Name>
+      <Description>On a joint return, the spouse's federal /age65OrOlder (65 on or before January 1,
+        2025, the rule Virginia's Section B uses). False on any other filing status. A joint return
+        always carries the spouse's date of birth, so the completeness guard only keeps a return with
+        no spouse facts from going incomplete.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaIsFilingStatus2" /></When>
+            <Then>
+              <All>
+                <IsComplete><Dependency module="filers" path="/vaSpouse/age65OrOlder" /></IsComplete>
+                <Dependency module="filers" path="/vaSpouse/age65OrOlder" />
+              </All>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><False /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouseIsBlind">
+      <Name>Spouse blind</Name>
+      <Description>On a joint return, the spouse's federal /isBlind (blind for federal purposes, IRC
+        § 63(f)). False on any other filing status.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaIsFilingStatus2" /></When>
+            <Then>
+              <All>
+                <IsComplete><Dependency module="filers" path="/vaSpouse/isBlind" /></IsComplete>
+                <Dependency module="filers" path="/vaSpouse/isBlind" />
+              </All>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><False /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaSpouseBornOnOrBefore1939">
+      <Name>Spouse born on or before January 1, 1939</Name>
+      <Description>Va. Code § 58.1-322.03(5)(a), for the spouse on a joint return: the full $12,000 age
+        deduction regardless of income. Reads the spouse's exported date of birth.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaIsFilingStatus2" /></When>
+            <Then>
+              <All>
+                <IsComplete><Dependency module="filers" path="/vaSpouse/dateOfBirth" /></IsComplete>
+                <LessThanOrEqual>
+                  <Left><Dependency module="filers" path="/vaSpouse/dateOfBirth" /></Left>
+                  <Right><Dependency module="virginiaConstants" path="/vaAgeDeductionFullAmountBirthDateCutoff" /></Right>
+                </LessThanOrEqual>
+              </All>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><False /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

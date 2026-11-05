@@ -1,5 +1,5 @@
 // An independent model of the Virginia resident return, tax year 2024, written from the Code of
-// Virginia and the 2024 Form 760 instructions rather than from facts/virginia.xml, so that the two
+// Virginia and the 2024 Form 760 instructions rather than from the facts/virginia*.xml modules, so that the two
 // can disagree. scripts/virginia-cases.cjs runs it against the engine; the workbench's seed examples
 // were checked against it too.
 //

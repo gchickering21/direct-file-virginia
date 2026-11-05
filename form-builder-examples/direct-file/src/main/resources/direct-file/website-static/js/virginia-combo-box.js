@@ -20,10 +20,8 @@
 //
 // Also marks the locality screen's callout and ZIP notes as polite live regions: the flow's grammar
 // has no aria-live attribute for a paragraph.
-import { factGraph } from '../vendor/form-builder/flow-runtime/js/fg-fact-graph.js'
 
-const read = (path) => { try { const r = factGraph.get(path); return r.hasValue ? r.get.toString() : null } catch { return null } }
-
+import { read } from './virginia-graph.js'
 function syncText (box) {
   const select = box.querySelector('select')
   const input = box.querySelector('.usa-combo-box__input')

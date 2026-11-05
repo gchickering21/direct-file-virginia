@@ -205,7 +205,7 @@ inputs:
 
 # The Virginia section's own chrome: the masthead and the five-step track that replace the IRS
 # header and the federal step indicator on /your-taxes/virginia/ routes. See
-# templates/fragments/va-masthead.html and docs/virginia/mockups/virginia-theme.html.
+# templates/fragments/va-masthead.html; the design is the virginia-theme mockup in the repository's report/mockups/.
 virginia:
   demo:
     label: Demonstration

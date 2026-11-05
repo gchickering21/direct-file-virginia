@@ -11,9 +11,9 @@ A Virginia resident income tax return, Form 760 from Line 1 to Line 36 for a W-2
 single or joint, in tax year 2024, built as prototype rules on the IRS's own port of Direct
 File onto its maintained Fact Graph and Form Builder stack. It is:
 
-- **Two fact modules** of XML rules, 176 facts, each citing its section of Va. Code Title
-  58.1 and its line of the 2024 Form 760 instructions, with every tax-year figure in one
-  block at the top: the deductions and exemptions for both filers, the rate schedule, the
+- **Ten fact modules** of XML rules (`facts/virginia*.xml`, one per section of the return),
+  176 facts, each citing its section of Va. Code Title 58.1 and its line of the 2024 Form 760
+  instructions, with every tax-year figure in one of them, `virginiaConstants.xml`: the deductions and exemptions for both filers, the rate schedule, the
   unemployment and military subtractions, the Commonwealth Savers deduction, the three
   low-income credits weighed against the deductions they bar, withholding from the W-2s
   that name Virginia, the use tax by locality, and the amount owed or refunded.
@@ -28,7 +28,7 @@ File onto its maintained Fact Graph and Form Builder stack. It is:
   port 3011): policy staff change a figure or a rule in plain language, with a source for
   every number, watch fifteen worked examples rerun, and send the change for a policy and
   an engineering approval; publishing writes the XML. Node only, no build.
-- **Checks**, in layers: the schemas, the export rule, the constants block, the locality
+- **Checks**, in layers: the schemas, the export rule, the constants module, the locality
   listing, the Spanish keys, the doc counts and the fact paths the docs cite (no JVM, a
   minute); the workbench's worked examples; 50 households against an independent model of
   the rules in the browser; a ScalaTest that pins the four demos and runs the same households
@@ -49,8 +49,8 @@ the federal service returned, and today, inside the port, it reads the same fact
 shared graph. The residency answer is the one exception: it gates the screens and computes
 nothing.
 
-Two rules of the same kind inside the module: every tax-year figure, date and rate sits
-between the `constants:begin` and `constants:end` markers, so a new year is one edit; and
+Two rules of the same kind inside the modules: every tax-year figure, date and rate sits
+in `virginiaConstants.xml`, so a new year is one edit in one file; and
 the locality switches list every city and county with no default, so an unlisted locality
 fails loudly. `scripts/check-virginia-constants.py` enforces both.
 
@@ -84,15 +84,17 @@ make bootstrap        # once
 make dev              # http://localhost:3008/app/direct-file
 ```
 
-Scenario → Virginia Demo 1 → Load scenario → step to "Your Virginia return". Riley owes
-$698. The Virginia README in that folder has the four hand checks and every command.
+Open `/your-taxes/virginia/virginia-intro/?demo=1` (or Scenario → Virginia Demo 1 → Load
+scenario) and step through to the return. Riley owes $698. The Virginia README in that folder has the four hand checks and every command.
 
 ## Reading order
 
 1. `form-builder-examples/direct-file/docs/adr/001-virginia-state-return.md`: what was
    added and left out, and why. One page. Then `002-virginia-scope-extended.md`: the
    credits, the military and unemployment subtractions, the spouse, what was removed, and
-   the files of the IRS's own that the change set touches.
+   the files of the IRS's own that the change set touches. Then `003-the-layout-for-growth.md`:
+   why the rules are ten modules, where the single manifest of the demo households is, and what was
+   deliberately not generalised.
 2. `handoff/POLICY_MAP.md`: one row per rule: Form 760 line, Virginia Code section, the
    facts, what federal facts they read and how those are exported, the hand-check values;
    and what is not modelled, with the reason.
@@ -111,8 +113,8 @@ worldwide. Everything added here is CC0 as well (`LICENSE`), so there is nothing
 negotiate. Nothing is branded as, or endorsed by, the IRS or Virginia Tax; every Virginia
 screen says on the screen that it is a demonstration, and the four demo households are
 invented. The Virginia figures were read from the Code at law.lis.virginia.gov and the
-2024 Form 760 instructions on 2026-10-19 and 2026-10-20; `SOURCES.md` here (a copy of
-`report/SOURCES.md`) lists each with its URL. Virginia Tax's own reading of every figure
+2024 Form 760 instructions on 2026-10-19 and 2026-10-20; `SOURCES.md` here (written by
+`export.sh` from `report/SOURCES.md`) lists each with its URL. Virginia Tax's own reading of every figure
 and citation is the review this needs; the unemployment subtraction's subdivision of
 § 58.1-322.02 and the joint-return reading of the age deduction phase-out are the two
 places the policy map flags for it.

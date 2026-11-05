@@ -1,21 +1,45 @@
-// Usage: PORT_DIR=. AXE_PATH=<path to axe.min.js> [PLAYWRIGHT_MODULE=<playwright-core>] node scripts/virginia-a11y.cjs   (needs `make dev` running)
-// Accessibility pass over the Virginia screens with axe-core (WCAG 2.0/2.1 A and AA), Riley loaded:
+// Usage: PORT_DIR=. AXE_PATH=<path to axe.min.js> [PLAYWRIGHT_MODULE=<playwright-core>] node scripts/virginia-a11y.cjs   (needs `make dev` or `make up` running)
+// Accessibility pass over the Virginia screens with axe-core (WCAG 2.0/2.1 A and AA), Demo 1 loaded:
 // every English route, every Spanish route (/es/ before the route), and an error-state pass on the
 // locality page (Continue with nothing chosen, then scan). The whole document is scanned, chrome
 // included; the one exclusion list below names what is outside the Virginia chrome and belongs to the
 // IRS scaffold or the workspace, so a violation there is reported separately rather than failing.
+//
+// The routes are read from flow/your-taxes-virginia.xml and cut the way Form Builder's PageSplitter
+// cuts a page under --singleQuestionPerScreen (a page whose top-level blocks are all df-screen divs,
+// more than one, becomes one route per block, named by the first four words of the block's heading),
+// so a new screen is scanned without anyone editing a list here.
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || '@playwright/test');
-const fs = require('fs'); const P = process.env.PORT_DIR; const AXE = process.env.AXE_PATH || require.resolve('axe-core/axe.min.js');
+const fs = require('fs'); const { pathToFileURL } = require('url'); const P = process.env.PORT_DIR; const AXE = process.env.AXE_PATH || require.resolve('axe-core/axe.min.js');
 const BASE = process.env.BASE_URL || 'http://localhost:3008/app/direct-file';
-// Each df-screen block is its own page under singleQuestionPerScreen, routed by the first four words of its heading.
-const PAGES = ['virginia-intro', 'virginia-known', 'virginia-check', 'virginia-correct-what', 'virginia-correct-dob', 'virginia-correct-w2', 'virginia-correct-records', 'virginia-corrections', 'virginia-locality', 'virginia-military/were-you-in-the', 'virginia-military/were-you-on-active', 'virginia-military/how-much-military-basic', 'virginia-military/did-you-receive-military', 'virginia-military/how-much-of-it', 'virginia-savers/did-you-put-money', 'virginia-savers/how-much-did-you', 'virginia-use-tax/did-you-buy-anything', 'virginia-use-tax/how-much-did-those', 'virginia-summary', 'virginia-sign'];
+const RES = `${P}/src/main/resources/direct-file`;
+// The split routes, after PageSplitter.scala: splitByBlocks, blockSlug, slugFromHeadingText.
+function routesOf (xml, parseTree) {
+  const root = parseTree(xml); const flow = root.children.find(c => c.tag === 'FlowConfig') || root;
+  const units = n => n.children.flatMap(c => c.tag === 'section' ? units(c) : c.tag === 'modal' ? [] : [c]);
+  const heading = n => { for (const c of n.children) { if (/^h[234]$/.test(c.tag)) return xml.slice(c.innerStart, c.innerEnd); const h = heading(c); if (h) return h; } return null; };
+  const slug = raw => raw.replace(/<[^>]+>/g, ' ').replace(/['\u2019]/g, '').replace(/[^A-Za-z0-9\s]/g, ' ').trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0, 4).join('-');
+  const out = [];
+  for (const p of flow.children.filter(c => c.tag === 'page')) {
+    const route = p.attrs.route.replace(/^\/your-taxes\/virginia\//, '');
+    const blocks = units(p);
+    if (blocks.length < 2 || !blocks.every(b => b.tag === 'div' && /\bdf-screen\b/.test(b.attrs.class || ''))) { out.push(route); continue; }
+    const used = new Set();
+    blocks.forEach((b, i) => { const h = heading(b); const base = (h && slug(h)) || `screen-${i + 1}`; let s = base; for (let n = 2; used.has(s); n++) s = `${base}-${n}`; used.add(s); out.push(`${route}/${s}`); });
+  }
+  return out;
+}
 const LANGS = ['', 'es'];
 // Outside the Virginia chrome: the scaffold's and the workspace's own markup, which this prototype does not own.
 // A violation whose every node is inside one of these is listed under "outside the Virginia chrome" and does not count.
 const OUTSIDE = ['taxpert-global-nav', 'taxpert-screens-toolbar', 'taxpert-audit-panel', '.tool-dock', '.logo-banner', 'footer.footer', '#gov-banner-default', '.usa-banner', '.gtm-noscript'];
 (async () => {
+  const { parseTree } = await import(pathToFileURL(`${P}/workbench/lib/flow.js`).href);
+  const PAGES = routesOf(fs.readFileSync(`${RES}/flow/your-taxes-virginia.xml`, 'utf8'), parseTree);
+  const demo = JSON.parse(fs.readFileSync(`${RES}/website-static/data/virginia-demos.json`, 'utf8')).demos.find(d => d.n === 1);
+  console.log(`${PAGES.length} Virginia routes, with ${demo.name} loaded`);
   const browser = await chromium.launch(); const page = await browser.newPage({ viewport: { width: 1280, height: 1000 } });
-  const g = JSON.parse(fs.readFileSync(`${P}/src/main/resources/direct-file/scenarios/virginia_demo_1_riley_rappahannock_single_33k.json`, 'utf8'));
+  const g = JSON.parse(fs.readFileSync(`${RES}/scenarios/${demo.file}.json`, 'utf8'));
   const f = g.facts || g; // make the correction pages render: not everything right, correcting a W-2 (the dob and records pages flip the target below)
   f['/vaEverythingRight'] = { $type: 'gov.irs.factgraph.persisters.BooleanWrapper', item: false };
   f['/vaCorrectionTarget'] = { $type: 'gov.irs.factgraph.persisters.EnumWrapper', item: { value: 'w2', enumOptionsPath: '/vaCorrectionTargetOptions' } };
@@ -41,6 +65,9 @@ const OUTSIDE = ['taxpert-global-nav', 'taxpert-screens-toolbar', 'taxpert-audit
     console.log(`${label}: ${res.inside.length ? res.inside.map(v => `${v.id}(${v.impact}) ×${v.count} e.g. ${v.nodes[0]}`).join('; ') : 'clean'}${res.out.length ? `   [outside the Virginia chrome: ${res.out.map(v => `${v.id} ×${v.count}`).join(', ')}]` : ''}`);
     res.inside.forEach(v => { byRule[v.id] = (byRule[v.id] || 0) + v.count; });
   };
+  // The start page first: outside the flow, no household needed, English only.
+  await page.goto(`${BASE}/resources/start/`, { waitUntil: 'load' }); await page.waitForTimeout(800);
+  await page.addScriptTag({ path: AXE }); report('resources/start (the start page)', await scan());
   for (const lang of LANGS) {
     for (const r of PAGES) {
       const url = `${BASE}/${lang ? lang + '/' : ''}your-taxes/virginia/${r}/`;

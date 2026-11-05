@@ -12,7 +12,7 @@
 // either differs: a "before" from someone else's return is worse than none. Every word shown comes
 // from the locale through virginia-strings.js; amounts and dates are formatted for the page's
 // language, cents kept.
-import { factGraph } from '../vendor/form-builder/flow-runtime/js/fg-fact-graph.js'
+import { factGraph, read } from './virginia-graph.js'
 import { t, lang, esc } from './virginia-strings.js'
 
 const KEY = 'virginia:correction-snapshot'
@@ -38,9 +38,6 @@ const RECORDS = [['/vaEstimatedPayments', 'records.20'], ['/vaPriorYearOverpayme
 const W2_BOXES = [['employerName', 'w2.employer'], ['writableWages', 'w2.box1'], ['writableFederalWithholding', 'w2.box2'], ['writableStateWages', 'w2.box16'], ['writableStateWithholding', 'w2.box17']]
 const FEDERAL_BOXES = new Set(['writableWages', 'writableFederalWithholding'])
 
-function read (path) {
-  try { const r = factGraph.get(path); return r.hasValue ? r.get.toString() : null } catch { return null }
-}
 function ids (collection) {
   try { return Array.from(factGraph.getCollectionIds(collection)).map(String) } catch { return [] }
 }

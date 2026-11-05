@@ -101,10 +101,10 @@ function pathFor (key, linesByLabel) {
  * Run every example through the model and compare with what the engine gave (`results` from
  * runExamples, which must have read the line paths). Returns { available, error, warnings }.
  */
-export function oracleWarnings ({ virginia, examples, baseline, results }) {
+export function oracleWarnings ({ facts, examples, baseline, results }) {
   const fn = model()
   if (!fn) return { available: false, error: MODEL_ERROR.message, warnings: [] }
-  const lines = lineFacts(virginia).filter(l => l.form === 'Form 760')
+  const lines = lineFacts(facts).filter(l => l.form === 'Form 760')
   const linesByLabel = new Map()
   for (const l of lines) if (!linesByLabel.has(l.line.toLowerCase())) linesByLabel.set(l.line.toLowerCase(), l.path)
   const warnings = []

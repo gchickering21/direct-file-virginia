@@ -1,0 +1,259 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return. One of the Virginia
+  modules (facts/virginia*.xml), loaded as one dictionary beside the federal modules; the
+  Virginia README in docs/virginia/ lists them and docs/adr/003-the-layout-for-growth.md says
+  why they are split. Every fact names its source: Va. Code Title 58.1, Chapter 3
+  (https://law.lis.virginia.gov/vacode/title58.1/) and the 2024 Form 760 instructions. A module
+  reads federal facts only through what the federal return exports to states
+  (stateSystems="true") or to MeF (mef="true"); scripts/check-virginia-exports.py enforces it.
+
+  This module: every tax-year figure, date and rate-schedule amount, one fact each with a
+  <TaxYear> and its source. A rule in another module refers to a figure by
+  <Dependency module="virginiaConstants" …>, and no <Day> or non-zero <Dollar> literal may appear
+  outside this file (scripts/check-virginia-constants.py), so a new tax year is one edit in one file.
+-->
+<FactDictionaryModule>
+  <Facts>
+
+
+
+    <!-- ============ Figures for tax year 2024. One edit per year goes here. ============ -->
+    <Fact path="/vaStandardDeductionSingle">
+      <Name>Virginia standard deduction, Filing Status 1 and 3</Name>
+      <Description>Va. Code § 58.1-322.03(1)(b): $8,500 for taxable years beginning 2024-01-01
+        and before 2025-01-01 (single; married filing separately takes one-half of the married
+        amount, also $8,500). 2024 Form 760 instructions, Line 11.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>8500</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaStandardDeductionMarried">
+      <Name>Virginia standard deduction, Filing Status 2</Name>
+      <Description>Va. Code § 58.1-322.03(1)(b): $17,000 for married persons filing jointly,
+        taxable year 2024. 2024 Form 760 instructions, Line 11.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>17000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaPersonalExemptionAmount">
+      <Name>Virginia personal exemption</Name>
+      <Description>Va. Code § 58.1-322.03(2)(a): $930 for each personal exemption allowable
+        federally. 2024 Form 760 instructions, Exemptions Section A.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>930</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaAgedOrBlindExemptionAmount">
+      <Name>Virginia additional exemption, 65 or older or blind</Name>
+      <Description>Va. Code § 58.1-322.03(2)(b): $800 for a taxpayer who is aged or blind under
+        IRC § 63(f). 2024 Form 760 instructions, Exemptions Section B: 65 or older on or before
+        January 1, 2025.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>800</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaAgeDeductionMaximum">
+      <Name>Virginia age deduction, maximum</Name>
+      <Description>Va. Code § 58.1-322.03(5): $12,000 for each qualifying person. 2024 Form 760
+        instructions, Line 4.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>12000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaAgeDeductionFullAmountBirthDateCutoff">
+      <Name>Virginia age deduction, last birth date for the full amount</Name>
+      <Description>Va. Code § 58.1-322.03(5)(a): born on or before January 1, 1939, the full
+        $12,000 regardless of income. A statutory date, kept with the figures so the file holds
+        no date literal outside this block.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Day>1939-01-01</Day></Derived>
+    </Fact>
+
+    <Fact path="/vaAgeDeductionIncomeThresholdSingle">
+      <Name>Virginia age deduction income threshold, single</Name>
+      <Description>Va. Code § 58.1-322.03(5)(b): the $12,000 is reduced $1 for each $1 of adjusted
+        federal adjusted gross income over $50,000 for single taxpayers.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>50000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaAgeDeductionIncomeThresholdMarried">
+      <Name>Virginia age deduction income threshold, married</Name>
+      <Description>Va. Code § 58.1-322.03(5)(b): $75,000 for married taxpayers, measured on the
+        joint AFAGI of both spouses.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>75000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaFilingThresholdSingle">
+      <Name>Virginia filing threshold, single</Name>
+      <Description>Va. Code § 58.1-321(A): no tax if Virginia adjusted gross income is less than
+        $11,950 for a single individual (taxable years from 2012). 2024 Form 760 instructions,
+        Line 9.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>11950</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaFilingThresholdMarried">
+      <Name>Virginia filing threshold, married</Name>
+      <Description>Va. Code § 58.1-321(A): $23,900 for an individual and spouse (one-half for
+        married filing separately; this prototype applies the joint figure to Filing Status 2
+        only).</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>23900</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleBracket1Top">
+      <Name>Rate schedule, top of the 2% bracket</Name>
+      <Description>Va. Code § 58.1-320: 2% of income not exceeding $3,000 (taxable years from
+        1990). 2024 Form 760 instructions, Tax Rate Schedule.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>3000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleBracket2Top">
+      <Name>Rate schedule, top of the 3% bracket</Name>
+      <Description>Va. Code § 58.1-320: 3% of income over $3,000 to $5,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>5000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleBracket3Top">
+      <Name>Rate schedule, top of the 5% bracket</Name>
+      <Description>Va. Code § 58.1-320: 5% of income over $5,000 to $17,000; 5.75% above.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>17000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleTaxAtBracket1Top">
+      <Name>Rate schedule, tax at $3,000</Name>
+      <Description>The cumulative figure the 2024 Form 760 instructions print: $60 at $3,000
+        (2% of $3,000).</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>60</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleTaxAtBracket2Top">
+      <Name>Rate schedule, tax at $5,000</Name>
+      <Description>$120 at $5,000: $60 plus 3% of $2,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>120</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleTaxAtBracket3Top">
+      <Name>Rate schedule, tax at $17,000</Name>
+      <Description>$720 at $17,000: $120 plus 5% of $12,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>720</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate1">
+      <Name>Rate schedule, first rate</Name>
+      <Description>Va. Code § 58.1-320: 2% on income not exceeding $3,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>2/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate2">
+      <Name>Rate schedule, second rate</Name>
+      <Description>Va. Code § 58.1-320: 3% on income over $3,000 to $5,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>3/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate3">
+      <Name>Rate schedule, third rate</Name>
+      <Description>Va. Code § 58.1-320: 5% on income over $5,000 to $17,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>5/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRateScheduleRate4">
+      <Name>Rate schedule, top rate</Name>
+      <Description>Va. Code § 58.1-320: 5.75% on income over $17,000.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>575/10000</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaLowIncomeCreditPerExemption">
+      <Name>Credit for Low-Income Individuals, per exemption</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1): $300 each for the individual, the spouse and each dependent. 2024
+        Form 760 instructions, Schedule ADJ Line 13.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>300</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaPovertyGuidelineFirstPerson">
+      <Name>Poverty guideline, a family of one</Name>
+      <Description>2024 Form 760 instructions, Schedule ADJ Line 11, Poverty Guideline Table:
+        $15,060 for one eligible exemption (the 2024 federal poverty guideline).</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>15060</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaPovertyGuidelineEachAdditionalPerson">
+      <Name>Poverty guideline, each additional family member</Name>
+      <Description>2024 Form 760 instructions, Poverty Guideline Table: $5,380 for each additional
+        person, spouse and dependent exemption ($20,440 for two, $52,720 for eight).</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>5380</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaEarnedIncomeCreditRate">
+      <Name>Virginia Earned Income Credit rate, nonrefundable</Name>
+      <Description>Va. Code § 58.1-339.8(B)(2): 20% of the federal earned income credit, in place of the
+        Credit for Low-Income Individuals. 2024 Form 760
+        instructions, Schedule ADJ Line 15.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>20/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaRefundableEarnedIncomeCreditRate">
+      <Name>Refundable Virginia Earned Income Credit rate</Name>
+      <Description>Va. Code § 58.1-339.8(B)(3)(a): for taxable years 2022 through 2024, 15% of the federal
+        earned income credit, refundable, in place of either nonrefundable credit (20% from 2025,
+        subdivision 3 b). 2024 Form 760
+        instructions, Schedule ADJ Line 16b.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Rational>15/100</Rational></Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBasicPayMaximum">
+      <Name>Military basic pay subtraction, maximum</Name>
+      <Description>Va. Code § 58.1-322.02(15): up to $15,000 of military basic pay, reduced $1 for
+        each $1 of basic pay over $15,000, so nothing at $30,000 or more. 2024 Form 760
+        instructions, Schedule ADJ subtraction code 38.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>15000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaMilitaryBenefitsMaximum">
+      <Name>Military benefits subtraction, maximum</Name>
+      <Description>Va. Code § 58.1-322.02(18)(c): $30,000 of military benefits for taxable year 2024
+        ($40,000 from 2025), at any age; (18)(d) defines them as military retirement income, § 134
+        qualified military benefits, and Survivor Benefit Plan and other military benefits paid to a
+        surviving spouse. 2024 Form 760 instructions, Schedule ADJ subtraction code 60.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>30000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversCap">
+      <Name>Commonwealth Savers deduction cap</Name>
+      <Description>Va. Code § 58.1-322.03(7)(a): "limited to $4,000 per prepaid tuition contract or college
+        savings trust account" per return per taxable year. This prototype treats the contributions as
+        one account; the carryforward of the excess to later years is out of scope.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Dollar>4000</Dollar></Derived>
+    </Fact>
+
+    <Fact path="/vaCommonwealthSaversAge70BirthDateCutoff">
+      <Name>Commonwealth Savers, last birth date for the no-cap rule</Name>
+      <Description>Va. Code § 58.1-322.03(7)(b): a contributor who has attained age 70 is not subject to
+        the $4,000 limit. Born on or before December 31, 1954 has attained 70 during tax year 2024.</Description>
+      <TaxYear>2024</TaxYear>
+      <Derived><Day>1954-12-31</Day></Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

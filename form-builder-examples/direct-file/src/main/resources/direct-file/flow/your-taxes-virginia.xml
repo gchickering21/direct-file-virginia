@@ -4,7 +4,7 @@
      {category}-{subcategory}.xml like them, under the 'your-taxes' category, so the port's FlowSpec
      conventions hold: routes start /your-taxes/virginia/. Every screen is gated on /vaIsResident.
      The order is the design: what is already known, grouped by where it came from; then the four
-     things only the filer can answer; then the return. Figures come from facts/virginia.xml and
+     things only the filer can answer; then the return. Figures come from the facts/virginia*.xml modules and
      facts/virginiaLocalities.xml; see docs/adr/001-virginia-state-return.md.
 
      Under singleQuestionPerScreen each <div class="df-screen"> block is its own page, routed by the

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Runs every worked example against the Virginia rules, from the command line, in one run.
+// Runs every worked example against the Virginia rules (the facts/virginia*.xml modules), from the command line, in one run.
 //
 //   node workbench/check.mjs                      the rules as they are on disk
 //   node workbench/check.mjs --change <id>        the rules with a workbench change applied
@@ -22,7 +22,7 @@ const args = process.argv.slice(2)
 const changeId = args.includes('--change') ? args[args.indexOf('--change') + 1] : null
 
 const src = readSources()
-let files = { virginia: src.virginia, localities: src.localities, flow: src.flow, es: src.es }
+let files = { facts: src.facts, flow: src.flow, es: src.es }
 let examples = src.examplesFile.examples
 let baseline = src.examplesFile.baseline
 if (changeId) {
@@ -37,8 +37,8 @@ if (changeId) {
   console.log(`With change #${change.id}: ${change.title}\n`)
 }
 
-for (const k of ['virginia', 'localities']) {
-  const bad = schemaError(files[k], SCHEMA, k)
+for (const k of Object.keys(files.facts)) {
+  const bad = schemaError(files.facts[k], SCHEMA, k)
   if (bad) { console.error(`FAIL ${bad}`); process.exit(1) }
 }
 if (files.flow !== undefined && files.flow !== src.flow) {
@@ -58,7 +58,7 @@ try {
 
 const fg = await loadEngine()
 const schema = schemaFor({ ...files, federal: src.federal })
-const run = runExamples(fg, xml, { examples, baseline }, schema, lineFacts(files.virginia).map(l => l.path))
+const run = runExamples(fg, xml, { examples, baseline }, schema, lineFacts(files.facts).map(l => l.path))
 if (run.error) { console.error(`FAIL ${run.error}`); process.exit(1) }
 
 let failed = 0
@@ -73,7 +73,7 @@ for (const ex of examples) {
 console.log(failed ? `\n${failed} of ${examples.length} examples fail` : `\nall ${examples.length} examples pass`)
 
 let oracle = { available: false, warnings: [] }
-try { oracle = oracleWarnings({ virginia: files.virginia, examples, baseline, results: run.results }) } catch (e) { console.log(`WARN the independent model could not run: ${e.message}`) }
+try { oracle = oracleWarnings({ facts: files.facts, examples, baseline, results: run.results }) } catch (e) { console.log(`WARN the independent model could not run: ${e.message}`) }
 if (oracle.error) console.log(`WARN ${oracle.error}`)
 for (const w of oracle.warnings) console.log(`WARN ${w.title}: ${w.path} is ${w.engine} by the rules, ${w.model} by the independent model`)
 if (oracle.available && !oracle.error && !oracle.warnings.length) console.log('the independent model agrees on every line it computes')

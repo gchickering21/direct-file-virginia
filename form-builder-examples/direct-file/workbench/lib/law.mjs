@@ -25,7 +25,7 @@ const money = n => '$' + Number(n).toLocaleString('en-US')
  *   values: value facts the citation names, with the amounts in the text that could be their new figure
  *   words: places on the screens that quote a current figure of one of those values
  */
-export function proposeParts ({ citation, text, effectiveYear }, { virginia, localities, flow }, year) {
+export function proposeParts ({ citation, text, effectiveYear }, { facts, flow }, year) {
   const cites = [...new Set([...clean(citation).matchAll(SECTION_RE)].map(m => m[0]))]
   const amounts = [...new Set(amountsIn(text).map(a => a.value))]
   const pct = [...new Set([...String(text).matchAll(/(\d+(?:\.\d+)?)\s?(?:%|percent)/g)].map(m => Number(m[1])))]
@@ -33,7 +33,7 @@ export function proposeParts ({ citation, text, effectiveYear }, { virginia, loc
   // A figure alone is weak evidence; once the citation names a value, figures alone are not used.
   let anyByCite = false
   const found = []
-  for (const [file, xml] of [['virginia', virginia], ['localities', localities]]) {
+  for (const [file, xml] of Object.entries(facts).sort(([a], [b]) => a.localeCompare(b))) {
     for (const f of scanFacts(xml)) {
       const schedule = valueSchedule(f.body)
       if (!schedule) continue

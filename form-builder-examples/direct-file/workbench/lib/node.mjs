@@ -9,6 +9,8 @@ import { buildSandboxXml, writableFacts } from './sandbox.js'
 export const WORKBENCH = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 export const APP = path.resolve(WORKBENCH, '..')
 export const RESOURCES = path.join(APP, 'src/main/resources/direct-file')
+// A path as the page shows it: repository-relative where it can be, absolute for a copy elsewhere (WORKBENCH_FACTS_DIR).
+export const shown = f => { const r = path.relative(APP, f); return r.startsWith('..') ? f : r }
 
 // WORKBENCH_FACTS_DIR points the workbench at a copy of the facts directory, for trying it out
 // without touching the real one.
@@ -24,9 +26,10 @@ export const EXAMPLES_FILE = process.env.WORKBENCH_EXAMPLES
   : path.join(WORKBENCH, 'examples/virginia.json')
 
 export const FLOW_DIR = process.env.WORKBENCH_FLOW_DIR ? path.resolve(process.env.WORKBENCH_FLOW_DIR) : path.join(RESOURCES, 'flow')
+// The Virginia fact modules: every facts/virginia*.xml, keyed by stem (virginiaConstants, virginiaIncome, …),
+// in name order, which is the order Form Builder merges them in. A fact lives in exactly one of them.
+export const FACT_FILES = Object.fromEntries(fs.readdirSync(FACTS_DIR).filter(f => /^virginia\w*\.xml$/.test(f)).sort().map(f => [f.slice(0, -4), path.join(FACTS_DIR, f)]))
 export const FILES = {
-  virginia: path.join(FACTS_DIR, 'virginia.xml'),
-  localities: path.join(FACTS_DIR, 'virginiaLocalities.xml'),
   flow: path.join(FLOW_DIR, 'your-taxes-virginia.xml'),
   es: path.join(process.env.WORKBENCH_LOCALES_DIR ? path.resolve(process.env.WORKBENCH_LOCALES_DIR) : path.join(RESOURCES, 'locales'), 'virginia_es.yaml'),
 }
@@ -55,8 +58,7 @@ export const readJson = f => JSON.parse(fs.readFileSync(f, 'utf8'))
 
 export function readSources () {
   return {
-    virginia: fs.readFileSync(FILES.virginia, 'utf8'),
-    localities: fs.readFileSync(FILES.localities, 'utf8'),
+    facts: Object.fromEntries(Object.entries(FACT_FILES).map(([k, f]) => [k, fs.readFileSync(f, 'utf8')])),
     // The screens and their Spanish, when the workbench runs beside them; a copy of the facts alone has neither.
     flow: fs.existsSync(FILES.flow) ? fs.readFileSync(FILES.flow, 'utf8') : undefined,
     es: fs.existsSync(FILES.es) ? fs.readFileSync(FILES.es, 'utf8') : undefined,
@@ -65,8 +67,8 @@ export function readSources () {
   }
 }
 
-export function schemaFor ({ virginia, localities, federal }) {
-  return { federal, questions: [...writableFacts(virginia), ...writableFacts(localities)] }
+export function schemaFor ({ facts, federal }) {
+  return { federal, questions: Object.values(facts).flatMap(writableFacts) }
 }
 
 export function sandboxFor (src) {

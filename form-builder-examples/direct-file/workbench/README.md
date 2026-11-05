@@ -3,19 +3,20 @@
 A place where policy staff and engineers change the Virginia return together. Policy staff start a
 change from the law, set values by tax year, change rules in plain language, add a question the
 return does not ask yet, and change the words on a screen. The workbench writes the change into
-`facts/virginia.xml`, `flow/your-taxes-virginia.xml` and `locales/virginia_es.yaml`, checks it
+the Virginia fact modules (`facts/virginia*.xml`, whichever holds the fact), `flow/your-taxes-virginia.xml`
+and `locales/virginia_es.yaml`, checks it
 against worked examples, and publishes it only after a policy reviewer, an engineer and (when words
 change) a translator have approved.
 
-It is the working version of the two mockup sets, [rules-workbench.html](../docs/virginia/mockups/rules-workbench.html)
-(values, rules, examples, review, requests) and [law-to-screen.html](../docs/virginia/mockups/law-to-screen.html)
-(the law, tax years, the question builder, the words, the footprint, the publish rail). It is a
+It is the working version of two mockup sets, rules-workbench (values, rules, examples, review,
+requests) and law-to-screen (the law, tax years, the question builder, the words, the footprint,
+the publish rail), kept as course material in the repository's `report/mockups/`. It is a
 prototype: there is no sign-in, and the review workflow is stored in local files; a pull request per
 publish is optional (`WORKBENCH_GIT_PR=1`).
 
 ```bash
 make workbench          # http://localhost:3011   (or: node workbench/server.mjs)
-make workbench-check    # every worked example against virginia.xml, from the command line
+make workbench-check    # every worked example against the fact modules, from the command line
 ```
 
 It needs Node 18 or later and nothing else: no build step, no `npm install`, no JVM. It uses the
@@ -168,7 +169,10 @@ the file, or if it throws, verify goes on as before. `WORKBENCH_MODEL=…` point
 
 | Path | What |
 |---|---|
-| `server.mjs` | Static files, the API, and the workflow rules. Reads the fact files fresh on every request |
+| `server.mjs` | The HTTP layer: static files and the API routes, each a call into the workflow |
+| `lib/workflow.mjs` | The review workflow: what a change is, who may do what to it, the checks before review and before publish, the requests, the reports. Reads the fact files fresh on every request |
+| `lib/store.mjs` | Changes and requests as JSON files under `data/`, the people, the audit trail, the per-change lock |
+| `lib/git.mjs` | A commit, or a branch and pull request, per publish when asked for |
 | `check.mjs` | The command-line check: `node workbench/check.mjs [--change <id>]` |
 | `lib/sandbox.js` | The Virginia sandbox and the example runner. Runs in the browser and in Node |
 | `lib/xml-edit.js` | Applying a change to the files (values, schedules by year, rules, questions, text, their reversal), the source sentence, conflict detection, the translation needs, the line diff |
@@ -179,8 +183,8 @@ the file, or if it throws, verify goes on as before. `WORKBENCH_MODEL=…` point
 | `lib/validate.mjs` | What the server accepts: the shape of a change, each literal type, a rule's XML (one `<Derived>`, known operators only), the schema through xmllint |
 | `lib/reports.mjs` | Coverage, the export contract, the Spanish status, and the small YAML key reader they use |
 | `lib/oracle.mjs` | The hook for `scripts/lib/virginia-model.cjs` |
-| `lib/node.mjs` | Where the files are; loading the engine in Node |
-| `ui/` | The page: `app.js` (the first set of views and events), `extra.js` (the law, values by year, the question builder, screens, the footprint, the rail, the Spanish panel), `model.js` (rules as trees, plain language ⇄ XML; values by year), `worker.js` (runs examples off the main thread) |
+| `lib/node.mjs` | Where the files are (every `facts/virginia*.xml` is a module); loading the engine in Node |
+| `ui/` | The page: `app.js` (the entry point), `state.js` (`S` and the shared helpers), `shell.js` (the router and chrome), `draft.js` (the active draft), `runner.js` (the examples in a worker, the impact of a draft), `chips.js`, `dialogs.js`, `events.js` (the click, change and input handlers), `model.js` (rules as trees, plain language ⇄ XML; values by year), `worker.js`; and one module per view under `ui/views/`: home, values, rule, examples, changes, requests, lists, reports, questions, screens, law |
 | `federal-inputs.json` | The federal facts Virginia reads, and how the sandbox stands each one in |
 | `examples/virginia.json` | The worked examples. Authored here, not in `scenarios/`, which `make export-scenarios` regenerates |
 | `data/people.json` | Who can act, and in which role |
@@ -189,26 +193,30 @@ the file, or if it throws, verify goes on as before. `WORKBENCH_MODEL=…` point
 
 ## How it works
 
-**The sandbox.** The workbench does not load the 36 federal modules. It loads `virginia.xml` and
-`virginiaLocalities.xml` beside one writable stand-in for each federal fact they read, listed in
+**The sandbox.** The workbench does not load the 36 federal modules. It loads every
+`facts/virginia*.xml` beside one writable stand-in for each federal fact they read, listed in
 [federal-inputs.json](federal-inputs.json). That makes a worked example a short list of answers
 ("federal AGI is $40,000") instead of a whole federal return, and it is ADR-001's integration rule
-made concrete: Virginia may read only what the federal return hands to states. If `virginia.xml`
-starts reading a federal fact that is not on the list, `check.mjs` fails and names it.
+made concrete: Virginia may read only what the federal return hands to states. If a module
+starts reading a federal fact that is not on the list, `check.mjs` fails and names it (and so does
+`scripts/check-virginia-exports.py`, which also fails on a stand-in nothing reads).
 
 One consequence: in the sandbox, *65 or older* and *date of birth* are separate inputs (in the real
 return one is derived from the other), so an example has to keep them consistent.
 
 Per-filer facts are mapped onto the two filer items the sandbox always carries: `/primaryFiler/x` is
 the primary filer's `/filers/*/x`, and `/vaSpouse/x` (or `/secondaryFiler/x`) is the second
-filer's, the one `virginia.xml`'s `/vaSpouse` finds by the exported `isPrimaryFiler` flag. So a joint
+filer's, the one `virginiaFiler.xml`'s `/vaSpouse` finds by the exported `isPrimaryFiler` flag. So a joint
 example can say `"/vaSpouse/dateOfBirth": "1958-03-03"` and `"/vaSpouse/age65OrOlder": true`, and
 the spouse's age deduction and Section B exemption follow.
 
-**Edits are text splices.** A value edit replaces one number and rewrites the source sentence of
+**Edits are text splices.** An edit is applied to whichever module holds the fact, found by its
+path (the `file` an edit carries is a hint for the reader), so a fact that moves between modules
+is still found. A value edit replaces one number and rewrites the source sentence of
 the fact's `<Description>`. A rule edit replaces that one fact's `<Derived>` block, written in the
 file's own style; a schedule edit writes the year switch the same way. A question edit inserts one
-`<Fact>` (after the fact that gates it) and one screen block (or page) in the flow, each behind a
+`<Fact>` into the module that holds the fact gating it (else the module of a question already on
+the same screen, else `virginiaScreens.xml`), after that gate, and one screen block (or page) in the flow, each behind a
 `<!-- workbench change #N: /path -->` marker the reversal finds; a text edit replaces one element's
 inner markup on one page, which must occur exactly once there. Nothing else in the files is touched,
 so the diff is exactly the change. Each edit remembers what it expected to find (compared as a
@@ -240,7 +248,7 @@ take one more, so two clicks cannot interleave and two publishes cannot race for
 
 **The seed examples** were checked two ways when they were written: by the engine, and by the
 independent model of the rules in `scripts/virginia-cases.cjs`, which is written from the Code of
-Virginia rather than from `virginia.xml`. The two agreed on every line.
+Virginia rather than from the modules. The two agreed on every line.
 
 **Trying it without touching the real files.** Point it at copies:
 
@@ -268,7 +276,7 @@ only the Virginia files. `WORKBENCH_LOCALES_DIR` does the same for the Spanish p
   the PR's required reviews and drop the JSON files in `data/`.
 - **The real preview.** The page previews on the question builder, the screen page and the
   footprint are drawn by the workbench from the flow source. The site build (`make site`) is the
-  real page, and `make virginia-a11y` the accessibility check; neither runs from here.
+  real page, and `make a11y` the accessibility check; neither runs from here.
 - **Rolling the tax year.** Values by year are in; the rest of a rollover is not: the flow's own
   "in 2024" wording, the records stand-in, and `constants.xml`'s `/taxYear` move by hand.
 - **Question wording and options** of an existing question, and `<fg-collection>` screens, are

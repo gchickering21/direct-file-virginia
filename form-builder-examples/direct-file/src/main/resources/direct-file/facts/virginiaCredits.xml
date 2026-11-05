@@ -1,0 +1,323 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return. One of the Virginia
+  modules (facts/virginia*.xml), loaded as one dictionary beside the federal modules; the
+  Virginia README in docs/virginia/ lists them and docs/adr/003-the-layout-for-growth.md says
+  why they are split. Every fact names its source: Va. Code Title 58.1, Chapter 3
+  (https://law.lis.virginia.gov/vacode/title58.1/) and the 2024 Form 760 instructions. A module
+  reads federal facts only through what the federal return exports to states
+  (stateSystems="true") or to MeF (mef="true"); scripts/check-virginia-exports.py enforces it.
+
+  This module: Line 23, the three low-income credits (Va. Code § 58.1-339.8, Schedule ADJ Lines 10
+  to 17), and the choice § 58.1-339.8(D) forces between a credit and the deductions it bars:
+  /vaClaimsLowIncomeCredit, which the Form 760 line facts in the other modules switch on, and the
+  facts the summary uses to say what was given up or passed over.
+-->
+<FactDictionaryModule>
+  <Facts>
+
+
+    <!-- ============ Line 23: the low-income credits, Schedule ADJ Lines 10 to 17. ============ -->
+
+    <Fact path="/vaCanClaimLowIncomeCredit">
+      <Name>Not barred from the low-income credits outright</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1) and the 2024 Schedule ADJ eligibility requirements: no
+        credit for a filer claimed as a dependent on another return. The other bars (the age
+        deduction, the 65 or older and blind exemptions, military basic pay, claimed by the filer or
+        the spouse) are elections, weighed in /vaClaimsLowIncomeCredit. The National Guard and
+        federal and state employee subtractions (codes 28 and 39) are out of scope, as is anything a
+        dependent claims.</Description>
+      <Derived>
+        <Not><Dependency module="filers" path="/primaryFiler/canBeClaimed" /></Not>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaPovertyGuideline">
+      <Name>Schedule ADJ Line 11, poverty guideline for the family size</Name>
+      <Description>2024 Poverty Guideline Table: $15,060 for one, plus $5,380 for each more person.
+        Family size is the You, Spouse and Dependents count (/vaPersonalExemptionCount).</Description>
+      <Derived>
+        <Add>
+          <Dependency module="virginiaConstants" path="/vaPovertyGuidelineFirstPerson" />
+          <Multiply>
+            <Dependency module="virginiaConstants" path="/vaPovertyGuidelineEachAdditionalPerson" />
+            <Subtract>
+              <Minuend><Dependency module="virginiaDeductions" path="/vaPersonalExemptionCount" /></Minuend>
+              <Subtrahends><Int>1</Int></Subtrahends>
+            </Subtract>
+          </Multiply>
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaQualifiesForCreditForLowIncomeIndividuals">
+      <Name>Family VAGI at or under the poverty guideline</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1). Family VAGI (Schedule ADJ Line 10) is the return's
+        Virginia AGI with no age deduction or basic pay subtraction; a dependent's own income is not
+        on the federal return, so it is taken as $0 here.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaCanClaimLowIncomeCredit" />
+          <LessThanOrEqual>
+            <Left><Dependency module="virginiaIncome" path="/vaWithCreditAdjustedGrossIncome" /></Left>
+            <Right><Dependency path="/vaPovertyGuideline" /></Right>
+          </LessThanOrEqual>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditForLowIncomeIndividuals">
+      <Name>Schedule ADJ Line 13, Credit for Low-Income Individuals</Name>
+      <Description>Va. Code § 58.1-339.8(B)(1): $300 times the personal and dependent exemptions
+        (Schedule ADJ Line 12; not the 65 or older or blind ones), if the family qualifies.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaQualifiesForCreditForLowIncomeIndividuals" /></When>
+            <Then><Multiply>
+                <Dependency module="virginiaConstants" path="/vaLowIncomeCreditPerExemption" />
+                <Dependency module="virginiaDeductions" path="/vaPersonalExemptionCount" />
+              </Multiply></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaFederalEarnedIncomeCredit">
+      <Name>Schedule ADJ Line 14, federal earned income credit</Name>
+      <Description>Read from the federal return (/earnedIncomeCredit, exported to MeF as Form 1040
+        line 27). $0 for a filer claimed as a dependent.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaCanClaimLowIncomeCredit" /></When>
+            <Then><Dependency module="eitc" path="/earnedIncomeCredit" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaEarnedIncomeCredit">
+      <Name>Schedule ADJ Line 15, Virginia Earned Income Credit</Name>
+      <Description>Va. Code § 58.1-339.8(B)(2): 20% of Line 14, rounded to the dollar.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency module="virginiaConstants" path="/vaEarnedIncomeCreditRate" />
+            <Dependency path="/vaFederalEarnedIncomeCredit" />
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaGreaterNonrefundableCredit">
+      <Name>Schedule ADJ Line 16a, the greater of Line 13 or Line 15</Name>
+      <Derived>
+        <GreaterOf>
+          <Dependency path="/vaCreditForLowIncomeIndividuals" />
+          <Dependency path="/vaEarnedIncomeCredit" />
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRefundableEarnedIncomeCredit">
+      <Name>Schedule ADJ Line 16b, Refundable Virginia Earned Income Credit</Name>
+      <Description>Va. Code § 58.1-339.8(B)(3)(a): 15% of Line 14, rounded to the dollar.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency module="virginiaConstants" path="/vaRefundableEarnedIncomeCreditRate" />
+            <Dependency path="/vaFederalEarnedIncomeCredit" />
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaNonrefundableCreditUsable">
+      <Name>Line 16a, limited to the tax</Name>
+      <Description>Va. Code § 58.1-339.8(C): a nonrefundable credit cannot exceed the tax (Line 18,
+        here the tax on the return that claims the credit).</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/vaGreaterNonrefundableCredit" />
+          <Dependency module="virginiaTax" path="/vaWithCreditTax" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditIsRefundable">
+      <Name>The refundable credit is worth more than the nonrefundable one</Name>
+      <Description>2024 Schedule ADJ Line 17: "Choose the credit option that benefits you the most."</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/vaRefundableEarnedIncomeCredit" /></Left>
+          <Right><Dependency path="/vaNonrefundableCreditUsable" /></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaBestLowIncomeCredit">
+      <Name>Schedule ADJ Line 17, the credit that benefits the filer most</Name>
+      <Description>The lesser of Line 16a and the tax, or Line 16b, whichever is greater.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dependency path="/vaNonrefundableCreditUsable" />
+          <Dependency path="/vaRefundableEarnedIncomeCredit" />
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaWithCreditTaxAfterCredit">
+      <Name>Tax less the credit, if the return claims a low-income credit</Name>
+      <Description>Negative when the refundable credit exceeds the tax.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency module="virginiaTax" path="/vaWithCreditTax" /></Minuend>
+          <Subtrahends><Dependency path="/vaBestLowIncomeCredit" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsLowIncomeCredit">
+      <Name>The return claims a low-income credit</Name>
+      <Description>The election Form 760 leaves to the filer: the instructions for Line 4 say to
+        "claim the deduction or subtraction that gives you the greatest tax benefit." The return
+        claims a credit when there is one and the tax less the credit is lower than the tax keeping
+        everything Va. Code § 58.1-339.8(D) says the filer, the spouse or both would give up: the age
+        deduction of either spouse, the 65 or older and blind exemptions of either spouse, and the
+        military basic pay subtraction. Withholding, payments and use tax are the same either way, so
+        this is the whole comparison.</Description>
+      <Derived>
+        <All>
+          <GreaterThan>
+            <Left><Dependency path="/vaBestLowIncomeCredit" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+          <LessThan>
+            <Left><Dependency path="/vaWithCreditTaxAfterCredit" /></Left>
+            <Right><Dependency module="virginiaTax" path="/vaWithoutCreditTax" /></Right>
+          </LessThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaLowIncomeCredit">
+      <Name>Form 760 Line 23, Credit for Low-Income Individuals or Virginia Earned Income Credit</Name>
+      <Description>Schedule ADJ Line 17 when the return claims it; otherwise $0.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaClaimsLowIncomeCredit" /></When>
+            <Then><Dependency path="/vaBestLowIncomeCredit" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsRefundableEarnedIncomeCredit">
+      <Name>Line 23 is the Refundable Virginia Earned Income Credit</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <Dependency path="/vaCreditIsRefundable" />
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsCreditForLowIncomeIndividuals">
+      <Name>Line 23 is the Credit for Low-Income Individuals</Name>
+      <Description>Line 16a is Line 13 when Line 13 is at least Line 15.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <Not><Dependency path="/vaCreditIsRefundable" /></Not>
+          <GreaterThanOrEqual>
+            <Left><Dependency path="/vaCreditForLowIncomeIndividuals" /></Left>
+            <Right><Dependency path="/vaEarnedIncomeCredit" /></Right>
+          </GreaterThanOrEqual>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaClaimsNonrefundableEarnedIncomeCredit">
+      <Name>Line 23 is the nonrefundable Virginia Earned Income Credit</Name>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <Not><Dependency path="/vaCreditIsRefundable" /></Not>
+          <Not><Dependency path="/vaClaimsCreditForLowIncomeIndividuals" /></Not>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditReplacedAgeDeduction">
+      <Name>Claiming the credit gave up the age deduction</Name>
+      <Description>Shown on the summary, so the filer sees what the credit replaced and what it was
+        worth; on a joint return the figure includes the spouse's deduction.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <GreaterThan>
+            <Left><Dependency module="virginiaIncome" path="/vaAgeDeductionAllowed" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditReplacedAgedOrBlindExemptions">
+      <Name>Claiming the credit gave up the 65 or older or blind exemptions</Name>
+      <Description>Shown on the summary, so the filer sees what the credit replaced and what it was
+        worth; on a joint return the figure includes the spouse's boxes.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <GreaterThan>
+            <Left><Dependency module="virginiaDeductions" path="/vaAgedOrBlindExemptionsAllowed" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditReplacedMilitaryBasicPay">
+      <Name>Claiming the credit gave up the military basic pay subtraction</Name>
+      <Description>Shown on the summary, so the filer sees what the credit replaced and what it was worth.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/vaClaimsLowIncomeCredit" />
+          <GreaterThan>
+            <Left><Dependency module="virginiaIncome" path="/vaMilitaryBasicPaySubtractionAllowed" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaCreditDeclinedForADeduction">
+      <Name>A credit was available, but keeping the deductions saves more</Name>
+      <Derived>
+        <All>
+          <Not><Dependency path="/vaClaimsLowIncomeCredit" /></Not>
+          <GreaterThan>
+            <Left><Dependency path="/vaBestLowIncomeCredit" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </GreaterThan>
+        </All>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

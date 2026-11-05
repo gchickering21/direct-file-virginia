@@ -1,0 +1,99 @@
+<?xml-model href="./FactDictionaryModule.rng"?>
+<!--
+  Virginia resident return, tax year 2024: prototype rules, not a return. One of the Virginia
+  modules (facts/virginia*.xml), loaded as one dictionary beside the federal modules; the
+  Virginia README in docs/virginia/ lists them and docs/adr/003-the-layout-for-growth.md says
+  why they are split. Every fact names its source: Va. Code Title 58.1, Chapter 3
+  (https://law.lis.virginia.gov/vacode/title58.1/) and the 2024 Form 760 instructions. A module
+  reads federal facts only through what the federal return exports to states
+  (stateSystems="true") or to MeF (mef="true"); scripts/check-virginia-exports.py enforces it.
+
+  This module: Line 33, the consumer's use tax (the one question every Virginian is asked, priced at
+  the rate for the locality in virginiaLocalities.xml), and Lines 35 and 36, the amount owed or
+  refunded.
+-->
+<FactDictionaryModule>
+  <Facts>
+
+
+    <!-- ============ Line 33, the question every Virginian is asked, and Lines 35 and 36. ============ -->
+
+    <Fact path="/vaHasUntaxedPurchases">
+      <Name>Bought something in 2024 without paying Virginia sales tax</Name>
+      <Description>Online, by mail or out of state, where the seller charged no Virginia tax. Form 760
+        Line 33 (consumer's use tax); no seller reports it, so the filer is asked. The form also has an
+        oval to fill when no use tax is due.</Description>
+      <Writable><Boolean /></Writable>
+    </Fact>
+
+    <Fact path="/vaUntaxedPurchases">
+      <Name>Total of purchases on which no Virginia sales tax was paid</Name>
+      <Description>2024 Form 760 instructions, Line 33: the instructions offer a lookup table for totals
+        under $1,000 and a worksheet above that; this prototype applies the rate directly.</Description>
+      <Writable><Dollar /></Writable>
+      <Placeholder><Dollar>0</Dollar></Placeholder>
+    </Fact>
+
+    <Fact path="/vaUseTax">
+      <Name>Form 760 Line 33, consumer's use tax</Name>
+      <Description>The untaxed purchases times the rate for the filer's locality
+        (/vaUseTaxRate in the virginiaLocalities module), rounded to the dollar; $0 when the filer had
+        no untaxed purchases.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/vaHasUntaxedPurchases" /></When>
+            <Then>
+              <Round>
+                <Multiply>
+                  <Dependency module="virginiaLocalities" path="/vaUseTaxRate" />
+                  <Dependency path="/vaUntaxedPurchases" />
+                </Multiply>
+              </Round>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaAmountYouOwe">
+      <Name>Form 760 Line 35, amount you owe</Name>
+      <Description>Line 27 plus Line 34 when there is tax owed; otherwise Line 34 less the overpayment on
+        Line 28 when that is positive. Line 34 here is the use tax alone: Lines 29 to 32 (overpayment
+        credited to next year, voluntary contributions, penalty and interest) are out of scope.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend>
+              <Add>
+                <Dependency module="virginiaPayments" path="/vaTaxYouOwe" />
+                <Dependency path="/vaUseTax" />
+              </Add>
+            </Minuend>
+            <Subtrahends><Dependency module="virginiaPayments" path="/vaOverpayment" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/vaRefund">
+      <Name>Form 760 Line 36, your refund</Name>
+      <Description>Line 28 less Line 34 when positive.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency module="virginiaPayments" path="/vaOverpayment" /></Minuend>
+            <Subtrahends><Dependency path="/vaUseTax" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

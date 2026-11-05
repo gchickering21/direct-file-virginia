@@ -4,13 +4,16 @@ import gov.irs.factgraph.persisters.InMemoryPersister
 import gov.irs.factgraph.types.*
 import gov.irs.factgraph.Graph
 import gov.irs.formbuilder.loadFactDictionary
+import io.circe.parser.parse
+import io.circe.Json
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-/** The Virginia return's arithmetic (facts/virginia.xml), run through this port's full dictionary.
+/** The Virginia return's arithmetic (the facts/virginia*.xml modules), run through this port's full dictionary.
   *
-  * Two corpora: the four demo households in `scenarios/virginia_demo_*.json`, whose Form 760 lines are pinned here (the
-  * figures are the ones `docs/virginia/README.md` hand-checks and the Node sandbox computed), and the households
+  * Two corpora: the demo households in `scenarios/virginia_demo_*.json`, whose Form 760 lines are pinned in
+  * `website-static/data/virginia-demos.json` (`expect`: the figures `docs/virginia/README.md` hand-checks and the Node
+  * sandbox computed; the one manifest the demo links, the generator and the checks read too), and the households
   * `scripts/virginia-cases.py` generates into `src/test/resources/virginia-cases/` (the same files the browser run,
   * `make virginia-cases`, compares with the independent model in `scripts/lib/virginia-model.cjs`). Over both, the
   * invariants that hold of any Form 760 this module can produce.
@@ -52,7 +55,7 @@ class VirginiaSpec extends AnyFlatSpec with Matchers {
     corpus.map(p => (p, graphOf(p))).filter { case (_, g) => boolean(g, "/vaIsResident").contains(true) }
 
   "the Virginia corpora" should "not be empty" in {
-    demos should have size 4
+    demos should have size manifest.size
     cases should not be empty
   }
 
@@ -63,70 +66,29 @@ class VirginiaSpec extends AnyFlatSpec with Matchers {
     unloadable shouldBe empty
   }
 
-  "Virginia Demo 1 (Riley Rappahannock, single, $33k)" should "compute the lines the hand check lists" in {
-    val g = demo(1)
-    dollar(g, "/vaFederalAdjustedGrossIncome") shouldBe Some(Dollar(34333))
-    dollar(g, "/vaAgeDeduction") shouldBe Some(Dollar(0))
-    dollar(g, "/vaScheduleAdjSubtractions") shouldBe Some(Dollar(0))
-    dollar(g, "/vaTotalSubtractions") shouldBe Some(Dollar(0))
-    dollar(g, "/vaAdjustedGrossIncome") shouldBe Some(Dollar(34333))
-    dollar(g, "/vaStandardDeduction") shouldBe Some(Dollar(8500))
-    dollar(g, "/vaExemptions") shouldBe Some(Dollar(930))
-    dollar(g, "/vaCommonwealthSaversDeduction") shouldBe Some(Dollar(0))
-    dollar(g, "/vaTotalDeductions") shouldBe Some(Dollar(9430))
-    dollar(g, "/vaTaxableIncome") shouldBe Some(Dollar(24903))
-    dollar(g, "/vaTax") shouldBe Some(Dollar(1174))
-    dollar(g, "/vaWithholding") shouldBe Some(Dollar(300))
-    dollar(g, "/vaLowIncomeCredit") shouldBe Some(Dollar(0))
-    boolean(g, "/vaClaimsLowIncomeCredit") shouldBe Some(false)
-    dollar(g, "/vaUseTax") shouldBe Some(Dollar(24))
-    // before the $200 of estimated payments the records stand-in adds on the page: $1,174 - $300 + $24
-    dollar(g, "/vaTaxYouOwe") shouldBe Some(Dollar(874))
-    dollar(g, "/vaAmountYouOwe") shouldBe Some(Dollar(898))
-    dollar(g, "/vaRefund") shouldBe Some(Dollar(0))
+  /** The demo manifest: one entry per household, with `expect`, the lines the engine alone computes for it. */
+  private lazy val manifest: List[Json] = {
+    val file = os.pwd / "src" / "main" / "resources" / "direct-file" / "website-static" / "data" / "virginia-demos.json"
+    parse(os.read(file)).toOption.get.hcursor.downField("demos").as[List[Json]].toOption.get
   }
 
-  "Virginia Demo 2 (Morgan Shenandoah, 65, $56k)" should "phase the age deduction out against AFAGI" in {
-    val g = demo(2)
-    dollar(g, "/vaFederalAdjustedGrossIncome") shouldBe Some(Dollar(57000))
-    dollar(g, "/vaAgeDeduction") shouldBe Some(Dollar(5000))
-    dollar(g, "/vaTotalSubtractions") shouldBe Some(Dollar(5000))
-    dollar(g, "/vaAdjustedGrossIncome") shouldBe Some(Dollar(52000))
-    dollar(g, "/vaExemptions") shouldBe Some(Dollar(1730))
-    dollar(g, "/vaCommonwealthSaversDeduction") shouldBe Some(Dollar(3000))
-    dollar(g, "/vaTotalDeductions") shouldBe Some(Dollar(13230))
-    dollar(g, "/vaTaxableIncome") shouldBe Some(Dollar(38770))
-    dollar(g, "/vaTax") shouldBe Some(Dollar(1972))
-    dollar(g, "/vaWithholding") shouldBe Some(Dollar(300))
-    dollar(g, "/vaTaxYouOwe") shouldBe Some(Dollar(1672)) // $1,522 on the page, after the $150 the records add
-  }
-
-  "Virginia Demo 3 (Jordan Elizabeth, head of household, $20k, EITC)" should "subtract the unemployment and claim the refundable credit" in {
-    val g = demo(3)
-    dollar(g, "/vaFederalAdjustedGrossIncome") shouldBe Some(Dollar(21500))
-    dollar(g, "/vaUnemploymentCompensationSubtraction") shouldBe Some(Dollar(2000))
-    dollar(g, "/vaScheduleAdjSubtractions") shouldBe Some(Dollar(2000))
-    dollar(g, "/vaAdjustedGrossIncome") shouldBe Some(Dollar(19500))
-    dollar(g, "/vaExemptions") shouldBe Some(Dollar(1860)) // the $800 blind exemption given up for the credit
-    dollar(g, "/vaTaxableIncome") shouldBe Some(Dollar(9140))
-    dollar(g, "/vaTax") shouldBe Some(Dollar(327))
-    boolean(g, "/vaClaimsLowIncomeCredit") shouldBe Some(true)
-    boolean(g, "/vaClaimsRefundableEarnedIncomeCredit") shouldBe Some(true)
-    dollar(g, "/vaLowIncomeCredit") shouldBe Some(Dollar(632))
-    dollar(g, "/vaWithholding") shouldBe Some(Dollar(200))
-    dollar(g, "/vaRefund") shouldBe Some(Dollar(505))
-  }
-
-  "Virginia Demo 4 (Taylor York, single, $27k, military)" should "phase the basic pay subtraction" in {
-    val g = demo(4)
-    dollar(g, "/vaFederalAdjustedGrossIncome") shouldBe Some(Dollar(28000))
-    dollar(g, "/vaMilitaryBasicPaySubtraction") shouldBe Some(Dollar(6000))
-    dollar(g, "/vaScheduleAdjSubtractions") shouldBe Some(Dollar(6000))
-    dollar(g, "/vaAdjustedGrossIncome") shouldBe Some(Dollar(22000))
-    dollar(g, "/vaTaxableIncome") shouldBe Some(Dollar(12570))
-    dollar(g, "/vaTax") shouldBe Some(Dollar(499))
-    dollar(g, "/vaWithholding") shouldBe Some(Dollar(650))
-    dollar(g, "/vaRefund") shouldBe Some(Dollar(151))
+  for (d <- manifest) {
+    val c = d.hcursor
+    val n = c.get[Int]("n").toOption.get
+    val name = c.get[String]("name").toOption.get
+    val expect = c.downField("expect").as[Map[String, Json]].toOption.get
+    s"Virginia Demo $n ($name)" should "compute the lines the manifest expects" in {
+      val g = demo(n)
+      val wrong = expect.toSeq.sortBy(_._1).flatMap { case (path, v) =>
+        val got: Option[Any] = v.asBoolean match {
+          case Some(_) => boolean(g, path)
+          case None    => dollar(g, path)
+        }
+        val want: Any = v.asBoolean.getOrElse(Dollar(v.asNumber.flatMap(_.toBigDecimal).get))
+        if (got.contains(want)) None else Some(s"$path: expected $want, got ${got.getOrElse("nothing")}")
+      }
+      wrong shouldBe empty
+    }
   }
 
   "every Virginia resident household" should "owe or be refunded, never both" in {

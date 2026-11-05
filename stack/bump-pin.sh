@@ -32,6 +32,28 @@ echo "$OLD" | grep -qE '^[0-9a-f]{7,40}$' || die "could not read the pin for $FO
 URL=https://github.com/IRS-Public/$REPO.git
 case "$NEW" in "$OLD"*) die "$NEW is the current pin";; esac
 
+# The archive (direct-file/) is fetched, not vendored (stack/fetch-archive.sh): nothing of ours is in
+# it, so moving its pin is this table row and a fresh fetch.
+if ! git ls-files --error-unmatch "$FOLDER" >/dev/null 2>&1; then
+  echo "$FOLDER/ is not vendored; the pin is the row in IRS_PINS.md, and make fetch-archive fetches it."
+  if [ $APPLY -eq 0 ]; then echo "Dry run. To do it: $0 $REPO $NEW --apply"; exit 0; fi
+  TMP=$(mktemp -d "${TMPDIR:-/tmp}/bump-pin.XXXXXX"); trap 'rm -rf "$TMP"' EXIT
+  git -C "$TMP" init -q
+  git -C "$TMP" fetch -q --depth 1 "$URL" "$NEW" || die "GitHub would not serve $NEW from $URL"
+  DATE=$(git -C "$TMP" log -1 --format=%cs FETCH_HEAD)
+  python3 - "$FOLDER" "$REPO" "$OLD" "${NEW:0:12}" "$DATE" <<'PY'
+import re, sys
+folder, repo, old, new, date = sys.argv[1:]
+p = "IRS_PINS.md"; s = open(p).read()
+pat = re.compile(r"(\| `%s/` \| IRS-Public/%s \| )%s \| [0-9-]+ \|" % (re.escape(folder), re.escape(repo), old))
+s, n = pat.subn(r"\g<1>%s | %s |" % (new, date), s)
+assert n == 1, "IRS_PINS.md row not rewritten"
+open(p, "w").write(s)
+PY
+  echo "==> IRS_PINS.md: $FOLDER/ now ${NEW:0:12} ($DATE). Next: git commit IRS_PINS.md; rm -rf $FOLDER && make fetch-archive"
+  exit 0
+fi
+
 # The squash commit whose tree is the folder at the old pin (the newest one, if it was pulled before).
 SQUASH=$(git log --format=%H --grep="^Squashed '$FOLDER/' content" | head -1)
 [ -n "$SQUASH" ] || die "no squash commit for $FOLDER/: was it added with git subtree --squash?"
@@ -83,4 +105,4 @@ assert n == 1, "IRS_PINS.md row not rewritten"
 open(p, "w").write(s)
 EOF
 echo "==> IRS_PINS.md: $FOLDER/ now ${NEW:0:12} ($DATE); the subtree merge is committed, this edit is not."
-echo "    next: git commit IRS_PINS.md; make port-bootstrap && make port-test && make virginia-check; make handoff-verify"
+echo "    next: git commit IRS_PINS.md; make bootstrap && make test && make check; make handoff-verify"

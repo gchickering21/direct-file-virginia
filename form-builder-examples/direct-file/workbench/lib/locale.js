@@ -181,11 +181,6 @@ export function removeEsKey (text, route, dotted) {
   return lines.join('\n')
 }
 
-/** The Spanish for a key, or undefined. */
-export function esValue (text, route, dotted) {
-  return parseEs(text).keys.get(`${route}.${dotted}`)?.value
-}
-
 /** Keys the workbench left in English, by their comment line. */
 export function untranslated (text) {
   const lines = String(text).split('\n')

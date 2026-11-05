@@ -12,7 +12,7 @@ Virginia build its own return on that?
 
 **What we did.** Added a Virginia return to the IRS's port, as prototype rules rather than a
 full form: Form 760 from Line 1 to Line 36 for a W-2 filer, single or joint, tax year 2024.
-Two XML rule files and fourteen screens, in English and Spanish. Every rule cites its
+Ten small XML rule files, one per section of the return, and fourteen screens, in English and Spanish. Every rule cites its
 section of Title 58.1 and its line of the instructions. Nothing in the IRS's engine or
 libraries was changed. The change set is ordinary commits that apply to a fresh clone of
 the IRS repository.
@@ -30,7 +30,7 @@ the return, signed under the usual declaration.
 **What it proves.**
 
 - The federal rules, engine and screens carry over untouched; Virginia is 176 facts beside
-  the IRS's 3,030, and every tax-year figure sits in one block a policy analyst can read.
+  the IRS's 3,030, and every tax-year figure sits in one file a policy analyst can read.
 - Virginia reads only what the federal return already exports to states, enforced by a
   test, so the same module would be fed by the federal state API if it returned.
 - Virginia has no local income tax; locality affects the return in exactly two places, the
@@ -55,8 +55,9 @@ of this kind in an afternoon; the Virginia files drop into it. A rules workbench
 repository lets policy staff change a figure or a rule in plain language, against worked
 examples, with a policy and an engineering approval before it is published.
 
-**Where it is.** github.com/gchickering21/direct-file-virginia, private until shared;
-`handoff/README.md` there says how to take the change set without the course project.
+**Where it is.** github.com/gchickering21/direct-file-virginia, public; the demo site, with
+nothing to install, at gchickering21.github.io/direct-file-virginia. `handoff/README.md` there
+says how to take the change set without the course project.
 Public domain, CC0, no branding, no endorsement claimed.
 
 Graham Chickering, Georgetown University.

@@ -1,6 +1,6 @@
 // Loads each household from scripts/virginia-cases.py into the site (any build: the graph is seeded through
 // sessionStorage the way the runtime stores it, so no Scenario toolbar is needed) and compares the Virginia summary lines with the independent model of the rules in
-// scripts/lib/virginia-model.cjs (written from the Code of Virginia, not from facts/virginia.xml).
+// scripts/lib/virginia-model.cjs (written from the Code of Virginia, not from the facts/virginia*.xml modules).
 //   python3 scripts/virginia-cases.py /tmp/va-cases && CASES=/tmp/va-cases node scripts/virginia-cases.cjs
 // PLAYWRIGHT_MODULE: path to another playwright or playwright-core, for a machine where the port's
 // own Playwright has no browser build (macOS 13, for one).

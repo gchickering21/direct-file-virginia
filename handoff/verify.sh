@@ -4,7 +4,7 @@
 # Clones IRS-Public/form-builder-examples at the commit IRS_PINS.md pins (a shallow fetch of that
 # one commit, into a temporary directory), refreshes handoff/patches/ with export.sh, applies the
 # series with `git am`, and then runs the checks that need no JVM inside the clone's direct-file
-# app: the two XML files against the IRS schemas, the export rule, and the Spanish keys. One line of
+# app: the Virginia XML modules against the IRS schemas, the export rule, and the Spanish keys. One line of
 # verdict at the end; exit 1 on any failure.
 #
 #   handoff/verify.sh                  # needs network (GitHub), git, xmllint, python3 with PyYAML
@@ -78,8 +78,6 @@ else
 fi
 echo "==> check-virginia-exports.py"
 python3 scripts/check-virginia-exports.py || die "the export rule fails in the clone"
-# (A series exported before the script learned --check runs the merge instead, inside this
-#  throwaway clone; the stale-key exit code is the same either way.)
 echo "==> merge-virginia-es.py --check"
 python3 scripts/merge-virginia-es.py --check || die "the Spanish keys fail in the clone"
 

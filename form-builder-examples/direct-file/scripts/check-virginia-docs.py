@@ -7,8 +7,8 @@
 
 Scans the documents that cite fact paths (the policy map, the field map, the ADRs, the Virginia
 README, the handoff README and brief) for every `/va…` path: `/vaX`, `/formW2s/*/vaX`,
-`/filers/*/vaX`. Each must be the path of a <Fact> in facts/virginia.xml or
-facts/virginiaLocalities.xml. A path written as a prefix, `/vaWithCredit…` (or `/vaWithCredit...`),
+`/filers/*/vaX` (a capital after `va`). Each must be the path of a <Fact> in one of the Virginia modules,
+facts/virginia*.xml. A path written as a prefix, `/vaWithCredit…` (or `/vaWithCredit...`),
 passes when some fact path starts with it: that is how the docs name a family of facts.
 
 Then, as a warning only: every Form 760 line a fact's <Name> claims ("Form 760 Line 19a", "Lines
@@ -17,9 +17,9 @@ names that line. Schedule ADJ lines are the schedule's own numbering and are not
 """
 import argparse, glob, pathlib, re, sys
 
-PORT = pathlib.Path(__file__).resolve().parents[1]
-ROOT = PORT.parents[1]
-FACTS = PORT / "src/main/resources/direct-file/facts"
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "lib"))
+from vafacts import PORT, ROOT, all_facts  # noqa: E402
+
 POLICY_MAP = ROOT / "handoff/POLICY_MAP.md"
 DOCS = [
     ROOT / "handoff/POLICY_MAP.md",
@@ -27,21 +27,23 @@ DOCS = [
     ROOT / "handoff/README.md",
     ROOT / "handoff/BRIEF.md",
     PORT / "docs/virginia/README.md",
-] + [pathlib.Path(p) for p in sorted(glob.glob(str(PORT / "docs/adr/*.md")))]
+    ROOT / "GETTING_STARTED.md",
+    ROOT / "CONTRIBUTING.md",
+] + [pathlib.Path(p) for p in sorted(glob.glob(str(PORT / "docs/adr/*.md")))] \
+  + [pathlib.Path(p) for p in sorted(glob.glob(str(ROOT / "docs/*.md")))]
+DOCS = [d for d in DOCS if d.exists()]  # the root guides are not in a clone of the IRS repository
 
-CITED = re.compile(r"(/(?:formW2s/\*/|filers/\*/)?va[A-Za-z0-9]+)(…|\.\.\.)?")
-FACT = re.compile(r'<Fact path="([^"]+)"(.*?)</Fact>', re.S)
+# A Virginia fact path is /va followed by a capital (so `scripts/lib/vafacts.py` is not one).
+CITED = re.compile(r"(/(?:formW2s/\*/|filers/\*/)?va[A-Z][A-Za-z0-9]*)(…|\.\.\.)?")
 LINE_WORD = re.compile(r"\bLines?\s+(\d+[ab]?(?:\s*(?:to|,|and)\s*\d+[ab]?)*)")
 NUM = re.compile(r"\d+[ab]?")
 
 
 def fact_paths():
     paths, names = set(), {}
-    for name in ("virginia.xml", "virginiaLocalities.xml"):
-        for m in FACT.finditer((FACTS / name).read_text()):
-            paths.add(m.group(1))
-            n = re.search(r"<Name>(.*?)</Name>", m.group(2), re.S)
-            names[m.group(1)] = " ".join((n.group(1) if n else "").split())
+    for f in all_facts():
+        paths.add(f.path)
+        names[f.path] = f.name
     return paths, names
 
 

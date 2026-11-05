@@ -13,10 +13,11 @@ const descOf = body => clean((body.match(/<Description>([\s\S]*?)<\/Description>
 export const LINE_RE = /Form 760 (?:Lines? )?(\d+)([a-z]?)/
 const ADJ_RE = /Schedule ADJ (?:Line|code) (\d+[a-z]?)/i
 
-/** The facts that are Form 760 lines or Schedule ADJ items, from their <Name>. */
-export function lineFacts (virginia) {
+/** The facts that are Form 760 lines or Schedule ADJ items, from their <Name>. `facts` is the map of modules (or one module's text). */
+export function lineFacts (facts) {
   const out = []
-  for (const f of scanFacts(virginia)) {
+  const xmls = typeof facts === 'string' ? [facts] : Object.keys(facts).sort().map(k => facts[k])
+  for (const f of xmls.flatMap(scanFacts)) {
     const name = nameOf(f.body)
     const line = name.match(LINE_RE)
     const adj = name.match(ADJ_RE)
@@ -38,8 +39,8 @@ export function lineFacts (virginia) {
 }
 
 /** Each line, how many worked examples assert on it, and the ones none does. */
-export function coverage (virginia, examples) {
-  const lines = lineFacts(virginia).map(l => ({ ...l, examples: examples.filter(x => x.expect && l.path in x.expect).map(x => x.id) }))
+export function coverage (facts, examples) {
+  const lines = lineFacts(facts).map(l => ({ ...l, examples: examples.filter(x => x.expect && l.path in x.expect).map(x => x.id) }))
   const numbers = new Set(lines.filter(l => l.form === 'Form 760').map(l => parseInt(l.line, 10)))
   const max = Math.max(0, ...numbers)
   const noFact = []
@@ -80,11 +81,11 @@ export function federalFacts (federalDir) {
 
 const TYPE_ALIAS = { boolean: 'boolean', dollar: 'dollar', day: 'day', enum: 'enum', int: 'int', string: 'string' }
 
-export function exportContract ({ virginia, localities, federal, federalDir }) {
+export function exportContract ({ facts, federal, federalDir }) {
   const flags = federalFacts(federalDir)
   const standIn = new Map(federal.inputs.map(i => [i.path, i]))
   const seen = new Map()
-  for (const [file, xml] of [['virginia', virginia], ['localities', localities]]) {
+  for (const [file, xml] of Object.entries(facts).sort(([a], [b]) => a.localeCompare(b))) {
     for (const m of xml.matchAll(/<Dependency module="([^"]+)" path="([^"]+)"/g)) {
       const [, module, p] = m
       if (module.startsWith('virginia')) continue

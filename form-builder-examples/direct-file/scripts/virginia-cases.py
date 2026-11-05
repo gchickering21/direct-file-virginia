@@ -97,7 +97,7 @@ cases = {
     "V_military_basic_pay_tie_keeps_subtraction": mod(load(S33), wages=14000, basic_pay=12000),
     "W_military_basic_pay_over_30k": mod(load(S33), basic_pay=31000),
     "X_military_benefits_without_a_1099r": mod(load(S33), retirement=40000),
-    # the edges of every figure in the constants block
+    # the edges of every figure in the constants module
     "Y_taxable_income_3000": mod(load(S33), wages=11430),
     "Y2_taxable_income_5000": mod(load(S33), wages=13430),
     "Y3_taxable_income_17000": mod(load(S33), wages=25430),
@@ -122,11 +122,10 @@ cases = {
     "AN_w2_without_virginia_in_box_15": mod(load(S33), extra_w2=dict(wages=5000, withheld=100, state=None)),
     "AO_unemployment_1099g": mod(load("single_45k.json")),
     "AP_military_benefits_capped_by_1099r": mod(load("1099_r_optional_state_local_tax_group.json"), retirement=40000),
-    "demo_1_riley": load("virginia_demo_1_riley_rappahannock_single_33k.json"),
-    "demo_2_morgan": load("virginia_demo_2_morgan_shenandoah_age_65_56k.json"),
-    "demo_3_jordan": load("virginia_demo_3_jordan_elizabeth_hoh_20k_eitc.json"),
-    "demo_4_taylor": load("virginia_demo_4_taylor_york_single_27k_military.json"),
 }
+# the four demo households, from the manifest (website-static/data/virginia-demos.json)
+for demo in json.load(open(PORT / "src/main/resources/direct-file/website-static/data/virginia-demos.json"))["demos"]:
+    cases[demo["case"]] = load(demo["file"] + ".json")
 RECORDS = {k: v for k, v in json.load(open(PORT / "src/main/resources/direct-file/website-static/data/virginia-records.json")).items() if not k.startswith("_")}
 def money(f, k, default=0): return float(f[k]["item"]) if k in f else default
 meta = {}
