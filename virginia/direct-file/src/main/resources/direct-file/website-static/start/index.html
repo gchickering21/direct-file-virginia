@@ -99,7 +99,7 @@
     <h2>Look under the hood</h2>
     <ul class="va-start__tools">
       <li><strong>Browse All</strong>: every screen in the flow, federal and Virginia, with the condition that shows or hides it. <a href="../../all-screens/">Open the list</a> (built into the developer site; a plain production build leaves it out).</li>
-      <li id="va-explorer-item" hidden><strong>The Fact Explorer</strong>: the whole dictionary, federal and Virginia, drawn as one graph: every fact, what it reads and who reads it. The IRS's own tool, built over this site. <a href="../../../fact-explorer/direct-file">Open the Fact Explorer</a> (a large page; give it a moment).</li>
+      <li id="va-explorer-item" hidden><strong>The Fact Explorer</strong>: the whole dictionary, federal and Virginia, drawn as one graph: every fact, what it reads and who reads it. The IRS's own tool, built over this site. <a href="../../../../fact-explorer/direct-file">Open the Fact Explorer</a> (a large page; give it a moment).</li>
       <li><strong>The fact dictionary</strong>: every rule the engine runs, federal and Virginia, as one XML file. The Virginia facts are the ones whose paths begin with <code>/va</code>. <a href="../fact-dictionary.xml">Open it</a>.</li>
       <li id="va-workbench-item"><strong>The Rules Workbench</strong>: Form 760 line by line with the statute beside each, where policy staff change a figure or a rule in plain language and watch worked examples rerun. <span id="va-workbench-where"><a href="../../workbench/">Open the read-only copy</a>: the lines, the values by year, the examples and the reports, built into this site. Editing needs the live one, on your own machine: <code>make workbench</code>.</span></li>
       <li><strong>The federal return</strong>: the port of Direct File's own interview, untouched. <a href="../../">Start from the first federal screen</a>.</li>
@@ -156,7 +156,7 @@
     // The mockups are copied in by make site-demo, so a development build has none: show the item only when they are there.
     fetch('../../mockups/law-to-screen.html', { method: 'HEAD' }).then(r => { if (r.ok) document.getElementById('va-mockups-item').hidden = false; }).catch(() => {});
     // Likewise the Fact Explorer, built in by stack/fact-explorer.sh beside the site.
-    fetch('../../../fact-explorer/data/apps.json', { method: 'HEAD' }).then(r => { if (r.ok) document.getElementById('va-explorer-item').hidden = false; }).catch(() => {});
+    fetch('../../../../fact-explorer/data/apps.json', { method: 'HEAD' }).then(r => { if (r.ok) document.getElementById('va-explorer-item').hidden = false; }).catch(() => {});
     // The live Workbench is a local Node server, so it is linked only where it can be running; the
     // read-only copy is built into the hosted site (make site-demo), not into make dev or make demo.
     if (['localhost', '127.0.0.1'].includes(location.hostname)) {
