@@ -37,6 +37,12 @@ DIRTY=$(git status --porcelain --untracked-files=no | grep -q . && echo " (with 
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 cp -R "$OUT"/. "$TMP"/
+# The poster's QR code opens /poster/ at the root of the Pages site: the prototype's pages and the
+# bibliography. Its links are relative (../app/direct-file/...), so it sits beside app/, not under it.
+if [ -f poster/links/index.html ]; then
+  mkdir -p "$TMP/poster"
+  cp poster/links/index.html "$TMP/poster/index.html"
+fi
 # GitHub Pages runs Jekyll unless told not to; Jekyll drops files and folders it does not like.
 touch "$TMP/.nojekyll"
 # The root of the Pages site is above the base path. Send it to the start page.

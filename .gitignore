@@ -8,3 +8,6 @@ stack/.bootstrapped
 # .gitignore has the same rule, and the Virginia site no longer sits under it).
 virginia/direct-file/src/main/resources/direct-file/website-static/vendor/fact-graph/*.map
 __pycache__/
+
+# The poster (slides, previews, build scripts and the QR landing page) stays local
+poster/
