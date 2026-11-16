@@ -63,7 +63,21 @@
         ])
         const t = (key) => strings.get(key) ?? key
 
-        configure({
+        // Where the Fact Explorer is. It holds every application beside this one, so the app id is
+        // part of the URL: a bare /fact-explorer lands on whichever is default rather than this one.
+        // `make site-demo` and `make publish` build it beside the site (stack/fact-explorer.sh), one
+        // step above the app's own prefix: /fact-explorer next to /app/direct-file, so a hosted copy
+        // at /<repo>/app/direct-file has it at /<repo>/fact-explorer. `make dev` and `make up` build
+        // no copy; there it runs in the taxpert stack on its own port, and the fallback below points
+        // at that when the page is on localhost and no built copy answers (the probe the start page
+        // makes). An absolute address written here would send a visitor to the hosted site home to
+        // their own machine.
+        const sitePath = /*[[${basePath}]]*/ ''
+        const factExplorerBase = sitePath.replace(/\/app\/direct-file$/, '') + '/fact-explorer'
+        const factExplorerUrl = factExplorerBase + '/direct-file'
+        const factExplorerDevUrl = 'http://localhost:5180/fact-explorer/direct-file'
+
+        const config = {
             // storagePrefix is what stops this app and any other Form Builder app served from the same
             // origin sharing a fact graph, a watchlist or a panel layout. Every storage key the
             // workspace writes is namespaced with it.
@@ -98,10 +112,8 @@
                         ],
                     },
 
-                    // Fact Explorer holds every application beside this one, so the app id is part of
-                    // the URL: a bare /fact-explorer lands on whichever is default rather than this
-                    // one. Absolute, because it is served by the taxpert stack rather than this app.
-                    { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/direct-file' },
+                    // Built beside the site, under the host's prefix; see factExplorerUrl above.
+                    { id: 'fact-explorer', label: 'Fact Explorer', href: factExplorerUrl },
 
                     // Gated at runtime by the `author-mode` feature flag, which is credit-assistant's
                     // spelling and now this app's: `featureFlags` below declares it, the scaffold's
@@ -150,7 +162,7 @@
                             { id: 'path-mode', label: 'Path Mode', href: /*[[|${basePath}/all-screens/?mode=path|]]*/ '' },
                             { id: 'browse-all', label: 'Browse All', href: /*[[|${basePath}/all-screens/|]]*/ '' },
 
-                            { id: 'fact-explorer', label: 'Fact Explorer', href: 'http://localhost:5180/fact-explorer/direct-file' },
+                            { id: 'fact-explorer', label: 'Fact Explorer', href: factExplorerUrl },
 
                             // Unconditional, the way credit-assistant lists its own. `ff` is a
                             // nav-leaf property (taxpert-global-nav's _renderLeaf reads it); an
@@ -236,7 +248,21 @@
 
             graph: directFileGraph,
             determinations: directFileDeterminations(t),
-        })
+        }
+        configure(config)
+
+        // On a developer's machine with no built Explorer beside the site, the entry goes to the
+        // taxpert stack's own server instead. configure() replaces arrays outright and the nav
+        // rebuilds on the change it announces, so the two entries are rewritten and sent again.
+        if (['localhost', '127.0.0.1'].includes(location.hostname)) {
+            fetch(factExplorerBase + '/data/apps.json', { method: 'HEAD' })
+                .then((r) => { if (!r.ok) throw new Error(r.status) })
+                .catch(() => {
+                    const lists = [config.nav.menu, config.apps.items.find((a) => a.id === 'direct-file').destinations]
+                    for (const list of lists) list.find((e) => e.id === 'fact-explorer').href = factExplorerDevUrl
+                    configure({ nav: config.nav, apps: config.apps })
+                })
+        }
 
         // The per-deployment layer: the same configuration as data, in a file this deployment
         // serves. It lands after the call above — it is fetched — and configure() merges, so a

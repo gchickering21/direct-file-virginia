@@ -61,7 +61,10 @@ writing its result as JSON beside the page; a failing check stops the publish un
 And **the Fact Explorer**, the IRS's graph of the whole dictionary, at `/fact-explorer/direct-file`:
 `stack/fact-explorer.sh` builds the IRS's Vite app over this site's flow and dictionary with the
 Explorer's own generator, rewrites the root-relative paths in the built output for the host's
-prefix, and places it beside the site; no IRS file is edited. `FACT_EXPLORER=0` skips it.
+prefix, and places it beside the site; no IRS file is edited. `FACT_EXPLORER=0` skips it. The
+workspace bar's Fact Explorer entry on every screen points there too, derived from the base path
+(`templates/fragments/taxpert-config.html`); only on localhost, with no built copy beside the site,
+does it fall back to the taxpert stack's own server on port 5180.
 What the hosted copy does not have: the live Workbench (drafts, approvals, publishing) and
 Author Mode. Nothing on the hosted site can write anywhere.
 
