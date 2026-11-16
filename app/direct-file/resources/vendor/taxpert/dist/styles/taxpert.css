@@ -1,0 +1,2929 @@
+/* ── global-nav/styles/global-nav.css ─────────────────────────────────────── */
+
+/* Shared styles for <taxpert-global-nav>.
+ *
+ * Classes are prefixed .tgn-, tokens --tgn-, so the one stylesheet renders identically in either
+ * host. Neutrals and metrics chain to the host's own tokens with a hard-coded fallback, so neither
+ * host is a hard dependency. The brand colors deliberately do not chain.
+ *
+ * :where() keeps the token rule at zero specificity, so a host can override on purpose.
+ *
+ * Token rationale, the sticky rules and --tgn-bar-height:
+ * ../../../../../docs/internals/global-nav.md */
+
+
+
+/* This is the one stylesheet every workspace host loads unconditionally, so the two rules that must
+   always be present are imported here. The audit panel's is behind a toggled <link disabled>, and a
+   host can mount the nav on a page with no audit panel at all. */
+
+
+/* ── shared/styles/embedded.css ─────────────────────────────────────── */
+
+/* Embedded mode. See shared/js/embedded.js, the only writer of `html.taxpert-embedded`.
+
+   A Form Builder app rendered inside another page's frame (Fact Explorer's side-by-side view) shows
+   the product and not the workspace over it: the embedder already has a nav, a Display button and a
+   set of tools, and a second copy of each inside the frame drives nothing the reader can see.
+
+   Everything hidden here is workspace chrome — the flow itself, its theme and its runtime are
+   untouched, which is the same line the two packages are split on.
+
+   Lives in shared/ and is @imported by global-nav.css, the one stylesheet every workspace host
+   loads unconditionally: the rules have to apply whether or not the audit panel's toggled
+   <link disabled> is on, because the nav renders either way. */
+
+
+
+html.taxpert-embedded taxpert-global-nav,
+html.taxpert-embedded taxpert-screens-toolbar,
+html.taxpert-embedded taxpert-tool-dock,
+html.taxpert-embedded .audit-panel {
+  display: none;
+}
+
+/* `.audit-panel` above is the rail, the only part of <taxpert-audit-panel> with a box, and one a
+   host can still bring back with the legacyAuditPanel flag. The element itself stays mounted: it
+   owns the three workspace modals, which are body-level dialogs and cost nothing while shut. The
+   page container is a flex child of `.audit-mode`, so the row closes up on its own. */
+
+
+
+/* ── shared/styles/feature-flags.css ─────────────────────────────────────── */
+
+/* Feature-flag gating, the DOM convention feature-flags.js documents.
+
+   Anything gated by a flag — the Explain rail tab, the Manage scenario modal's AI generation
+   section — is *rendered* and carries data-ff="<kebab flag name>". It stays hidden until <body>
+   carries the matching `ff-<flag>` class, which applyFlags() (and the scenario modal's
+   setAiScenarioGeneration(), the React adapter's entry point) is the only writer of.
+
+   This replaces a JS fan-out that reached separately into the rail, the modal and the panel on
+   every flag change — three surfaces to keep in step, and a fourth to add for each new flag.
+
+   Lives in shared/ rather than in one bundle's stylesheet because both the panel's own CSS and
+   the standalone scenario-modal.css that fact-explorer imports on its own need these rules;
+   each @imports this so either one stands up alone. */
+
+
+
+[data-ff] {
+  display: none;
+}
+
+/* One pair per flag. CSS cannot match a class against an attribute value, so a new flag adds a
+   rule here alongside its entry in the host's config.featureFlags. */
+
+body.ff-ai-scenario-generation [data-ff="ai-scenario-generation"] {
+  display: revert;
+}
+
+body.ff-ai-fact-explanation [data-ff="ai-fact-explanation"] {
+  display: revert;
+}
+
+/* Not `revert`, unlike the pair above: those gate a <section> and a rail <li>, whose UA default
+   (block / list-item) is what they want back. This one gates a .tgn-item, whose own rule sets
+   `display: flex` for its icon/label/check row — `revert` would drop to the plain <a> default
+   (inline) and break that layout, so the value is repeated here instead. */
+body.ff-author-mode [data-ff="author-mode"] {
+  display: flex;
+}
+
+
+
+
+/* On :root, not on the element: <taxpert-screens-toolbar> is a sibling and pins itself below the
+   bar. Keep in step with the min-height below. */
+
+
+:root {
+  --tgn-bar-height: 57px;
+}
+
+:where(taxpert-global-nav) {
+  /* Taxpert purple. Fixed rather than chained: a host's --color-accent/--primary is that host's own
+     brand, and chaining made the nav render a different color in each one. */
+  --tgn-accent: #5e10a6;
+  --tgn-surface: var(--color-surface, #ffffff);
+  --tgn-text: var(--color-text, #1b1f23);
+  /* The wordmark row and the dropdown's group and leaf rows. Separate from --tgn-text, which still
+     chains to the host's body copy, because these surfaces are the nav's own typography. */
+  --tgn-ink: #000000;
+  --tgn-muted: var(--color-text-muted, #6b7785);
+  --tgn-border: var(--color-border, #e2e2ec);
+  /* The rule under the bar. --tgn-border is a near-lavender and vanished between the bar and the
+     white band beneath it. This is the neutral the rest of the workspace draws hairlines in. */
+  --tgn-bar-border: var(--base-light, #a9aeb1);
+  --tgn-hover: var(--color-surface-alt, #f3f2f9);
+  /* The dropdown's two states. A tint of the brand purple rather than the purple itself: black on
+     #5e10a6 is about 1.4:1, and the purple check would vanish into its own background.
+     <taxpert-workspace-settings-modal> pins --twsm-section-bg to this same fill. Move them
+     together. */
+  --tgn-menu-hover: #f3f5ff;
+  --tgn-menu-active: #e6e6fa;
+  /* The bar. The same lavender as --tgn-menu-active, written out rather than chained: one design,
+     two surfaces, and a retint of the selected row should not repaint the whole nav. */
+  --tgn-bar: #e6e6fa;
+  --tgn-on: var(--tgn-accent);
+  --tgn-gap: var(--space-1, var(--units-1, 8px));
+  --tgn-radius: 8px;
+  --tgn-z: 1000; /* below credit-assistant's modals (1050), above fact-explorer's overlays */
+  /* The fallbacks name Source Sans Pro directly, so a host that does not vendor it still lands on
+     the same design. */
+  --tgn-font: var(--font-sans, 'Source Sans Pro Web', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif);
+}
+
+/* Sticky on the host element, not on `.tgn-bar` inside it: a sticky box is bounded by its parent's,
+   and `.tgn-bar` fills this element exactly. The z-index also makes this a stacking context, which
+   is why the tool dock's float layer sits above --tgn-z rather than between the bar and its
+   dropdown. */
+taxpert-global-nav {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: var(--tgn-z);
+  font-family: var(--tgn-font);
+  color: var(--tgn-text);
+  /* Reserved, because the markup is fetched and this is the first thing on the page. */
+  min-height: var(--tgn-bar-height);
+}
+
+/* What the workspace being on means. One attribute on the host, set by _syncWorkspace(). The tool
+   strip and the taxonomy are workspace features, so with it off the nav reverts to the waffle, the
+   brand root, and a dropdown holding just the toggle. They stay in the DOM and are hidden here, so
+   the switch moves one attribute rather than rebuilding the menu. */
+
+taxpert-global-nav:not([data-workspace-on]) .tgn-tools,
+taxpert-global-nav:not([data-workspace-on]) .tgn-menu > .tgn-group,
+taxpert-global-nav:not([data-workspace-on]) .tgn-menu > .tgn-item {
+  display: none;
+}
+
+.tgn-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--tgn-bar);
+  border-bottom: 1px solid var(--tgn-bar-border);
+}
+
+/* Waffle button */
+.tgn-waffle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: var(--tgn-hover);
+  color: var(--tgn-accent);
+  cursor: pointer;
+}
+
+.tgn-waffle:hover {
+  background: color-mix(in srgb, var(--tgn-accent) 12%, transparent);
+}
+
+.tgn-waffle[aria-expanded='true'] {
+  background: var(--tgn-accent);
+  color: #ffffff;
+}
+
+.tgn-waffle__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 4px);
+  grid-template-rows: repeat(3, 4px);
+  gap: 3px;
+}
+
+.tgn-waffle__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+/* In the document, so the <use href> references resolve, but drawn nowhere. */
+.tgn-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* The bar's title: the wordmark, the divider, and the workspace you are in. One 24px black run
+   rather than three separately coloured spans, so the part that changes as you navigate does not
+   recede. Only weight separates the constant half from the variable one. The 32px waffle governs
+   the bar's height, not this. */
+.tgn-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  color: var(--tgn-ink);
+}
+
+.tgn-breadcrumb__root {
+  font-weight: 700;
+}
+
+/* The tool strip, pinned to the far end of the bar. */
+.tgn-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.tgn-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--tgn-text);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tgn-text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.tgn-tool:hover {
+  background: var(--tgn-hover);
+}
+
+.tgn-tool:focus-visible {
+  outline: 2px solid var(--tgn-on);
+  outline-offset: 2px;
+}
+
+.tgn-tool__icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+/* A tool that does not apply where you are is hidden rather than absent, and the strip goes with
+   the last of them so it cannot leave its `margin-left: auto` gap behind.
+
+   `.tgn-tool` sets an explicit `display`, which outranks the UA stylesheet's
+   `[hidden] { display: none }`. Without this rule _syncActive()'s `button.hidden` has no effect and
+   every tool shows on every destination. */
+.tgn-tool[hidden] {
+  display: none;
+}
+
+.tgn-tools:not(:has(.tgn-tool:not([hidden]))) {
+  display: none;
+}
+
+/* Always in the DOM, shown by the waffle's own expanded state. */
+.tgn-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 12px;
+  z-index: var(--tgn-z);
+  min-width: 240px;
+  padding: 0;
+  background: var(--tgn-surface);
+  border: 1px solid var(--tgn-border);
+  border-radius: var(--tgn-radius);
+  box-shadow: var(--shadow-panel, 0 6px 24px rgba(0, 0, 0, 0.14));
+  overflow: hidden;
+}
+
+.tgn-waffle[aria-expanded='true'] ~ .tgn-menu {
+  display: block;
+}
+
+/* Every top-level entry is divided from the one above it, the workspace header included. Declared
+   once here rather than as a border on each row, so a hidden or reordered entry cannot leave a
+   doubled or orphaned line. */
+.tgn-menu > * + * {
+  border-top: 1px solid var(--tgn-border);
+}
+
+/* Workspace row */
+.tgn-workspace {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--tgn-surface);
+}
+
+.tgn-workspace__label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tgn-text);
+}
+
+.tgn-workspace__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Opens <taxpert-workspace-settings-modal> through nav-tool-select. */
+.workplace-settings {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--tgn-accent);
+  cursor: pointer;
+}
+
+.workplace-settings:hover {
+  background: var(--tgn-hover);
+}
+
+.workplace-settings:focus-visible {
+  outline: 2px solid var(--tgn-on);
+  outline-offset: 2px;
+}
+
+.workplace-settings__icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Toggle switch */
+.tgn-toggle {
+  position: relative;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tgn-muted);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tgn-toggle[aria-checked='true'] {
+  background: var(--tgn-on);
+}
+
+.tgn-toggle:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.tgn-toggle__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s ease;
+}
+
+.tgn-toggle[aria-checked='true'] .tgn-toggle__knob {
+  transform: translateX(16px);
+}
+
+/* ── Top level: group headers and top-level leaves ─────────────────────────
+   The two render as different elements (a <button> that collapses its children, an <a> that
+   navigates) but read as one row of the same menu, so they share their type and metrics. */
+
+.tgn-group__header,
+.tgn-menu > .tgn-item {
+  padding: 14px 20px;
+  font-family: inherit; /* a <button> would otherwise fall back to the UA's system font */
+  font-size: 17px;
+  /* Regular, so bold means one thing in this menu: the destination you are on. With every row at
+     600, the active row's 700 was one step off a whole column of it, which is not a difference you
+     can see without something to compare against. */
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--tgn-ink);
+}
+
+.tgn-group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Accordion affordance: points down when the group is shut, up once it's open. */
+.tgn-group__chevron {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  color: var(--tgn-text);
+  transition: transform 0.15s ease;
+}
+
+.tgn-group__header[aria-expanded='true'] .tgn-group__chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tgn-group__chevron {
+    transition: none;
+  }
+}
+
+.tgn-group__header:hover,
+.tgn-menu > .tgn-item:hover {
+  background: var(--tgn-menu-hover);
+}
+
+/* The active top-level entry is tinted whole. For a group that is the block its children sit in,
+   so the run from header to last child reads as one selected region, which is why the tint is on
+   the group rather than on its header alone. It holds while the group is collapsed, because the
+   children are in the DOM either way. */
+.tgn-menu > .tgn-item[aria-current],
+.tgn-group:has(.tgn-item[aria-current]) {
+  background: var(--tgn-menu-active);
+}
+
+/* A group that holds the active destination is marked by its tint, not by weight: the bold row
+   inside it is the mode you are actually on, and two bold rows would compete to say so. */
+.tgn-menu > .tgn-item[aria-current] {
+  font-weight: 700;
+}
+
+/* Hover must not lift the tint off the row the user is already on. The active leaf holds its own
+   tint; the active group's header lets the block's tint show through instead. */
+.tgn-menu > .tgn-item[aria-current]:hover {
+  background: var(--tgn-menu-active);
+}
+
+.tgn-group:has(.tgn-item[aria-current]) .tgn-group__header:hover {
+  background: transparent;
+}
+
+/* Built and hidden rather than left unbuilt, which is what lets the `:has()` rule above see the
+   active child and tint the group even while it is shut. */
+.tgn-group__header[aria-expanded='false'] + .tgn-group__items {
+  display: none;
+}
+
+.tgn-group__items {
+  padding-bottom: 6px;
+}
+
+/* ── Items (leaves) ─────────────────────────────────────────────────────── */
+
+.tgn-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  font-size: 15px;
+  /* Matches the top-level rule above, which reaches only `.tgn-menu > .tgn-item`; a group's
+     children are leaves too and read at the same weight and ink, one step smaller and indented. */
+  font-weight: 400;
+  color: var(--tgn-ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Secondary level: a group's children. They sit inside a tinted block, so a hover background has
+   nothing to say here and the underline carries the affordance instead. */
+
+.tgn-group__items > .tgn-item {
+  padding-left: 32px;
+}
+
+.tgn-group__items > .tgn-item:hover {
+  text-decoration: underline;
+}
+
+.tgn-item[aria-current] {
+  background: var(--tgn-menu-active);
+  font-weight: 700;
+}
+
+.tgn-item[aria-disabled='true'] {
+  color: var(--tgn-muted);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Present on every leaf, shown on the one you're on. `aria-current` is the single representation
+   of "you are here": the check, the tint and the weight all follow it. */
+.tgn-item:not([aria-current]) .tgn-item__check {
+  display: none;
+}
+
+.tgn-item__check {
+  color: var(--tgn-accent);
+  font-size: 17px;
+}
+
+/* ── tool-panels/styles/tool-panels.css ─────────────────────────────────────── */
+
+/* Tool-panels stylesheet. The bundle's @import root, mirroring audit-panel.css's model: one
+   entry point per bundle, split into feature files, so a host loads a single href.
+
+   Cascade order is chrome → layout → modals → tools: the panel declares its own look, the dock
+   arranges panels, the modals are independent of both, and a tool's own file comes last so it can
+   refine the generic .ttp-row treatment it sits inside. */
+
+
+/* ── tool-panels/styles/tool-panel.css ─────────────────────────────────────── */
+
+/* <taxpert-tool-panel>, the chrome one workspace tool wears, docked or floating.
+
+   The host element is the layout box; .ttp-panel inside it is the look. That split is what lets the
+   same element be a flex child of a column one moment and an absolutely-positioned box in the float
+   layer the next, with only an attribute changing:
+
+     docked    flex: var(--ttp-flex) 1 0   — its share of the column's height
+     floating  position: absolute + --ttp-x/y/w/h
+     dragging  the same, plus lifted z-index, an accent outline, and no pointer events
+
+   Nothing here mirrors state in a class. `data-float` and `data-dragging` are set by the dock,
+   `[open]` by the browser on a <details> row. */
+
+
+
+taxpert-tool-panel {
+  display: flex;
+  flex: var(--ttp-flex, 1) 1 0;
+  box-sizing: border-box;
+  min-width: 0;
+  /* Docked panels stack, so the floor is applied to the column; a lone panel still can't go under
+     it because the dock's own width is clamped to the same number. */
+  min-height: 0;
+  font-family: var(--ttp-font);
+  color: var(--ttp-base-darkest);
+}
+
+/* ── Floating ────────────────────────────────────────────────────────────── */
+
+taxpert-tool-panel[data-float] {
+  position: absolute;
+  left: var(--ttp-x, 0);
+  top: var(--ttp-y, 0);
+  width: var(--ttp-w, 360px);
+  height: var(--ttp-h, 360px);
+  min-width: var(--ttp-min-width);
+  min-height: var(--ttp-min-height);
+  flex: none;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+taxpert-tool-panel[data-float] .ttp-panel {
+  border: 1px solid var(--ttp-base-lighter);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* ── Being dragged ───────────────────────────────────────────────────────── */
+
+/* Click-through so the pointer keeps hitting the columns underneath, which is what lets the dock
+   measure a drop target from the element the cursor is actually over. */
+taxpert-tool-panel[data-dragging] {
+  pointer-events: none;
+  z-index: 20;
+}
+
+taxpert-tool-panel[data-dragging] .ttp-panel {
+  outline: 2px solid var(--ttp-accent);
+  outline-offset: -1px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+}
+
+/* ── The panel itself ────────────────────────────────────────────────────── */
+
+.ttp-panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  /* The containing block for the resize handles, which are positioned against the panel's edges. */
+  position: relative;
+  overflow: hidden;
+  background: var(--ttp-surface);
+}
+
+/* ── Title bar ───────────────────────────────────────────────────────────── */
+
+/* The bar is the panel's one solid block of colour, and it is the same violet the selected rendered
+   unit is outlined in — so a panel reads as belonging to the question it is open on. Everything in
+   it therefore sets its own colour rather than inheriting the panel's: --ttp-on-bar. */
+.ttp-panel__bar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--ttp-units-1);
+  padding: var(--ttp-units-05) var(--ttp-units-1);
+  background: var(--ttp-bar);
+  color: var(--ttp-on-bar);
+}
+
+.ttp-panel__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ttp-panel__grip,
+.ttp-panel__close {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  /* The audit panel gives every button inside its content area `display: block; margin: 1rem 0`;
+     these live in a bar and must not inherit that when the two stylesheets meet. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ttp-on-bar);
+}
+
+.ttp-panel__grip {
+  cursor: grab;
+  touch-action: none; /* the pointer drag owns the gesture, not the browser's scroll */
+}
+
+taxpert-tool-panel[data-dragging] .ttp-panel__grip {
+  cursor: grabbing;
+}
+
+.ttp-panel__close {
+  cursor: pointer;
+}
+
+/* Lightening rather than darkening: on the violet bar a black wash reads as a smudge, where a white
+   one reads as the button lifting. */
+.ttp-panel__grip:hover,
+.ttp-panel__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--ttp-on-bar);
+}
+
+/* The blue focus ring the rest of the bundle uses has too little to say against this violet. */
+.ttp-panel__grip:focus-visible,
+.ttp-panel__close:focus-visible {
+  outline: 2px solid var(--ttp-on-bar);
+  outline-offset: 1px;
+}
+
+.ttp-panel__grip-icon,
+.ttp-panel__close-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+
+.ttp-panel__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--ttp-units-2);
+}
+
+.ttp-body__title {
+  margin: 0 0 var(--ttp-units-05);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.ttp-body__hint {
+  margin: 0 0 var(--ttp-units-2);
+  color: var(--ttp-base-dark);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.ttp-body__action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ttp-units-05);
+  margin: 0 0 var(--ttp-units-2);
+}
+
+.ttp-body__action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ── Rows ────────────────────────────────────────────────────────────────── */
+/* A row is a <details>, so expanding it is browser behaviour. There is no click handler and no
+   aria-expanded to keep in step. The chevron turn follows from [open]. */
+
+.ttp-row {
+  margin-bottom: var(--ttp-units-1);
+  border: 1px solid var(--ttp-base-lighter);
+  border-radius: 4px;
+  background: var(--ttp-surface);
+}
+
+.ttp-row__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--ttp-units-1);
+  padding: var(--ttp-units-1);
+  cursor: pointer;
+  list-style: none; /* the default marker would sit beside our own chevron */
+}
+
+.ttp-row__summary::-webkit-details-marker {
+  display: none;
+}
+
+.ttp-row__summary:focus-visible {
+  outline: 2px solid var(--ttp-blue-40v);
+  outline-offset: -2px;
+}
+
+.ttp-row__text {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.ttp-row__label {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.ttp-row__path,
+.ttp-row__value {
+  color: var(--ttp-base-dark);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.ttp-row__icon,
+.ttp-row__chevron,
+.ttp-row__kebab {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--ttp-base-dark);
+}
+
+/* No --ok/--error/--pending modifiers here: a row's status is a `data-status` attribute its tool
+   already sets, and each tool's own stylesheet paints its icon off that. Those three classes were
+   the Outcome tracker stub's, and went with it. */
+
+.ttp-row__chevron {
+  transition: transform 0.15s ease;
+}
+
+/* Scoped to the row's own summary rather than every `.ttp-row__chevron` descendant: Inspect nests a
+   second `<details>` — the Advanced disclosure — inside a row's detail region, reusing this same
+   chevron class. An unscoped descendant selector would flip that inner chevron open the moment the
+   outer row opened, whatever the Advanced disclosure's own [open] state was. */
+.ttp-row[open] > summary > .ttp-row__chevron {
+  transform: rotate(180deg);
+}
+
+.ttp-row__detail {
+  margin: 0;
+  padding: 0 var(--ttp-units-1) var(--ttp-units-1) 2.25rem;
+  color: var(--ttp-base-dark);
+  font-size: 0.8125rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ttp-row__chevron {
+    transition: none;
+  }
+}
+
+/* ── Floating-only resize handles ────────────────────────────────────────── */
+/* A docked panel is resized by the dock's splitters, so its own handles would be a second,
+   conflicting way to do the same thing. */
+
+taxpert-tool-panel:not([data-float]) .ttp-panel__grow {
+  display: none;
+}
+
+/* Inset rather than straddling the border, because a floating panel clips to its 8px radius. A
+   handle hanging outside would be cut off exactly at the corner you most want to grab.
+
+   All eight are present so a panel can be sized from wherever it happens to be sitting; before, only
+   the right and bottom edges were grabbable, which meant dragging a panel to the top of the page
+   just to make it taller. */
+.ttp-panel__grow {
+  position: absolute;
+  touch-action: none;
+  z-index: 1;
+}
+
+/* ── Edges ───────────────────────────────────────────────────────────────── */
+
+.ttp-panel__grow--n {
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+.ttp-panel__grow--s {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+.ttp-panel__grow--w {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.ttp-panel__grow--e {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+/* ── Corners ─────────────────────────────────────────────────────────────── */
+/* Bigger than the edge strips and stacked above them, so the overlap where the two meet resizes
+   both axes — the corner is the harder target to hit and the more useful one. */
+
+.ttp-panel__grow--nw,
+.ttp-panel__grow--ne,
+.ttp-panel__grow--sw,
+.ttp-panel__grow--se {
+  width: 16px;
+  height: 16px;
+  z-index: 2;
+}
+
+.ttp-panel__grow--nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+
+.ttp-panel__grow--ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+
+.ttp-panel__grow--sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}
+
+.ttp-panel__grow--se {
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+}
+
+.ttp-panel__grow:focus-visible {
+  outline: 2px solid var(--ttp-blue-40v);
+  outline-offset: -2px;
+}
+
+
+
+/* ── tool-panels/styles/tool-dock.css ─────────────────────────────────────── */
+
+/* <taxpert-tool-dock>, the right-side panel area and the floating layer above it.
+
+   The dock is an ordinary flex child of the host's page layout, the way `.audit-panel` already is
+   in credit-assistant (`.audit-mode` makes <body> a flex row). That means the host's content
+   reflows beside it with no fixed positioning, no inset custom property, and no second opinion
+   about how wide the dock is. Only the float layer escapes, because an undocked panel must not be
+   clipped by a column.
+
+   Sizes are ratios, not lengths. A column is `flex: var(--ttd-column-flex) 1 0` and a panel is
+   `flex: var(--ttp-flex) 1 0`, both defaulting to 1 — so one panel fills the column, two split it
+   in half, and three take a third each. The 100% / 50% / 33% in the designs is what equal flex
+   already does; nothing computes it.
+
+   Visual state is attributes the JS already sets: `data-open` (a tool is on), `data-docked` (at
+   least one panel is docked), `hidden` on the dock and the drop indicator. */
+
+
+
+taxpert-tool-dock {
+  display: none;
+}
+
+/* Open but with everything floating: the element still has to render (it owns the float layer), it
+   just claims no width in the host's row. */
+taxpert-tool-dock[data-open] {
+  display: block;
+  position: relative;
+  flex: 0 0 0;
+  box-sizing: border-box;
+  height: 100vh;
+  font-family: var(--ttp-font);
+}
+
+taxpert-tool-dock[data-docked] {
+  flex-basis: var(--ttd-width, 480px);
+  /* The floor is one panel; the ceiling is enforced in tool-layout.js against the host's own
+     minimum, which CSS here can't know. */
+  min-width: var(--ttp-min-width);
+}
+
+/* A host with a workspace-off state marks the dock `hidden`. credit-assistant does it from the
+   nav's workspace-toggle, since the Tools button that opens these panels is itself only there while
+   the workspace is on. The two rules above set an explicit `display`, which outranks the UA
+   stylesheet's `[hidden] { display: none }`, so the attribute needs saying here to mean anything —
+   and, at equal specificity, it has to come after them. Same gotcha, same fix, as
+   `.tgn-tool[hidden]` in global-nav.css. */
+taxpert-tool-dock[hidden] {
+  display: none;
+}
+
+/* ── The docked area ─────────────────────────────────────────────────────── */
+
+.ttd-dock {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid var(--ttp-base-lighter);
+  background: var(--ttp-base-lightest);
+}
+
+.ttd-dock[hidden] {
+  display: none;
+}
+
+.ttd-dock__columns {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ttd-column {
+  display: flex;
+  flex: var(--ttd-column-flex, 1) 1 0;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: var(--ttp-min-width);
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Resize handles ──────────────────────────────────────────────────────── */
+/* The dock's own left edge, plus one splitter per seam. All three are `role="separator"` with
+   arrow-key parity, the same contract as the audit panel's #audit-panel-resizer. */
+
+.ttd-dock__resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0.75rem;
+  border-left: 2px solid transparent;
+  cursor: col-resize;
+  touch-action: none;
+  z-index: 2;
+}
+
+.ttd-dock__resizer:hover {
+  border-left-color: var(--ttp-blue-40v);
+}
+
+.ttd-splitter {
+  flex: 0 0 auto;
+  background: var(--ttp-base-lighter);
+  touch-action: none;
+}
+
+.ttd-splitter--v {
+  width: 4px;
+  cursor: col-resize;
+}
+
+.ttd-splitter--h {
+  height: 4px;
+  cursor: row-resize;
+}
+
+.ttd-splitter:hover {
+  background: var(--ttp-accent);
+}
+
+.ttd-dock__resizer:focus-visible,
+.ttd-splitter:focus-visible {
+  outline: 0.25rem solid var(--ttp-blue-40v);
+  outline-offset: -0.125rem;
+}
+
+/* ── Float layer ─────────────────────────────────────────────────────────── */
+/* Full-viewport and click-through, so the pointer keeps reaching the page and the columns beneath
+   it; only the panels inside take events back. */
+
+.ttd-float-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  /* Above the pinned workspace chrome, the global nav (1000) and the sub-nav under it (990), and
+     below every modal (1050). It used to sit at 900, under both, which was fine while the chrome
+     scrolled away with the page: a panel dragged to the top of the viewport simply covered whatever
+     was there. Now that the two bars stay put, that same panel slid underneath them and lost its own
+     title bar and close button to a nav it was floating over. The nav's dropdown is a child of a
+     stacking context at 1000, so it cannot be excepted from this by z-index alone; it opens under a
+     floating panel, which is the smaller of the two prices and lasts one click. */
+  z-index: 1010;
+}
+
+/* ── Drop indicator ──────────────────────────────────────────────────────── */
+/* A bar on the seam the panel would land on: horizontal between two stacked panels, vertical where
+   a new side-by-side column would open. `hidden` is the whole of its state. */
+
+.ttd-dropzone {
+  position: absolute;
+  left: var(--ttp-x, 0);
+  top: var(--ttp-y, 0);
+  width: var(--ttp-w, 0);
+  height: var(--ttp-h, 0);
+  border-radius: 2px;
+  background: var(--ttp-accent);
+  pointer-events: none;
+}
+
+.ttd-dropzone[hidden] {
+  display: none;
+}
+
+/* ── Gesture cursors ─────────────────────────────────────────────────────── */
+/* Set on <body> for the duration of a drag so the cursor doesn't flicker as the pointer leaves the
+   handle, and so a drag never selects text. Mirrors `.audit-panel-resizing`. */
+
+body.ttd-resizing--x,
+body.ttd-resizing--y,
+body.ttd-resizing--nwse,
+body.ttd-resizing--nesw,
+body.ttd-dragging {
+  user-select: none;
+}
+
+body.ttd-resizing--x {
+  cursor: col-resize;
+}
+
+body.ttd-resizing--y {
+  cursor: row-resize;
+}
+
+/* The two diagonals, for a floating panel's corner handles. Named for the direction the cursor
+   points rather than for a corner, because each one serves the two opposite corners. */
+body.ttd-resizing--nwse {
+  cursor: nwse-resize;
+}
+
+body.ttd-resizing--nesw {
+  cursor: nesw-resize;
+}
+
+body.ttd-dragging {
+  cursor: grabbing;
+}
+
+
+
+/* ── tool-panels/styles/tools-modal.css ─────────────────────────────────────── */
+
+/* <taxpert-tools-modal>, the "Tools" dialog opened from the global nav's Tools button.
+
+   Self-contained, like the audit-panel bundle's modals: the base <dialog> chrome is declared here
+   rather than inherited from a host's own modal CSS, so it looks the same in any host, while the
+   controls themselves stay real USWDS components (.usa-checkbox, .usa-button, .usa-modal__*).
+
+   Token bridging follows workspace-settings-modal.css — each --ttm-* checks the host's own token
+   first (fact-explorer's --color-*, then credit-assistant's --primary/--base-* by way of the
+   --ttp-* layer in tool-panels.css) and falls through to a hard default. --ttm-border is the one
+   exception: the design calls for exactly 1px #d6d7d9, so it isn't token-bridged. */
+
+
+
+:where(taxpert-tools-modal) {
+  --ttm-border: #d6d7d9;
+  --ttm-text: var(--color-text, var(--ttp-base-darkest, #1b1b1b));
+  --ttm-focus: var(--color-primary, var(--ttp-primary, #005ea2));
+
+  /* A checked tile's frame and fill. The twins of --twsm-selected-* in workspace-settings-modal.css,
+     resolved through this bundle's own --ttp-* layer rather than the audit panel's --tap-*. */
+  --ttm-selected-border: var(--color-primary, var(--ttp-primary, #005ea2));
+  --ttm-selected-bg: var(--color-primary-tint, var(--ttp-primary-lighter, #d9e8f6));
+  --ttm-font: var(--font-sans, 'Source Sans Pro Web', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif);
+
+  /* The dialog's own insets. Declared once because two things read them: the main block's padding
+     and the close button's position — and the X sitting on the heading depends on the two agreeing. */
+  --ttm-inset-x: 2rem;
+  --ttm-inset-top: 1.5rem;
+}
+
+taxpert-tools-modal {
+  display: contents;
+}
+
+.ttm-dialog {
+  display: block;
+  box-sizing: border-box;
+  width: 90vw;
+  max-width: 32.375rem; /* 518px — the design's modal width */
+  max-height: 90vh;
+  margin: auto;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--ttm-border);
+  border-radius: 0.25rem;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  color: var(--ttm-text);
+  font-family: var(--ttm-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+  z-index: 1050;
+}
+
+.ttm-dialog:not([open]) {
+  display: none;
+}
+
+.ttm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* USWDS gives .usa-modal__content a 2rem padding-top to clear its own close button, which sits
+   above the main block in its markup and pulls itself up into that band with a -2rem margin. This
+   shell puts the close button inside .ttm-main instead, so the band is dead space over the heading —
+   every inset in this dialog is .ttm-main's. The other three modals have always zeroed it; this one
+   did not, which is where its extra padding came from. */
+.ttm-dialog .usa-modal__content {
+  padding-top: 0;
+}
+
+/* Every rule below is scoped through .ttm-dialog rather than written as a bare class. `.ttm-main`
+   and `.ttm-close` collide head-on with credit-assistant's own components/modals.css, which sets
+   `.usa-modal__main { padding-bottom: .5rem }` and `.usa-modal__close { top: 0; right: 0 }` on the
+   same elements at the same specificity — so which one wins is decided by stylesheet order, and the
+   order differs per host. The audit-panel modals happen to load after it (their own <link>); the
+   tool-panels bundle loads from inside main.css *before* it, which is why the Tools dialog was
+   drawing its close button in the corner and losing its bottom inset. Two classes beat one
+   everywhere, so the dialogs now look the same wherever they are loaded from. This is the same
+   defence the `.usa-modal__heading.ttm-heading` rule below already documents. */
+.ttm-dialog .ttm-main {
+  position: relative;
+  box-sizing: border-box;
+  /* Full width, explicitly. See the same rule in workspace-settings-modal.css. USWDS's
+     .usa-modal__content is a flex column and .usa-modal__main carries `margin: 0 auto`, whose auto
+     cross-axis margins suppress the stretch and size this block to its widest child instead. */
+  width: 100%;
+  margin-inline: 0;
+  padding: var(--ttm-inset-top) var(--ttm-inset-x) 2rem;
+}
+
+/* On the heading's line, not floating in the corner above it. It starts at the same top inset the
+   heading does and takes the heading's line box as its height, so USWDS's own `align-items: center`
+   centres the icon on the words rather than on a taller box. The right inset is pulled back by the
+   button's padding so the icon — not the hit area — lands flush with the section rules below. */
+.ttm-dialog .ttm-close {
+  position: absolute;
+  top: var(--ttm-inset-top);
+  right: calc(var(--ttm-inset-x) - 0.25rem);
+  box-sizing: border-box;
+  height: 1.7875rem; /* .ttm-heading's line box: 1.375rem × 1.3 */
+  min-width: 0;
+  margin: 0;
+  padding: 0 0.25rem;
+  background: transparent;
+  color: var(--ttm-text);
+}
+
+.ttm-dialog .ttm-close:hover,
+.ttm-dialog .ttm-close:active {
+  background: transparent;
+  color: var(--ttm-text);
+}
+
+.ttm-dialog .ttm-close:focus-visible {
+  outline: 2px solid var(--ttm-focus);
+  outline-offset: 2px;
+}
+
+/* Doubled up with .usa-modal__heading (the element carries both classes) so this beats real USWDS's
+   own .usa-modal__heading rule, which sets the heading font to its serif "heading" role. No rule
+   under the heading itself: the section below draws its own border-top, the scenario modal's
+   arrangement. */
+.usa-modal__heading.ttm-heading {
+  margin: 0 0 1rem;
+  font-family: var(--ttm-font);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ── Section ─────────────────────────────────────────────────────────────── */
+/* One section here, but it carries the same rule-and-padding as a scenario-modal section so the two
+   dialogs stack the same way. Its rows start straight after the rule with no title in between, so
+   the top padding is short by the 0.75rem USWDS already puts above a checkbox label — together they
+   come to the scenario modal's 1.25rem. */
+
+.ttm-section {
+  padding: 0.5rem 0 1.25rem;
+  border-top: 1px solid var(--ttm-border);
+}
+
+/* ── Option rows ─────────────────────────────────────────────────────────── */
+/* A tool row is USWDS's tile checkbox, the same treatment the Workspace settings modal's option
+   rows use, so the two surfaces that both list tools look like one component. USWDS owns the box,
+   the control art, and both the checked and focus treatments; `.ttm-option` stays on each row as the
+   "one tool" hook for the JS and its spec.
+
+   Only the colors and the label weight are ours, and both rules sit on the *input* rather than the
+   label so they outweigh USWDS's own `--tile` pair in any load order — the same defence, and the
+   same 1px-instead-of-2px border, as .twsm-option in workspace-settings-modal.css. */
+
+.ttm-option .usa-checkbox__input--tile + .usa-checkbox__label {
+  border: 1px solid var(--ttm-border);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Selected follows from the control itself, rather than from a `--selected` class the JS toggles. */
+.ttm-option .usa-checkbox__input--tile:checked + .usa-checkbox__label {
+  border-color: var(--ttm-selected-border);
+  background-color: var(--ttm-selected-bg);
+}
+
+/* USWDS gives .usa-checkbox a white background of its own; with the tile drawing the box, that would
+   show as white corners around a selected tile's rounded ones. */
+.ttm-option.usa-checkbox {
+  background: transparent;
+}
+
+/* Inside the tile now, so it needs no indent of its own. USWDS's label padding already clears the
+   control art. Full body contrast rather than a muted grey: in the design the description carries
+   the same weight of meaning as the label, and only the weight separates them. */
+.ttm-option .ttm-option__hint {
+  margin-top: 0.25rem;
+  color: var(--ttm-text);
+  font-size: 0.9375rem;
+  font-weight: 400;
+}
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+
+.ttm-reset {
+  margin: 1rem 0 0;
+}
+
+/* ── Narrow viewports ────────────────────────────────────────────────────── */
+
+@media (max-width: 30em) {
+  /* Narrowing the inset takes the close button with it, which is what the property is for. An
+     element selector beats the zero-specificity :where() the defaults are declared in. */
+  taxpert-tools-modal {
+    --ttm-inset-x: 1.25rem;
+  }
+
+  .ttm-dialog .ttm-main {
+    padding-bottom: 1.5rem;
+  }
+}
+
+
+
+/* ── tool-panels/styles/inspect.css ─────────────────────────────────────── */
+
+/* The Inspect tool: the empty state the panel opens on, the accordion rows one selected unit
+   expands into, and the hover/selected treatment every rendered unit out in the host page wears
+   while the display option is on.
+
+   Loaded after tool-panel.css, so the generic .ttp-row treatment is already in place and only the
+   parts Inspect adds — the two-column data grid, the dependency table, the XML readout — are here.
+
+   That last section is the exception to this file's placement: it renders in the host page's flow
+   DOM, outside every root the --ttp-* token layer is declared on, so its rules carry their own
+   colours rather than reaching for the bundle's aliases. */
+
+
+
+/* ── Empty state ─────────────────────────────────────────────────────────── */
+
+
+
+.ttp-inspect__empty {
+  padding: var(--ttp-units-2) 0 0;
+  text-align: center;
+}
+
+.ttp-inspect__empty-title {
+  margin: 0 0 var(--ttp-units-1);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ttp-inspect__empty-hint {
+  margin: 0 auto var(--ttp-units-2);
+  max-width: 24rem;
+  color: var(--ttp-base-darkest);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Sized in `em` so the illustration tracks the panel's text rather than its width. A floating
+   panel dragged wide should not get a billboard. */
+.ttp-inspect__empty-art {
+  display: block;
+  width: auto;
+  height: 12em;
+  margin: 0 auto;
+  color: var(--ttp-base-darkest);
+}
+
+.ttp-inspect__empty-bar {
+  fill: var(--ttp-base-lighter);
+}
+
+.ttp-inspect__empty-dot {
+  fill: var(--ttp-base-dark);
+}
+
+.ttp-inspect__empty-dot--dim {
+  fill: var(--ttp-base-light);
+}
+
+.ttp-inspect__empty-cursor {
+  fill: var(--ttp-base-darkest);
+  stroke: var(--ttp-surface);
+}
+
+/* ── A selected unit ─────────────────────────────────────────────────────── */
+
+/* The detail column is indented past the row icon by tool-panel.css; Inspect's sections carry
+   headings and a table, so they need the room back. */
+.ttp-inspect__detail {
+  padding-left: var(--ttp-units-1);
+  color: var(--ttp-base-darkest);
+}
+
+/* A rule between sections rather than around them: the sections are one continuous reading, and a
+   box each would read as three unrelated cards inside one row. */
+.ttp-inspect__section + .ttp-inspect__section,
+.ttp-inspect__section + [data-mount="advanced"] {
+  margin-top: var(--ttp-units-2);
+  padding-top: var(--ttp-units-2);
+  border-top: 1px solid var(--ttp-base-lighter);
+}
+
+.ttp-inspect__heading {
+  margin: 0 0 var(--ttp-units-1);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.ttp-inspect__prose {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* ── Current state ───────────────────────────────────────────────────────── */
+
+.ttp-inspect__data {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* Two columns: the term takes what it needs down to a 6rem floor and the value takes the rest, so
+   the pair stays aligned across both rows without either being a fixed width. */
+.ttp-inspect__data-row {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) 1fr;
+  gap: var(--ttp-units-05) var(--ttp-units-2);
+}
+
+.ttp-inspect__data-row dt {
+  font-weight: 700;
+}
+
+.ttp-inspect__data-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ── How it's evaluated ──────────────────────────────────────────────────── */
+
+.ttp-inspect__clauses {
+  margin: var(--ttp-units-1) 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.ttp-inspect__clause {
+  margin-bottom: var(--ttp-units-05);
+}
+
+/* ── Dependencies ────────────────────────────────────────────────────────── */
+
+.ttp-inspect__deps {
+  width: 100%;
+  margin-top: var(--ttp-units-1);
+  border: 1px solid var(--ttp-base-lighter);
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  table-layout: fixed;
+}
+
+.ttp-inspect__deps th,
+.ttp-inspect__deps td {
+  padding: var(--ttp-units-05) var(--ttp-units-1);
+  border-bottom: 1px solid var(--ttp-base-lighter);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.ttp-inspect__deps thead th {
+  background: var(--ttp-base-lightest);
+  font-weight: 700;
+}
+
+.ttp-inspect__dep-path {
+  font-weight: 400;
+}
+
+.ttp-inspect__deps tr:last-child th,
+.ttp-inspect__deps tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ── Advanced ────────────────────────────────────────────────────────────── */
+
+.ttp-inspect__advanced-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--ttp-units-05);
+  cursor: pointer;
+  font-size: 0.875rem;
+  list-style: none;
+}
+
+.ttp-inspect__advanced-summary::-webkit-details-marker {
+  display: none;
+}
+
+.ttp-inspect__advanced-summary:focus-visible {
+  outline: 2px solid var(--ttp-blue-40v);
+  outline-offset: 2px;
+}
+
+.ttp-inspect__advanced-title {
+  font-weight: 700;
+}
+
+.ttp-inspect__advanced-note {
+  flex: 1 1 auto;
+  color: var(--ttp-base-dark);
+}
+
+.ttp-inspect__advanced[open] > summary > .ttp-row__chevron {
+  transform: rotate(180deg);
+}
+
+.ttp-inspect__fact-type {
+  margin: var(--ttp-units-1) 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.ttp-inspect__fact-type-label {
+  font-weight: 700;
+}
+
+/* The raw definition, set in the mono face USWDS ships (Roboto Mono) so its indentation reads as
+   structure. Wrapped rather than scrolled: a panel can be 300px wide, and a horizontal scrollbar
+   inside a vertical one is two scrollbars to find one attribute. */
+.ttp-inspect__xml {
+  margin: var(--ttp-units-1) 0 0;
+  padding: var(--ttp-units-1);
+  background: var(--ttp-base-lightest);
+  color: var(--ttp-base-darkest);
+  font-family: var(--ttp-font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ── The host-page rendered unit ─────────────────────────────────────────── */
+/* What mounting the Inspect panel puts on the host page: the unit *is* the affordance. Hovering one
+   tints it and draws a dotted outline; clicking it opens the Inspect panel and swaps that for the
+   solid one, which stays until another unit is picked or the tool is closed. inspect-cues.js marks
+   which elements are in play ([data-inspect-unit]) and which one is selected; everything visual is
+   here.
+
+   These render out in the host page's flow DOM, outside every root the --ttp-* token layer is
+   declared on, so the colours are literals rather than bundle aliases — this is the one violet in
+   the designs, and a host's own primary would not be it.
+
+   Switching the option on must change nothing about how the flow lays out. That is why the box is
+   an `outline` (which takes no space) with an `outline-offset` standing in for the padding the
+   designs draw, and never a border. It also rules out the two things the old cue button did, both
+   of which restyled the host's own flow:
+
+   - `display: block` on a cued <fg-set>. It was meant for a host that leaves the custom element
+     inline, but it outranked the flow's `.hidden` (a class alone loses to an element-plus-class
+     selector) so a question the flow had hidden was forced back into the layout — a band of empty
+     space, invisible because `.hidden` also sets `opacity: 0`. Worse, it made the visibility test
+     in inspect-cues.js self-fulfilling: a unit that had been marked while it was on screen read
+     back the mark's own `display` afterwards and so never gave the mark up. A host that wants
+     <fg-set> to be a block says so itself — credit-assistant already does, in forms.css.
+   - `padding-right` on the block a cue was pinned to, to keep the corner clear. Reserving that room
+     re-wrapped the question copy, so toggling the option reflowed the page. */
+body.inspect-rendered-units [data-inspect-unit] {
+  cursor: pointer;
+  /* The hover tint, declared here as `none` and switched on below, so it inherits down the unit's
+     subtree — see the .usa-radio rule at the end of this section. */
+  --ttp-unit-tint: transparent;
+  /* The ring between the unit's own box and its dotted outline. `outline-offset` reserves that gap
+     but paints nothing in it, so the tint stopped at the content's edge and the page showed through
+     as a white margin inside the purple box — one element read as two. A box-shadow with no blur
+     and a spread equal to the offset fills exactly that ring and, like an outline, takes no space,
+     so switching Inspect on still moves nothing in the flow. Both are declared here rather than in
+     the hover rule so they have a value to transition *from*. */
+  box-shadow: 0 0 0 0.5rem var(--ttp-unit-tint);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover, and keyboard focus landing inside the unit, read the same: this is the "you can inspect
+   this" state, and a keyboard user gets it without a tab stop of its own being added to the flow.
+
+   Two exclusions, both about picking one unit out of several that are technically under the
+   pointer. `:not(:has([data-inspect-unit]:hover))` keeps a question from lighting up along with the
+   <fg-show> nested inside it — the innermost wins, which is also what the click resolves to. And a
+   selected unit keeps its own treatment rather than reverting to this one while hovered. */
+body.inspect-rendered-units [data-inspect-unit]:not([data-inspect-selected]):hover:not(:has([data-inspect-unit]:hover)),
+body.inspect-rendered-units [data-inspect-unit]:not([data-inspect-selected]):focus-within:not(:has([data-inspect-unit]:focus-within)) {
+  --ttp-unit-tint: #f7f2fd;
+  outline: 2px dotted #7b3fd4;
+  outline-offset: 0.5rem;
+  background: var(--ttp-unit-tint);
+}
+
+/* The selected unit: heavier, solid, and untinted, so one glance separates "this is what the panel
+   is showing" from "this is what I am about to click". */
+body.inspect-rendered-units [data-inspect-unit][data-inspect-selected] {
+  outline: 3px solid #6b21a8;
+  outline-offset: 0.5rem;
+}
+
+/* Tinting the unit is not enough on its own: a child that paints its own opaque background punches
+   a white hole through the tint. USWDS's radio and checkbox wrappers are exactly that
+   (`.usa-radio { background: #fff }`), and they are the bottom half of every question this flow
+   asks, so a hovered question came out lavender above and white below.
+
+   They take the tint by inheritance rather than by repeating the hover selector: --ttp-unit-tint is
+   `transparent` on every marked unit and the real colour only while one is hovered, so this single
+   rule follows the hover around the page. Transparent rather than white when idle, so the wrapper
+   shows whatever the host has behind it — which is what USWDS's own white was standing in for.
+
+   Only these two. A child with a deliberate background of its own — an alert, a summary box, a tile
+   — is meant to keep it, and clearing every descendant's background would take those with it. */
+body.inspect-rendered-units [data-inspect-unit] .usa-radio,
+body.inspect-rendered-units [data-inspect-unit] .usa-checkbox {
+  background-color: var(--ttp-unit-tint);
+  /* Same fade as the unit around them, or the top half of a question would ease in while the bottom
+     half snapped. */
+  transition: background-color 0.25s ease;
+}
+
+/* The fade is an affordance rather than decoration. It says "this responds" as the pointer crosses a page
+   of otherwise inert copy — but a quarter second of colour under the cursor is exactly what reduced
+   motion is asked for. The states themselves are unchanged; only the travel between them goes.
+
+   Last in the file on purpose: a media query adds no specificity, and these selectors are the same
+   ones declared above, so source order is the only thing deciding which `transition` wins. */
+@media (prefers-reduced-motion: reduce) {
+  body.inspect-rendered-units [data-inspect-unit],
+  body.inspect-rendered-units [data-inspect-unit] .usa-radio,
+  body.inspect-rendered-units [data-inspect-unit] .usa-checkbox {
+    transition: none;
+  }
+}
+
+
+
+/* ── tool-panels/styles/outcome-tracker.css ─────────────────────────────────────── */
+
+/* The Outcome tracker tool: its determination accordions and the fact tables inside them.
+
+   Split out of tool-panel.css for the same reason watchlist.css is — the panel chrome and the
+   generic .ttp-row treatment stay there, and everything a *determination* needs is here.
+
+   No state is mirrored in a class. A determination's colour comes off `[data-status]`, which the JS
+   sets from the fact graph, and an expanded one is `[open]`, which the browser sets. */
+
+
+
+/* ── Panel body ──────────────────────────────────────────────────────────── */
+
+
+
+taxpert-outcome-tracker {
+  display: block;
+}
+
+/* ── A determination ─────────────────────────────────────────────────────── */
+
+/* The status mark is the row's one piece of colour: green once the determination has settled, and
+   the part-drawn ring in the host's primary until then. The label and value stay body text, so a
+   determination that came back "No" doesn't read as an error — it is an answer. */
+.ttp-outcome__row[data-status="settled"] .ttp-outcome__status {
+  color: var(--ttp-green);
+}
+
+/* The part-drawn ring reads as "still working" the way a spinner does, without spinning: an
+   animation here would run for as long as the determination stays open, which can be the whole
+   session. */
+.ttp-outcome__row[data-status="pending"] .ttp-outcome__status {
+  color: var(--ttp-primary);
+}
+
+/* A determination's name is the heading of everything under it, so it gets a little more weight
+   than the generic row label and the outcome underneath sits close to it. */
+.ttp-outcome__row .ttp-row__label {
+  font-size: 1rem;
+}
+
+/* The detail is a table of facts, not a paragraph: it runs the full width of the card, and its own
+   headings and hairlines do the separating, so the generic row detail's indent and padding go. */
+.ttp-outcome__detail {
+  padding: 0;
+  border-top: 1px solid var(--ttp-base-lighter);
+}
+
+/* ── A section of facts ──────────────────────────────────────────────────── */
+
+.ttp-outcome__heading {
+  display: flex;
+  gap: 0.25em;
+  margin: 0;
+  padding: var(--ttp-units-1) var(--ttp-units-2);
+  border-bottom: 1px solid var(--ttp-base-lighter);
+  background: var(--ttp-base-lightest);
+  color: var(--ttp-base-darkest);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ── One fact ────────────────────────────────────────────────────────────── */
+
+/* All the rows in a section share one two-column grid: `max-content` gives the status column a
+   single, consistent left edge sized to its widest label, `minmax(0, 1fr)` gives the path column
+   the rest and lets it wrap — the middle of
+   `/isDisqualifiedMarriedNotMfjSameResidenceSeparatedNoQcs` is the part you are reading. A `<li>`
+   is `display: contents`, so it contributes no box of its own and its two children become grid
+   items directly; DOM order alone pairs each path with its state, since every fact hands the grid
+   exactly one column's worth of each. That is also what makes the status column line up: sized
+   once across the whole list rather than per row, it can't drift with how wide any one row's icon
+   + label happens to be. */
+.ttp-outcome__facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  /* Stretch, not `center`. The two cells each draw the row's bottom hairline, and centring sized
+     each to its own content instead of to the row: wherever a path wrapped to two lines, its cell
+     was the full row height and the "Incomplete" beside it was one line tall and floating in the
+     middle, so the two halves of what should be one line under the row sat several pixels apart.
+     The cells fill the row now and each centres its own content (the state cell is a flex row; the
+     path cell is made one below), which is what actually lines the pair up. */
+  align-items: stretch;
+  /* No column-gap. The two cells each draw the row's bottom hairline, so any gap between them is a
+     gap in that line — the underline came out as two short rules with a notch between them rather
+     than as one line under the row. The breathing room the gap was providing is now
+     `padding-inline-end` on the path cell and `padding-inline-start` on the state cell below, which
+     separates the *content* by the same amount while leaving the two borders touching. */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ttp-outcome__fact {
+  display: contents;
+  color: var(--ttp-base-darkest);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+/* Padding and the row's hairline move onto the two grid cells. The `<li>` they used to live on no
+   longer has a box to draw them on. Matching values on both cells is what makes two independent
+   borders read as one continuous line under the row. */
+.ttp-outcome__path,
+.ttp-outcome__state {
+  padding-block: var(--ttp-units-1);
+  border-bottom: 1px solid var(--ttp-base-lighter);
+}
+
+/* The last fact of the last section sits on the card's own bottom border. */
+.ttp-outcome__section:last-child .ttp-outcome__fact:last-child > * {
+  border-bottom: 0;
+}
+
+/* A flex box so a one-line path sits level with the state beside it, and a wrapped one still centres
+   in the taller row rather than riding its top edge. */
+.ttp-outcome__path {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--ttp-units-2) var(--ttp-units-05);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ttp-outcome__state {
+  display: flex;
+  align-items: center;
+  gap: var(--ttp-units-05);
+  padding-inline: var(--ttp-units-05) var(--ttp-units-2);
+}
+
+/* An unanswered fact is the bare word, greyed, nothing having happened to it yet. */
+.ttp-outcome__fact[data-status="incomplete"] .ttp-outcome__state,
+.ttp-outcome__fact[data-status="unknown"] .ttp-outcome__state {
+  color: var(--ttp-base-dark);
+}
+
+.ttp-outcome__fact-icon {
+  flex: 0 0 auto;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* No status draws a blank slot today. Every entry in FACT_STATE (taxpert-outcome-tracker.js) names
+   an icon, so the `hidden` the template ships is always cleared. The rule is kept because it is what
+   makes going back to a blank one safe: `[hidden]`'s UA default is `display: none`, which drops the
+   icon out of the flex row entirely and lets the label creep left into where the mark would have
+   sat, out of line with "True" / "False" above it. Hiding it visually instead keeps its reserved
+   width + gap in the row. */
+.ttp-outcome__fact-icon[hidden] {
+  display: inline-block;
+  visibility: hidden;
+}
+
+.ttp-outcome__fact[data-status="complete"] .ttp-outcome__fact-icon {
+  color: var(--ttp-green);
+}
+
+.ttp-outcome__fact[data-status="false"] .ttp-outcome__fact-icon {
+  color: var(--ttp-red);
+}
+
+
+
+/* ── tool-panels/styles/watchlist.css ─────────────────────────────────────── */
+
+/* The Watchlist tool: its rows, the Add fact dialog, and the combo box that dialog's two fields are
+   built from.
+
+   Split out of tool-panel.css because it is the first tool with a look of its own — the panel chrome
+   and the generic .ttp-row treatment stay there, and everything a *pinned fact* needs is here.
+
+   No state is mirrored in a class. A row's colour comes off `[data-status]`, which the JS sets from
+   the fact graph; an open row is `[open]`, which the browser sets; a combo box's active option is
+   `[aria-selected="true"]`, which is the accessibility contract already. */
+
+
+
+/* ── Panel body ──────────────────────────────────────────────────────────── */
+
+
+
+taxpert-watchlist {
+  display: block;
+}
+
+/* The button sits under the list, per the designs: adding a fact is what you do after reading the
+   ones you have. .ttp-body__action's own bottom margin is what separates it from the panel edge. */
+.ttp-watch__add {
+  margin: var(--ttp-units-1) 0 0;
+}
+
+.ttp-watch__list:empty {
+  display: none;
+}
+
+/* ── A pinned fact ───────────────────────────────────────────────────────── */
+
+/* The status ring is the row's one piece of colour, and the only thing keyed off the status,
+   the label and value stay body text, so a red row doesn't read as an error. */
+.ttp-watch__row[data-status="complete"] .ttp-watch__status {
+  color: var(--ttp-green);
+}
+
+.ttp-watch__row[data-status="false"] .ttp-watch__status {
+  color: var(--ttp-red);
+}
+
+.ttp-watch__row[data-status="incomplete"] .ttp-watch__status,
+.ttp-watch__row[data-status="unknown"] .ttp-watch__status {
+  color: var(--ttp-primary);
+}
+
+/* The part-drawn ring reads as "still working" the way a spinner does, without spinning: an
+   animation here would run for as long as a fact stays unanswered, which can be the whole session. */
+.ttp-watch__row[data-status="incomplete"] .ttp-watch__status,
+.ttp-watch__row[data-status="unknown"] .ttp-watch__status {
+  opacity: 0.9;
+}
+
+/* A fact path is the row's identity, so it gets the label treatment and wraps rather than
+   truncating — the middle of `/familyAndHousehold/#…/firstName` is the part you need. */
+.ttp-watch__row .ttp-row__label {
+  overflow-wrap: anywhere;
+}
+
+/* ── The kebab menu ──────────────────────────────────────────────────────── */
+
+.ttp-watch__menu {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.ttp-watch__kebab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  /* The audit panel gives every button in its content area `display: block; margin: 1rem 0`; this
+     one lives in a row and must not inherit that where the two stylesheets meet. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ttp-base-dark);
+  cursor: pointer;
+}
+
+.ttp-watch__kebab:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--ttp-base-darkest);
+}
+
+.ttp-watch__kebab:focus-visible {
+  outline: 2px solid var(--ttp-blue-40v);
+  outline-offset: 1px;
+}
+
+/* Right-aligned to the kebab and pulled clear of it, so it opens into the panel rather than off the
+   panel's edge — a docked panel is only 300px wide at its narrowest. */
+.ttp-watch__menu-list {
+  position: absolute;
+  top: calc(100% + var(--ttp-units-05));
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  min-width: 11rem;
+  padding: var(--ttp-units-05) 0;
+  border: 1px solid var(--ttp-base-lighter);
+  border-radius: 4px;
+  background: var(--ttp-surface);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.ttp-watch__menu-list[hidden] {
+  display: none;
+}
+
+.ttp-watch__menu-item {
+  margin: 0;
+  padding: var(--ttp-units-05) var(--ttp-units-1);
+  border: 0;
+  background: transparent;
+  color: var(--ttp-base-darkest);
+  font-family: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ttp-watch__menu-item:hover {
+  background: var(--ttp-base-lightest);
+}
+
+.ttp-watch__menu-item:focus-visible {
+  outline: 2px solid var(--ttp-blue-40v);
+  outline-offset: -2px;
+}
+
+/* ── The expanded detail ─────────────────────────────────────────────────── */
+
+/* Overrides .ttp-row__detail's indent: this content is a table, and indenting it under the status
+   icon would cost a quarter of the width a 300px panel has to give. */
+.ttp-watch__detail {
+  padding: 0 var(--ttp-units-1) var(--ttp-units-1);
+}
+
+.ttp-watch__data {
+  margin: 0 0 var(--ttp-units-1);
+  border-top: 1px solid var(--ttp-base-lighter);
+  font-size: 0.8125rem;
+}
+
+/* Term and definition on one line, definition right-aligned, the designs' two-column read. The
+   1fr/auto split lets a long value take the room a short term doesn't need. */
+.ttp-watch__data-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--ttp-units-1);
+  padding: var(--ttp-units-05) 0;
+  border-bottom: 1px solid var(--ttp-base-lighter);
+}
+
+.ttp-watch__data-row[hidden] {
+  display: none;
+}
+
+.ttp-watch__data dt {
+  color: var(--ttp-base-darkest);
+  font-weight: 700;
+}
+
+.ttp-watch__data dd {
+  margin: 0;
+  color: var(--ttp-base-dark);
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.ttp-watch__mono {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+/* ── Row actions ─────────────────────────────────────────────────────────── */
+
+.ttp-watch__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ttp-units-2);
+  align-items: center;
+}
+
+/* .usa-button--unstyled draws these as links; all this adds is room for the trash icon and the same
+   `margin: 0` correction the kebab needs. */
+.ttp-watch__action {
+  display: inline-flex;
+  gap: var(--ttp-units-05);
+  align-items: center;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.ttp-watch__action-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ── Add fact dialog ─────────────────────────────────────────────────────── */
+
+taxpert-add-fact-modal {
+  display: contents;
+}
+
+.taf-dialog {
+  display: block;
+  box-sizing: border-box;
+  width: 90vw;
+  max-width: 32.375rem; /* the same 518px the Tools modal uses */
+  max-height: 90vh;
+  margin: auto;
+  padding: 0;
+  /* `visible` so an open combo box's list can hang past the dialog's edge; the dialog is short
+     enough that nothing else needs to scroll. */
+  overflow: visible;
+  border: 1px solid var(--ttp-base-lighter);
+  border-radius: 0.25rem;
+  background: var(--ttp-surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  color: var(--ttp-base-darkest);
+  font-family: var(--ttp-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+  z-index: 1050;
+}
+
+.taf-dialog:not([open]) {
+  display: none;
+}
+
+.taf-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* USWDS gives .usa-modal__content a 2rem padding-top to clear its own close button, which sits above
+   the main block in its markup. This shell puts the close button inside .taf-main instead, so that
+   band is dead space over the heading — every inset in this dialog is .taf-main's. The other four
+   modals have always zeroed it; this one did not, which is where its extra top padding came from. */
+.taf-dialog .usa-modal__content {
+  padding-top: 0;
+}
+
+.taf-main {
+  position: relative;
+  box-sizing: border-box;
+  /* Full width, explicitly. See the same rule in workspace-settings-modal.css. USWDS's
+     .usa-modal__content is a flex column and .usa-modal__main carries `margin: 0 auto`, whose auto
+     cross-axis margins suppress the stretch and size this block to its widest child instead. */
+  width: 100%;
+  margin-inline: 0;
+  padding: 1.5rem 2rem 2rem;
+}
+
+.taf-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.25rem;
+  background: transparent;
+  color: var(--ttp-base-darkest);
+}
+
+.taf-close:hover,
+.taf-close:active {
+  background: transparent;
+  color: var(--ttp-base-darkest);
+}
+
+.taf-close:focus-visible {
+  outline: 2px solid var(--ttp-primary);
+  outline-offset: 2px;
+}
+
+/* Doubled up with .usa-modal__heading (the element carries both) so this beats real USWDS's own
+   rule, which puts the heading in its serif "heading" font. Same arrangement as .ttm-heading. */
+.usa-modal__heading.taf-heading {
+  margin: 0 0 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--ttp-base-lighter);
+  font-family: var(--ttp-font);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ttp-add-fact__group {
+  margin: 0 0 1.5rem;
+}
+
+.ttp-add-fact__label {
+  margin: 0 0 0.5rem;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ttp-add-fact__error {
+  margin: -1rem 0 1rem;
+}
+
+.ttp-add-fact__error[hidden] {
+  display: none;
+}
+
+/* Full width, matching the designs. The dialog has one action and it is the point of the dialog. */
+.ttp-add-fact__submit {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+
+@media (max-width: 30em) {
+  .taf-main {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+/* ── Combo box ───────────────────────────────────────────────────────────── */
+/* USWDS's combo box look, without USWDS's combo box JS. See combo-box.js for why. The input keeps
+   .usa-input so it inherits the host's real field typography and height where USWDS is loaded. */
+
+.ttp-combo {
+  position: relative;
+  display: block;
+}
+
+.ttp-combo__input {
+  box-sizing: border-box;
+  width: 100%;
+  /* Room for the separator and the toggle, which sit on top of the field. */
+  padding-right: 3rem;
+  border: 1px solid var(--ttp-base-darkest);
+  border-radius: 0;
+  background: var(--ttp-surface);
+  color: var(--ttp-base-darkest);
+  font-family: var(--ttp-font);
+  font-size: 1.06rem;
+  line-height: 1.3;
+}
+
+.ttp-combo__input:focus-visible {
+  outline: 2px solid var(--ttp-blue-40v);
+  outline-offset: 0;
+}
+
+.ttp-combo__separator {
+  position: absolute;
+  top: 0.5rem;
+  right: 2.5rem;
+  bottom: 0.5rem;
+  width: 1px;
+  background: var(--ttp-base-light);
+}
+
+.ttp-combo__toggle {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ttp-base-darkest);
+  cursor: pointer;
+}
+
+.ttp-combo__toggle-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Overlays what follows rather than pushing it down, so choosing a fact path doesn't shift the
+   Collection ID field out from under the pointer. */
+.ttp-combo__list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  max-height: 12.5rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--ttp-base-darkest);
+  border-top: 0;
+  background: var(--ttp-surface);
+  list-style: none;
+}
+
+.ttp-combo__list[hidden] {
+  display: none;
+}
+
+.ttp-combo__option {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--ttp-base-lighter);
+  color: var(--ttp-base-darkest);
+  font-size: 1rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.ttp-combo__option:last-child {
+  border-bottom: 0;
+}
+
+/* The active option in an aria-activedescendant listbox *is* the selected one, so there is no
+   separate `--focused` class to keep in step with it. */
+.ttp-combo__option[aria-selected="true"] {
+  background: var(--ttp-primary);
+  color: #fff;
+}
+
+.ttp-combo__option:hover {
+  background: var(--ttp-primary-lighter);
+  color: var(--ttp-base-darkest);
+}
+
+
+
+/* ── tool-panels/styles/overrides.css ─────────────────────────────────────── */
+
+/* The Overrides tool: a form over the writable facts a host named in config.tools.
+   The only tool that writes, so it is the only one with inputs; everything else here follows the
+   same --ttp-* token layer the other three panels use. */
+
+
+
+.ttp-overrides {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.ttp-overrides__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.ttp-overrides__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* A fact path, read as a path, in the same mono face the Inspect panel's XML uses, for the same
+   reason: two similar paths are hard to tell apart in a proportional font. */
+.ttp-overrides .ttp-overrides__label {
+  margin: 0;
+  font-family: var(--ttp-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.ttp-overrides__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* USWDS caps .usa-input at 30rem, which is wider than a docked panel and narrower than a floating
+   one — neither is what this row wants. */
+.ttp-overrides .ttp-overrides__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+}
+
+.ttp-overrides .ttp-overrides__input[type='checkbox'] {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.ttp-overrides__status {
+  margin: 0;
+  color: var(--ttp-text-muted, var(--tap-base-dark, #565c65));
+  font-size: 0.8125rem;
+}
+
+/* What the graph currently says about the fact, drawn off the attribute the JS already sets rather
+   than a class mirroring it. */
+.ttp-overrides__row[data-status='incomplete'] .ttp-overrides__status {
+  font-style: italic;
+}
+
+.ttp-overrides__row[data-status='error'] .ttp-overrides__status {
+  color: var(--ttp-error, #b50909);
+}
+
+.ttp-overrides--empty {
+  padding-top: 1rem;
+}
+
+
+
+
+/* Token-fallback layer (mirrors global-nav.css's --tgn-* and audit-panel.css's --tap-*): every
+   --ttp-* token chains through the host's own real token with a hard fallback, so the panels render
+   identically inside credit-assistant (which supplies --base-/--primary-/etc. via variables.css)
+   and still look reasonable in a bare host that supplies none. :where() keeps specificity at zero so
+   a host can override. Declared on both roots the bundle owns, since a floating panel and the modal
+   are rendered outside the dock's subtree.
+
+   --ttp-accent is deliberately not token-bridged: the drag and drop affordances are one deliberate
+   colour in the designs, and a host's generic primary would wash the lifted panel's outline out
+   against the panel header behind it.
+
+   taxpert-add-fact-modal is on the list for the same reason taxpert-tools-modal is: it is appended
+   to <body>, so it inherits nothing from the dock's subtree. The tool bodies are not: they render
+   inside a panel and inherit its tokens. */
+
+
+:where(taxpert-tool-dock, taxpert-tool-panel, taxpert-tools-modal, taxpert-add-fact-modal) {
+  --ttp-base-lightest: var(--base-lightest, #f0f0f0);
+  --ttp-base-lighter: var(--base-lighter, #dfe1e2);
+  --ttp-base-light: var(--base-light, #a9aeb1);
+  --ttp-base-dark: var(--base-dark, #565c65);
+  --ttp-base-darkest: var(--base-darkest, #1b1b1b);
+  --ttp-primary: var(--primary, #005ea2);
+  --ttp-primary-lighter: var(--primary-lighter, #d9e8f6);
+  --ttp-primary-dark: var(--primary-dark, #1a4480);
+  --ttp-blue-40v: var(--blue-40v, #2491ff);
+  --ttp-green: var(--success, #00a91c);
+  --ttp-red: var(--error, #d54309);
+  --ttp-surface: var(--color-surface, #ffffff);
+  /* The title bar's violet, and the text that has to read on it. Not token-bridged for the same
+     reason --ttp-accent is not: it is one deliberate colour from the designs, and it is the *same*
+     violet as the selected rendered unit's outline in inspect.css — which cannot reach this token,
+     since it renders out in the host page's flow DOM. Change one and change the other. */
+  --ttp-bar: #6b21a8;
+  --ttp-on-bar: #ffffff;
+  --ttp-accent: #5b5bd6;
+  --ttp-units-05: var(--units-05, 0.25rem);
+  --ttp-units-1: var(--units-1, 0.5rem);
+  --ttp-units-2: var(--units-2, 1rem);
+  --ttp-font: var(--font-sans, 'Source Sans Pro Web', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif);
+  /* Inspect's Advanced readout is raw fact-dictionary XML, which needs the mono face. USWDS ships
+     Roboto Mono, and the fallback stack is the one its own $theme-font-type-mono resolves to. */
+  --ttp-font-mono: var(--font-mono, 'Roboto Mono Web', 'Roboto Mono', 'Bitstream Vera Sans Mono', Consolas, Monaco, monospace);
+
+  /* The two hard constraints from the designs. Both are also read by tool-layout.js, which clamps
+     drags against them — CSS enforces the floor, JS keeps the stored value from drifting below it. */
+  --ttp-min-width: 300px;
+  --ttp-min-height: 300px;
+}
+
+/* The sprite is appended to <body>, outside every element above, so it takes its own rule. */
+.ttp-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ── audit-panel/styles/workspace-settings-modal.css ─────────────────────────────────────── */
+
+/* <taxpert-workspace-settings-modal>, the "Workspace settings" dialog opened from the global
+   nav's settings gear (next to the workspace toggle). In credit-assistant, loaded through
+   audit-panel.css's @import chain and gated by the toggled <link id="audit-panel-styles">; in
+   fact-explorer, loaded directly by the react/WorkspaceSettingsModal.jsx adapter.
+
+   Self-contained: the base <dialog> chrome is declared here rather than inherited from
+   credit-assistant's components/modals.css, so the modal looks the same in any host. Like
+   <taxpert-scenario-modal>/<taxpert-display-modal>, the checkbox/button controls themselves are
+   real USWDS components (.usa-checkbox, .usa-button, .usa-modal__*) — USWDS is the project's
+   default, not something to reimplement in bespoke CSS. fact-explorer (the one host without
+   USWDS vendored some other way) loads its own copy specifically so this renders correctly there
+   too — see its src/styles/uswds.scss.
+
+   Token bridging: each --twsm-* color checks the host's own real token first (credit-assistant's
+   --primary/--base-* via the --tap-* layer from audit-panel.css, or fact-explorer's
+   --color-*), falling through to a hard-coded default — same two-tier pattern as global-nav.css's
+   --tgn-* tokens — so the modal's selected/focus accent picks up each host's actual brand color
+   instead of a generic one belonging to neither. --twsm-border is the one exception: the design
+   calls for exactly 1px #d6d7d9 everywhere, so it isn't token-bridged. */
+
+
+
+:where(taxpert-workspace-settings-modal) {
+  --twsm-border: #d6d7d9;
+  --twsm-text: var(--color-text, var(--tap-base-darkest, #1b1b1b));
+  --twsm-hint: var(--color-text-muted, var(--tap-base-dark, #565c65));
+  --twsm-selected-border: var(--color-primary, var(--tap-primary, #005ea2));
+  --twsm-selected-bg: var(--color-primary-tint, var(--tap-primary-lighter, #d9e8f6));
+  --twsm-font: var(--font-sans, 'Source Sans Pro Web', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif);
+
+  /* The section accordions' own lavender, matching the global nav's active-menu fill
+     (--tgn-menu-active in global-nav.css) so the settings gear reads as the same surface as the
+     nav it hangs off. Fixed rather than token-bridged, same as --twsm-border above: the design
+     calls for exactly this color, not a host's brand accent. */
+  --twsm-section-bg: #e6e6fa;
+
+  /* The dialog's own insets. Declared once because two things read them: the main block's padding
+     and the close button's position — and the X sitting on the heading depends on the two agreeing. */
+  --twsm-inset-x: 2rem;
+  --twsm-inset-top: 1.5rem;
+}
+
+taxpert-workspace-settings-modal {
+  display: contents;
+}
+
+.twsm-dialog {
+  display: block;
+  box-sizing: border-box;
+  width: 90vw;
+  max-width: 32.375rem; /* 518px — the design's modal width */
+  max-height: 90vh;
+  margin: auto;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--twsm-border);
+  border-radius: 0.25rem;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  color: var(--twsm-text);
+  font-family: var(--twsm-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left; /* every row in this modal is left-aligned */
+  z-index: 1050;
+}
+
+.twsm-dialog:not([open]) {
+  display: none;
+}
+
+.twsm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* USWDS gives .usa-modal__content a 2rem padding-top to clear its own close button, which sits
+   above the main block in its markup. This shell puts the close button inside .twsm-main instead,
+   so that band is dead space over the heading — every inset in this dialog is .twsm-main's. */
+.twsm-dialog .usa-modal__content {
+  padding-top: 0;
+}
+
+/* Every rule below is scoped through .twsm-dialog rather than written as a bare class. `.twsm-main`
+   and `.twsm-close` collide head-on with credit-assistant's own components/modals.css, which sets
+   `.usa-modal__main { padding-bottom: .5rem }` and `.usa-modal__close { top: 0; right: 0 }` on the
+   same elements at the same specificity — so which one wins is decided by stylesheet order, and the
+   order differs per host. The audit-panel modals happen to load after it (their own <link>); the
+   tool-panels bundle loads from inside main.css *before* it, which is why the Tools dialog was
+   drawing its close button in the corner and losing its bottom inset. Two classes beat one
+   everywhere, so the dialogs now look the same wherever they are loaded from. This is the same
+   defence the `.usa-modal__heading.twsm-heading` rule below already documents. */
+.twsm-dialog .twsm-main {
+  position: relative;
+  box-sizing: border-box;
+  /* Full width, explicitly. USWDS makes .usa-modal__content a `display: flex` column and gives
+     .usa-modal__main `margin: 0 auto` — and an auto margin on a flex line's *cross* axis absorbs the
+     free space instead of stretching, so the main block sized itself to its widest child rather than
+     to the dialog. That put the whole modal at the intrinsic width of the longest label in it ("Reset
+     configuration to the build defaults"), which is why it drew narrow in Fact Explorer while the
+     same component drew full-width in a host whose own modal CSS happened to re-declare a width.
+     Zeroing the side margins restores the stretch; the width and border-box make it independent of
+     which rule wins. */
+  width: 100%;
+  margin-inline: 0;
+  padding: var(--twsm-inset-top) var(--twsm-inset-x) 2rem;
+}
+
+/* On the heading's line, not floating in the corner above it. It starts at the same top inset the
+   heading does and takes the heading's line box as its height, so USWDS's own `align-items: center`
+   centres the icon on the words rather than on a taller box. The right inset is pulled back by the
+   button's padding so the icon — not the hit area — lands flush with the section rules below. */
+.twsm-dialog .twsm-close {
+  position: absolute;
+  top: var(--twsm-inset-top);
+  right: calc(var(--twsm-inset-x) - 0.25rem);
+  box-sizing: border-box;
+  height: 1.7875rem; /* .twsm-heading's line box: 1.375rem × 1.3 */
+  min-width: 0;
+  margin: 0;
+  padding: 0 0.25rem;
+  background: transparent;
+  color: var(--twsm-text);
+}
+
+.twsm-dialog .twsm-close:hover,
+.twsm-dialog .twsm-close:active {
+  background: transparent;
+  color: var(--twsm-text);
+}
+
+.twsm-dialog .twsm-close:focus-visible {
+  outline: 2px solid var(--twsm-selected-border);
+  outline-offset: 2px;
+}
+
+/* The heading's rule is the only line in this modal. The section itself runs together.
+   Selector is doubled up with .usa-modal__heading (the element carries both classes — see
+   workspace-settings-modal.js) so this wins on specificity over real USWDS's own
+   .usa-modal__heading rule, which sets font-family to its "heading" role (serif by default)
+   — a single-class rule here would only win by accident of stylesheet load order, and does
+   in some hosts but not others. */
+.usa-modal__heading.twsm-heading {
+  margin: 0 0 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--twsm-border);
+  font-family: var(--twsm-font);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* ── Section ─────────────────────────────────────────────────────────────── */
+/* Every section is a shut <details> (see workspace-settings-modal.html), so the modal opens as a
+   stack of lavender rows, each its own pill — the global nav's --tgn-menu-active fill, not a plain
+   list of titles with a rule between them. Opening one frames it in a 4px rule of the same color,
+   which is what tells you which pill is the one holding the content underneath it; a closed pill
+   carries no border, because there is nothing under it to frame.
+
+   --twsm-section-pad is still the one number that spaces an open section's content from its own
+   summary and from the next pill down, the same job it always did. */
+
+.twsm-section {
+  --twsm-section-pad: 1rem;
+
+  margin-top: 0.75rem;
+}
+
+.twsm-section:first-of-type {
+  margin-top: 0;
+}
+
+/* The pill is wider than the text above it: rather than sitting at the same --twsm-inset-x the
+   heading and hint text use, it is pulled out to sit 1rem off the dialog's true edge — the target
+   design's rows read as nearly full-bleed, not centered inside the same margin everything else
+   uses. 1rem rather than a hairline gap because flush-to-the-border read as clipped, not wide.
+   Computed off --twsm-inset-x rather than a fixed value so it stays correct at the narrow
+   viewport below, where that variable shrinks. The footer's reset button gets the same treatment
+   so the two land flush with each other. */
+.twsm-section,
+.twsm-footer {
+  margin-inline: calc(2rem - var(--twsm-inset-x));
+}
+
+/* The whole title row is the toggle. flex + justify-content puts the title at the leading edge and
+   the chevron at the trailing one; the native disclosure marker is hidden because the chevron below
+   replaces it, drawn (and rotated) on purpose rather than left to whatever the browser ships. */
+.twsm-section__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  background: var(--twsm-section-bg);
+  cursor: pointer;
+  list-style: none;
+}
+
+.twsm-section__summary::-webkit-details-marker {
+  display: none;
+}
+
+.twsm-section__summary:focus-visible {
+  outline: 2px solid var(--twsm-selected-border);
+  outline-offset: 2px;
+}
+
+/* The heading is inside the <summary> to keep the modal's document outline; inline so it shares the
+   row's line instead of being pushed below it by its own block box. */
+.twsm-section__title {
+  display: inline;
+  margin: 0;
+  font-family: var(--twsm-font);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* USWDS's own expand_more glyph, the same path the tool panels' row chevrons draw, so a shut
+   section reads as "opens downward" and an open one, rotated, as "was opened from here". */
+.twsm-section__chevron {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--twsm-text);
+  transition: transform 0.15s ease;
+}
+
+.twsm-section[open] .twsm-section__chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .twsm-section__chevron {
+    transition: none;
+  }
+}
+
+/* The frame an open section gets, in the same lavender its summary is already filled with. The
+   border rounds past the summary's own corners, and the summary loses its bottom two so the two
+   pieces read as one continuous pill rather than a rounded row inside a rounded box. Padding moves
+   here (from the old flat .twsm-section rule) so the content lines up under the summary's own
+   inset instead of touching the frame. */
+.twsm-section[open] {
+  padding: 0 1rem 1rem;
+  border: 4px solid var(--twsm-section-bg);
+  border-radius: 0.375rem;
+}
+
+.twsm-section[open] > .twsm-section__summary {
+  margin: 0 -1rem;
+  border-radius: 0.125rem 0.125rem 0 0;
+}
+
+.twsm-section__hint {
+  margin: var(--twsm-section-pad) 0 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--twsm-text);
+}
+
+/* An open section's own first block sets the gap under the title; anything that lands there without
+   a margin of its own (the Advanced fields, an empty state) gets the same one. */
+.twsm-section > .twsm-section__summary + * {
+  margin-top: var(--twsm-section-pad);
+}
+
+/* ── Option rows ─────────────────────────────────────────────────────────── */
+/* Each choice is its own bordered box. The Display modal's option rows use the same treatment
+   now. The Tools modal is the one holdout with stock USWDS rows, since a tool checkbox there reads
+   as one item in a list rather than a switch you are throwing for the whole workspace.
+
+   The box is USWDS's own tile variant (`usa-checkbox__input--tile` on the input — see
+   workspace-settings-modal.html), not a bespoke one on the wrapper. USWDS draws the tile on the
+   *label*, which is what makes the whole box a click target rather than just the control and its
+   words, and gives it the padding, radius, and control-art offset every other USWDS tile has. Only
+   the colors are ours: the design's 1px border instead of USWDS's 2px gray, and the host's brand
+   token for the selected fill instead of the primary USWDS compiled in. Both rules sit on the
+   input, not the label, so they outweigh USWDS's own `--tile` pair in any load order. */
+
+.twsm-option .usa-checkbox__input--tile + .usa-checkbox__label {
+  border: 1px solid var(--twsm-border);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Selected follows from the control itself, rather than from a `--selected` class the JS toggles. */
+.twsm-option .usa-checkbox__input--tile:checked + .usa-checkbox__label {
+  border-color: var(--twsm-selected-border);
+  background-color: var(--twsm-selected-bg);
+}
+
+/* USWDS gives .usa-checkbox a white background of its own; with the tile drawing the box, that
+   would show as white corners around a selected tile's rounded ones. */
+.twsm-option.usa-checkbox {
+  background: transparent;
+}
+
+/* ── Application rows ────────────────────────────────────────────────────── */
+/* The same tile treatment as an option row, on USWDS's *radio* variant: the workspace is over one
+   application at a time, so the control has to say so. Everything below is the two-line body inside
+   that tile — the tile itself, its border and its selected fill, are USWDS's and the rules above's
+   twins, deliberately kept as separate selectors rather than a shared class, because
+   `.usa-checkbox__label` and `.usa-radio__label` are different USWDS components and grouping them
+   would mean one rule silently depending on both staying identical. */
+
+.twsm-apps {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.twsm-app .usa-radio__input--tile + .usa-radio__label {
+  border: 1px solid var(--twsm-border);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.twsm-app .usa-radio__input--tile:checked + .usa-radio__label {
+  border-color: var(--twsm-selected-border);
+  background-color: var(--twsm-selected-bg);
+}
+
+.twsm-app.usa-radio {
+  background: transparent;
+}
+
+.twsm-app__name {
+  display: block;
+  font-weight: 700;
+}
+
+/* The application's own modes. Muted and smaller: it is what you would get, not what you are
+   choosing between — the choice is the application. */
+.twsm-app__modes {
+  display: block;
+  margin-top: 0.125rem;
+  color: var(--twsm-hint);
+  font-size: 0.875rem;
+}
+
+/* Shown in place of the rows when the host declares no feature flags. The library's own default,
+   and the state of any application that has nothing in testing. Muted, because it is a statement
+   about this build rather than something to act on. */
+.twsm-empty {
+  margin: 0;
+  color: var(--twsm-hint);
+  font-size: 0.9375rem;
+  font-style: italic;
+}
+
+/* ── Narrow viewports ────────────────────────────────────────────────────── */
+
+@media (max-width: 30em) {
+  /* Narrowing the inset takes the close button with it, which is what the property is for. An
+     element selector beats the zero-specificity :where() the defaults are declared in. */
+  taxpert-workspace-settings-modal {
+    --twsm-inset-x: 1.25rem;
+  }
+
+  .twsm-dialog .twsm-main {
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* ── Overridden markers ──────────────────────────────────────────────────── */
+/* A section whose configuration no longer matches the build says so, with the way back beside it.
+   Quiet — this is a note about where a value came from, not a warning — but always present, because
+   a workspace edited in one browser and not in another is otherwise indistinguishable from a bug. */
+
+.twsm-override {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  color: var(--twsm-hint);
+  font-size: 0.875rem;
+}
+
+.twsm-dialog .twsm-reset {
+  font-size: 0.875rem;
+}
+
+/* The reset-everything button, shown only while there is something to reset. Its own row, above the
+   dialog's bottom inset, separated by the same rule — and now by the same gap — that divides the
+   sections, so it reads as the end of that stack rather than as a block pushed away from it. */
+.twsm-footer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--twsm-border);
+}
+
+.twsm-footer[hidden] {
+  display: none;
+}
+
+/* USWDS buttons size to their own label by default and carry their own horizontal margin for
+   sitting beside other buttons; both are reset here so the button spans exactly the widened
+   footer above — the same width as the section pills — rather than a narrower control floating
+   inside it, or a wider one overflowing it. */
+.twsm-dialog .twsm-reset-all {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+}
+
+/* ── Outcomes editor ─────────────────────────────────────────────────────── */
+/* A determination is a nested form (name, fact, wording, then a group of facts per section), so
+   each one is a shut <details>. That keeps the modal the same height whether a host tracks one
+   outcome or six, and means the list can be read at a glance before anything is opened. The marker
+   is USWDS-plain; the summary carries the row's own name, which is the only thing to see when
+   shut. */
+
+.twsm-outcome {
+  margin-top: 0.5rem;
+  border: 1px solid var(--twsm-border);
+  border-radius: 0.25rem;
+}
+
+.twsm-outcome__summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.twsm-outcome__summary:focus-visible {
+  outline: 2px solid var(--twsm-selected-border);
+  outline-offset: -2px;
+}
+
+.twsm-outcome__body {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--twsm-border);
+}
+
+.twsm-field {
+  margin-top: 0.75rem;
+}
+
+/* USWDS's .usa-label carries a 1.5rem top margin meant for a form column; inside these rows the
+   field's own margin already does that spacing, and both together doubles it. */
+.twsm-dialog .twsm-field__label {
+  margin-top: 0;
+  font-size: 0.875rem;
+}
+
+/* `border-box` is the load-bearing half. USWDS gives these `width: 100%` and then its own padding and
+   1px border on top — .usa-select's padding-right is 2rem, to clear the chevron it paints — so under
+   the UA's default content-box each control renders wider than the box it sits in: the select by
+   42px, the inputs and the facts textarea by 18px each, which is the overflow inside an open outcome.
+   It looks fine in a host whose global reset happens to say `* { box-sizing: border-box }` and breaks
+   in one that doesn't, so this dialog states it rather than inheriting it — the same reason the
+   chrome above is declared here instead of borrowed from the host. */
+.twsm-dialog .twsm-field .usa-input,
+.twsm-dialog .twsm-field .usa-select,
+.twsm-dialog .twsm-field .usa-textarea {
+  box-sizing: border-box;
+  max-width: none; /* USWDS caps these at 30rem, which is narrower than this dialog */
+}
+
+/* Fact paths are read as a column of paths, so they get the mono face the Inspect panel's XML does
+   — a proportional font makes two similar paths hard to tell apart at a glance. */
+.twsm-dialog .twsm-facts {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+}
+
+/* A group of facts inside a determination: indented under the fields it belongs to, and ruled on
+   the left so the nesting is visible without a second border box.
+
+   The right padding matches the left. It used to be 0, so a full-width .usa-input inside ran 0.75rem
+   further right than its own label's indent — reading as an input overflowing the group rather than
+   sitting in it. `min-width: 0` because this is a <fieldset>, and a fieldset's initial `min-width` is
+   `min-content` rather than `auto`: without it, one long unbroken fact path in the textarea below can
+   push the whole group wider than the dialog instead of wrapping. */
+.twsm-outcome-section {
+  min-width: 0;
+  margin: 1rem 0 0;
+  padding: 0 0.75rem 0.5rem;
+  border: none;
+  border-left: 2px solid var(--twsm-border);
+}
+
+.twsm-outcome__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.twsm-dialog .twsm-remove {
+  color: var(--twsm-hint);
+}
+
+.twsm-add {
+  margin-top: 1rem;
+}
+
+/* An outcome whose wording comes from host code rather than from a descriptor. */
+.twsm-note {
+  margin: 0.5rem 0 0;
+  color: var(--twsm-hint);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* ── Advanced ────────────────────────────────────────────────────────────── */
+/* Nothing of its own left: Advanced was the first section to be a disclosure, and now that they all
+   are, `.twsm-section` above carries its rule, its insets and its summary treatment. It stays last
+   in the markup, which is the whole of what still sets it apart.
+
+   Why an import failed. Red, because unlike `.twsm-override` this is something that did not happen
+   and has to be acted on. */
+.twsm-error {
+  margin: 0.5rem 0 0;
+  color: var(--twsm-error, #b50909);
+  font-size: 0.875rem;
+}

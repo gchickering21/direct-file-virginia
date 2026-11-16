@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virginia Rules Workbench: from a law change to the filer's screen</title>
+<!-- Design mockups only. Static HTML; nothing here runs the engine or writes to the repository.
+     Companion to rules-workbench.html, whose stylesheet this file carries. The 2024 values come from
+     facts/virginia.xml. The 2026 Act, its chapter, the people and every 2026 figure are invented to show
+     the workflow and are not Virginia law or Virginia Tax staff. -->
+<style>
+  :root {
+    --va-navy: #13294b;
+    --va-orange: #e57200;
+    --va-orange-tint: #fdf2e6;
+    --va-navy-tint: #f4f6fa;
+    --va-line: #dfe4ec;
+    --va-ink: #1b1b1b;
+    --va-muted: #565c65;
+    --ok: #00a91c;
+    --ok-tint: #ecf3ec;
+    --warn: #b54d00;
+    --warn-tint: #fef0c8;
+    --bad: #b50909;
+    --bad-tint: #f8e1de;
+    --link: #005ea2;
+    --serif: "Merriweather", Georgia, "Times New Roman", serif;
+    --sans: "Source Sans Pro", "Source Sans 3", -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--sans); color: var(--va-ink); background: #e9ebee; line-height: 1.45; }
+  code, .mono { font-family: var(--mono); font-size: 12.5px; }
+
+  /* ---------- Mockup document chrome (same as virginia-theme.html) ---------- */
+  .doc-head { background: #fff; border-bottom: 1px solid #ccc; padding: 28px 40px 20px; }
+  .doc-head h1 { margin: 0 0 6px; font-size: 26px; }
+  .doc-head p { margin: 0 0 6px; color: var(--va-muted); max-width: 980px; }
+  .doc-nav { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #ccc; padding: 10px 40px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .doc-nav a { text-decoration: none; color: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; background: #f0f0f0; }
+  .doc-nav a:hover { background: var(--va-line); }
+  .board { padding: 36px 40px 10px; scroll-margin-top: 50px; }
+  .board > h2 { font-size: 20px; margin: 0 0 4px; }
+  .board > .lede { color: var(--va-muted); margin: 0 0 20px; max-width: 980px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: start; }
+  .notes { background: #fff; border-radius: 8px; padding: 18px 20px; font-size: 14.5px; border-left: 4px solid var(--va-orange); position: sticky; top: 70px; }
+  .notes h3 { margin: 0 0 8px; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; color: var(--va-navy); }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 7px; }
+  .notes code { background: #f3f3f3; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+  .frame { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.10); }
+  .frame-bar { background: #f1f1f1; padding: 8px 12px; display: flex; gap: 6px; align-items: center; border-bottom: 1px solid #ddd; }
+  .frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: #d0d0d0; display: inline-block; }
+  .frame-bar span { margin-left: 10px; font-size: 12px; color: #666; background: #fff; border-radius: 4px; padding: 2px 10px; flex: 1; }
+
+  /* ---------- The workbench app ---------- */
+  .wb-top { background: var(--va-navy); color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; gap: 16px; }
+  .wb-brand { display: flex; align-items: center; gap: 10px; }
+  .wb-brand .name { font-family: var(--serif); font-weight: 700; font-size: 17px; }
+  .wb-brand .yr { font-size: 12px; background: rgba(255,255,255,.14); padding: 2px 8px; border-radius: 999px; }
+  .wb-top .who { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--va-orange); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex: none; }
+  .avatar.eng { background: #2378c3; }
+  .avatar.rev { background: #5e8e3e; }
+  .role { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; background: var(--va-orange-tint); color: var(--warn); }
+  .role.eng { background: #e1f3f8; color: #1a4480; }
+  .role.rev { background: var(--ok-tint); color: #2e6213; }
+  .wb-rule { height: 4px; background: var(--va-orange); }
+  .draft-strip { background: var(--warn-tint); border-bottom: 1px solid #f0d58c; font-size: 13.5px; padding: 7px 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .draft-strip b { color: var(--warn); }
+
+  .wb { display: grid; grid-template-columns: 200px minmax(0, 1fr); min-height: 520px; }
+  .side { background: var(--va-navy-tint); border-right: 1px solid var(--va-line); padding: 14px 0; font-size: 14px; }
+  .side a { display: flex; justify-content: space-between; align-items: center; padding: 8px 18px; text-decoration: none; color: var(--va-ink); border-left: 4px solid transparent; }
+  .side a.on { background: #fff; border-left-color: var(--va-orange); font-weight: 700; }
+  .side .count { font-size: 12px; background: var(--va-line); border-radius: 999px; padding: 0 7px; font-weight: 400; }
+  .side .sect { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--va-muted); padding: 14px 18px 4px; }
+  .main { padding: 20px 24px 28px; min-width: 0; }
+  .main h1 { font-family: var(--serif); font-size: 21px; margin: 0 0 4px; color: var(--va-navy); }
+  .main .sub { color: var(--va-muted); margin: 0 0 16px; font-size: 14.5px; }
+  .crumb { font-size: 13px; color: var(--va-muted); margin-bottom: 6px; }
+  .crumb a { color: var(--link); }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 14px; font-weight: 700; border-radius: 4px; padding: 7px 14px; border: 0; background: var(--link); color: #fff; cursor: default; white-space: nowrap; }
+  .btn.sec { background: #fff; color: var(--link); box-shadow: inset 0 0 0 2px var(--link); }
+  .btn.quiet { background: transparent; color: var(--link); padding: 7px 6px; }
+  .btn.ok { background: #2e6213; }
+  .btn.sm { font-size: 13px; padding: 4px 10px; }
+  .toolbar { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; }
+  .search { border: 1px solid #a9aeb1; border-radius: 4px; padding: 7px 10px; font: inherit; font-size: 14px; width: 300px; color: var(--va-muted); }
+  .pill { display: inline-block; font-size: 12px; border-radius: 999px; padding: 1px 9px; background: var(--va-line); color: var(--va-ink); white-space: nowrap; }
+  .pill.ok { background: var(--ok-tint); color: #2e6213; }
+  .pill.warn { background: var(--warn-tint); color: var(--warn); }
+  .pill.bad { background: var(--bad-tint); color: var(--bad); }
+  .pill.blue { background: #e1f3f8; color: #1a4480; }
+  .cite { font-size: 12.5px; color: var(--va-muted); }
+  .cite a { color: var(--link); white-space: nowrap; }
+
+  table.grid { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.grid th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--va-muted); border-bottom: 2px solid var(--va-line); padding: 8px 10px; font-weight: 700; }
+  table.grid td { border-bottom: 1px solid var(--va-line); padding: 9px 10px; vertical-align: top; }
+  table.grid td.num, table.grid th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.grid tr.changed td { background: #fffaf0; }
+  table.grid tr.group td { background: var(--va-navy-tint); font-weight: 700; color: var(--va-navy); font-size: 13px; }
+  .cell-input { display: inline-block; min-width: 92px; text-align: right; border: 2px solid var(--va-orange); border-radius: 4px; padding: 3px 8px; background: #fff; font-variant-numeric: tabular-nums; }
+  .cell-empty { display: inline-block; min-width: 92px; text-align: right; border: 1px dashed #a9aeb1; border-radius: 4px; padding: 3px 8px; color: #71767a; }
+  .was { text-decoration: line-through; color: var(--va-muted); font-size: 12.5px; margin-right: 6px; }
+
+  /* Line list on the home screen */
+  .lines { display: grid; gap: 8px; }
+  .line { display: grid; grid-template-columns: 70px minmax(0,1fr) 150px 120px; gap: 14px; align-items: center; border: 1px solid var(--va-line); border-radius: 6px; padding: 10px 14px; background: #fff; }
+  .line .no { font-family: var(--serif); font-weight: 700; color: var(--va-navy); }
+  .line .t { font-weight: 700; }
+  .line .kind { font-size: 12.5px; color: var(--va-muted); }
+  .line > .pill { justify-self: start; }
+
+  /* Rule card */
+  .card { border: 1px solid var(--va-line); border-radius: 8px; background: #fff; }
+  .card-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--va-line); }
+  .card-h h2 { margin: 0 0 2px; font-size: 18px; font-family: var(--serif); color: var(--va-navy); }
+  .tabs { display: flex; gap: 2px; font-size: 13.5px; }
+  .tabs span { padding: 5px 12px; border-radius: 4px 4px 0 0; border: 1px solid var(--va-line); border-bottom: 0; background: var(--va-navy-tint); }
+  .tabs span.on { background: #fff; font-weight: 700; }
+  .card-b { padding: 16px 18px; }
+  .clause { display: grid; grid-template-columns: 96px minmax(0,1fr); gap: 10px; align-items: start; padding: 10px 12px; border-radius: 6px; background: var(--va-navy-tint); margin-bottom: 8px; position: relative; }
+  .clause.new { background: var(--va-orange-tint); outline: 2px dashed var(--va-orange); }
+  .clause .kw { font-weight: 700; text-transform: uppercase; font-size: 12.5px; letter-spacing: .05em; color: var(--va-navy); padding-top: 6px; }
+  .clause .body { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 14.5px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #a9aeb1; border-radius: 4px; padding: 4px 9px; font-size: 14px; }
+  .chip .ty { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; border-radius: 3px; padding: 0 5px; }
+  .ty.asked { background: var(--va-orange-tint); color: var(--warn); }
+  .ty.fed { background: #e1f3f8; color: #1a4480; }
+  .ty.calc { background: #eee; color: #444; }
+  .ty.val { background: var(--ok-tint); color: #2e6213; }
+  .ty.req { background: #ebe3f9; color: #54278f; }
+  .chip.req { border: 1px dashed #8168b3; background: #f8f5fc; }
+  .ty { display: inline-block; }
+  .chip.op { background: var(--va-navy); color: #fff; border-color: var(--va-navy); font-weight: 700; }
+  .chip.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .chip .caret { color: var(--va-muted); font-size: 11px; }
+  .then-arrow { color: var(--va-muted); font-weight: 700; padding: 0 2px; }
+  .why { grid-column: 2; font-size: 12.5px; color: var(--va-muted); }
+  .why b { color: var(--va-ink); }
+  .add-row { display: flex; gap: 8px; margin: 4px 0 2px; }
+  .handle { position: absolute; left: -14px; top: 12px; color: #a9aeb1; font-size: 12px; }
+
+
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
+  .panel { border: 1px solid var(--va-line); border-radius: 8px; background: #fff; overflow: hidden; }
+  .panel-h { padding: 10px 14px; border-bottom: 1px solid var(--va-line); font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; align-items: center; background: var(--va-navy-tint); }
+  .panel-b { padding: 12px 14px; font-size: 13.5px; }
+  .impact { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 8px 0; border-bottom: 1px solid var(--va-line); }
+  .impact:last-child { border-bottom: 0; }
+  .impact .n { font-weight: 700; }
+  .impact .d { grid-column: 1 / -1; color: var(--va-muted); font-size: 12.5px; }
+  .big { font-size: 26px; font-weight: 700; font-family: var(--serif); color: var(--va-navy); line-height: 1.1; }
+
+  .checks { list-style: none; padding: 0; margin: 0; }
+  .checks li { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; }
+  .dot { width: 18px; height: 18px; border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; margin-top: 1px; }
+  .dot.ok { background: var(--ok); }
+  .dot.wait { background: #a9aeb1; }
+  .dot.bad { background: var(--bad); }
+
+  pre.xml { margin: 0; font-family: var(--mono); font-size: 12px; line-height: 1.55; background: #1b1b1b; color: #e6e6e6; padding: 12px 14px; border-radius: 6px; overflow-x: auto; }
+  pre.xml .add { background: rgba(0,169,28,.22); display: block; }
+  pre.xml .del { background: rgba(181,9,9,.3); display: block; }
+  pre.xml .c { color: #9aa5b1; }
+  pre.xml .t { color: #8cc8ff; }
+  pre.xml .a { color: #ffc68a; }
+
+  .scen td .exp { font-weight: 700; }
+  .res-ok { color: #2e6213; font-weight: 700; }
+  .res-bad { color: var(--bad); font-weight: 700; }
+
+  .diff-plain { border: 1px solid var(--va-line); border-radius: 8px; padding: 4px 16px; background: #fff; }
+  .diff-item { display: grid; grid-template-columns: 26px minmax(0,1fr); gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--va-line); }
+  .diff-item:last-child { border-bottom: 0; }
+  .diff-item .sym { width: 22px; height: 22px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; background: var(--va-orange); font-size: 13px; }
+  .diff-item .sym.add { background: var(--ok); }
+  .diff-item p { margin: 0 0 3px; }
+
+  .approvals { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .appr { border: 1px solid var(--va-line); border-radius: 8px; padding: 12px 14px; background: #fff; }
+  .appr.done { border-color: #8fc27c; background: var(--ok-tint); }
+  .appr h4 { margin: 0 0 6px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .appr p { margin: 0; font-size: 13.5px; color: var(--va-muted); }
+
+  .thread { border-left: 3px solid var(--va-line); padding-left: 12px; margin-top: 12px; font-size: 13.5px; }
+  .msg { display: flex; gap: 10px; margin-bottom: 10px; }
+  .msg .b { background: var(--va-navy-tint); border-radius: 8px; padding: 8px 10px; }
+  .msg .b .who { font-weight: 700; font-size: 12.5px; }
+
+  .form-row { margin-bottom: 14px; }
+  .form-row label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+  .form-row .hint { color: var(--va-muted); font-size: 13px; margin-bottom: 5px; }
+  .field { border: 1px solid #a9aeb1; border-radius: 4px; padding: 8px 10px; font-size: 14px; background: #fff; }
+  .field.tall { min-height: 70px; }
+  .field.ai { border-color: #8168b3; background: #f5f2fa; }
+  .ai-badge { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: #54278f; background: #ebe3f9; padding: 2px 7px; border-radius: 3px; }
+
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--va-muted); margin-top: 10px; }
+  .legend > span { display: inline-flex; gap: 5px; align-items: center; }
+
+  /* How the screens connect */
+  .flowmap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; font-size: 13.5px; }
+  .flowmap a { text-decoration: none; color: var(--va-ink); background: var(--va-navy-tint); border: 1px solid var(--va-line); border-radius: 6px; padding: 5px 10px; }
+  .flowmap a b { color: var(--va-orange); margin-right: 4px; }
+  .flowmap .arr { color: var(--va-muted); }
+  .flowmap .side-branch { border-style: dashed; }
+  .attn { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .attn a { text-decoration: none; color: inherit; border: 1px solid var(--va-line); border-radius: 6px; padding: 10px 12px; background: #fff; border-top: 3px solid var(--va-orange); font-size: 13.5px; }
+  .attn a b { display: block; font-size: 14.5px; }
+  .attn a .cite { display: block; margin-top: 2px; }
+  .attn a.wait { border-top-color: #8168b3; }
+  .attn a.ok { border-top-color: var(--ok); }
+
+  @media (max-width: 1250px) {
+    .row { grid-template-columns: 1fr; }
+    .notes { position: static; }
+  }
+  @media (max-width: 980px) {
+    .split { grid-template-columns: 1fr; }
+    .wb { grid-template-columns: 1fr; }
+    .side { display: none; }
+  }
+
+  /* ---------- Additions for the law-to-screen boards ---------- */
+  .ai { background: #f8f5fc; border: 1px solid #c9b8ea; border-radius: 6px; }
+  .ai-h { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #e3d9f5; font-size: 12.5px; color: #54278f; font-weight: 700; }
+  .ai-h .pill { background: #ebe3f9; color: #54278f; }
+  .lawbox { border: 1px solid #a9aeb1; border-radius: 4px; padding: 10px 12px; font-family: var(--serif); font-size: 13.5px; line-height: 1.5; background: #fff; color: var(--va-ink); min-height: 120px; }
+  .lawbox .mark { background: var(--warn-tint); }
+  .field { margin-bottom: 12px; }
+  .field label, .field .lab { display: block; font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
+  .field .hint { font-size: 12.5px; color: var(--va-muted); margin-top: 3px; }
+  .input { display: block; width: 100%; border: 1px solid #a9aeb1; border-radius: 4px; padding: 7px 10px; font: inherit; font-size: 14px; background: #fff; }
+  .input.on { border: 2px solid var(--va-orange); }
+  .input.sel::after { content: " ▾"; color: var(--va-muted); }
+  .choice { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #a9aeb1; border-radius: 999px; padding: 4px 12px; font-size: 13.5px; background: #fff; margin: 0 4px 4px 0; }
+  .choice.on { border: 2px solid var(--va-navy); background: var(--va-navy-tint); font-weight: 700; }
+  .touch { display: grid; grid-template-columns: 22px minmax(0,1fr) 112px; gap: 10px; align-items: start; padding: 10px 12px; border-top: 1px solid #e3d9f5; font-size: 13.5px; }
+  .touch .box { width: 16px; height: 16px; border: 2px solid var(--va-navy); border-radius: 3px; display: inline-block; margin-top: 2px; text-align: center; font-size: 11px; line-height: 12px; font-weight: 700; color: #fff; }
+  .touch .box.on { background: var(--va-navy); }
+  .touch .box.off { border-color: #a9aeb1; }
+  .touch b { display: block; }
+  .touch .cite { display: block; }
+  .touch .goes { font-size: 12.5px; color: var(--link); }
+  .touch .who { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--va-muted); margin-top: 4px; }
+  .touch .tail { text-align: right; }
+  .touch.off { color: var(--va-muted); }
+
+  /* Tax-year timeline */
+  table.grid td.yr { text-align: right; font-variant-numeric: tabular-nums; min-width: 92px; }
+  .carry { color: #71767a; }
+  .carry::before { content: "→ "; }
+  .set { font-weight: 700; }
+  .set.new { background: #fff; border: 2px solid var(--va-orange); border-radius: 4px; padding: 2px 8px; display: inline-block; }
+  .ends { color: var(--bad); font-size: 12px; display: block; }
+  .strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 10px 0 14px; position: relative; }
+  .strip::before { content: ""; position: absolute; left: 0; right: 0; top: 19px; height: 3px; background: var(--va-line); }
+  .seg { position: relative; padding-top: 32px; font-size: 13px; }
+  .seg::before { content: ""; position: absolute; left: 0; top: 13px; width: 15px; height: 15px; border-radius: 50%; background: #fff; border: 3px solid #a9aeb1; }
+  .seg.set::before { border-color: var(--va-navy); background: var(--va-navy); }
+  .seg.new::before { border-color: var(--va-orange); background: var(--va-orange); }
+  .seg .y { font-weight: 700; display: block; }
+  .seg .v { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .seg .src { display: block; font-size: 12px; color: var(--va-muted); }
+  .seasons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .season { border: 1px solid var(--va-line); border-radius: 6px; padding: 10px 12px; font-size: 13.5px; }
+  .season b { display: block; }
+  .season.hot { border-color: var(--va-orange); background: #fffaf3; }
+
+  /* Question builder */
+  .qb { display: grid; grid-template-columns: minmax(0,1fr) 380px; gap: 18px; align-items: start; }
+  .step-n { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--va-navy); color: #fff; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-right: 8px; }
+  .lint { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12.5px; margin-top: 6px; }
+  .lint span::before { content: "✓ "; color: var(--ok); font-weight: 700; }
+  .lint span.w::before { content: "! "; color: var(--warn); }
+  .flowlist { border: 1px solid var(--va-line); border-radius: 6px; overflow: hidden; font-size: 13.5px; }
+  .flowlist div { padding: 6px 12px; border-bottom: 1px solid var(--va-line); display: flex; justify-content: space-between; }
+  .flowlist div:last-child { border-bottom: 0; }
+  .flowlist .ins { background: var(--va-orange-tint); border-left: 4px solid var(--va-orange); font-weight: 700; }
+  .flowlist .n { color: var(--va-muted); font-weight: 400; }
+
+  /* The filer's screen, as a preview */
+  .scr { border: 1px solid var(--va-line); border-radius: 8px; overflow: hidden; background: #fff; font-size: 14px; }
+  .scr-top { background: var(--va-navy); color: #fff; padding: 8px 14px; font-family: var(--serif); font-weight: 700; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+  .scr-top i { font-style: normal; font-weight: 400; font-size: 11px; background: var(--va-orange); padding: 1px 7px; border-radius: 3px; }
+  .scr-track { display: flex; gap: 4px; padding: 8px 14px 0; }
+  .scr-track b { flex: 1; height: 6px; background: var(--va-line); border-radius: 2px; }
+  .scr-track b.done { background: var(--va-navy); }
+  .scr-track b.on { background: var(--va-orange); }
+  .scr-b { padding: 12px 16px 16px; }
+  .scr-b .eyebrow { color: var(--va-orange); font-weight: 700; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; }
+  .scr-b h2 { font-family: var(--serif); font-size: 18px; margin: 0 0 8px; color: var(--va-navy); }
+  .scr-b p { margin: 0 0 10px; font-size: 13.5px; }
+  .scr-b .new { background: var(--va-orange-tint); outline: 2px dashed var(--va-orange); outline-offset: 4px; border-radius: 2px; }
+  .radio { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 14px; }
+  .radio i { width: 18px; height: 18px; border: 2px solid var(--va-navy); border-radius: 50%; display: inline-block; }
+  .radio i.on { box-shadow: inset 0 0 0 4px #fff; background: var(--va-navy); }
+  .scr-b .why { font-size: 12.5px; color: var(--link); text-decoration: underline; grid-column: auto; }
+  .scr-b .go { display: inline-block; margin-top: 10px; background: var(--link); color: #fff; font-weight: 700; padding: 7px 16px; border-radius: 4px; font-size: 13.5px; }
+  .sbs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sbs .cap { font-size: 12.5px; color: var(--va-muted); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+
+  /* Files it writes */
+  .files { font-size: 13px; }
+  .files div { display: grid; grid-template-columns: 150px minmax(0,1fr); gap: 10px; padding: 7px 0; border-top: 1px solid var(--va-line); }
+  .files code { overflow-wrap: anywhere; }
+  .files .what { color: var(--va-muted); }
+  .files .what b { color: var(--va-ink); }
+  pre.xml { margin: 0; font-family: var(--mono); font-size: 12px; line-height: 1.45; background: #1b1b1b; color: #e8e8e8; padding: 12px 14px; border-radius: 6px; overflow: auto; }
+  pre.xml .add { color: #8be28b; }
+  pre.xml .del { color: #ff9c9c; }
+  pre.xml .cm { color: #9aa3ad; }
+
+  /* Words, English and Spanish */
+  .lang { border: 1px solid var(--va-line); border-radius: 8px; overflow: hidden; }
+  .lang-h { padding: 8px 14px; background: var(--va-navy-tint); font-weight: 700; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--va-line); }
+  .lang-b { padding: 12px 14px; font-size: 14px; line-height: 1.55; }
+  .lang-b .ed { border: 2px solid var(--va-orange); border-radius: 4px; padding: 8px 10px; background: #fff; }
+  .lang-b .stale { background: var(--bad-tint); border: 1px dashed var(--bad); border-radius: 4px; padding: 8px 10px; }
+  .lang-b .old { text-decoration: line-through; color: var(--va-muted); }
+  .lang-b .ins { background: var(--ok-tint); }
+  .livenum { display: inline-flex; align-items: center; gap: 5px; background: var(--ok-tint); border: 1px solid #8fc98f; border-radius: 4px; padding: 0 6px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .livenum .ty { background: #fff; }
+  .banner { font-size: 13px; padding: 8px 12px; border-radius: 4px; margin-bottom: 10px; }
+  .banner.bad { background: var(--bad-tint); color: var(--bad); }
+  .banner.ok { background: var(--ok-tint); color: #2e6213; }
+  .uses { font-size: 13px; }
+  .uses div { padding: 6px 0; border-top: 1px solid var(--va-line); display: flex; justify-content: space-between; gap: 10px; }
+
+  /* Impact */
+  .kpis { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 8px; margin-bottom: 16px; }
+  .kpi { border: 1px solid var(--va-line); border-radius: 6px; padding: 10px 12px; background: #fff; }
+  .kpi b { display: block; font-size: 20px; font-family: var(--serif); color: var(--va-navy); }
+  .kpi span { font-size: 12.5px; color: var(--va-muted); }
+  .kpi.warn { border-top: 3px solid var(--va-orange); }
+  .kpi.ok { border-top: 3px solid var(--ok); }
+  .kpi.bad { border-top: 3px solid var(--bad); }
+  .bar { height: 10px; border-radius: 2px; background: var(--va-navy); display: inline-block; vertical-align: middle; }
+  .bar.up { background: var(--ok); }
+
+  /* Publish pipeline */
+  .rail { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-bottom: 18px; }
+  .stage { border: 1px solid var(--va-line); border-radius: 6px; padding: 10px 10px; font-size: 12.5px; background: #fff; position: relative; }
+  .stage b { display: block; font-size: 13.5px; margin-bottom: 4px; }
+  .stage.done { border-color: #8fc98f; background: #f7fbf7; }
+  .stage.done b::before { content: "✓ "; color: var(--ok); }
+  .stage.now { border-color: var(--va-orange); background: #fffaf3; box-shadow: 0 0 0 2px var(--va-orange-tint); }
+  .stage.todo { color: var(--va-muted); border-style: dashed; }
+  .stage ul { margin: 4px 0 0; padding-left: 16px; }
+  .stage li { margin-bottom: 2px; }
+  .log { font-size: 13px; }
+  .log div { display: grid; grid-template-columns: 96px 28px minmax(0,1fr); align-items: start; gap: 10px; padding: 6px 0; border-top: 1px solid var(--va-line); }
+  .log .t { color: var(--va-muted); font-variant-numeric: tabular-nums; }
+  .sig { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--va-line); font-size: 13.5px; }
+  .sig .q { color: var(--va-muted); font-size: 12.5px; }
+  .dot { display: inline-flex; width: 18px; height: 18px; border-radius: 50%; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; background: #a9aeb1; flex: none; }
+  .dot.ok { background: var(--ok); }
+  .dot.bad { background: var(--bad); }
+  .dot.wait { background: #d9a400; }
+  .checks { list-style: none; margin: 0; padding: 0; font-size: 13.5px; }
+  .checks li { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; }
+  .avatar.tr { background: #8168b3; }
+  .role.tr { background: #ebe3f9; color: #54278f; }
+
+  @media (max-width: 1100px) { .qb, .sbs, .seasons { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(3, 1fr); } .rail { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<header class="doc-head">
+  <h1>Virginia Rules Workbench: from a law change to the filer's screen</h1>
+  <p>The first set of mockups (<a href="rules-workbench.html">rules-workbench.html</a>) lets policy staff change
+    a value or a rule and send it through two approvals. These six screens pick up where that set stops. A change
+    starts from the law rather than from a file; it carries the tax years it applies to; and when a new rule needs
+    a question the return does not ask yet, the policy author writes the question, the screen and the words, and
+    the tool writes the fact, the flow page and the locale keys. What reaches the filer's screen is authored by
+    the person who read the law, not by a request to engineering.</p>
+  <p>Static mockups. The 2024 values come from <code>facts/virginia.xml</code>. <b>The 2026 Act, its chapter
+    number, the people and every 2026 figure are invented</b> to show the workflow; they are not Virginia law or
+    Virginia Tax staff. The two step changes on screen 2 (the refundable earned income credit rate and the
+    military benefits cap) are the real ones the 2024 facts already cite.</p>
+  <div class="flowmap" aria-label="How the screens connect">
+    <a href="#law"><b>1</b>Start from the law</a><span class="arr">→</span>
+    <a href="#years"><b>2</b>Set the tax years</a><span class="arr">→</span>
+    <a href="#question"><b>3</b>Add the question</a><span class="arr">→</span>
+    <a href="#words"><b>4</b>Words, English and Spanish</a><span class="arr">→</span>
+    <a href="#impact"><b>5</b>See what it touches</a><span class="arr">→</span>
+    <a href="#publish"><b>6</b>Publish and go live</a>
+  </div>
+</header>
+
+<nav class="doc-nav" aria-label="Mockup screens">
+  <a href="#law">1. Start from the law</a>
+  <a href="#years">2. Tax years</a>
+  <a href="#question">3. Question builder</a>
+  <a href="#words">4. Words</a>
+  <a href="#impact">5. What it touches</a>
+  <a href="#publish">6. Publish</a>
+</nav>
+
+<!-- ======================================================================= -->
+<section class="board" id="law">
+  <h2>1. Start from the law: one change, fanned out</h2>
+  <p class="lede">A law change rarely touches one thing. The author pastes the section, says when it takes effect,
+    and the tool proposes the edits it implies: a value, an exception, a new question, some wording. The author
+    keeps or drops each one. What survives becomes a single change with several parts, reviewed together.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/changes/new</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2026 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#law">Form 760 lines</a>
+          <a href="#years">Values <span class="count">16</span></a>
+          <a href="#question">Questions asked <span class="count">6</span></a>
+          <a href="#words">Screens filers see <span class="count">13</span></a>
+          <a href="#impact">Worked examples <span class="count">41</span></a>
+          <a class="on" href="#publish">Changes <span class="count">3</span></a>
+          <a href="#law">Requests <span class="count">0</span></a>
+          <div class="sect">Read only</div>
+          <a href="#law">Federal facts Virginia uses <span class="count">57</span></a>
+        </nav>
+        <div class="main">
+          <div class="crumb"><a href="#publish">Changes</a> › New</div>
+          <h1>Start a change from the law</h1>
+          <p class="sub">Paste the text that changed. The tool reads it against the rules and proposes what to edit.</p>
+          <div class="split" style="grid-template-columns: minmax(0,1fr) minmax(0,1.05fr)">
+            <div>
+              <div class="field">
+                <label>What changed?</label>
+                <span class="input sel" style="width:auto;display:inline-block">Act of the General Assembly</span>
+                <span class="hint">Also: a Tax Bulletin, the Form 760 instructions, a court decision, or a correction to our own rule.</span>
+              </div>
+              <div class="field">
+                <label>Citation</label>
+                <span class="input on">2026 Acts of Assembly, ch. 412 (invented) · amends Va. Code § 58.1-322.03(7)</span>
+              </div>
+              <div class="field">
+                <label>The text</label>
+                <div class="lawbox">7. a. The amount paid during the taxable year by the taxpayer to a prepaid tuition contract or savings trust account entered into with the Virginia College Savings Plan, <span class="mark">not to exceed $5,000</span> per account for each taxable year beginning on or after January 1, 2026 …<br>
+                  b. <span class="mark">The limitation in subdivision a shall not apply to contributions to an account whose designated beneficiary is an individual with a disability</span> as defined in § 529A(e) of the Internal Revenue Code, nor to a contributor who has attained age 70 …</div>
+                <span class="hint">Highlighted phrases are the ones the proposal below rests on. Click one to see which rule it maps to.</span>
+              </div>
+              <div class="field">
+                <label>Effective for taxable years beginning on or after</label>
+                <span class="input on" style="width:auto;display:inline-block">January 1, 2026</span>
+                <span class="choice" style="margin-left:8px">Ends: never</span>
+                <span class="choice">Ends after tax year …</span>
+                <span class="hint">Sets the tax-year column on screen 2. A change for 2026 does not touch the 2025 site that is live now.</span>
+              </div>
+            </div>
+            <div class="ai">
+              <div class="ai-h"><span class="pill">Drafted by AI · check it</span> What this touches</div>
+              <div class="touch">
+                <span class="box on">✓</span>
+                <div><b>Value: Commonwealth Savers cap</b><span class="cite">$4,000 → $5,000 per account, 2026 and after · from “not to exceed $5,000”</span><span class="goes">Values table →</span></div>
+                <div class="tail"><span class="pill ok">Value</span><span class="who">You</span></div>
+              </div>
+              <div class="touch">
+                <span class="box on">✓</span>
+                <div><b>Exception on Line 13: no cap when the beneficiary has a disability</b><span class="cite">from subdivision b · the return does not know this about the account</span><span class="goes">Needs a new question → Question builder →</span></div>
+                <div class="tail"><span class="pill warn">Rule + question</span><span class="who">You</span></div>
+              </div>
+              <div class="touch">
+                <span class="box on">✓</span>
+                <div><b>Words: 3 places on the screens say “$4,000”</b><span class="cite">the Savers question, the Line 13 summary, the “what it changed” view</span><span class="goes">Screen text →</span></div>
+                <div class="tail"><span class="pill blue">Words</span><span class="who">You · translator</span></div>
+              </div>
+              <div class="touch off">
+                <span class="box off"></span>
+                <div><b>Not modelled: carryforward of contributions over the cap</b><span class="cite">§ 58.1-322.03(7)(a), last sentence · the return has no carryforward from last year</span><span class="goes">Ask engineering → (a request, not part of this change)</span></div>
+                <div class="tail"><span class="pill">Out of scope</span><span class="who">Engineering</span></div>
+              </div>
+              <div style="padding:12px; display:flex; gap:8px; align-items:center; justify-content:space-between">
+                <span class="cite">3 parts in · 1 left out</span>
+                <span class="btn">Create change with 3 parts →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>The unit of work is the law change</b>, not the file. One Act becomes one change with three parts, one review, one pull request. Today each part would be its own draft.</li>
+        <li><b>The effective date is asked up front</b> because it decides everything downstream: which column on the values table, which site build carries it, and when the filer sees it.</li>
+        <li><b>AI proposes; it does not write.</b> The purple band is a checklist the author edits. Each row links a highlighted phrase in the law to a rule the tool already knows. Nothing goes into XML from here.</li>
+        <li><b>The boundary is on the page.</b> The fourth row is something the return cannot do yet. It becomes a request to engineering, as on screen 6 of the first set, and is kept out of this change so the other three can ship.</li>
+        <li>Keeping the pasted text means every published rule can point back at the words that made it. The return can later explain Line 13 to a filer by citation.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="years">
+  <h2>2. Tax years and effective dates: the law changes by year</h2>
+  <p class="lede">Most law changes are “for taxable years beginning on or after”. Some step, some sunset.
+    The values table gets a column per year, a value either is set by a law in that year or carries forward,
+    and the author sees which filing season's site will carry the change.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/values/commonwealth-savers-cap</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2026 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="draft-strip"><span><b>Change #14: “2026 Act ch. 412, Commonwealth Savers”</b> · part 1 of 3: the value · saved just now</span><span><span class="btn quiet sm">Discard</span> <span class="btn sec sm">Next part: the question →</span></span></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#law">Form 760 lines</a>
+          <a class="on" href="#years">Values <span class="count">16</span></a>
+          <a href="#question">Questions asked <span class="count">6</span></a>
+          <a href="#words">Screens filers see <span class="count">13</span></a>
+          <a href="#impact">Worked examples <span class="count">41</span></a>
+          <a href="#publish">Changes <span class="count">3</span></a>
+          <a href="#law">Requests <span class="count">0</span></a>
+        </nav>
+        <div class="main">
+          <h1>Values by tax year</h1>
+          <p class="sub">A solid cell is set by a law for that year. A grey arrow carries the last value forward. Type into a cell to set it; the law for the change is the source.</p>
+          <table class="grid">
+            <thead><tr><th>Value</th><th class="num">2024</th><th class="num">2025</th><th class="num">2026</th><th class="num">2027 →</th><th>Law</th></tr></thead>
+            <tbody>
+              <tr class="group"><td colspan="6">Deductions</td></tr>
+              <tr class="changed">
+                <td><b>Commonwealth Savers cap</b><br><span class="cite">per account, per year, under 70</span></td>
+                <td class="yr set">$4,000</td>
+                <td class="yr carry">$4,000</td>
+                <td class="yr"><span class="set new">$5,000</span></td>
+                <td class="yr carry">$5,000</td>
+                <td class="cite">§ 58.1-322.03(7)(a) · <b>2026 Act ch. 412</b></td>
+              </tr>
+              <tr>
+                <td><b>Standard deduction</b> <span class="cite">single</span></td>
+                <td class="yr set">$8,500</td><td class="yr carry">$8,500</td><td class="yr carry">$8,500</td><td class="yr carry">$8,500</td>
+                <td class="cite">§ 58.1-322.03(1)(b)</td>
+              </tr>
+              <tr class="group"><td colspan="6">Credits</td></tr>
+              <tr>
+                <td><b>Refundable earned income credit rate</b><br><span class="cite">of the federal credit</span></td>
+                <td class="yr set">15%<span class="ends">ends after 2024</span></td>
+                <td class="yr set">20%</td><td class="yr carry">20%</td><td class="yr carry">20%</td>
+                <td class="cite">§ 58.1-339.8(B)(3)(a), (b)</td>
+              </tr>
+              <tr class="group"><td colspan="6">Subtractions</td></tr>
+              <tr>
+                <td><b>Military benefits subtraction, maximum</b></td>
+                <td class="yr set">$30,000<span class="ends">ends after 2024</span></td>
+                <td class="yr set">$40,000</td><td class="yr carry">$40,000</td><td class="yr carry">$40,000</td>
+                <td class="cite">§ 58.1-322.02(18)(c)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="split" style="margin-top:18px">
+            <div class="card">
+              <div class="card-h"><div><h2>Commonwealth Savers cap</h2><span class="cite">How it has changed, and when the filer sees it</span></div>
+                <div class="tabs"><span class="on">Timeline</span><span>XML</span></div></div>
+              <div class="card-b">
+                <div class="strip">
+                  <div class="seg set"><span class="y">2024</span><span class="v">$4,000</span><span class="src">2024 Form 760 instructions, Line 13</span></div>
+                  <div class="seg"><span class="y">2025</span><span class="v carry">$4,000</span><span class="src">carried forward</span></div>
+                  <div class="seg new"><span class="y">2026</span><span class="v">$5,000</span><span class="src">2026 Act ch. 412 (invented)</span></div>
+                  <div class="seg"><span class="y">2027 →</span><span class="v carry">$5,000</span><span class="src">carries until a law changes it</span></div>
+                </div>
+                <div class="seasons">
+                  <div class="season"><b>2025 season site · live now</b>Filers doing 2025 returns. Unchanged by this: they still see $4,000.</div>
+                  <div class="season hot"><b>2026 season site · opens Jan 2027</b>Built from the 2026 column. This change goes in that build, whenever it is approved.</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-h">What the XML tab shows</div>
+              <div class="panel-b">
+<pre class="xml"><span class="cm">&lt;!-- Form 760 Line 13 cap, per account --&gt;</span>
+&lt;Fact path="/vaCommonwealthSaversCap"&gt;
+  &lt;Description&gt;§ 58.1-322.03(7)(a): $4,000
+    per account. 2024 instructions, Line 13.&lt;/Description&gt;
+  &lt;TaxYear&gt;2024&lt;/TaxYear&gt;
+  &lt;Derived&gt;&lt;Dollar&gt;4000&lt;/Dollar&gt;&lt;/Derived&gt;
+&lt;/Fact&gt;
+<span class="add">&lt;Fact path="/vaCommonwealthSaversCap"&gt;
+  &lt;Description&gt;§ 58.1-322.03(7)(a) as amended by
+    2026 Acts ch. 412: $5,000 per account for
+    taxable years beginning 2026-01-01.&lt;/Description&gt;
+  &lt;TaxYear&gt;2026&lt;/TaxYear&gt;
+  &lt;Derived&gt;&lt;Dollar&gt;5000&lt;/Dollar&gt;&lt;/Derived&gt;
+&lt;/Fact&gt;</span></pre>
+                <p class="cite" style="margin:8px 0 0">One fact per year it was set. The build for a season keeps the newest fact at or before its year.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>Columns are tax years</b> because that is how the Code is written. “Carries forward” is the default, so a change is one cell, not a whole row.</li>
+        <li><b>Sunsets are visible.</b> The 15% rate ending after 2024 and the $30,000 cap ending after 2024 are real, and both are already in the 2024 facts' descriptions as prose. Here they are data.</li>
+        <li><b>The season panel answers the question policy staff actually ask</b>: when will a filer see this? The effective year picks the site build; approval timing does not.</li>
+        <li><b>Honest about the engine.</b> <code>&lt;TaxYear&gt;</code> is in the Fact Dictionary 3.1 spec and on every Virginia value fact, but nothing in Form Builder or the engine reads it today. The build has to select facts by year (or the tool writes one values module per year). That is engineering's one-time piece; the table above does not change either way.</li>
+        <li>The XML tab is the same value as code. One fact per year it was set, each with its own citation, so the history is in the file and not only in the tool.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="question">
+  <h2>3. Question builder: an exception that needs something the return does not know</h2>
+  <p class="lede">Subdivision b lifts the cap when the account's beneficiary has a disability. Nothing on the federal
+    return says that, so the rule needs a new question. In the first set this was a request to engineering. Here the
+    author answers five things, sees the screen as the filer will, and the tool writes the fact, the flow page and the
+    locale keys. The new answer is in the rule editor's picker at once.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/line-13/questions/new</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2026 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="draft-strip"><span><b>Change #14</b> · part 2 of 3: the question and the exception · saved just now</span><span><span class="btn sec sm">Next part: the words →</span></span></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#law">Form 760 lines</a>
+          <a href="#years">Values <span class="count">16</span></a>
+          <a class="on" href="#question">Questions asked <span class="count">7</span></a>
+          <a href="#words">Screens filers see <span class="count">13</span></a>
+          <a href="#impact">Worked examples <span class="count">41</span></a>
+          <a href="#publish">Changes <span class="count">3</span></a>
+        </nav>
+        <div class="main">
+          <div class="crumb"><a href="#law">Line 13</a> › Questions › New</div>
+          <h1>Ask the filer something new</h1>
+          <p class="sub">Five answers. The tool turns them into the fact, the screen and the words.</p>
+          <div class="qb">
+            <div>
+              <div class="field">
+                <label><span class="step-n">1</span>What do you need to know?</label>
+                <span class="input on">Is the person this account is for someone with a disability?</span>
+                <div class="lint"><span>One question</span><span>13 words</span><span>Present tense, “you”</span><span class="w">“beneficiary” replaced with “the person this account is for” (style guide)</span></div>
+              </div>
+              <div class="field">
+                <label><span class="step-n">2</span>What kind of answer?</label>
+                <span class="choice on">Yes / No</span><span class="choice">Dollar amount</span><span class="choice">Date</span><span class="choice">Choose from a list</span><span class="choice">Number</span>
+                <span class="hint">Yes / No becomes a true-or-false fact the rule editor can test. A dollar amount becomes a number it can add or compare.</span>
+              </div>
+              <div class="field">
+                <label><span class="step-n">3</span>Who gets asked?</label>
+                <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:14px">
+                  Only filers who answered <span class="chip op">Yes</span> to <span class="chip"><span class="ty asked">Asked</span> Did you put money into a Commonwealth Savers account? <span class="caret">▾</span></span>
+                </div>
+                <span class="hint">Everyone else never sees it. The same choice becomes the screen's condition and keeps the rule from reading an answer that was never given.</span>
+              </div>
+              <div class="field">
+                <label><span class="step-n">4</span>Where in the flow?</label>
+                <div class="flowlist">
+                  <div><span>Where did you live on January 1?</span><span class="n">Question 1 of 5</span></div>
+                  <div><span>Military service</span><span class="n">Question 2 of 5</span></div>
+                  <div><span>Virginia Lottery prizes</span><span class="n">Question 3 of 5</span></div>
+                  <div><span>Commonwealth Savers contributions → How much did you contribute?</span><span class="n">Question 4 of 5</span></div>
+                  <div class="ins"><span>↳ Is the person this account is for someone with a disability?</span><span class="n">follow-up on the same screen</span></div>
+                  <div><span>Untaxed purchases</span><span class="n">Question 5 of 5</span></div>
+                </div>
+                <span class="choice on" style="margin-top:6px">Follow-up on the same screen</span><span class="choice">Its own screen</span>
+                <span class="hint">A follow-up keeps “Question 4 of 5” as it is. Its own screen would renumber the track.</span>
+              </div>
+              <div class="field">
+                <label><span class="step-n">5</span>Help the filer</label>
+                <span class="input on" style="min-height:58px">If the person this account is for has a disability, the $5,000 limit does not apply, so we can deduct everything you contributed. Virginia law says who counts (Va. Code § 58.1-322.03(7), as amended in 2026).</span>
+                <span class="hint">Shown under the question. The citation comes from the change. “Why do we ask?” is filled from the law text on screen 1.</span>
+              </div>
+            </div>
+            <div>
+              <div class="tabs" style="margin-bottom:0"><span class="on">Preview</span><span>Files it writes</span><span>Accessibility</span></div>
+              <div class="scr" style="border-radius:0 8px 8px 8px">
+                <div class="scr-top"><span>Commonwealth of Virginia · File your Virginia return</span><i>Demonstration</i></div>
+                <div class="scr-track"><b class="done"></b><b class="done"></b><b class="done"></b><b class="on"></b><b></b></div>
+                <div class="scr-b">
+                  <p class="eyebrow">Question 4 of 5</p>
+                  <h2>How much did you contribute?</h2>
+                  <p>Count every Commonwealth Savers account you put money into in 2026.</p>
+                  <div class="radio" style="display:block"><span style="display:inline-block;border:1px solid #565c65;border-radius:4px;padding:5px 10px;min-width:120px">$ 9,000</span></div>
+                  <div class="new" style="margin-top:14px">
+                    <h2 style="font-size:16px">Is the person this account is for someone with a disability?</h2>
+                    <p>If the person this account is for has a disability, the $5,000 limit does not apply, so we can deduct everything you contributed. Virginia law says who counts (Va. Code § 58.1-322.03(7), as amended in 2026).</p>
+                    <div class="radio"><i class="on"></i> Yes</div>
+                    <div class="radio"><i></i> No</div>
+                    <span class="why">Why do we ask?</span>
+                  </div>
+                  <span class="go">Continue</span>
+                </div>
+              </div>
+              <p class="cite" style="margin:8px 0 0">Preview with <b>Virginia Demo 2</b> loaded. Dashed outline marks what this change adds. The same page, rebuilt, is what the filer gets.</p>
+
+              <div class="panel" style="margin-top:14px">
+                <div class="panel-h">Files it writes <span class="pill">engineer's view</span></div>
+                <div class="panel-b files">
+                  <div><code>facts/virginia.xml</code><span class="what"><b>+ 1 fact</b> <code>/vaSaversBeneficiaryHasDisability</code>, writable, true or false, with the question as its name and the law as its description</span></div>
+                  <div><code>flow/your-taxes-virginia.xml</code><span class="what"><b>+ 1 screen block</b> on the Savers page, <code>condition="/vaHasCommonwealthSaversContributions"</code>, with the <code>&lt;fg-set&gt;</code> and the help text</span></div>
+                  <div><code>locales/flow_en.yaml</code><span class="what"><b>+ 4 keys</b> under <code>/your-taxes/virginia/virginia-savers</code>, generated from the English</span></div>
+                  <div><code>locales/virginia_es.yaml</code><span class="what"><b>+ 4 keys, flagged</b> “needs translation”, holding the English until a translator replaces it (screen 4)</span></div>
+                  <div><code>examples/virginia.json</code><span class="what"><b>+ 1 input</b> on every example that answers Yes to Savers, defaulted to No, so nothing changes until an example says otherwise</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-h"><div><h2>Line 13 — Commonwealth Savers deduction</h2><span class="cite">The exception, written as soon as the question exists</span></div><div class="tabs"><span class="on">Plain</span><span>XML</span></div></div>
+            <div class="card-b">
+              <div class="clause new">
+                <span class="kw">Except if</span>
+                <div class="body"><span class="chip"><span class="ty asked">Asked</span> Is the person this account is for someone with a disability?</span> <span class="then-arrow">→ then</span> <span class="chip"><span class="ty asked">Asked</span> Contributions this year</span> <span class="pill blue" title="Checked before the rule below">checked first</span></div>
+                <div class="why"><b>Because:</b> 2026 Act ch. 412, subdivision b: the per-account limit does not apply when the designated beneficiary is an individual with a disability.</div>
+              </div>
+              <div class="clause">
+                <span class="kw">Except if</span>
+                <div class="body"><span class="chip"><span class="ty calc">Calc</span> Filer is 70 or older</span> <span class="then-arrow">→ then</span> <span class="chip"><span class="ty asked">Asked</span> Contributions this year</span></div>
+                <div class="why"><b>Because:</b> § 58.1-322.03(7)(b): no cap once the contributor has attained age 70.</div>
+              </div>
+              <div class="clause">
+                <span class="kw">Otherwise</span>
+                <div class="body"><span class="chip"><span class="ty asked">Asked</span> Contributions this year</span> <span class="chip op">but no more than</span> <span class="chip"><span class="ty val">Value</span> Commonwealth Savers cap <span class="pill" style="margin-left:4px">2026: $5,000</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>Five answers, five artifacts.</b> The wording becomes the fact's name and the screen's heading; the answer type becomes <code>&lt;Writable&gt;&lt;Boolean/&gt;</code>; “who gets asked” becomes the screen's <code>condition</code>; “where” is the position in <code>your-taxes-virginia.xml</code>; the help text becomes locale keys. Nothing the author types is free-form code.</li>
+        <li><b>This is Author Mode's backend, asked in plain words.</b> Form Builder already has <code>/author/create-fact</code> and <code>/author/create-screen</code>, which write the XML and regenerate the site in process. The builder is a form over them with the policy vocabulary on top.</li>
+        <li><b>The preview is the real page.</b> The site regenerates from the draft files into a preview folder; the right-hand panel is that page with a demo household loaded, not a picture of one.</li>
+        <li><b>The style guide runs as you type.</b> Direct File's content guide (one question, “you”, present tense, no jargon) is a lint here. The “beneficiary” warning is the kind of thing a content designer would catch; the tool catches it first.</li>
+        <li><b>“Who gets asked” does double duty.</b> It gates the screen and it protects the rule: a rule may only read an answer from someone who was asked. The tool refuses a rule that reads the fact outside that condition.</li>
+        <li><b>Spanish is never auto-published.</b> The key is created with the English in it and flagged. Screen 4 shows what happens next.</li>
+        <li><b>The exception is written straight away.</b> No purple “Requested” chip, no waiting. The new fact shows as <i>Asked</i> in the picker the moment the builder saves.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="words">
+  <h2>4. Words on the screen: English, Spanish, and numbers that never go stale</h2>
+  <p class="lede">The Savers screen says “$4,000” in three places. A value change should not leave that behind. The
+    author edits the English where the filer reads it, binds the number to the value so the next change never has to,
+    and the Spanish shows as out of date until a translator replaces it.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/screens/virginia-savers/text</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2026 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="draft-strip"><span><b>Change #14</b> · part 3 of 3: the words · 3 strings changed · 3 awaiting Spanish</span><span><span class="btn sec sm">Request translation</span> <span class="btn sm">Send for review →</span></span></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#law">Form 760 lines</a>
+          <a href="#years">Values <span class="count">16</span></a>
+          <a href="#question">Questions asked <span class="count">7</span></a>
+          <a class="on" href="#words">Screens filers see <span class="count">13</span></a>
+          <a href="#impact">Worked examples <span class="count">41</span></a>
+          <a href="#publish">Changes <span class="count">3</span></a>
+        </nav>
+        <div class="main">
+          <div class="crumb"><a href="#words">Screens filers see</a> › Commonwealth Savers contributions</div>
+          <h1>Commonwealth Savers contributions</h1>
+          <p class="sub">Question 4 of 5 · shown to Virginia residents · 2 paragraphs, 2 questions, 1 summary line elsewhere</p>
+          <div class="banner bad">The 2026 cap is $5,000 and this screen still says $4,000 in 3 places. Found by the change on screen 1.</div>
+          <div class="sbs">
+            <div class="lang">
+              <div class="lang-h"><span>English <span class="pill ok">You can edit</span></span><span class="cite">locales/flow_en.yaml</span></div>
+              <div class="lang-b">
+                <p style="margin:0 0 8px"><b>Did you put money into a Commonwealth Savers (Virginia529) account in 2026?</b></p>
+                <div class="ed">Commonwealth Savers is the state's college savings plan. Contributions are deductible on Line 13, up to <span class="old">$4,000</span> <span class="livenum"><span class="ty val">Value</span> Commonwealth Savers cap · $5,000</span> per account for the year unless you have reached age 70<span class="ins"> or the person the account is for has a disability</span> (Va. Code § 58.1-322.03(7)). The plan reports nothing to the IRS, so only you can tell us.</div>
+                <p class="cite" style="margin:8px 0 0">The green chip is the value itself. When the cap changes again, this sentence changes with it. <a href="#words">Undo: type the number</a></p>
+              </div>
+            </div>
+            <div class="lang">
+              <div class="lang-h"><span>Español <span class="pill warn">Out of date</span></span><span class="cite">locales/virginia_es.yaml</span></div>
+              <div class="lang-b">
+                <p style="margin:0 0 8px"><b>¿Puso dinero en una cuenta de Commonwealth Savers (Virginia529) en 2026?</b></p>
+                <div class="stale">Commonwealth Savers es el plan de ahorro universitario del estado. Las contribuciones son deducibles en la línea 13, hasta <b>$4,000</b> por cuenta al año, a menos que haya cumplido 70 años (Código de Virginia § 58.1-322.03(7)). El plan no informa nada al IRS, así que solo usted puede decírnoslo.</div>
+                <div class="sig" style="margin-top:10px"><span class="avatar tr">AP</span><div><b>Ana P.</b> <span class="role tr">Translator</span><div class="q">Asked 2 min ago · the English and the live value are sent with the request. The Spanish site shows the old text until this is replaced.</div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="split" style="margin-top:16px">
+            <div class="panel">
+              <div class="panel-h">Everywhere “$4,000” is written for this value</div>
+              <div class="panel-b uses">
+                <div><span>Savers screen, help paragraph</span><span class="pill ok">bound to the value</span></div>
+                <div><span>Your Virginia return, Line 13 summary: “up to $4,000 per account”</span><span class="pill warn">still typed · <a href="#words" style="color:var(--link)">bind it</a></span></div>
+                <div><span>Your correction, the Line 13 explanation</span><span class="pill warn">still typed · <a href="#words" style="color:var(--link)">bind it</a></span></div>
+                <p class="cite" style="margin:8px 0 0">The tool searches the locales for the value's current number next to the fact's name. Binding writes <code>&lt;fg-show path="/vaCommonwealthSaversCap"/&gt;</code> where the number was.</p>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-h">Behind the words <span class="pill">engineer's view</span></div>
+              <div class="panel-b">
+                <p style="margin:0 0 8px">Locale keys are hashed from the English, so a changed sentence is a new key: <code>p-f42bed</code> → <code>p-91c0e4</code>. The tool moves the Spanish to the new key and marks it stale, instead of dropping it.</p>
+                <p style="margin:0">The transpiler regenerates <code>flow_en.yaml</code>; <code>virginia_es.yaml</code> is the hand-written file <code>merge-virginia-es.py</code> folds in, as today. The “needs translation” flag is a comment in that file.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>Edit where the filer reads it.</b> The author sees the paragraph, not a YAML key. The key, the hash and the merge are the engineer's panel.</li>
+        <li><b>Numbers bound to values</b> is the one change that makes next year's update smaller than this year's. A typed “$4,000” is a bug waiting for 2026; a chip that renders the value is not. The tool finds the typed ones and offers to bind them.</li>
+        <li><b>Spanish is a third approval, only when words change.</b> A translator is a role beside author, reviewer and engineer. The English can be approved while the Spanish is pending, but the change cannot publish until both are in, because the Spanish site is the same build.</li>
+        <li><b>Stale, not missing.</b> Content-addressed keys would otherwise orphan the Spanish the moment the English changes. Carrying it to the new key and flagging it keeps the translator's work and shows exactly what is out of date.</li>
+        <li>Direct File's own experience: Spanish lagged English for a season. Making the lag visible on the author's screen is the fix a tool can offer.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="impact">
+  <h2>5. What it touches: before it goes to anyone</h2>
+  <p class="lede">The author sees the whole footprint of the change on one page: the rules, the screens, the words,
+    the worked examples that move, and the filer's screen before and after. Nothing federal has moved, and the page
+    says so.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/changes/14/impact</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2026 ▾</span></div>
+        <div class="who"><span class="role">Policy author</span><span class="avatar">MT</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="draft-strip"><span><b>Change #14</b> · 3 parts · ready for review once 1 example is confirmed</span><span><span class="btn sm">Send for review →</span></span></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#law">Form 760 lines</a>
+          <a href="#years">Values <span class="count">16</span></a>
+          <a href="#question">Questions asked <span class="count">7</span></a>
+          <a href="#words">Screens filers see <span class="count">13</span></a>
+          <a href="#impact">Worked examples <span class="count">42</span></a>
+          <a class="on" href="#publish">Changes <span class="count">3</span></a>
+        </nav>
+        <div class="main">
+          <div class="crumb"><a href="#publish">Changes</a> › #14 › What it touches</div>
+          <h1>2026 Act ch. 412, Commonwealth Savers</h1>
+          <p class="sub">Tax year 2026 and after · 3 parts · opened from the law on 2 Nov 2026</p>
+          <div class="kpis">
+            <div class="kpi warn"><b>1</b><span>value changed</span></div>
+            <div class="kpi warn"><b>1</b><span>rule changed, 1 exception added</span></div>
+            <div class="kpi warn"><b>1</b><span>new question, 1 screen</span></div>
+            <div class="kpi bad"><b>3</b><span>strings changed, 3 await Spanish</span></div>
+            <div class="kpi warn"><b>3 / 42</b><span>worked examples differ</span></div>
+            <div class="kpi ok"><b>0</b><span>federal files touched</span></div>
+          </div>
+
+          <table class="grid">
+            <thead><tr><th>Worked example</th><th>Line</th><th class="num">Before</th><th class="num">After</th><th class="num">Tax</th><th>Expected?</th></tr></thead>
+            <tbody>
+              <tr><td><b>Virginia Demo 2</b> <span class="cite">Morgan, 65, $3,000 into Savers</span></td><td>13</td><td class="num">$3,000</td><td class="num">$3,000</td><td class="num"><span class="bar" style="width:2px"></span> $0</td><td><span class="pill ok">No change · under either cap</span></td></tr>
+              <tr class="changed"><td><b>Savers, $6,000</b> <span class="cite">single, $48,000 wages, one account</span></td><td>13</td><td class="num">$4,000</td><td class="num">$5,000</td><td class="num"><span class="bar up" style="width:28px"></span> −$58</td><td><span class="pill ok">Updated by MT</span> <span class="cite">“the cap rose”</span></td></tr>
+              <tr class="changed"><td><b>Savers, $9,000, beneficiary with a disability</b> <span class="cite">new example, written from subdivision b</span></td><td>13</td><td class="num">$4,000</td><td class="num">$9,000</td><td class="num"><span class="bar up" style="width:140px"></span> −$288</td><td><span class="pill ok">Updated by MT</span></td></tr>
+              <tr class="changed"><td><b>Savers, 70 and over, $9,000</b> <span class="cite">no cap already</span></td><td>13</td><td class="num">$9,000</td><td class="num">$9,000</td><td class="num"><span class="bar" style="width:2px"></span> $0</td><td><span class="pill warn">Confirm</span> <span class="cite">new question defaulted to No; the age exception still wins</span></td></tr>
+            </tbody>
+          </table>
+          <p class="cite" style="margin:6px 0 16px">All 42 run in the browser on every edit. The 28 harness households run against the preview below, in the real page, before review.</p>
+
+          <div class="sbs">
+            <div>
+              <div class="cap">Live · 2025 season</div>
+              <div class="scr">
+                <div class="scr-top"><span>Commonwealth of Virginia</span><i>Demonstration</i></div>
+                <div class="scr-b">
+                  <p class="eyebrow">Question 4 of 5</p>
+                  <h2>Did you put money into a Commonwealth Savers (Virginia529) account in 2025?</h2>
+                  <p>… deductible on Line 13, up to $4,000 per account for the year unless you have reached age 70 …</p>
+                  <div class="radio"><i class="on"></i> Yes</div><div class="radio"><i></i> No</div>
+                  <h2 style="font-size:15px;margin-top:10px">How much did you contribute?</h2>
+                  <span style="display:inline-block;border:1px solid #565c65;border-radius:4px;padding:4px 10px;min-width:100px">$ 9,000</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="cap">Preview · this change · 2026 season <a href="#impact" style="color:var(--link);text-transform:none;letter-spacing:0;font-weight:400">preview-14.rules.example.gov ↗</a></div>
+              <div class="scr" style="border-color:var(--va-orange)">
+                <div class="scr-top"><span>Commonwealth of Virginia</span><i>Demonstration</i></div>
+                <div class="scr-b">
+                  <p class="eyebrow">Question 4 of 5</p>
+                  <h2>Did you put money into a Commonwealth Savers (Virginia529) account in 2026?</h2>
+                  <p>… deductible on Line 13, up to <span class="ins" style="background:var(--ok-tint)">$5,000</span> per account for the year unless you have reached age 70 <span class="ins" style="background:var(--ok-tint)">or the person the account is for has a disability</span> …</p>
+                  <div class="radio"><i class="on"></i> Yes</div><div class="radio"><i></i> No</div>
+                  <h2 style="font-size:15px;margin-top:10px">How much did you contribute?</h2>
+                  <span style="display:inline-block;border:1px solid #565c65;border-radius:4px;padding:4px 10px;min-width:100px">$ 9,000</span>
+                  <div class="new" style="margin-top:12px">
+                    <h2 style="font-size:15px">Is the person this account is for someone with a disability?</h2>
+                    <div class="radio"><i class="on"></i> Yes</div><div class="radio"><i></i> No</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>One page for the footprint.</b> Values, rules, screens, words, examples, federal files: six numbers a reviewer can read in ten seconds. The red one is the one that blocks publishing.</li>
+        <li><b>Examples are the contract.</b> The author wrote “Savers, $9,000, beneficiary with a disability” from subdivision b before the rule existed; it went green when the rule was right. That is the same discipline as the first set, now covering a question too.</li>
+        <li><b>The age row is a trap the tool catches.</b> Adding a question adds an input to every example. Defaulting it to No keeps 41 examples honest, and the one where a different exception already applies is flagged for the author to confirm rather than silently passed.</li>
+        <li><b>Before and after are real pages</b> from two builds: the live 2025 site and a preview regenerated from the draft. The preview URL is what goes to the reviewer and, if Virginia Tax wanted, to a usability session.</li>
+        <li>“0 federal files touched” is the ADR's rule as a check. The tool cannot write outside <code>virginia.xml</code>, <code>virginiaLocalities.xml</code>, the Virginia flow and the Virginia locales.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================================================================= -->
+<section class="board" id="publish">
+  <h2>6. Publish and go live: three signatures, one pull request, the right season</h2>
+  <p class="lede">The change moves along a rail everyone can read. Policy signs that it matches the Act, engineering
+    that the code is sound, the translator that the Spanish says the same. The tool opens the pull request, the
+    build for the 2026 season picks it up, and the live 2025 site is untouched.</p>
+  <div class="row">
+    <div class="frame">
+      <div class="frame-bar"><i></i><i></i><i></i><span>rules.example.gov/virginia/changes/14</span></div>
+      <div class="wb-top">
+        <div class="wb-brand"><span class="name">Virginia Rules Workbench</span><span class="yr">Tax year 2026 ▾</span></div>
+        <div class="who"><span class="role eng">Engineer</span><span class="avatar eng">AK</span></div>
+      </div>
+      <div class="wb-rule"></div>
+      <div class="wb">
+        <nav class="side">
+          <a href="#law">Form 760 lines</a>
+          <a href="#years">Values <span class="count">16</span></a>
+          <a href="#question">Questions asked <span class="count">7</span></a>
+          <a href="#words">Screens filers see <span class="count">13</span></a>
+          <a href="#impact">Worked examples <span class="count">42</span></a>
+          <a class="on" href="#publish">Changes <span class="count">3</span></a>
+        </nav>
+        <div class="main">
+          <div class="crumb"><a href="#publish">Changes</a> › #14</div>
+          <div class="toolbar">
+            <div><h1>2026 Act ch. 412, Commonwealth Savers</h1><p class="sub" style="margin:0">Proposed by MT · 3 parts · 42 / 42 examples · <a href="#impact" style="color:var(--link)">what it touches</a> · <a href="#impact" style="color:var(--link)">preview ↗</a></p></div>
+            <div><span class="btn ok">Publish to the 2026 build</span> <span class="btn quiet sm">Roll back…</span></div>
+          </div>
+
+          <div class="rail">
+            <div class="stage done"><b>Draft</b>MT, 3 parts, from the law<ul><li>2 Nov, 10:14</li></ul></div>
+            <div class="stage done"><b>Checks</b><ul><li>Schema, both files</li><li>Loads, no cycles</li><li>42 / 42 examples</li><li>28 households on the preview</li><li>Federal unchanged</li><li>Export rule</li><li>axe, 2 screens</li></ul></div>
+            <div class="stage done"><b>Approvals 3 / 3</b><ul><li>Policy · JR</li><li>Engineering · AK</li><li>Spanish · AP</li></ul></div>
+            <div class="stage now"><b>Pull request #87</b>Opened by the tool. The plain summary is its description; 5 files.<ul><li>Waiting on Publish</li></ul></div>
+            <div class="stage todo"><b>Built</b>Into the 2026 season site, in staging</div>
+            <div class="stage todo"><b>Live</b>When the 2026 season opens, Jan 2027. The 2025 site is not rebuilt.</div>
+          </div>
+
+          <div class="split" style="grid-template-columns: minmax(0,1fr) minmax(0,1.15fr)">
+            <div class="panel">
+              <div class="panel-h">Signatures</div>
+              <div class="panel-b">
+                <div class="sig"><span class="avatar rev">JR</span><div><b>Jordan R.</b> <span class="role rev">Policy reviewer</span> <span class="dot ok">✓</span><div class="q">“Does it say what the Act says?” Yes. Subdivision b read as written; the age-70 exception is kept beside it. 3 Nov.</div></div></div>
+                <div class="sig"><span class="avatar eng">AK</span><div><b>Alex K.</b> <span class="role eng">Engineer</span> <span class="dot ok">✓</span><div class="q">“Is the code sound?” Yes. The new fact is read only under its condition; TaxYear 2026 fact added beside the 2024 one; diff is 5 files, 61 lines. 3 Nov.</div></div></div>
+                <div class="sig"><span class="avatar tr">AP</span><div><b>Ana P.</b> <span class="role tr">Translator</span> <span class="dot ok">✓</span><div class="q">“Does the Spanish say the same?” Yes, 3 strings. 4 Nov.</div></div></div>
+                <p class="cite" style="margin:8px 0 0">MT cannot sign. The translator's line appears only on changes that touch words.</p>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-h">History</div>
+              <div class="panel-b log">
+                <div><span class="t">2 Nov 10:14</span><span class="avatar" style="width:22px;height:22px;font-size:10px">MT</span><span>Started from 2026 Acts ch. 412; 3 parts proposed, 1 left out as a request (#5, carryforward)</span></div>
+                <div><span class="t">2 Nov 10:31</span><span class="avatar" style="width:22px;height:22px;font-size:10px">MT</span><span>Set the 2026 cap to $5,000; source the Act</span></div>
+                <div><span class="t">2 Nov 11:02</span><span class="avatar" style="width:22px;height:22px;font-size:10px">MT</span><span>Added the question and the exception; preview built</span></div>
+                <div><span class="t">2 Nov 11:20</span><span class="avatar" style="width:22px;height:22px;font-size:10px">MT</span><span>Edited 3 strings; bound the cap into 1; asked AP for Spanish</span></div>
+                <div><span class="t">3 Nov 09:05</span><span class="avatar rev" style="width:22px;height:22px;font-size:10px">JR</span><span>Policy approval</span></div>
+                <div><span class="t">3 Nov 15:40</span><span class="avatar eng" style="width:22px;height:22px;font-size:10px">AK</span><span>Engineering approval; asked for one more example (70 and over), MT confirmed it</span></div>
+                <div><span class="t">4 Nov 08:50</span><span class="avatar tr" style="width:22px;height:22px;font-size:10px">AP</span><span>Spanish in; translation approval</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:16px">
+            <div class="panel-h">What “Roll back” does</div>
+            <div class="panel-b"><p style="margin:0">It starts a new change that reverts this one, with the same checks and the same signatures. Nothing is deleted from history, and the 2026 build only moves when that change is published. A change that has already reached filers is never edited in place.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      <h3>Why it looks like this</h3>
+      <ul>
+        <li><b>The pull request is the audit trail, but nobody on the policy side sees GitHub.</b> The tool opens it with the plain summary as the description and the three approvals as its required reviews. The repo's own checks (<code>make virginia-check</code>, <code>virginia-cases</code>, <code>virginia-a11y</code>) are the PR's checks.</li>
+        <li><b>The effective year, not the approval date, decides when filers see it.</b> Publishing puts it in the 2026 season build. If the Act had been retroactive to 2025, the tool would say the 2025 site rebuilds and ask for a second look.</li>
+        <li><b>Three signatures, each with one question</b>, and the translator's only when words change. Routine value changes stay at two.</li>
+        <li><b>Rollback is a change</b>, not a button that edits history. That matches how a tax agency has to think about a rule that already reached returns.</li>
+        <li>The history panel, with the Act's text kept from screen 1, is what lets the return answer “why is my Line 13 $5,000?” by citation years later.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<footer style="padding: 20px 40px 40px; color: var(--va-muted); font-size: 13px;">
+  Mockups for the Virginia port's admin tool. Companion to <a href="rules-workbench.html">rules-workbench.html</a> (values, rules, examples, review, requests) and
+  the working prototype in <code>workbench/</code>. Nothing here is branded as, or endorsed by, the IRS or Virginia Tax; the 2026 Act and every 2026 figure are invented.
+</footer>
+</body>
+</html>

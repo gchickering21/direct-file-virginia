@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Direct File: Reusing Federal Digital Infrastructure for State Tax Filing</title>
+<meta name="description" content="The prototype pages and the bibliography for the poster 'Beyond Direct File: Reusing Federal Digital Infrastructure for State Tax Filing'.">
+<style>
+  :root { --navy:#13294B; --orange:#E57200; --ink:#1F2937; --muted:#4B5563; --mist:#EEF2F7; --ice:#DCEFF7; --line:#D5DCE6; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin:0; font: 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:#fff; }
+  header { background:var(--navy); color:#fff; padding: 28px 20px 24px; }
+  header .wrap, main { max-width: 720px; margin: 0 auto; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; opacity: .8; margin: 0 0 6px; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-size: 26px; line-height: 1.2; margin: 0 0 10px; }
+  header p { margin: 0; font-size: 15px; opacity: .9; }
+  main { padding: 20px; }
+  .choices { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0 24px; }
+  .choice { display:block; text-decoration:none; border-radius: 14px; padding: 18px 16px; color:#fff; background:var(--navy); min-height: 104px; }
+  .choice.alt { background: var(--orange); }
+  .choice strong { display:block; font-size: 20px; margin-bottom: 4px; }
+  .choice span { font-size: 14px; opacity: .92; }
+  .choice[aria-selected="true"] { outline: 4px solid #9BB4D6; outline-offset: 2px; }
+  h2 { font-family: Georgia, "Times New Roman", serif; color: var(--navy); font-size: 22px; margin: 8px 0 12px; }
+  h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 22px 0 8px; }
+  .links { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+  .links a { display:block; text-decoration:none; color:var(--ink); background:var(--mist); border-radius: 12px; padding: 14px 16px; border: 1px solid transparent; }
+  .links a:hover, .links a:focus-visible { border-color: var(--navy); }
+  .links a b { display:block; color: var(--navy); font-size: 17px; }
+  .links a small { color: var(--muted); font-size: 14px; }
+  .links a .go { float:right; color: var(--orange); font-weight: 700; }
+  .pair { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  ol.refs { padding-left: 22px; margin: 0; }
+  ol.refs li { margin: 0 0 12px; font-size: 15px; }
+  ol.refs a { color: var(--navy); word-break: break-word; }
+  ul.also { margin: 0; padding-left: 20px; font-size: 15px; }
+  ul.also li { margin-bottom: 6px; }
+  .note { background: var(--ice); border-radius: 12px; padding: 12px 14px; font-size: 14px; margin-top: 18px; }
+  footer { max-width:720px; margin: 8px auto 32px; padding: 0 20px; font-size: 13px; color: var(--muted); }
+  .js [role="tabpanel"][hidden] { display:none; }
+  @media (max-width: 380px) { .choices, .pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="kicker">Poster · Digital Public Infrastructure · Fall 2026</p>
+    <h1>Beyond Direct File: Reusing Federal Digital Infrastructure for State Tax Filing</h1>
+    <p>Can government-developed technology continue to serve the public after its original program ends? Graham Chickering and Maddie Murrell, DSPP '27 · Instructor: Sana Mamediieva · McCourt School of Public Policy, Georgetown University</p>
+  </div>
+</header>
+
+<main>
+  <nav class="choices" role="tablist" aria-label="What to open">
+    <a class="choice" href="#prototype" role="tab" id="tab-prototype" aria-controls="prototype" aria-selected="true">
+      <strong>See the prototype</strong><span>Try the Virginia return, the Workbench, the test results, the code</span>
+    </a>
+    <a class="choice alt" href="#bibliography" role="tab" id="tab-bibliography" aria-controls="bibliography" aria-selected="false">
+      <strong>Bibliography</strong><span>Every source behind the poster</span>
+    </a>
+  </nav>
+
+  <section id="prototype" role="tabpanel" aria-labelledby="tab-prototype">
+    <h2>See the prototype</h2>
+    <p>A Virginia state return (Form 760) built on the IRS's published Direct File code. A class demonstration: nothing is filed, and every household is invented.</p>
+
+    <h3>Try it</h3>
+    <ul class="links">
+      <li><a href="../app/direct-file/resources/start/"><span class="go">→</span><b>Pick a household</b><small>Four invented Virginia filers; open any one and click through the return</small></a></li>
+      <li class="pair">
+        <a href="../app/direct-file/your-taxes/virginia/virginia-intro/?demo=1"><b>Riley's return</b><small>Jump straight in, English</small></a>
+        <a href="../app/direct-file/es/your-taxes/virginia/virginia-intro/?demo=1" lang="es"><b>La declaración de Riley</b><small>En español</small></a>
+      </li>
+    </ul>
+
+    <h3>Look under the hood</h3>
+    <ul class="links">
+      <li><a href="../app/direct-file/workbench/"><span class="go">→</span><b>Rules Workbench</b><small>Each Form 760 line beside its Virginia statute, in plain language (read-only copy)</small></a></li>
+      <li><a href="../app/direct-file/resources/proof/"><span class="go">→</span><b>Test results</b><small>50 households checked against the law; the accessibility scans</small></a></li>
+      <li><a href="../fact-explorer/direct-file"><span class="go">→</span><b>Fact Explorer</b><small>The IRS's map of every rule, federal and Virginia</small></a></li>
+      <li><a href="../app/direct-file/mockups/rules-workbench.html"><span class="go">→</span><b>Design mockups</b><small>How the screens and the Workbench were designed</small></a></li>
+    </ul>
+
+    <h3>The code and the write-up</h3>
+    <ul class="links">
+      <li><a href="https://github.com/gchickering21/direct-file-virginia"><span class="go">↗</span><b>Code on GitHub</b><small>The whole project, public domain</small></a></li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/docs/under-the-hood.md"><span class="go">↗</span><b>What is behind each link</b><small>The technology under every page above, one section per link, in this order</small></a></li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/docs/architecture.md"><span class="go">↗</span><b>How it fits together</b><small>One page, two diagrams</small></a></li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/handoff/README.md"><span class="go">↗</span><b>For a state team</b><small>The handoff package: brief, policy map, Form 760 field map</small></a></li>
+    </ul>
+  </section>
+
+  <section id="bibliography" role="tabpanel" aria-labelledby="tab-bibliography">
+    <h2>Bibliography</h2>
+
+    <h3>Direct File</h3>
+    <ol class="refs">
+      <li>Internal Revenue Service. (2024). <i>IRS Direct File pilot: Filing season 2024 after action report</i> (Publication 5969). <a href="https://www.irs.gov/pub/irs-pdf/p5969.pdf">https://www.irs.gov/pub/irs-pdf/p5969.pdf</a></li>
+      <li>Valdez, C. (2025, November 5). IRS shutters Direct File, citing cost and low uptake. <i>Tax Notes</i>. <a href="https://www.taxnotes.com/featured-news/irs-shutters-direct-file-citing-cost-and-low-uptake/2025/11/05/7t7q0">https://www.taxnotes.com/featured-news/irs-shutters-direct-file-citing-cost-and-low-uptake/2025/11/05/7t7q0</a></li>
+    </ol>
+
+    <h3>The IRS's public code</h3>
+    <ol class="refs" start="3">
+      <li>Internal Revenue Service. (2026). <i>Direct File</i> [Source code; archived]. GitHub. <a href="https://github.com/IRS-Public/direct-file">https://github.com/IRS-Public/direct-file</a></li>
+      <li>Internal Revenue Service. (2026). <i>Fact Graph</i> (Version 3.1) [Source code]. GitHub. <a href="https://github.com/IRS-Public/fact-graph">https://github.com/IRS-Public/fact-graph</a></li>
+      <li>Internal Revenue Service. (2026). <i>Form Builder</i>, <i>Form Builder examples</i> and <i>Taxpert</i> [Source code]. GitHub. <a href="https://github.com/IRS-Public">https://github.com/IRS-Public</a></li>
+      <li>Source Code Harmonization And Reuse in Information Technology (SHARE IT) Act of 2024, Pub. L. No. 118-187.</li>
+      <li>Office of Management and Budget. (2016). <i>Federal source code policy: Achieving efficiency, transparency, and innovation through reusable and open source software</i> (M-16-21).</li>
+    </ol>
+
+    <h3>Virginia tax law</h3>
+    <ol class="refs" start="8">
+      <li>Va. Code Ann. § 58.1-320 (tax rates). <a href="https://law.lis.virginia.gov/vacode/title58.1/chapter3/section58.1-320/">law.lis.virginia.gov/vacode/title58.1/chapter3/section58.1-320</a></li>
+      <li>Va. Code Ann. § 58.1-322.02 (subtractions). <a href="https://law.lis.virginia.gov/vacode/title58.1/chapter3/section58.1-322.02/">law.lis.virginia.gov/vacode/title58.1/chapter3/section58.1-322.02</a></li>
+      <li>Va. Code Ann. § 58.1-322.03 (deductions and exemptions). <a href="https://law.lis.virginia.gov/vacode/title58.1/chapter3/section58.1-322.03/">law.lis.virginia.gov/vacode/title58.1/chapter3/section58.1-322.03</a></li>
+      <li>Virginia Department of Taxation. (2024). <i>2024 Form 760 resident individual income tax instructions</i>. <a href="https://www.tax.virginia.gov/sites/default/files/vatax-pdf/2024-760-instructions.pdf">tax.virginia.gov</a></li>
+      <li>Va. Acts of Assembly 2026, ch. 31 (HB 1180 / SB 591): a state-run free online filing program, modeled on IRS Direct File, from tax year 2028. <a href="https://law.lis.virginia.gov/uncodifiedacts/2026/session1/chapter31/">law.lis.virginia.gov/uncodifiedacts/2026/session1/chapter31</a></li>
+      <li>Virginia Department of Taxation. (n.d.). <i>Retail sales and use tax</i>. <a href="https://www.tax.virginia.gov/retail-sales-and-use-tax">https://www.tax.virginia.gov/retail-sales-and-use-tax</a></li>
+      <li>Tax Foundation. (2023). <i>Local income taxes in 2023</i>. <a href="https://taxfoundation.org/research/all/state/local-income-taxes-2023/">https://taxfoundation.org/research/all/state/local-income-taxes-2023/</a></li>
+    </ol>
+
+    <h3>Also consulted</h3>
+    <ul class="also">
+      <li>IRS, Report to Congress on Direct E-File (2023)</li>
+      <li>U.S. Government Accountability Office, GAO-24-107236 and GAO-25-106933</li>
+      <li>Treasury Inspector General for Tax Administration, Direct File activity for the 2025 filing season; Reports 2024-400-067 and 2026-408-006</li>
+      <li>Congressional Research Service, The IRS Free File Program (IF11808)</li>
+      <li>Center on Budget and Policy Priorities, Ending Direct File Is a Mistake</li>
+      <li>ProPublica, What to Know About TurboTax; Fortune, Intuit's $141 Million Settlement</li>
+      <li>Digital Government Hub, Rules as Code</li>
+    </ul>
+
+    <p class="note">Every figure in the prototype traces to a row in the project's source list, with the date it was checked: <a href="https://github.com/gchickering21/direct-file-virginia/blob/main/report/SOURCES.md">report/SOURCES.md</a>.</p>
+  </section>
+</main>
+
+<footer>A class project at Georgetown University. Not a service of the IRS or Virginia Tax; nothing here files a return.</footer>
+
+<script>
+  // Two tabs: the prototype and the bibliography. Without JavaScript both sections show, one after the other.
+  (function () {
+    document.documentElement.classList.add("js");
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    function show(id) {
+      tabs.forEach(function (t) {
+        var on = t.getAttribute("aria-controls") === id;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+    }
+    tabs.forEach(function (t) {
+      t.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = t.getAttribute("aria-controls");
+        history.replaceState(null, "", "#" + id);
+        show(id);
+      });
+    });
+    show(location.hash === "#bibliography" ? "bibliography" : "prototype");
+  })();
+</script>
+</body>
+</html>

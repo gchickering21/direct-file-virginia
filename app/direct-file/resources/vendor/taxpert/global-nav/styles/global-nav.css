@@ -1,0 +1,462 @@
+/* Shared styles for <taxpert-global-nav>.
+ *
+ * Classes are prefixed .tgn-, tokens --tgn-, so the one stylesheet renders identically in either
+ * host. Neutrals and metrics chain to the host's own tokens with a hard-coded fallback, so neither
+ * host is a hard dependency. The brand colors deliberately do not chain.
+ *
+ * :where() keeps the token rule at zero specificity, so a host can override on purpose.
+ *
+ * Token rationale, the sticky rules and --tgn-bar-height:
+ * ../../../../../docs/internals/global-nav.md */
+
+/* This is the one stylesheet every workspace host loads unconditionally, so the two rules that must
+   always be present are imported here. The audit panel's is behind a toggled <link disabled>, and a
+   host can mount the nav on a page with no audit panel at all. */
+@import "../../shared/styles/embedded.css";
+@import "../../shared/styles/feature-flags.css";
+
+/* On :root, not on the element: <taxpert-screens-toolbar> is a sibling and pins itself below the
+   bar. Keep in step with the min-height below. */
+:root {
+  --tgn-bar-height: 57px;
+}
+
+:where(taxpert-global-nav) {
+  /* Taxpert purple. Fixed rather than chained: a host's --color-accent/--primary is that host's own
+     brand, and chaining made the nav render a different color in each one. */
+  --tgn-accent: #5e10a6;
+  --tgn-surface: var(--color-surface, #ffffff);
+  --tgn-text: var(--color-text, #1b1f23);
+  /* The wordmark row and the dropdown's group and leaf rows. Separate from --tgn-text, which still
+     chains to the host's body copy, because these surfaces are the nav's own typography. */
+  --tgn-ink: #000000;
+  --tgn-muted: var(--color-text-muted, #6b7785);
+  --tgn-border: var(--color-border, #e2e2ec);
+  /* The rule under the bar. --tgn-border is a near-lavender and vanished between the bar and the
+     white band beneath it. This is the neutral the rest of the workspace draws hairlines in. */
+  --tgn-bar-border: var(--base-light, #a9aeb1);
+  --tgn-hover: var(--color-surface-alt, #f3f2f9);
+  /* The dropdown's two states. A tint of the brand purple rather than the purple itself: black on
+     #5e10a6 is about 1.4:1, and the purple check would vanish into its own background.
+     <taxpert-workspace-settings-modal> pins --twsm-section-bg to this same fill. Move them
+     together. */
+  --tgn-menu-hover: #f3f5ff;
+  --tgn-menu-active: #e6e6fa;
+  /* The bar. The same lavender as --tgn-menu-active, written out rather than chained: one design,
+     two surfaces, and a retint of the selected row should not repaint the whole nav. */
+  --tgn-bar: #e6e6fa;
+  --tgn-on: var(--tgn-accent);
+  --tgn-gap: var(--space-1, var(--units-1, 8px));
+  --tgn-radius: 8px;
+  --tgn-z: 1000; /* below credit-assistant's modals (1050), above fact-explorer's overlays */
+  /* The fallbacks name Source Sans Pro directly, so a host that does not vendor it still lands on
+     the same design. */
+  --tgn-font: var(--font-sans, 'Source Sans Pro Web', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif);
+}
+
+/* Sticky on the host element, not on `.tgn-bar` inside it: a sticky box is bounded by its parent's,
+   and `.tgn-bar` fills this element exactly. The z-index also makes this a stacking context, which
+   is why the tool dock's float layer sits above --tgn-z rather than between the bar and its
+   dropdown. */
+taxpert-global-nav {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: var(--tgn-z);
+  font-family: var(--tgn-font);
+  color: var(--tgn-text);
+  /* Reserved, because the markup is fetched and this is the first thing on the page. */
+  min-height: var(--tgn-bar-height);
+}
+
+/* What the workspace being on means. One attribute on the host, set by _syncWorkspace(). The tool
+   strip and the taxonomy are workspace features, so with it off the nav reverts to the waffle, the
+   brand root, and a dropdown holding just the toggle. They stay in the DOM and are hidden here, so
+   the switch moves one attribute rather than rebuilding the menu. */
+
+taxpert-global-nav:not([data-workspace-on]) .tgn-tools,
+taxpert-global-nav:not([data-workspace-on]) .tgn-menu > .tgn-group,
+taxpert-global-nav:not([data-workspace-on]) .tgn-menu > .tgn-item {
+  display: none;
+}
+
+.tgn-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--tgn-bar);
+  border-bottom: 1px solid var(--tgn-bar-border);
+}
+
+/* Waffle button */
+.tgn-waffle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: var(--tgn-hover);
+  color: var(--tgn-accent);
+  cursor: pointer;
+}
+
+.tgn-waffle:hover {
+  background: color-mix(in srgb, var(--tgn-accent) 12%, transparent);
+}
+
+.tgn-waffle[aria-expanded='true'] {
+  background: var(--tgn-accent);
+  color: #ffffff;
+}
+
+.tgn-waffle__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 4px);
+  grid-template-rows: repeat(3, 4px);
+  gap: 3px;
+}
+
+.tgn-waffle__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+/* In the document, so the <use href> references resolve, but drawn nowhere. */
+.tgn-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* The bar's title: the wordmark, the divider, and the workspace you are in. One 24px black run
+   rather than three separately coloured spans, so the part that changes as you navigate does not
+   recede. Only weight separates the constant half from the variable one. The 32px waffle governs
+   the bar's height, not this. */
+.tgn-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  color: var(--tgn-ink);
+}
+
+.tgn-breadcrumb__root {
+  font-weight: 700;
+}
+
+/* The tool strip, pinned to the far end of the bar. */
+.tgn-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.tgn-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--tgn-text);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tgn-text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.tgn-tool:hover {
+  background: var(--tgn-hover);
+}
+
+.tgn-tool:focus-visible {
+  outline: 2px solid var(--tgn-on);
+  outline-offset: 2px;
+}
+
+.tgn-tool__icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+/* A tool that does not apply where you are is hidden rather than absent, and the strip goes with
+   the last of them so it cannot leave its `margin-left: auto` gap behind.
+
+   `.tgn-tool` sets an explicit `display`, which outranks the UA stylesheet's
+   `[hidden] { display: none }`. Without this rule _syncActive()'s `button.hidden` has no effect and
+   every tool shows on every destination. */
+.tgn-tool[hidden] {
+  display: none;
+}
+
+.tgn-tools:not(:has(.tgn-tool:not([hidden]))) {
+  display: none;
+}
+
+/* Always in the DOM, shown by the waffle's own expanded state. */
+.tgn-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 12px;
+  z-index: var(--tgn-z);
+  min-width: 240px;
+  padding: 0;
+  background: var(--tgn-surface);
+  border: 1px solid var(--tgn-border);
+  border-radius: var(--tgn-radius);
+  box-shadow: var(--shadow-panel, 0 6px 24px rgba(0, 0, 0, 0.14));
+  overflow: hidden;
+}
+
+.tgn-waffle[aria-expanded='true'] ~ .tgn-menu {
+  display: block;
+}
+
+/* Every top-level entry is divided from the one above it, the workspace header included. Declared
+   once here rather than as a border on each row, so a hidden or reordered entry cannot leave a
+   doubled or orphaned line. */
+.tgn-menu > * + * {
+  border-top: 1px solid var(--tgn-border);
+}
+
+/* Workspace row */
+.tgn-workspace {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--tgn-surface);
+}
+
+.tgn-workspace__label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tgn-text);
+}
+
+.tgn-workspace__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Opens <taxpert-workspace-settings-modal> through nav-tool-select. */
+.workplace-settings {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--tgn-accent);
+  cursor: pointer;
+}
+
+.workplace-settings:hover {
+  background: var(--tgn-hover);
+}
+
+.workplace-settings:focus-visible {
+  outline: 2px solid var(--tgn-on);
+  outline-offset: 2px;
+}
+
+.workplace-settings__icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Toggle switch */
+.tgn-toggle {
+  position: relative;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tgn-muted);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tgn-toggle[aria-checked='true'] {
+  background: var(--tgn-on);
+}
+
+.tgn-toggle:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.tgn-toggle__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s ease;
+}
+
+.tgn-toggle[aria-checked='true'] .tgn-toggle__knob {
+  transform: translateX(16px);
+}
+
+/* ── Top level: group headers and top-level leaves ─────────────────────────
+   The two render as different elements (a <button> that collapses its children, an <a> that
+   navigates) but read as one row of the same menu, so they share their type and metrics. */
+
+.tgn-group__header,
+.tgn-menu > .tgn-item {
+  padding: 14px 20px;
+  font-family: inherit; /* a <button> would otherwise fall back to the UA's system font */
+  font-size: 17px;
+  /* Regular, so bold means one thing in this menu: the destination you are on. With every row at
+     600, the active row's 700 was one step off a whole column of it, which is not a difference you
+     can see without something to compare against. */
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--tgn-ink);
+}
+
+.tgn-group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Accordion affordance: points down when the group is shut, up once it's open. */
+.tgn-group__chevron {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  color: var(--tgn-text);
+  transition: transform 0.15s ease;
+}
+
+.tgn-group__header[aria-expanded='true'] .tgn-group__chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tgn-group__chevron {
+    transition: none;
+  }
+}
+
+.tgn-group__header:hover,
+.tgn-menu > .tgn-item:hover {
+  background: var(--tgn-menu-hover);
+}
+
+/* The active top-level entry is tinted whole. For a group that is the block its children sit in,
+   so the run from header to last child reads as one selected region, which is why the tint is on
+   the group rather than on its header alone. It holds while the group is collapsed, because the
+   children are in the DOM either way. */
+.tgn-menu > .tgn-item[aria-current],
+.tgn-group:has(.tgn-item[aria-current]) {
+  background: var(--tgn-menu-active);
+}
+
+/* A group that holds the active destination is marked by its tint, not by weight: the bold row
+   inside it is the mode you are actually on, and two bold rows would compete to say so. */
+.tgn-menu > .tgn-item[aria-current] {
+  font-weight: 700;
+}
+
+/* Hover must not lift the tint off the row the user is already on. The active leaf holds its own
+   tint; the active group's header lets the block's tint show through instead. */
+.tgn-menu > .tgn-item[aria-current]:hover {
+  background: var(--tgn-menu-active);
+}
+
+.tgn-group:has(.tgn-item[aria-current]) .tgn-group__header:hover {
+  background: transparent;
+}
+
+/* Built and hidden rather than left unbuilt, which is what lets the `:has()` rule above see the
+   active child and tint the group even while it is shut. */
+.tgn-group__header[aria-expanded='false'] + .tgn-group__items {
+  display: none;
+}
+
+.tgn-group__items {
+  padding-bottom: 6px;
+}
+
+/* ── Items (leaves) ─────────────────────────────────────────────────────── */
+
+.tgn-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  font-size: 15px;
+  /* Matches the top-level rule above, which reaches only `.tgn-menu > .tgn-item`; a group's
+     children are leaves too and read at the same weight and ink, one step smaller and indented. */
+  font-weight: 400;
+  color: var(--tgn-ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Secondary level: a group's children. They sit inside a tinted block, so a hover background has
+   nothing to say here and the underline carries the affordance instead. */
+
+.tgn-group__items > .tgn-item {
+  padding-left: 32px;
+}
+
+.tgn-group__items > .tgn-item:hover {
+  text-decoration: underline;
+}
+
+.tgn-item[aria-current] {
+  background: var(--tgn-menu-active);
+  font-weight: 700;
+}
+
+.tgn-item[aria-disabled='true'] {
+  color: var(--tgn-muted);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Present on every leaf, shown on the one you're on. `aria-current` is the single representation
+   of "you are here": the check, the tint and the weight all follow it. */
+.tgn-item:not([aria-current]) .tgn-item__check {
+  display: none;
+}
+
+.tgn-item__check {
+  color: var(--tgn-accent);
+  font-size: 17px;
+}

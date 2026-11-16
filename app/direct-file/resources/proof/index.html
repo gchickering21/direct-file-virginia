@@ -1,0 +1,118 @@
+<!doctype html>
+<!-- The proof page: what the checks found, for the build you are looking at.
+
+     A static page beside the start page, served at {basePath}/resources/proof/. It reads four files
+     `make proof` writes into this folder of a built site (stack/proof.sh, run by make publish):
+     cases.json from scripts/virginia-cases.cjs, a11y.json from scripts/virginia-a11y.cjs, tests.json
+     parsed from the ScalaTest run, and build.json with the commit. A build without them (make dev,
+     make demo) shows the page with a note instead. Every link is relative. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The proof: what the checks found</title>
+  <link rel="icon" type="image/ico" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../styles/main.css">
+  <style>
+    .va-proof { max-width: 64rem; margin: 0 auto; padding: 0 1.5rem 3rem; }
+    .va-proof h1 { font-family: var(--va-serif); color: var(--va-navy); font-size: 2rem; line-height: 1.2; margin: 2rem 0 0.5rem; }
+    .va-proof h2 { font-family: var(--va-serif); color: var(--va-navy); font-size: 1.4rem; margin: 2.5rem 0 0.5rem; }
+    .va-proof p { max-width: 46rem; line-height: 1.55; }
+    .va-proof__meta { color: var(--va-muted); }
+    .va-tiles { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+    .va-tile { border: 1px solid var(--va-line); border-top: 4px solid var(--va-navy); border-radius: 4px; padding: 1rem 1.25rem; background: #fff; }
+    .va-tile--bad { border-top-color: #b50909; }
+    .va-tile__n { font-family: var(--va-serif); font-size: 2rem; color: var(--va-navy); margin: 0; line-height: 1.1; }
+    .va-tile--bad .va-tile__n { color: #b50909; }
+    .va-tile__what { margin: 0.25rem 0 0; }
+    .va-tile__how { margin: 0.5rem 0 0; font-size: 0.85rem; color: var(--va-muted); }
+    .va-proof table { border-collapse: collapse; width: 100%; font-size: 0.9rem; margin-top: 0.75rem; }
+    .va-proof th, .va-proof td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--va-line); vertical-align: top; }
+    .va-proof th { background: var(--va-navy-tint); color: var(--va-navy); font-weight: 700; }
+    .va-proof td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .va-pass { color: #2e6213; font-weight: 700; }
+    .va-fail { color: #b50909; font-weight: 700; }
+    .va-proof details { margin-top: 0.75rem; }
+    .va-proof summary { cursor: pointer; color: var(--va-navy); font-weight: 700; }
+    .va-proof code { font-size: 0.85em; }
+    .va-note { background: var(--va-orange-tint); border-left: 4px solid var(--va-orange); padding: 0.75rem 1rem; max-width: 46rem; }
+    .va-proof__footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--va-line); color: var(--va-muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+  <header class="va-masthead">
+    <p class="va-demo-strip"><strong>Demonstration</strong> <span>A class prototype. Not a Virginia Tax service. Nothing is filed.</span></p>
+    <div class="va-masthead__bar"><div class="va-masthead__inner"><div class="va-masthead__brand">
+      <svg class="va-masthead__emblem" viewBox="0 0 100 100" width="44" height="44" aria-hidden="true" focusable="false"><g transform="translate(50 50)"><g id="va-petal"><path d="M0 -6 C 14 -14, 18 -36, 4 -44 C 2 -40, -2 -40, -4 -44 C -18 -36, -14 -14, 0 -6 Z" fill="currentColor"/><path d="M-3 -43 C -1 -40, 1 -40, 3 -43" stroke="#e57200" stroke-width="3" fill="none" stroke-linecap="round"/></g><use href="#va-petal" transform="rotate(90)"/><use href="#va-petal" transform="rotate(180)"/><use href="#va-petal" transform="rotate(270)"/><circle r="8" fill="#e57200"/><circle r="3" fill="#13294b"/></g></svg>
+      <div><p class="va-masthead__kicker">Commonwealth of Virginia</p><p class="va-masthead__name">Virginia State Return</p></div>
+    </div></div></div>
+    <div class="va-masthead__rule"></div>
+  </header>
+
+  <main id="main-content" class="va-proof">
+    <p style="margin-top:1.5rem"><a href="../start/">← Start page</a></p>
+    <h1>The proof: what the checks found</h1>
+    <p>The site makes three claims: that fifty households compute the same Form 760 lines as an independent model of the rules written from the Code of Virginia rather than from the XML; that every Virginia screen, in both languages, passes an accessibility scan; and that the engine's own test suite pins the four demo households and the invariants of any return this module can produce. This page is the evidence, produced by the checks themselves when this copy of the site was built.</p>
+    <p class="va-proof__meta" id="meta">Loading the results…</p>
+
+    <div id="body"></div>
+
+    <h2>Run them yourself</h2>
+    <p>With the site running locally (<code>make dev</code> or <code>make demo</code>): <code>make cases</code> drives every household through the real pages in a browser and compares each line; <code>make a11y</code> runs axe-core over every Virginia route; <code>make test</code> runs the ScalaTest suite. <code>make proof</code> does all three against a built site and writes what this page reads.</p>
+
+    <footer class="va-proof__footer">
+      <p>A Georgetown University class project (Digital Public Infrastructure, fall 2026). Public domain, CC0. The households are invented.</p>
+    </footer>
+  </main>
+
+  <script>
+    (async () => {
+      const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      const money = n => Number.isFinite(n) ? '$' + Number(n).toLocaleString('en-US') : '–';
+      const get = async f => { try { const r = await fetch(f, { cache: 'no-cache' }); return r.ok ? await r.json() : null; } catch { return null; } };
+      const [build, cases, a11y, tests] = await Promise.all(['build.json', 'cases.json', 'a11y.json', 'tests.json'].map(get));
+      const meta = document.getElementById('meta'), body = document.getElementById('body');
+      if (!build && !cases && !a11y && !tests) {
+        meta.textContent = '';
+        body.innerHTML = '<p class="va-note"><strong>No results in this build.</strong> The checks run when the site is published (<code>make publish</code>, or <code>make proof</code> against a built site) and write their results beside this page. A development build has none, so there is nothing to show here yet.</p>';
+        return;
+      }
+      meta.innerHTML = build ? `Built from commit <code>${esc(build.commit)}</code>${build.dirty ? ' (with uncommitted changes)' : ''} on ${esc(build.date)}; the checks ran on ${esc((cases?.ran || a11y?.ran || '').slice(0, 10))} against ${esc(cases?.base || a11y?.base || 'the built site')}.` : '';
+
+      const tile = (n, what, how, bad) => `<li class="va-tile ${bad ? 'va-tile--bad' : ''}"><p class="va-tile__n">${n}</p><p class="va-tile__what">${what}</p><p class="va-tile__how">${how}</p></li>`;
+      let html = '<ul class="va-tiles">';
+      if (cases) html += tile(`${cases.total - cases.failed} of ${cases.total}`, 'households match the independent model, line for line', cases.failed ? `${cases.failed} do not; see below` : 'every line, every household', cases.failed > 0);
+      else html += tile('–', 'households: not run', 'make cases', false);
+      if (a11y) html += tile(a11y.violations, `accessibility violations across ${a11y.scans} scans`, `${a11y.routes} routes × ${a11y.languages} languages, plus the error states and the start page; ${esc(a11y.standards.join(', '))}`, a11y.violations > 0);
+      else html += tile('–', 'accessibility: not run', 'make a11y', false);
+      if (tests) html += tile(`${tests.succeeded}${tests.failed ? ` (${tests.failed} failed)` : ''}`, 'tests passed in the ScalaTest suite', 'FlowSpec, DeterminationSpec and VirginiaSpec', tests.failed > 0);
+      else html += tile('–', 'ScalaTest: not run', 'make test', false);
+      html += '</ul>';
+
+      if (cases) {
+        const L = cases.lines || {};
+        const keys = ['vagi', 'ti', 'tax', 'credit', 'withheld', 'amountOwed', 'refund'];
+        const names = { vagi: 'VAGI (L9)', ti: 'Taxable (L15)', tax: 'Tax (L16)', credit: 'Credit (L23)', withheld: 'Withheld (L19a)', amountOwed: 'Owe (L35)', refund: 'Refund (L36)' };
+        html += `<h2>The households</h2><p>Each row is one household loaded into the real pages; the figures are what the page showed, and a row passes when every compared line equals the model's. A non-resident household passes when the Virginia pages send it away.</p>
+          <table><thead><tr><th>Household</th><th>Verdict</th>${keys.map(k => `<th class="num">${names[k]}</th>`).join('')}<th>Notes</th></tr></thead><tbody>` +
+          cases.households.map(h => `<tr><td>${esc(h.title)}</td><td class="${h.pass ? 'va-pass' : 'va-fail'}">${h.pass ? 'pass' : 'FAIL'}</td>` +
+            (h.nonResident ? `<td colspan="${keys.length}">not a Virginia resident: sent to <code>${esc(h.landed)}</code></td>` : keys.map(k => `<td class="num">${money(h.page?.[k])}</td>`).join('')) +
+            `<td>${h.below ? 'below the filing threshold' : ''}${h.diffs?.length ? ' ' + esc(h.diffs.join('; ')) : ''}</td></tr>`).join('') +
+          `</tbody></table><details><summary>Which lines are compared</summary><p>${Object.entries(L).map(([k, v]) => `<code>${esc(v)}</code>`).join(', ')}, and whether the below-threshold notice is shown.</p></details>`;
+      }
+      if (a11y) {
+        html += `<h2>The screens</h2><p>axe-core over every Virginia route with ${esc(a11y.household)} loaded, in English and Spanish, plus the locality page in its error state, the sign page after an unsigned send, and the start page. Violations inside the IRS scaffold's or the workspace's own chrome are listed separately and do not count.</p>
+          <table><thead><tr><th>Scan</th><th>Inside the Virginia chrome</th><th>Outside it</th></tr></thead><tbody>` +
+          a11y.pages.map(s => `<tr><td><code>${esc(s.label)}</code></td><td class="${s.inside.length ? 'va-fail' : 'va-pass'}">${s.inside.length ? s.inside.map(v => `${esc(v.id)} (${esc(v.impact)}) ×${v.count}`).join('; ') : 'clean'}</td><td>${s.outside.length ? s.outside.map(v => `${esc(v.id)} ×${v.count}`).join('; ') : '–'}</td></tr>`).join('') +
+          '</tbody></table>';
+      }
+      if (tests) {
+        html += `<h2>The test suite</h2><p>ScalaTest, run with <code>make test</code>: ${tests.succeeded} succeeded, ${tests.failed} failed${tests.canceled ? `, ${tests.canceled} canceled` : ''}${tests.ignored ? `, ${tests.ignored} ignored` : ''}.</p>`;
+        if (tests.virginia?.length) html += `<details open><summary>What VirginiaSpec covers</summary><ul>${tests.virginia.map(t => `<li>${esc(t)}</li>`).join('')}</ul></details>`;
+      }
+      body.innerHTML = html;
+    })();
+  </script>
+</body>
+</html>

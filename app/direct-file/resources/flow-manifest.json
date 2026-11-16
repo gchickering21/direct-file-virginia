@@ -1,0 +1,3982 @@
+[
+  {
+    "route" : "/you-and-your-family/about-you/about-you-intro",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/about-you-intro/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/about-you-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-basic-information/lets-get-some-basic",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-basic-information/lets-get-some-basic/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-basic-information",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-basic-information/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-basic-information/direct-file-doesnt-yet/",
+    "gatePath" : "/isYoungerThan16",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-basic-information",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-contact-information",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-contact-information/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-contact-information",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/about-you-breather",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/about-you-breather/",
+    "gatePath" : "/isAboutYouDataWasSaved",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/about-you-breather",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-occupation",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-occupation/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-occupation",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/citizenship-or-residency/were-you-a-u",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/citizenship-or-residency/were-you-a-u/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/citizenship-or-residency/in-did-you-start",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/citizenship-or-residency/in-did-you-start/",
+    "gatePath" : "/isNotUsCitizenFullYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/citizenship-or-residency/for-tax-purposes-were",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/citizenship-or-residency/for-tax-purposes-were/",
+    "gatePath" : "/isNotUsCitizenFullYearAndIsNotCitizenAtEndOfTaxYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/citizenship-or-residency/were-you-a-u-2",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/citizenship-or-residency/were-you-a-u-2/",
+    "gatePath" : "/isNotUsCitizenFullYearAndIsNotCitizenAtEndOfTaxYearAndIsNoncitizenResidentFullYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/citizenship-or-residency/direct-file-supports-only",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/citizenship-or-residency/direct-file-supports-only/",
+    "gatePath" : "/isNotUsCitizenFullYearAndIsPrimaryFilerResidencyKnockout",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/state-residency-and-income/where-did-you-live",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/state-residency-and-income/where-did-you-live/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/state-residency-and-income/if-you-have-any",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/state-residency-and-income/if-you-have-any/",
+    "gatePath" : "/isNotFilerResidenceOrIncomeStateOutOfScope",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/state-residency-and-income/in-did-you-receive",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/state-residency-and-income/in-did-you-receive/",
+    "gatePath" : "/isNotFilerResidenceOrIncomeOrW2StateOutOfScope",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/state-residency-and-income/you-said-you-lived",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/state-residency-and-income/you-said-you-lived/",
+    "gatePath" : "/isLivedInNj",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/state-residency-and-income/based-on-where-you",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/state-residency-and-income/based-on-where-you/",
+    "gatePath" : "/isFlowKnockoutUnsupportedState",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/state-residency-and-income/thanks-for-letting-us",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/state-residency-and-income/thanks-for-letting-us/",
+    "gatePath" : "/isLivedInAk",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-tax-identification/confirm-your-social-security",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-tax-identification/confirm-your-social-security/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-tax-identification",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-tax-identification/if-you-have-a",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-tax-identification/if-you-have-a/",
+    "gatePath" : "/isNeedsSSNWorkStatus",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-tax-identification",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-tax-identification/writable-has-ssn-only-for-benefits",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-tax-identification/writable-has-ssn-only-for-benefits/",
+    "gatePath" : "/isNeedsSSNWorkStatusAndIsSsnNotValidForEmployment",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-tax-identification",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-identity-protection/has-the-irs-provided",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-identity-protection/has-the-irs-provided/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-identity-protection",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-identity-protection/are-you-ready-to",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-identity-protection/are-you-ready-to/",
+    "gatePath" : "/isHasIpPin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-identity-protection",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-identity-protection/in-order-to-file",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-identity-protection/in-order-to-file/",
+    "gatePath" : "/isHasIpPinAndIsNotFlowIpPinReady",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-identity-protection",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-identity-protection/enter-your-6-digit",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-identity-protection/enter-your-6-digit/",
+    "gatePath" : "/isHasIpPinAndIsFlowIpPinReady",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-identity-protection",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-life-circumstances/on-the-last-day",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-life-circumstances/on-the-last-day/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-life-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-life-circumstances/for-any-part-of",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-life-circumstances/for-any-part-of/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-life-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-life-circumstances/were-you-a-full",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-life-circumstances/were-you-a-full/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-life-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-dependency-status/could-anyone-claim-you",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-dependency-status/could-anyone-claim-you/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-dependency-status/is-that-person-required",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-dependency-status/is-that-person-required/",
+    "gatePath" : "/isCanBeClaimed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-dependency-status/is-that-person-filing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-dependency-status/is-that-person-filing/",
+    "gatePath" : "/isCanBeClaimedAndIsNotPotentialClaimerMustFile",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-dependency-status/is-that-person-only",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-dependency-status/is-that-person-only/",
+    "gatePath" : "/isCanBeClaimedAndIsNotPotentialClaimerMustFileAndIsPotentialClaimerDidFile",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/about-you/your-dependency-status/is-that-person-claiming",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/about-you/your-dependency-status/is-that-person-claiming/",
+    "gatePath" : "/isPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/about-you/your-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-intro",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-intro/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/your-marital-status/what-was-your-marital",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/your-marital-status/what-was-your-marital/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/your-marital-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/your-marital-status/at-any-time-in",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/your-marital-status/at-any-time-in/",
+    "gatePath" : "/isCheckForRegisteredDomesticPartner",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/your-marital-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/your-marital-status/direct-file-doesnt-have",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/your-marital-status/direct-file-doesnt-have/",
+    "gatePath" : "/isFlowKnockoutHasApplicableRegisteredDomesticPartnership",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/your-marital-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/your-marital-status/what-year-did-your",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/your-marital-status/what-year-did-your/",
+    "gatePath" : "/isWidowed2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/your-marital-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/your-marital-status/did-you-qualify-to",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/your-marital-status/did-you-qualify-to/",
+    "gatePath" : "/isWidowedAndIsWidowedCouldQualifyForQSS",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/your-marital-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/lived-together-or-apart/did-you-and-your",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/lived-together-or-apart/did-you-and-your/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarried",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/lived-together-or-apart",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/lived-together-or-apart/how-long-did-you",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/lived-together-or-apart/how-long-did-you/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsNotLivedTogetherAllYearWithSpouse",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/lived-together-or-apart",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/lived-together-or-apart/did-you-and-your-2",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/lived-together-or-apart/did-you-and-your-2/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsNotLivedTogetherAllYearWithSpouseAndIsLivedTogetherSixMonthsOrLess",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/lived-together-or-apart",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/lived-together-or-apart/writable-separation-agreement",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/lived-together-or-apart/writable-separation-agreement/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsNotLivedTogetherAllYearWithSpouseAndIsShowSpouseLivingApartLastDaySepAgreement",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/lived-together-or-apart",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-citizenship-or-residency/was-your-spouse-a",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-citizenship-or-residency/was-your-spouse-a/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarried",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-citizenship-or-residency/in-did-your-spouse",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-citizenship-or-residency/in-did-your-spouse/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsNotUsCitizenFullYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-citizenship-or-residency/for-tax-purposes-was",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-citizenship-or-residency/for-tax-purposes-was/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsNotUsCitizenFullYearAndIsNotCitizenAtEndOfTaxYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-citizenship-or-residency/was-your-spouse-a-2",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-citizenship-or-residency/was-your-spouse-a-2/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsNotUsCitizenFullYearAndIsNotCitizenAtEndOfTaxYearAndIsNoncitizenResidentFullYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-citizenship-or-residency",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/filing-status/based-on-your-answers",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/filing-status/based-on-your-answers/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsFlowShowFilingStatusChoiceA",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/filing-status/you-and-your-spouse",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/filing-status/you-and-your-spouse/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsFlowShowFilingStatusChoiceB",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/community-property-ko-go-back/direct-file-doesnt-have",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/community-property-ko-go-back/direct-file-doesnt-have/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsKnockoutSubjectToCommunityPropertyLaws",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/community-property-ko-go-back",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/community-property-ko-go-back/you-chose-to-use",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/community-property-ko-go-back/you-chose-to-use/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/community-property-ko-go-back",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-state-residency-and-income/you-said-you-lived",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-state-residency-and-income/you-said-you-lived/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-state-residency-and-income/if-your-spouse-has",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-state-residency-and-income/if-your-spouse-has/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsNotSpouseResidenceAndIncomeStateOutOfScope",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-state-residency-and-income/in-did-your-spouse",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-state-residency-and-income/in-did-your-spouse/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsNotSpouseLivesOrHasW2InAnotherState",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-state-residency-and-income/based-on-where-you",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-state-residency-and-income/based-on-where-you/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowKnockoutUnsupportedState",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-state-residency-and-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-you-state-scope-confirm/thanks-for-your-confirmation",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-you-state-scope-confirm/thanks-for-your-confirmation/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-you-state-scope-confirm",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-you-state-scope-confirm/to-add-your-spouse",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-you-state-scope-confirm/to-add-your-spouse/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-you-state-scope-confirm",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-mfj-basic-info/lets-start-with-some",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-mfj-basic-info/lets-start-with-some/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-mfj-basic-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-mfj-basic-info/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-mfj-basic-info/direct-file-doesnt-yet/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsYoungerThan16",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-mfj-basic-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-mfj-tax-id/whats-s-social-security",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-mfj-tax-id/whats-s-social-security/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-mfj-tax-id",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-mfj-tax-id/if-has-a-work",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-mfj-tax-id/if-has-a-work/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsNeedsSSNWorkStatus",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-mfj-tax-id",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-ssn-federal-benefits",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-ssn-federal-benefits/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsSsnNotValidForEmployment",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-ssn-federal-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-ip-pin/has-the-irs-provided",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-ip-pin/has-the-irs-provided/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-ip-pin",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-ip-pin/are-you-ready-to",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-ip-pin/are-you-ready-to/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsHasIpPin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-ip-pin",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-ip-pin/in-order-to-file",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-ip-pin/in-order-to-file/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsHasIpPinAndIsNotFlowSpouseIpPinReady",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-ip-pin",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-ip-pin/enter-the-6-digit",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-ip-pin/enter-the-6-digit/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsHasIpPinAndIsFlowSpouseIpPinReady",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-ip-pin",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-life-circumstances/on-the-last-day",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-life-circumstances/on-the-last-day/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-life-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-life-circumstances/for-any-part-of",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-life-circumstances/for-any-part-of/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-life-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-life-circumstances/was-a-full-time",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-life-circumstances/was-a-full-time/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-life-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/could-anyone-claim-as",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/could-anyone-claim-as/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/are-you-or-required",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/are-you-or-required/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsection",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/you-can-choose-if",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/you-can-choose-if/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/do-you-and-want",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/do-you-and-want/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/is-anyone-claiming-as",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/is-anyone-claiming-as/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsCanBeClaimed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/we-need-to-ask",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/we-need-to-ask/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/did-you-or-enroll",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/did-you-or-enroll/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/were-advance-payments-of",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/were-advance-payments-of/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsMFJDepedentsEnrolledMarketplacePlan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/you-can-continue-preparing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/you-can-continue-preparing/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsMFJDNotEnrolledMarketplacePlanAndNoAdvancedPTCPaymentsMade",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/who-did-you-or",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/who-did-you-or/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsRefundOnlyAndMFJDEnrolledMarketplacePlanAndAdvancedPTCPaymentsMade",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/you-said-you-or",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/you-said-you-or/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsRefundOnlyMFJDEnrollMarketPlanAPTCPaymentsMadeEnrolleeIsOther",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/you-cant-prepare-your",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/you-cant-prepare-your/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsMfjdSwitchNotDependentTP",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/you-can-continue-preparing-2",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/you-can-continue-preparing-2/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsMfjdOK",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/you-can-continue-preparing-3",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/you-can-continue-preparing-3/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJDependentsFilingForCreditsAndIsMfjdOkFormNotRequired",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/you-chose-to-be",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/you-chose-to-be/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsMfjDependentChoiceA",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/taxpayer-dependency-status/based-on-your-choice",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/taxpayer-dependency-status/based-on-your-choice/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsJointReturnAndIsFlowMFJSpouseFilingRequirementSubsectionAndIsMFJNotRequiredToFileAndEitherFilerCanBeClaimedAndIsNotMFJClaimingRefundOnly",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/add-spouse-b/you-chose-to-use",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/add-spouse-b/you-chose-to-use/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/add-spouse-b",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/add-spouse-b/well-need-some-information",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/add-spouse-b/well-need-some-information/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/add-spouse-b",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-separate-return/mfs-living-spouse-filing-return",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-separate-return/mfs-living-spouse-filing-return/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsNotWidowed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-separate-return",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-separate-return/mfs-deceased-spouse-filing-return",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-separate-return/mfs-deceased-spouse-filing-return/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsWidowed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-separate-return",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-separate-return/is-your-spouse-itemizing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-separate-return/is-your-spouse-itemizing/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsMFSSpouseFilingReturnDerived",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-separate-return",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-separate-return/direct-file-doesnt-have",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-separate-return/direct-file-doesnt-have/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsSpouseItemizesKnockout",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-separate-return",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/mfs-spouse-name",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/mfs-spouse-name/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturn",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/mfs-spouse-name",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/mfs-spouse-nr-tin/does-have-a-social",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/mfs-spouse-nr-tin/does-have-a-social/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsNotUsCitizenFullYearOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/mfs-spouse-nr-tin",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/mfs-spouse-nr-tin/you-wont-be-able",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/mfs-spouse-nr-tin/you-wont-be-able/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsNotUsCitizenFullYearOrIncompleteAndIsMFSLivesInMdNcSpouseHasNoTin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/mfs-spouse-nr-tin",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/mfs-spouse-nr-tin/whats-s-social-security",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/mfs-spouse-nr-tin/whats-s-social-security/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsMFSNeedSpouseTaxId",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/mfs-spouse-nr-tin",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-taxpayer-dependency-status/did-have-any-gross",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-taxpayer-dependency-status/did-have-any-gross/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsNotMFSSpouseFilingReturnDerived",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-taxpayer-dependency-status/could-anyone-claim-as",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-taxpayer-dependency-status/could-anyone-claim-as/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsNotMFSSpouseFilingReturnDerivedAndIsNotMFSSpouseHasGrossIncome",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-taxpayer-dependency-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-age-vision/did-your-spouse-reach",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-age-vision/did-your-spouse-reach/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsNotMFSSpouseFilingReturnDerivedAndIsNotMFSSpouseHasGrossIncomeAndCannotBeClaimed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-age-vision",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/spouse/spouse-age-vision/on-the-last-day",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/spouse/spouse-age-vision/on-the-last-day/",
+    "gatePath" : "/isMaritalStatusAllowsFilingMarriedAndIsReadyToEnterSpouseInformationAndIsWantsSeparateReturnAndIsNotMFSSpouseFilingReturnDerivedAndIsNotMFSSpouseHasGrossIncomeAndCannotBeClaimed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/spouse/spouse-age-vision",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/dependents/family-hh-intro-dep-tps",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/dependents/family-hh-intro-dep-tps/",
+    "gatePath" : "/isTreatAsMFJ",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/dependents/family-hh-intro-dep-tps",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/dependents/exit-person-section",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/dependents/exit-person-section/",
+    "gatePath" : "/isFilersCouldHaveDependentOrQualifyingPersonOrIncompleteAndIsFlowDidNotEnterPeople",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/dependents/exit-person-section",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/lets-confirm-which-filing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/lets-confirm-which-filing/",
+    "gatePath" : "/filingStatusIsUnknownAndIsNotTpSelectedStatusInSpouseSectionAndCanUseItOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/based-on-your-answers",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/based-on-your-answers/",
+    "gatePath" : "/filingStatusIsUnknownAndIsNotTpSelectedStatusInSpouseSectionAndCanUseItOrIncompleteAndIsShowSingleFilingStatusScreen",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/based-on-your-answers-2",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/based-on-your-answers-2/",
+    "gatePath" : "/filingStatusIsUnknownAndIsNotTpSelectedStatusInSpouseSectionAndCanUseItOrIncompleteAndIsShowMFSFilingStatusScreen",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/based-on-your-answers-3",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/based-on-your-answers-3/",
+    "gatePath" : "/filingStatusIsUnknownAndIsNotTpSelectedStatusInSpouseSectionAndCanUseItOrIncompleteAndIsShowHoHFilingStatusScreen",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/based-on-your-answers-4",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/based-on-your-answers-4/",
+    "gatePath" : "/filingStatusIsUnknownAndIsNotTpSelectedStatusInSpouseSectionAndCanUseItOrIncompleteAndIsShowQSSFilingStatusScreen",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/based-on-your-answers-5",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/based-on-your-answers-5/",
+    "gatePath" : "/filingStatusIsUnknownAndIsNotTpSelectedStatusInSpouseSectionAndCanUseItOrIncompleteAndIsShowMFJFilingStatusScreen",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/youre-using-the-married",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/youre-using-the-married/",
+    "gatePath" : "/filingStatusIsUnknownAndIsTpSelectedStatusInSpouseSectionAndCanUseIt",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/change-your-filing-status",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/change-your-filing-status/",
+    "gatePath" : "/filingStatusIsKnown",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/youre-using-the-filing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/youre-using-the-filing/",
+    "gatePath" : "/filingStatusIsKnownAndIsHasValidFillingStatusWithChoice",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/direct-file-doesnt-have",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/direct-file-doesnt-have/",
+    "gatePath" : "/filingStatusIsKnownAndIsKnockoutSubjectToCommunityPropertyLaws",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/based-on-your-answers-6",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/based-on-your-answers-6/",
+    "gatePath" : "/filingStatusIsKnownAndIsHasValidFilingStatusWithNoChoice",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/we-updated-your-filing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/we-updated-your-filing/",
+    "gatePath" : "/filingStatusIsKnownAndIsHasInvalidFilingStatusWithNoChoice",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/choose-a-new-filing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/choose-a-new-filing/",
+    "gatePath" : "/filingStatusIsKnownAndIsHasInvalidFilingStatusWithChoice",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/to-use-the-filing",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/to-use-the-filing/",
+    "gatePath" : "/filingStatusIsKnownAndIsNeedsMoreMFJSpouseInfo",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/to-use-the-filing-2",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/to-use-the-filing-2/",
+    "gatePath" : "/filingStatusIsKnownAndIsNeedsMoreMFSSpouseInfo",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/to-use-the-filing-3",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/to-use-the-filing-3/",
+    "gatePath" : "/filingStatusIsKnownAndIsFilingStatusHOHAndIsNotEligibleForHohOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/is-your-qualifying-person",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/is-your-qualifying-person/",
+    "gatePath" : "/filingStatusIsKnownAndIsFilingStatusHOHAndIsHasExactlyOneHohQP",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/who-would-you-like",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/who-would-you-like/",
+    "gatePath" : "/filingStatusIsKnownAndIsFilingStatusHOHAndIsNotHasExactlyOneHohQP",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/direct-file-doesnt-yet/",
+    "gatePath" : "/filingStatusIsKnownAndIsFilingStatusHOHAndIsKnockoutHohQpHasNoTin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/you-and-your-family/filing-status/filing-status/to-use-as-your",
+    "href" : "/direct-file-virginia/app/direct-file/you-and-your-family/filing-status/filing-status/to-use-as-your/",
+    "gatePath" : "/filingStatusIsKnownAndIsFilingStatusHOHAndIsNeedToEnterHohQPTin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/you-and-your-family/filing-status/filing-status",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/income-sources-intro/lets-start-getting-information",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/income-sources-intro/lets-start-getting-information/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/income-sources-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/income-sources-intro/direct-file-only-supports",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/income-sources-intro/direct-file-only-supports/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/income-sources-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/reportable-income/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/reportable-income/direct-file-doesnt-yet/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/reportable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/reportable-income/does-direct-file-support",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/reportable-income/does-direct-file-support/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/reportable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/reportable-income/direct-file-doesnt-support",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/reportable-income/direct-file-doesnt-support/",
+    "gatePath" : "/isNotIncomeSourcesSupported",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/reportable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/reportable-income/thanks-for-letting-us",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/reportable-income/thanks-for-letting-us/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/reportable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/foreign-accounts-and-foreign-trusts/at-any-time-during",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/foreign-accounts-and-foreign-trusts/at-any-time-during/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/foreign-accounts-and-foreign-trusts",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/foreign-accounts-and-foreign-trusts/at-any-time-in",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/foreign-accounts-and-foreign-trusts/at-any-time-in/",
+    "gatePath" : "/isNotHasForeignAccounts",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/foreign-accounts-and-foreign-trusts",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/foreign-accounts-and-foreign-trusts/at-any-time-in-2",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/foreign-accounts-and-foreign-trusts/at-any-time-in-2/",
+    "gatePath" : "/isNotForeignTrustsGrantor2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/foreign-accounts-and-foreign-trusts",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/foreign-accounts-and-foreign-trusts/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/foreign-accounts-and-foreign-trusts/direct-file-doesnt-yet/",
+    "gatePath" : "/isDoesHaveForeignAccountsOrTrusts",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/foreign-accounts-and-foreign-trusts",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/digital-assets/in-did-you-receive",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/digital-assets/in-did-you-receive/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/digital-assets",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/digital-assets/in-did-you-sell",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/digital-assets/in-did-you-sell/",
+    "gatePath" : "/isNotReceivedDigitalAssets",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/digital-assets",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/digital-assets/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/digital-assets/direct-file-doesnt-yet/",
+    "gatePath" : "/isDigitalAssets",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/digital-assets",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/iras/did-you-make-contributions",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/iras/did-you-make-contributions/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/iras",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/income-sources/iras/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/income/income-sources/iras/direct-file-doesnt-yet/",
+    "gatePath" : "/isMadeIraContributions",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/income-sources/iras",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/jobs/jobs-loop-intro",
+    "href" : "/direct-file-virginia/app/direct-file/income/jobs/jobs-loop-intro/",
+    "gatePath" : "/isFilingStatusMFJ2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/jobs/jobs-loop-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/unemployment/unemployment-loop-intro",
+    "href" : "/direct-file-virginia/app/direct-file/income/unemployment/unemployment-loop-intro/",
+    "gatePath" : "/isNotHasForm1099GsOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/unemployment/unemployment-loop-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/interest/int-income-loop-intro-data-import",
+    "href" : "/direct-file-virginia/app/direct-file/income/interest/int-income-loop-intro-data-import/",
+    "gatePath" : "/isNotHasInterestReportsOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/interest/int-income-loop-intro-data-import",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/alaska-pfd/pfd-loop-intro",
+    "href" : "/direct-file-virginia/app/direct-file/income/alaska-pfd/pfd-loop-intro/",
+    "gatePath" : "/isFilingStatusMFJ2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/alaska-pfd/pfd-loop-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-intro",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-intro/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-benefits/in-did-you-have",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-benefits/in-did-you-have/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-benefits/direct-file-doesnt-have",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-benefits/direct-file-doesnt-have/",
+    "gatePath" : "/isFlowKnockoutHouseholdEmployee",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-benefits/did-you-or-get",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-benefits/did-you-or-get/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-benefits/enter-the-amount-of",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-benefits/enter-the-amount-of/",
+    "gatePath" : "/isHasCdccCarryoverAmountFromPriorTaxYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-benefits/in-did-you-or",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-benefits/in-did-you-or/",
+    "gatePath" : "/isCdccHasDepCareBenefitsBox10",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-benefits/enter-the-amount-of-2",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-benefits/enter-the-amount-of-2/",
+    "gatePath" : "/isHasCdccForfeitedCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-benefits/you-dont-qualify-to",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-benefits/you-dont-qualify-to/",
+    "gatePath" : "/isMFJDependent2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-benefits",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-expenses/whats-the-maximum-amount",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-expenses/whats-the-maximum-amount/",
+    "gatePath" : "/isCdccShouldBeAskedAboutMaxExclusionAndIsCdccShouldAskAboutPrimaryFilerEmployerExclusionPlan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-expenses",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-expenses/whats-the-maximum-amount-2",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-expenses/whats-the-maximum-amount-2/",
+    "gatePath" : "/isCdccShouldBeAskedAboutMaxExclusionAndIsHasReportedSecondaryFilerDependentCareBenefits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-expenses",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-expenses/you-dont-have-any",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-expenses/you-dont-have-any/",
+    "gatePath" : "/isCdccShouldBeAskedAboutMaxExclusionAndIsNotCdccHasQualifyingPersons",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-expenses",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-expenses/in-what-were-your",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-expenses/in-what-were-your/",
+    "gatePath" : "/isCdccShouldBeAskedAboutMaxExclusionAndIsCdccHasQualifyingPersonsAndIsHasReportedDependentCareBenefits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-expenses",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/it-looks-like-you",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/it-looks-like-you/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsCombatPayCouldImpactDependentCareBenefits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/do-you-want-to",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/do-you-want-to/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsCombatPayCouldImpactDependentCareBenefits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/we-need-more-information",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/we-need-more-information/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsShowSpecialEarnedIncomeKnockoutFlowInBenefits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/in-any-of-the",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/in-any-of-the/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsShowSpecialEarnedIncomeKnockoutFlowInBenefitsAndIsStudentOrDisabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/in-any-of-the-2",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/in-any-of-the-2/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsShowSpecialEarnedIncomeKnockoutFlowInBenefitsAndIsShowEarnedIncomeRuleTp2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/direct-file-only-supports",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/direct-file-only-supports/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsShowSpecialEarnedIncomeKnockoutFlowInBenefitsAndIsKnockoutStudentOrDisabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/you-can-continue-using",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/you-can-continue-using/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsShowSpecialEarnedIncomeKnockoutFlowInBenefitsAndIsNeitherTpEarnedLessThanSpecialEarnedIncomeMax",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/do-you-know-s",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/do-you-know-s/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsMfsNotEligibleForCdcc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-combat-pay/enter-s-earned-income",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-combat-pay/enter-s-earned-income/",
+    "gatePath" : "/isMaybeEligibleForDependentCareBenefitsAndIsMfsNotEligibleForCdccAndIsHasMfjSpouseEarnedIncome",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/dep-care-exclusion-outcomes",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/dep-care-exclusion-outcomes/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/dep-care-exclusion-outcomes",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/dependent-care/care-providers",
+    "href" : "/direct-file-virginia/app/direct-file/income/dependent-care/care-providers/",
+    "gatePath" : "/isCdccQualifiedForBenefit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/dependent-care/care-providers",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-intro/health-savings-accounts-hsas",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-intro/health-savings-accounts-hsas/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-intro/we-already-have-some",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-intro/we-already-have-some/",
+    "gatePath" : "/isHasHsaContributionsOnW2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/some-filer-had-non-w2-hsa-activity",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/some-filer-had-non-w2-hsa-activity/",
+    "gatePath" : "/isFlowShowHsaYesNo",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/do-you-have-any",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/do-you-have-any/",
+    "gatePath" : "/isFlowShowHsaPrimaryYesNo",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/does-have-any-health",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/does-have-any-health/",
+    "gatePath" : "/isFlowShowHsaSecondaryYesNo",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/did-you-have-any",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/did-you-have-any/",
+    "gatePath" : "/isSomeFilerHasSomeHsaActivityNotConsideringKos",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/did-you-have-any-2",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/did-you-have-any-2/",
+    "gatePath" : "/isFlowToExcessContributionsPreviousYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/did-you-withdraw-any",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/did-you-withdraw-any/",
+    "gatePath" : "/isFlowToHsaExcessContributions",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/direct-file-doesnt-yet/",
+    "gatePath" : "/isFlowKnockoutHsaExcessContributions",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-y-n/direct-file-doesnt-yet-2",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-y-n/direct-file-doesnt-yet-2/",
+    "gatePath" : "/isFlowKnockoutHsaMedicalSavingsAccountType",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-y-n",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/coverage-and-contributions",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/coverage-and-contributions/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/coverage-and-contributions",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-testing-period-check/in-this-section-well",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-testing-period-check/in-this-section-well/",
+    "gatePath" : "/isFlowShowHsaTestingPeriodContributionCheck",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-testing-period-check",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-testing-period-check/do-you-have-additional",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-testing-period-check/do-you-have-additional/",
+    "gatePath" : "/isFlowShowHsaTestingPeriodContributionCheckAndIsFlowHsaTestingPeriodCheckYes",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-testing-period-check",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-testing-period-check/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-testing-period-check/direct-file-doesnt-yet/",
+    "gatePath" : "/isFlowShowHsaTestingPeriodContributionCheckAndIsFlowKnockoutHsaTestingPeriodAdditionalIncomeYes",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-testing-period-check",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/hsa-contributions-summary-under",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/hsa-contributions-summary-under/",
+    "gatePath" : "/isSomeFilersHaveHsaContributionsNotExceedLimits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/hsa-contributions-summary-under",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/hsa/distributions",
+    "href" : "/direct-file-virginia/app/direct-file/income/hsa/distributions/",
+    "gatePath" : "/isFilingStatusMFJ2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/hsa/distributions",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/retirement-launch/1099-r-info/retirement-income",
+    "href" : "/direct-file-virginia/app/direct-file/income/retirement-launch/1099-r-info/retirement-income/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/retirement-launch/1099-r-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/retirement-launch/1099-r-info/has-some1099r-forms-before-section-enabled",
+    "href" : "/direct-file-virginia/app/direct-file/income/retirement-launch/1099-r-info/has-some1099r-forms-before-section-enabled/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/retirement-launch/1099-r-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/retirement-launch/1099-r-info/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/income/retirement-launch/1099-r-info/direct-file-doesnt-yet/",
+    "gatePath" : "/isHas1099rFormsAndFeatureIsNotEnabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/retirement-launch/1099-r-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/retirement/1099-r-loop-intro",
+    "href" : "/direct-file-virginia/app/direct-file/income/retirement/1099-r-loop-intro/",
+    "gatePath" : "/isFilingStatusMFJ2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/retirement/1099-r-loop-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/social-security/social-security-loop-intro",
+    "href" : "/direct-file-virginia/app/direct-file/income/social-security/social-security-loop-intro/",
+    "gatePath" : "/isNotHasSocialSecurityReportsOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/social-security/social-security-loop-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/social-security/social-security-summary-negative-ko",
+    "href" : "/direct-file-virginia/app/direct-file/income/social-security/social-security-summary-negative-ko/",
+    "gatePath" : "/isSocialSecurityBenefitsAreLossGreaterThan3k",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/social-security/social-security-summary-negative-ko",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/total-income-summary/total-income-summary/lets-review-your-total",
+    "href" : "/direct-file-virginia/app/direct-file/income/total-income-summary/total-income-summary/lets-review-your-total/",
+    "gatePath" : "/isFlowHasReportedIncome",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/total-income-summary/total-income-summary",
+    "exclude" : false
+  },
+  {
+    "route" : "/income/total-income-summary/total-income-summary/you-didnt-report-any",
+    "href" : "/direct-file-virginia/app/direct-file/income/total-income-summary/total-income-summary/you-didnt-report-any/",
+    "gatePath" : "/isNotFlowHasReportedIncomeOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/income/total-income-summary/total-income-summary",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/deductions-intro-mfj-dependents/lets-review-what-deductions",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/deductions-intro-mfj-dependents/lets-review-what-deductions/",
+    "gatePath" : "/isMFJDependent2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/deductions-intro-mfj-dependents",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/deductions-intro-mfj-dependents/lets-see-what-deductions",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/deductions-intro-mfj-dependents/lets-see-what-deductions/",
+    "gatePath" : "/isNotMFJDependentOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/deductions-intro-mfj-dependents",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/hsa-deduction/you-qualify-for-a",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/hsa-deduction/you-qualify-for-a/",
+    "gatePath" : "/isHasHsaDeduction",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/hsa-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/hsa-deduction/we-checked-to-see",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/hsa-deduction/we-checked-to-see/",
+    "gatePath" : "/isNotHasHsaDeduction",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/hsa-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/educator-expenses-deduction/did-you-or-work",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/educator-expenses-deduction/did-you-or-work/",
+    "gatePath" : "/isNotMFJDependentOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/educator-expenses-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/educator-expenses-deduction/how-much-of-s",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/educator-expenses-deduction/how-much-of-s/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsSpouseWasK12Educator",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/educator-expenses-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/educator-expenses-deduction/how-much-of-your",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/educator-expenses-deduction/how-much-of-your/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsTpWasK12Educator",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/educator-expenses-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/educator-expenses-summary",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/educator-expenses-summary/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsFlowShowEducatorExpensesSummary",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/educator-expenses-summary",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/student-loan-int-deduction/did-you-pay-interest",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/student-loan-int-deduction/did-you-pay-interest/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsFlowShowStudentLoanInterestSection",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/student-loan-int-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/student-loan-int-deduction/do-any-of-your",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/student-loan-int-deduction/do-any-of-your/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsFlowShowStudentLoanInterestSectionAndIsHadStudentLoanInterestPayments",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/student-loan-int-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/student-loan-int-deduction/how-much-student-loan",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/student-loan-int-deduction/how-much-student-loan/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsFlowShowStudentLoanInterestSectionAndIsFlowShowStudentLoansAmount",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/student-loan-int-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/student-loan-int-deduction/based-on-your-answers",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/student-loan-int-deduction/based-on-your-answers/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsFlowShowStudentLoanInterestSectionAndIsFlowShowStudentLoansAmount",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/student-loan-int-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/student-loan-interest-not-qualified",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/student-loan-interest-not-qualified/",
+    "gatePath" : "/isNotMFJDependentOrIncompleteAndIsCannotDeductStudentLoanInterest",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/student-loan-interest-not-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/standard-deduction",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/standard-deduction/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/standard-deduction",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/taxable-income/now-that-we-have",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/taxable-income/now-that-we-have/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/taxable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/taxable-income/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/taxable-income/direct-file-doesnt-yet/",
+    "gatePath" : "/isHasInterestIncomeAndAgiAboveThresholdForMfs",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/taxable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/taxable-income/direct-file-doesnt-yet-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/taxable-income/direct-file-doesnt-yet-2/",
+    "gatePath" : "/isHasInterestIncomeAndAgiAboveThresholdForMfjOrQss",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/taxable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/deductions/taxable-income/direct-file-doesnt-yet-3",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/deductions/taxable-income/direct-file-doesnt-yet-3/",
+    "gatePath" : "/isHasInterestIncomeAndAgiAboveThresholdForSingleOrHoh",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/deductions/taxable-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/credits-intro-potential-credits/lets-see-if-you",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/credits-intro-potential-credits/lets-see-if-you/",
+    "gatePath" : "/isHasPotentialCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/credits-intro-potential-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/credits-intro-potential-credits/we-need-more-information",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/credits-intro-potential-credits/we-need-more-information/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/credits-intro-potential-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/credits-intro-potential-credits/first-well-check-if",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/credits-intro-potential-credits/first-well-check-if/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/credits-intro-potential-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/credits-intro-potential-credits/irs-records-show-that",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/credits-intro-potential-credits/irs-records-show-that/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsNotMFJDependentAndIsHas1095AInIRDAS",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/credits-intro-potential-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/credits-intro-potential-credits/irs-records-show-that-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/credits-intro-potential-credits/irs-records-show-that-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsNotMFJDependentAndIsNotHas1095AInIRDAS",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/credits-intro-potential-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/at-any-point-in",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/at-any-point-in/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsNotMfjAndPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/did-you-enroll-anyone",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/did-you-enroll-anyone/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsNotMfjAndPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/you-said-you-enrolled",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/you-said-you-enrolled/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsNotMfjAndPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCreditsAndIsDependentTpEnrolledSomeoneElse",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsNotMfjAndPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCreditsAndIsDependentTpRequiresAllocations",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/we-need-more-information",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/we-need-more-information/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsNotMfjAndPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCreditsAndIsDependentTpNeedToCollectMoreInfo",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/at-any-point-in-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/at-any-point-in-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsMfjAndPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsHasPtcQualifyingPlanAndQsehra",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/do-you-have-a",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/do-you-have-a/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsClaimedDependentsCount",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-3",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-3/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsDependentsRequiredToFile",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/youll-need-a-copy",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/youll-need-a-copy/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/do-you-have-more",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/do-you-have-more/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-4",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-4/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsSelfReportedHasMultiple1095As",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/is-there-someone-other",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/is-there-someone-other/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsMfjAndPrimaryFilerCouldBeDependentAndClaimerIsRequiredToFileOrFilingForCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/you-said-there-was",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/you-said-there-was/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsAdditionalPersonInEnrollmentFamily",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/are-you-listed-on",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/are-you-listed-on/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsNotAdditionalPersonPartofDifferentTaxFamily",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-5",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-5/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsNeedsAllocations",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/while-enrolled-in-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/while-enrolled-in-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsMayPotentiallyHaveTaxFamilyWithNonEligibleImmigrationStatus",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-6",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-6/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsHasImmigrationStatusNotEligibleForMarketplace",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/were-advance-payments-of",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/were-advance-payments-of/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/while-enrolled-in-the-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/while-enrolled-in-the-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsFilerQualifiedForPtcBecauseOfStatusAndResidenceInfo",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-7",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-eligibility/direct-file-only-supports-7/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsFilerQualifiedForPtcBecauseOfStatusAndResidenceInfoAndIsHasEmployerSponsoredPlan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-eligibility",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/unique-circumstances/do-you-meet-both",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/unique-circumstances/do-you-meet-both/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsFilerQualifiedForPtcBecauseOfStatusAndResidenceInfoAndIsMFSAndCantBeClaimed",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/unique-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/unique-circumstances/will-be-the-fourth",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/unique-circumstances/will-be-the-fourth/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsFilerQualifiedForPtcBecauseOfStatusAndResidenceInfoAndIsHasMfsException",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/unique-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/unique-circumstances/in-were-you-enrolled",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/unique-circumstances/in-were-you-enrolled/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsFilerQualifiedForPtcBecauseOfStatusAndResidenceInfoAndIsMaybeApplicableTpAndNoAptcAndBelow100PovertyThreshold",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/unique-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/unique-circumstances/you-dont-qualify-for",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/unique-circumstances/you-dont-qualify-for/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsFilerQualifiedForPtcBecauseOfStatusAndResidenceInfoAndIsNotApplicableTaxPayerAndHasAptc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/unique-circumstances",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/1095-a",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/1095-a/",
+    "gatePath" : "/isResidentOfStateWithMarketplace2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/1095-a",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/alt-calc-marriage/the-amount-of-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/alt-calc-marriage/the-amount-of-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsApplicableTaxPayerOrHasAptcAndIsPotentiallyEligibleForAltCalcBecauseMarriedThisYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/alt-calc-marriage",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/alt-calc-marriage/direct-file-only-supports",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/alt-calc-marriage/direct-file-only-supports/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsHasPtcQualifyingPlanAndIsApplicableTaxPayerOrHasAptcAndIsWantsToUseAltCalculations",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/alt-calc-marriage",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-not-qualified/we-dont-need-to",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-not-qualified/we-dont-need-to/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsDependentTpForm8962NotNeeded",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-not-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-not-qualified/you-dont-qualify-for",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-not-qualified/you-dont-qualify-for/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsPtcNotQualifiedNoAptc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-not-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-not-qualified/you-dont-qualify-for-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-not-qualified/you-dont-qualify-for-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsPtcNotQualifiedHasAptc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-not-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-a",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-a/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsQualifiedForPtcNoAptcAndPtcTotalGreaterThanZero",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-a-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-a-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsQualifiedForPtcNoAptcAndPtcTotalIsZero",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsQualifiedForPtcHasAptcAndNetCreditIsZero",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsQualifiedForPtcHasAptcAndNetCreditIsPositive",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the-3",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the-3/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsQualifiedForPtcHasAptcAndNetCreditIsNegativeAndRepaymentLimitationIsNotActive",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the-4",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ptc-outcomes-qualified/you-qualify-for-the-4/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForPtcAndIsQualifiedForPtcHasAptcAndNetCreditIsNegativeAndHasRepaymentLimitation",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ptc-outcomes-qualified",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-intro/we-need-more-information",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-intro/we-need-more-information/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdcc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-intro/in-did-you-have",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-intro/in-did-you-have/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdcc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-worksheet-a/did-you-or-have",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-worksheet-a/did-you-or-have/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCdccMaybeHasQualifyingExpenses",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-worksheet-a",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-worksheet-a/you-said-you-or",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-worksheet-a/you-said-you-or/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCdccMaybeHasQualifyingExpensesAndIsCdccHasCreditForPriorYearExpenses",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-worksheet-a",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-worksheet-a/did-you-take-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-worksheet-a/did-you-take-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCdccMaybeHasQualifyingExpensesAndIsCdccHasPriorYearCreditAndClaimedCredit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-worksheet-a",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-worksheet-a/you-can-continue-using",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-worksheet-a/you-can-continue-using/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCdccMaybeHasQualifyingExpensesAndIsCdccWorksheetANotRequired",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-worksheet-a",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-worksheet-a/direct-file-only-supports",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-worksheet-a/direct-file-only-supports/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCdccMaybeHasQualifyingExpensesAndIsKnockoutCdccWorksheetA",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-worksheet-a",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-combat-pay/it-looks-like-you",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-combat-pay/it-looks-like-you/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCombatPayCouldImpactCdccCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-combat-pay/do-you-want-to",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-combat-pay/do-you-want-to/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCombatPayCouldImpactCdccCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-combat-pay",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/taxable-benefits-distribution-ko/direct-file-only-supports",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/taxable-benefits-distribution-ko/direct-file-only-supports/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsFlowShowCdccQualifyingPersonsLoopAndIsFlowKnockoutBenefitsDistribution",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/taxable-benefits-distribution-ko",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/taxable-benefits-distribution-ko/based-on-your-earlier",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/taxable-benefits-distribution-ko/based-on-your-earlier/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsFlowShowCdccQualifyingPersonsLoopAndIsCdccMaybeHasQualifyingExpenses",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/taxable-benefits-distribution-ko",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualifying-person-info-qp",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualifying-person-info-qp/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualifying-person-info-qp",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualifying-person-info-qfiler",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualifying-person-info-qfiler/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualifying-person-info-qfiler",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-special-income-rule/you-may-qualify-for",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-special-income-rule/you-may-qualify-for/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsFlowShowCdccQualifyingPersonsLoopAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsShowSpecialEarnedIncomeKnockoutFlowInCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-special-income-rule",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-special-income-rule/in-any-of-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-special-income-rule/in-any-of-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsFlowShowCdccQualifyingPersonsLoopAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsStudentOrDisabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-special-income-rule",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-special-income-rule/in-any-of-the-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-special-income-rule/in-any-of-the-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsFlowShowCdccQualifyingPersonsLoopAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsShowEarnedIncomeRuleTp2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-special-income-rule",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-special-income-rule/direct-file-only-supports",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-special-income-rule/direct-file-only-supports/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsFlowShowCdccQualifyingPersonsLoopAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsKnockoutStudentOrDisabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-special-income-rule",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-special-income-rule/you-can-continue-using",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-special-income-rule/you-can-continue-using/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsFlowShowCdccQualifyingPersonsLoopAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsShowSpecialEarnedIncomeKnockoutFlowInCreditsAndIsNeitherTpEarnedLessThanSpecialEarnedIncomeMax",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-special-income-rule",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-qualified-yes",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-qualified-yes/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsCdccQualified",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-qualified-yes",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-qualified-no",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-qualified-no/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsNotCdccQualified",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-qualified-no",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/care-providers",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/care-providers/",
+    "gatePath" : "/isNotCdccMoreThanOneQualifyingPersonAndIsHasAtLeastOneCareProvider",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/care-providers",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-nondependent-qp-tin-pin",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-nondependent-qp-tin-pin/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCdccAndIsShowCdccNondependentQpTinPinAndIsNotCdccNonDepQpTinsNoneToCollect",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-nondependent-qp-tin-pin",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/cdcc-nondep-qp-info",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/cdcc-nondep-qp-info/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/cdcc-nondep-qp-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/edc-breather",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/edc-breather/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCreditForElderlyAndDisabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/edc-breather",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/disability",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/disability/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/disability",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualified-for-edc/in-did-you-receive",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualified-for-edc/in-did-you-receive/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCreditForElderlyAndDisabledAndIsTpCanBeAskedAboutNonTaxablePayments",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualified-for-edc",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualified-for-edc/enter-the-total-amount",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualified-for-edc/enter-the-total-amount/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCreditForElderlyAndDisabledAndIsHasSelfReportedNonTaxablePayments",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualified-for-edc",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/edc-not-qualified-outcome",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/edc-not-qualified-outcome/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCreditForElderlyAndDisabledAndIsNotQualifiedForCreditForElderlyAndDisabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/edc-not-qualified-outcome",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/edc-qualified-outcome",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/edc-qualified-outcome/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForCreditForElderlyAndDisabledAndIsQualifiedForCreditForElderlyAndDisabled",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/edc-qualified-outcome",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/edc-physician-statement",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/edc-physician-statement/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/edc-physician-statement",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-credit-breather/it-looks-like-you",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-credit-breather/it-looks-like-you/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCredit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-credit-breather",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-credit-breather/did-you-receive-any",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-credit-breather/did-you-receive-any/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCredit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-credit-breather",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-credit-breather/will-you-receive-any",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-credit-breather/will-you-receive-any/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCreditAndIsNotHasDistributionsInLastThreeYears",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-credit-breather",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-credit-breather/did-you-make-any",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-credit-breather/did-you-make-any/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCreditAndIsNotHasSelfReportedDistributions",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-credit-breather",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-credit-breather/you-qualify-for-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-credit-breather/you-qualify-for-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCreditAndIsMeetsOneDollarCombinedCreditLimit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-credit-breather",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-qualified-outcomes",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-qualified-outcomes/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCreditAndIsFlowShowSaversEligibleScreen",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-qualified-outcomes",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-self-reported-distributions-ko/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-self-reported-distributions-ko/direct-file-doesnt-yet/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCreditAndIsHasDistributionsInLastThreeYears",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-self-reported-distributions-ko",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-self-reported-distributions-ko/direct-file-doesnt-yet-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-self-reported-distributions-ko/direct-file-doesnt-yet-2/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCreditAndIsHasCurrentYearDistributions",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-self-reported-distributions-ko",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/savers-self-reported-distributions-ko/direct-file-doesnt-yet-3",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/savers-self-reported-distributions-ko/direct-file-doesnt-yet-3/",
+    "gatePath" : "/isHasPotentialCreditsAndIsQualifiedForSaverCreditAndIsHasSelfReportedContributions",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/savers-self-reported-distributions-ko",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/nr-credit-limit-reached",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/nr-credit-limit-reached/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowCouldHaveQualifiedForAdditionalNrCredit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/nr-credit-limit-reached",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ctc-odc/we-need-more-information",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ctc-odc/we-need-more-information/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsMaybeEligibleForCtc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ctc-odc",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ctc-odc/since-2015-has-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ctc-odc/since-2015-has-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsMaybeEligibleForCtc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ctc-odc",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ctc-odc/did-you-get-any",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ctc-odc/did-you-get-any/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsMaybeEligibleForCtcAndIsReceivedImproperClaims",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ctc-odc",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ctc-odc/did-you-get-a",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ctc-odc/did-you-get-a/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsMaybeEligibleForCtcAndIsReceivedImproperClaimsAndIsNotHasFiledCtcOdcSinceNoticeExpired",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ctc-odc",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ctc-odc/has-it-been-at",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ctc-odc/has-it-been-at/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsMaybeEligibleForCtcAndIsReceivedImproperClaimsAndIsHadCtcOdcImproperClaimsBan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ctc-odc",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ctc-odc-outcome-no",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ctc-odc-outcome-no/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsMaybeEligibleForCtcAndIsCtcHasImproperClaimsAndMaybeHasAdditionalCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ctc-odc-outcome-no",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/ctc-only-outcome-yes",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/ctc-only-outcome-yes/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsCtcQualified",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/ctc-only-outcome-yes",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/odc-section/since-2015-has-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/odc-section/since-2015-has-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsFlowAskAboutOdc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/odc-section",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/odc-section/did-you-get-any",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/odc-section/did-you-get-any/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsFlowAskAboutOdcAndIsReceivedImproperClaims",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/odc-section",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/odc-section/did-you-get-a",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/odc-section/did-you-get-a/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsFlowAskAboutOdcAndIsReceivedImproperClaimsAndIsNotHasFiledCtcOdcSinceNoticeExpired",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/odc-section",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/odc-section/has-it-been-at",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/odc-section/has-it-been-at/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsFlowAskAboutOdcAndIsReceivedImproperClaimsAndIsHadCtcOdcImproperClaimsBan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/odc-section",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/odc-outcome-no",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/odc-outcome-no/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsFlowAskAboutOdcAndIsOdcHasImproperClaimsAndMaybeHasAdditionalCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/odc-outcome-no",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/odc-outcome-yes",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/odc-outcome-yes/",
+    "gatePath" : "/isHasPotentialCreditsAndIsFlowTrueAndIsOdcQualified",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/odc-outcome-yes",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualifying-child/we-need-a-few",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualifying-child/we-need-a-few/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualifying-child",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualifying-child/in-could-you-or",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualifying-child/in-could-you-or/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualifying-child",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualifying-child/is-the-person-who",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualifying-child/is-the-person-who/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcOfAnother",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualifying-child",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualifying-child/is-that-person-filing",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualifying-child/is-that-person-filing/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcOfAnotherAndIsNotEitcQcOfAnotherRequiredToFile",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualifying-child",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/qualifying-child/is-that-person-only",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/qualifying-child/is-that-person-only/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcOfAnotherAndIsEitcQcOfAnotherIsFiling",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/qualifying-child",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-qc-of-another-summary",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-qc-of-another-summary/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsFlowShowNotEitcQc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-qc-of-another-summary",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-reduced-disallowed/since-1996-has-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-reduced-disallowed/since-1996-has-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcTest",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-reduced-disallowed",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-reduced-disallowed/was-the-only-reason",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-reduced-disallowed/was-the-only-reason/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcTestAndIsHasImproperClaimsAndNoQc",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-reduced-disallowed",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-reduced-disallowed/did-you-take-the",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-reduced-disallowed/did-you-take-the/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcTestAndIsFlowHasImproperClaimsAndAskAboutLastClaimedCredit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-reduced-disallowed",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-reduced-disallowed/did-you-get-a",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-reduced-disallowed/did-you-get-a/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcTestAndIsNotEitcImproperClaimTakenSinceDisallowal",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-reduced-disallowed",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-reduced-disallowed/has-it-been-at",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-reduced-disallowed/has-it-been-at/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQcTestAndIsHadEitcImproperClaimsBan",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-reduced-disallowed",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-not-qualified-outcome",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-not-qualified-outcome/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsNotEitcQualified",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-not-qualified-outcome",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-qualified-outcomes",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-qualified-outcomes/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQualified",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-qualified-outcomes",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-8862-date-of-death",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-8862-date-of-death/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-8862-date-of-death",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-additional-information-for-nd",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-additional-information-for-nd/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQualifiedAndIsHasUnclaimedEITCQcsWithTINsAndIsHasAnyUnclaimedEITCQCs",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-additional-information-for-nd",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-enter-tin",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-enter-tin/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-enter-tin",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income/it-looks-like-you",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-combat-pay-earned-income/it-looks-like-you/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQualifiedAndIsSomeFilerHasCombatPayAndIsOnlyPrimaryFilerHasCombatPay",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income/it-looks-like-earned",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-combat-pay-earned-income/it-looks-like-earned/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQualifiedAndIsSomeFilerHasCombatPayAndIsOnlyMFJSpouseHasCombatPay",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income/it-looks-like-both",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-combat-pay-earned-income/it-looks-like-both/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQualifiedAndIsSomeFilerHasCombatPayAndIsBothFilersHasCombatPay",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income/do-you-want-to",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/eitc-combat-pay-earned-income/do-you-want-to/",
+    "gatePath" : "/isHasPotentialCreditsAndIsMaybeEligibleForEitcAndIsEitcQualifiedAndIsSomeFilerHasCombatPay",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/eitc-combat-pay-earned-income",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/summary-of-credits/lets-review-your-credits",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/summary-of-credits/lets-review-your-credits/",
+    "gatePath" : "/isHasPotentialCreditsAndIsCreditsSectionCompleteAndIsHasQualifiedForAtLeastOneCredit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/summary-of-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/summary-of-credits/you-dont-qualify-for",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/summary-of-credits/you-dont-qualify-for/",
+    "gatePath" : "/isHasPotentialCreditsAndIsCreditsSectionCompleteAndIsNotHasQualifiedForAtLeastOneCredit",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/summary-of-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/summary-of-credits/you-dont-qualify-for-2",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/summary-of-credits/you-dont-qualify-for-2/",
+    "gatePath" : "/isNotHasPotentialCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/summary-of-credits",
+    "exclude" : false
+  },
+  {
+    "route" : "/credits-and-deductions/credits/remove-family-hh",
+    "href" : "/direct-file-virginia/app/direct-file/credits-and-deductions/credits/remove-family-hh/",
+    "gatePath" : "/isHasAtLeastOneDependentWhoDoesntQualifyForAnyBenefits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/credits-and-deductions/credits/remove-family-hh",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/est-tax-payments-intro",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/est-tax-payments-intro/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/est-tax-payments-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/est-tax-payments/did-you-pay-any",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/est-tax-payments/did-you-pay-any/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/est-tax-payments",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/est-tax-payments/direct-file-doesnt-yet",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/est-tax-payments/direct-file-doesnt-yet/",
+    "gatePath" : "/isKnockoutNoPaymentsHsaDistribution",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/est-tax-payments",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/est-tax-payments/based-on-your-responses",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/est-tax-payments/based-on-your-responses/",
+    "gatePath" : "/isKnockoutHasNoPaymentsOrCredits",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/est-tax-payments",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/est-tax-payments/paid-estimated-taxes-or-from-last-year-under-different-name",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/est-tax-payments/paid-estimated-taxes-or-from-last-year-under-different-name/",
+    "gatePath" : "/isPaidEstimatedTaxesOrFromLastYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/est-tax-payments",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/est-tax-payments/direct-file-doesnt-support",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/est-tax-payments/direct-file-doesnt-support/",
+    "gatePath" : "/isPaidEstimatedTaxesOrFromLastYearAndIsKnockoutPaidEstimatedTaxesUnderDifferentLastName",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/est-tax-payments",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/est-tax-payments/paid-estimated-taxes-with-former-spouse",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/est-tax-payments/paid-estimated-taxes-with-former-spouse/",
+    "gatePath" : "/isPaidEstimatedTaxesOrFromLastYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/est-tax-payments",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/former-spouse-info/enter-your-former-spouses",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/former-spouse-info/enter-your-former-spouses/",
+    "gatePath" : "/isPaidEstimatedTaxesOrFromLastYearAndIsTpPaidEstimatedTaxesWithFormerSpouse",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/former-spouse-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/former-spouse-info/enter-s-former-spouses",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/former-spouse-info/enter-s-former-spouses/",
+    "gatePath" : "/isPaidEstimatedTaxesOrFromLastYearAndIsSpousePaidEstimatedTaxesWithFormerSpouse",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/former-spouse-info",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/estimated-taxes-paid/amount-paid",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/estimated-taxes-paid/amount-paid/",
+    "gatePath" : "/isPaidEstimatedTaxesOrFromLastYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/estimated-taxes-paid/amount-paid",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/amount/tax-amount-intro/lets-review-your-federal",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/amount/tax-amount-intro/lets-review-your-federal/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/amount/tax-amount-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/amount/tax-amount-intro/amount-you-owe-in",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/amount/tax-amount-intro/amount-you-owe-in/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/amount/tax-amount-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/amount/tax-amount-intro/heres-a-summary-of",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/amount/tax-amount-intro/heres-a-summary-of/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/amount/tax-amount-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/refund-intro",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/refund-intro/",
+    "gatePath" : "/isDueRefund",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/refund-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/refund-method",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/refund-method/",
+    "gatePath" : "/isDueRefund",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/refund-method",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/refund-mailing-address",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/refund-mailing-address/",
+    "gatePath" : "/isDueRefundAndIsNotRefundViaAch",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/refund-mailing-address",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/refund-direct-deposit",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/refund-direct-deposit/",
+    "gatePath" : "/isDueRefundAndIsRefundViaAch",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/refund-direct-deposit",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/refund-outro/thanks-for-telling-us",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/refund-outro/thanks-for-telling-us/",
+    "gatePath" : "/isDueRefund",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/refund-outro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/refund-outro/in-this-section-well",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/refund-outro/in-this-section-well/",
+    "gatePath" : "/isOwesBalance",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/refund-outro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/payment-method/we-changed-your-payment",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/payment-method/we-changed-your-payment/",
+    "gatePath" : "/isOwesBalanceAndIsPaperPathAndWantedToPayViaAch",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/payment-method",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/payment-method/youre-filing-a-paper",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/payment-method/youre-filing-a-paper/",
+    "gatePath" : "/isOwesBalanceAndIsPaperPathAndIsNotPaperPathAndWantedToPayViaAchOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/payment-method",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/payment-method/how-do-you-want",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/payment-method/how-do-you-want/",
+    "gatePath" : "/isOwesBalanceAndIsNotPaperPathAndHasSeenPaymentPaperPathAssertionOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/payment-method",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/payment-direct-debit",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/payment-direct-debit/",
+    "gatePath" : "/isOwesBalanceAndIsNotPaperPathAndHasSeenPaymentPaperPathAssertionOrIncompleteAndIsPayViaAch",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/payment-direct-debit",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/payment-another-way/you-chose-to-pay",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/payment-another-way/you-chose-to-pay/",
+    "gatePath" : "/isOwesBalanceAndIsNotPaperPathAndHasSeenPaymentPaperPathAssertionOrIncompleteAndIsNotPayViaAch",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/payment-another-way",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/payment-method/payment-another-way/thanks-for-telling-us",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/payment-method/payment-another-way/thanks-for-telling-us/",
+    "gatePath" : "/isOwesBalanceAndIsNotPaperPathAndHasSeenPaymentPaperPathAssertionOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/payment-method/payment-another-way",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/other-preferences-intro",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/other-preferences-intro/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/other-preferences-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/third-party-designee/do-you-want-to",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/third-party-designee/do-you-want-to/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/third-party-designee",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/third-party-designee/tell-us-about-your",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/third-party-designee/tell-us-about-your/",
+    "gatePath" : "/isWantsThirdPartyDesignee",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/third-party-designee",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/third-party-designee/ask-your-designee-to",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/third-party-designee/ask-your-designee-to/",
+    "gatePath" : "/isWantsThirdPartyDesignee",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/third-party-designee",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/irs-communication/would-you-like-to",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/irs-communication/would-you-like-to/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/irs-communication",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/irs-communication/what-language-would-you",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/irs-communication/what-language-would-you/",
+    "gatePath" : "/isWantsCustomLanguage",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/irs-communication",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/irs-communication/would-you-like-to-2",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/irs-communication/would-you-like-to-2/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/irs-communication",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/irs-communication/would-you-like-to-3",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/irs-communication/would-you-like-to-3/",
+    "gatePath" : "/isWantsCommsFormat",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/irs-communication",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/other-preferences/presidential-fund",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/other-preferences/presidential-fund/",
+    "gatePath" : "/isTotalTaxIsHigherThanPresidentialCampaignDesignationAmount",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/other-preferences/presidential-fund",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-intro",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-intro/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-known",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-known/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-known",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-check",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-check/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-check",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-correct-what",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-correct-what/",
+    "gatePath" : "/vaWantsToCorrect",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-correct-what",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-correct-dob",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-correct-dob/",
+    "gatePath" : "/vaCorrectionTargetIsDateOfBirth",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-correct-dob",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-correct-w2",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-correct-w2/",
+    "gatePath" : "/vaCorrectionTargetIsW2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-correct-w2",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-correct-records",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-correct-records/",
+    "gatePath" : "/vaCorrectionTargetIsRecords",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-correct-records",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-corrections",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-corrections/",
+    "gatePath" : "/vaWantsToCorrect",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-corrections",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-locality",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-locality/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-locality",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-military/were-you-in-the",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-military/were-you-in-the/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-military",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-military/were-you-on-active",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-military/were-you-on-active/",
+    "gatePath" : "/vaHasMilitaryIncome",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-military",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-military/how-much-military-basic",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-military/how-much-military-basic/",
+    "gatePath" : "/vaHasMilitaryBasicPay",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-military",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-military/did-you-receive-military",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-military/did-you-receive-military/",
+    "gatePath" : "/vaHasMilitaryIncome",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-military",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-military/how-much-of-it",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-military/how-much-of-it/",
+    "gatePath" : "/vaHasMilitaryRetirement",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-military",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-savers/did-you-put-money",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-savers/did-you-put-money/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-savers",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-savers/how-much-did-you",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-savers/how-much-did-you/",
+    "gatePath" : "/vaHasCommonwealthSaversContributions",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-savers",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-use-tax/did-you-buy-anything",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-use-tax/did-you-buy-anything/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-use-tax",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-use-tax/how-much-did-those",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-use-tax/how-much-did-those/",
+    "gatePath" : "/vaHasUntaxedPurchases",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-use-tax",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-summary",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-summary/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-summary",
+    "exclude" : false
+  },
+  {
+    "route" : "/your-taxes/virginia/virginia-sign",
+    "href" : "/direct-file-virginia/app/direct-file/your-taxes/virginia/virginia-sign/",
+    "gatePath" : "/vaIsResident",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/your-taxes/virginia/virginia-sign",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/review/review",
+    "href" : "/direct-file-virginia/app/direct-file/complete/review/review/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/review/review",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/sign-return-intro",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/sign-return-intro/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/sign-return-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/your-digital-signature/filed-last-year",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/your-digital-signature/filed-last-year/",
+    "gatePath" : "/isNotPrimaryFilerHasIpPin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/your-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/your-digital-signature/how-do-you-want",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/your-digital-signature/how-do-you-want/",
+    "gatePath" : "/isFiledLastYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/your-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/your-digital-signature/in-order-to-file",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/your-digital-signature/in-order-to-file/",
+    "gatePath" : "/isFiledLastYearAndIsCannotFindPinOrAgi",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/your-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/your-digital-signature/enter-your-self-select",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/your-digital-signature/enter-your-self-select/",
+    "gatePath" : "/isFiledLastYearAndIsCanFindPinOrAgiAndIsWillEnterLastYearPin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/your-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/your-digital-signature/enter-your-adjusted-gross",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/your-digital-signature/enter-your-adjusted-gross/",
+    "gatePath" : "/isCanFindPinOrAgiOrIncompleteAndIsNeedsToEnterLastYearAgi",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/your-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/your-digital-signature/create-a-self-select",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/your-digital-signature/create-a-self-select/",
+    "gatePath" : "/isCanFindPinOrAgiOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/your-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/sign-return-spouse-intro",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/sign-return-spouse-intro/",
+    "gatePath" : "/isMFJWithLivingSpouse2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/sign-return-spouse-intro",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/spouse-digital-signature/spouse-filed-last-year",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/spouse-digital-signature/spouse-filed-last-year/",
+    "gatePath" : "/isMFJWithLivingSpouseAndIsNotSpouseHasIpPin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/spouse-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/spouse-digital-signature/how-does-want-to",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/spouse-digital-signature/how-does-want-to/",
+    "gatePath" : "/isMFJWithLivingSpouseAndIsSpouseFiledLastYear",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/spouse-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/spouse-digital-signature/in-order-to-file",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/spouse-digital-signature/in-order-to-file/",
+    "gatePath" : "/isMFJWithLivingSpouseAndIsSpouseFiledLastYearAndIsSpouseCannotFindPinOrAgi",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/spouse-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/spouse-digital-signature/enter-s-self-select",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/spouse-digital-signature/enter-s-self-select/",
+    "gatePath" : "/isMFJWithLivingSpouseAndIsSpouseFiledLastYearAndIsSpouseCanFindPinOrAgiAndIsSpouseWillEnterLastYearPin",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/spouse-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/spouse-digital-signature/enter-s-adjusted-gross",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/spouse-digital-signature/enter-s-adjusted-gross/",
+    "gatePath" : "/isMFJWithLivingSpouseAndIsSpouseCanFindPinOrAgiOrIncompleteAndIsSpouseNeedsToEnterLastYearAgi",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/spouse-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/sign-and-submit/spouse-digital-signature/have-create-a-self",
+    "href" : "/direct-file-virginia/app/direct-file/complete/sign-and-submit/spouse-digital-signature/have-create-a-self/",
+    "gatePath" : "/isMFJWithLivingSpouseAndIsSpouseCanFindPinOrAgiOrIncomplete",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/sign-and-submit/spouse-digital-signature",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/print-and-mail/sign-paper-file/its-time-to-print",
+    "href" : "/direct-file-virginia/app/direct-file/complete/print-and-mail/sign-paper-file/its-time-to-print/",
+    "gatePath" : "/isCannotFindPinOrAgi",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/print-and-mail/sign-paper-file",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/print-and-mail/sign-paper-file/its-time-to-print-2",
+    "href" : "/direct-file-virginia/app/direct-file/complete/print-and-mail/sign-paper-file/its-time-to-print-2/",
+    "gatePath" : "/isSpouseCannotFindPinOrAgi",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/print-and-mail/sign-paper-file",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/print-and-mail/sign-paper-file/its-time-to-print-3",
+    "href" : "/direct-file-virginia/app/direct-file/complete/print-and-mail/sign-paper-file/its-time-to-print-3/",
+    "gatePath" : "/isPaperPathDueToMissingIpPin2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/print-and-mail/sign-paper-file",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/submit/sign-return-mfj-submit/its-time-to-submit",
+    "href" : "/direct-file-virginia/app/direct-file/complete/submit/sign-return-mfj-submit/its-time-to-submit/",
+    "gatePath" : "/isFilingStatusMFJ2",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/submit/sign-return-mfj-submit",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/submit/sign-return-mfj-submit/its-time-to-submit-2",
+    "href" : "/direct-file-virginia/app/direct-file/complete/submit/sign-return-mfj-submit/its-time-to-submit-2/",
+    "gatePath" : "/isNotFilingStatusMFJ",
+    "gateOperator" : "isTrue",
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/submit/sign-return-mfj-submit",
+    "exclude" : false
+  },
+  {
+    "route" : "/complete/submit/sign-return-mfj-submit/you-submitted-your-federal",
+    "href" : "/direct-file-virginia/app/direct-file/complete/submit/sign-return-mfj-submit/you-submitted-your-federal/",
+    "gatePath" : null,
+    "gateOperator" : null,
+    "knockoutPaths" : [
+    ],
+    "sourceRoute" : "/complete/submit/sign-return-mfj-submit",
+    "exclude" : false
+  }
+]

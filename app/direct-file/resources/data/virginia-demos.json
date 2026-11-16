@@ -1,0 +1,466 @@
+{
+  "$comment": [
+    "The four demo households, one place. Each is an IRS scenario (base) with the keys below changed",
+    "(overrides): a Virginian's name, address and employer, the residence state, and the answers to the",
+    "Virginia questions. scripts/virginia-demos.py build writes scenarios/<file>.json from this; check",
+    "fails if a committed file differs. expect is what the engine alone computes for each (VirginiaSpec",
+    "pins it; Lines 20 to 22 come from the records stand-in on the page, so the page's result differs);",
+    "result is what the page shows. Read by: virginia-demo-link.js (?demo=N), virginia-demos.py (links,",
+    "build, check), virginia-cases.py (the demos join the 50 households), virginia-a11y.cjs (demo 1 is",
+    "the household it scans with), VirginiaSpec.scala (expect), virginia-stats.py --check (result)."
+  ],
+  "demos": [
+    {
+      "n": 1,
+      "case": "demo_1_riley",
+      "file": "virginia_demo_1_riley_rappahannock_single_33k",
+      "base": "single_33k_no_credits.json",
+      "name": "Riley Rappahannock",
+      "place": "Richmond",
+      "line": "Riley Rappahannock, Richmond, single, 33k, owes $698",
+      "household": "single, $33k",
+      "shows": "the plain case; $200 of estimated payments from Virginia's records on Lines 20 to 22",
+      "result": {
+        "kind": "owes",
+        "amount": 698
+      },
+      "expect": {
+        "/vaFederalAdjustedGrossIncome": 34333,
+        "/vaAgeDeduction": 0,
+        "/vaScheduleAdjSubtractions": 0,
+        "/vaTotalSubtractions": 0,
+        "/vaAdjustedGrossIncome": 34333,
+        "/vaStandardDeduction": 8500,
+        "/vaExemptions": 930,
+        "/vaCommonwealthSaversDeduction": 0,
+        "/vaTotalDeductions": 9430,
+        "/vaTaxableIncome": 24903,
+        "/vaTax": 1174,
+        "/vaWithholding": 300,
+        "/vaLowIncomeCredit": 0,
+        "/vaClaimsLowIncomeCredit": false,
+        "/vaUseTax": 24,
+        "/vaTaxYouOwe": 874,
+        "/vaAmountYouOwe": 898,
+        "/vaRefund": 0
+      },
+      "engineNote": "before the $200 of estimated payments the records stand-in adds on the page: owes $874 + $24 use tax = $898 in the engine alone",
+      "overrides": {
+        "/address": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Richmond",
+            "country": "",
+            "postalCode": "23220",
+            "stateOrProvence": "VA",
+            "streetAddress": "412 Monument Avenue"
+          }
+        },
+        "/filerResidenceAndIncomeState": {
+          "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+          "item": {
+            "enumOptionsPath": "/scopedStateOptions",
+            "value": "va"
+          }
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/firstName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Riley"
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/lastName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Rappahannock"
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/occupation": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Baker"
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/writableMiddleInitial": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "J"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/employerAddress": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Richmond",
+            "country": "",
+            "postalCode": "23219",
+            "stateOrProvence": "VA",
+            "streetAddress": "88 Cary Street"
+          }
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/employerName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Blue Ridge Bakery"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableLocality": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Richmond"
+        },
+        "/vaHasCommonwealthSaversContributions": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaHasMilitaryIncome": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaHasUntaxedPurchases": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": true
+        },
+        "/vaLocality": {
+          "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+          "item": {
+            "enumOptionsPath": "/vaLocalityOptions",
+            "value": "richmond-city"
+          }
+        },
+        "/vaUntaxedPurchases": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "400.00"
+        }
+      }
+    },
+    {
+      "n": 2,
+      "case": "demo_2_morgan",
+      "file": "virginia_demo_2_morgan_shenandoah_age_65_56k",
+      "base": "single_33k_no_credits.json",
+      "name": "Morgan Shenandoah",
+      "place": "Charlottesville",
+      "line": "Morgan Shenandoah, Charlottesville, 65, 56k, owes $1,522",
+      "household": "65, $56k",
+      "shows": "the age deduction and its phase-out; the Commonwealth Savers deduction",
+      "result": {
+        "kind": "owes",
+        "amount": 1522
+      },
+      "expect": {
+        "/vaFederalAdjustedGrossIncome": 57000,
+        "/vaAgeDeduction": 5000,
+        "/vaTotalSubtractions": 5000,
+        "/vaAdjustedGrossIncome": 52000,
+        "/vaExemptions": 1730,
+        "/vaCommonwealthSaversDeduction": 3000,
+        "/vaTotalDeductions": 13230,
+        "/vaTaxableIncome": 38770,
+        "/vaTax": 1972,
+        "/vaWithholding": 300,
+        "/vaTaxYouOwe": 1672
+      },
+      "engineNote": "$1,522 on the page, after the $150 of last year's overpayment the records add",
+      "overrides": {
+        "/address": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Charlottesville",
+            "country": "",
+            "postalCode": "22902",
+            "stateOrProvence": "VA",
+            "streetAddress": "19 Water Street"
+          }
+        },
+        "/filerResidenceAndIncomeState": {
+          "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+          "item": {
+            "enumOptionsPath": "/scopedStateOptions",
+            "value": "va"
+          }
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/dateOfBirth": {
+          "$type": "gov.irs.factgraph.persisters.DayWrapper",
+          "item": {
+            "date": "1955-05-05"
+          }
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/firstName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Morgan"
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/lastName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Shenandoah"
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/occupation": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Librarian"
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/writableMiddleInitial": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "T"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/employerAddress": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Charlottesville",
+            "country": "",
+            "postalCode": "22902",
+            "stateOrProvence": "VA",
+            "streetAddress": "201 East Market Street"
+          }
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/employerName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Piedmont Public Library"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableLocality": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Charlottesville"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableStateWages": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "56000.00"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableWages": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "56000.00"
+        },
+        "/vaCommonwealthSaversContributions": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "3000.00"
+        },
+        "/vaHasCommonwealthSaversContributions": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": true
+        },
+        "/vaHasMilitaryIncome": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaHasUntaxedPurchases": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaLocality": {
+          "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+          "item": {
+            "enumOptionsPath": "/vaLocalityOptions",
+            "value": "charlottesville-city"
+          }
+        }
+      }
+    },
+    {
+      "n": 3,
+      "case": "demo_3_jordan",
+      "file": "virginia_demo_3_jordan_elizabeth_hoh_20k_eitc",
+      "base": "hoh_13k.json",
+      "name": "Jordan Elizabeth",
+      "place": "Norfolk",
+      "line": "Jordan Elizabeth, Norfolk, head of household, 20k, refund $505",
+      "household": "head of household, $20k",
+      "shows": "the refundable earned income credit and the unemployment subtraction, neither asked for; the locality filled in from the ZIP",
+      "result": {
+        "kind": "refund",
+        "amount": 505
+      },
+      "expect": {
+        "/vaFederalAdjustedGrossIncome": 21500,
+        "/vaUnemploymentCompensationSubtraction": 2000,
+        "/vaScheduleAdjSubtractions": 2000,
+        "/vaAdjustedGrossIncome": 19500,
+        "/vaExemptions": 1860,
+        "/vaTaxableIncome": 9140,
+        "/vaTax": 327,
+        "/vaClaimsLowIncomeCredit": true,
+        "/vaClaimsRefundableEarnedIncomeCredit": true,
+        "/vaLowIncomeCredit": 632,
+        "/vaWithholding": 200,
+        "/vaRefund": 505
+      },
+      "engineNote": "the $800 blind exemption is given up for the credit",
+      "overrides": {
+        "/address": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Norfolk",
+            "country": "",
+            "postalCode": "23504",
+            "stateOrProvence": "VA",
+            "streetAddress": "1820 Colonial Avenue"
+          }
+        },
+        "/familyAndHousehold/#2b39b3eb-119b-4aec-8115-9b1d3eecfd35/firstName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Sam"
+        },
+        "/familyAndHousehold/#2b39b3eb-119b-4aec-8115-9b1d3eecfd35/lastName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Elizabeth"
+        },
+        "/filerResidenceAndIncomeState": {
+          "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+          "item": {
+            "enumOptionsPath": "/scopedStateOptions",
+            "value": "va"
+          }
+        },
+        "/filers/#b8f6e5a0-5c35-482c-8bd2-5cb896cb6fdd/firstName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Jordan"
+        },
+        "/filers/#b8f6e5a0-5c35-482c-8bd2-5cb896cb6fdd/lastName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Elizabeth"
+        },
+        "/formW2s/#d5be06c0-14ee-417d-9349-65aedd082b62/employerAddress": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Norfolk",
+            "country": "",
+            "postalCode": "23510",
+            "stateOrProvence": "VA",
+            "streetAddress": "300 Granby Street"
+          }
+        },
+        "/formW2s/#d5be06c0-14ee-417d-9349-65aedd082b62/employerName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Tidewater Child Care Center"
+        },
+        "/formW2s/#d5be06c0-14ee-417d-9349-65aedd082b62/writableState": {
+          "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+          "item": {
+            "enumOptionsPath": "/incomeFormStateOptions",
+            "value": "sameState"
+          }
+        },
+        "/formW2s/#d5be06c0-14ee-417d-9349-65aedd082b62/writableStateEmployerId": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "123456"
+        },
+        "/formW2s/#d5be06c0-14ee-417d-9349-65aedd082b62/writableStateWithholding": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "200.00"
+        },
+        "/formW2s/#d5be06c0-14ee-417d-9349-65aedd082b62/writableWages": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "20000.00"
+        },
+        "/vaHasCommonwealthSaversContributions": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaHasMilitaryIncome": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaHasUntaxedPurchases": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        }
+      }
+    },
+    {
+      "n": 4,
+      "case": "demo_4_taylor",
+      "file": "virginia_demo_4_taylor_york_single_27k_military",
+      "base": "single_33k_no_credits.json",
+      "name": "Taylor York",
+      "place": "Williamsburg",
+      "line": "Taylor York, Williamsburg, active duty, 27k, refund $151",
+      "household": "single, on active duty, $27k",
+      "shows": "the military basic pay subtraction; a ZIP that crosses three localities, so the screen asks",
+      "result": {
+        "kind": "refund",
+        "amount": 151
+      },
+      "expect": {
+        "/vaFederalAdjustedGrossIncome": 28000,
+        "/vaMilitaryBasicPaySubtraction": 6000,
+        "/vaScheduleAdjSubtractions": 6000,
+        "/vaAdjustedGrossIncome": 22000,
+        "/vaTaxableIncome": 12570,
+        "/vaTax": 499,
+        "/vaWithholding": 650,
+        "/vaRefund": 151
+      },
+      "engineNote": "",
+      "overrides": {
+        "/address": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Williamsburg",
+            "country": "",
+            "postalCode": "23185",
+            "stateOrProvence": "VA",
+            "streetAddress": "104 Quarterpath Road"
+          }
+        },
+        "/filerResidenceAndIncomeState": {
+          "$type": "gov.irs.factgraph.persisters.EnumWrapper",
+          "item": {
+            "enumOptionsPath": "/scopedStateOptions",
+            "value": "va"
+          }
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/firstName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Taylor"
+        },
+        "/filers/#acf14a3a-c258-4815-a74b-affabb9e2bb3/lastName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "York"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/employerAddress": {
+          "$type": "gov.irs.factgraph.persisters.AddressWrapper",
+          "item": {
+            "city": "Indianapolis",
+            "country": "",
+            "postalCode": "46249",
+            "stateOrProvence": "IN",
+            "streetAddress": "8899 East 56th Street"
+          }
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/employerName": {
+          "$type": "gov.irs.factgraph.persisters.StringWrapper",
+          "item": "Defense Finance and Accounting Service"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableMedicareWages": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "27000.00"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableOasdiWages": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "27000.00"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableStateWages": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "27000.00"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableStateWithholding": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "650.00"
+        },
+        "/formW2s/#b4bf2aa9-5e45-4d80-83f9-b7eb2fdc327b/writableWages": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "27000.00"
+        },
+        "/vaHasCommonwealthSaversContributions": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaHasMilitaryBasicPay": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": true
+        },
+        "/vaHasMilitaryIncome": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": true
+        },
+        "/vaHasMilitaryRetirement": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaHasUntaxedPurchases": {
+          "$type": "gov.irs.factgraph.persisters.BooleanWrapper",
+          "item": false
+        },
+        "/vaMilitaryBasicPay": {
+          "$type": "gov.irs.factgraph.persisters.DollarWrapper",
+          "item": "24000.00"
+        }
+      }
+    }
+  ]
+}

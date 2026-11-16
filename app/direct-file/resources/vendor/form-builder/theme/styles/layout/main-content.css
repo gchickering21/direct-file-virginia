@@ -1,0 +1,161 @@
+body {
+  background-color: var(--base-lightest);
+}
+
+.app-container {
+  container-type: inline-size;
+  container-name: app;
+}
+
+main {
+  background-color: white;
+  margin: 0 auto;
+  padding: var(--units-2) var(--units-2) var(--units-6);
+
+  @container app (min-width: 880px) {
+    box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: var(--units-4);
+    margin-bottom: var(--units-6);
+    max-width: 800px;
+    padding: var(--units-6) var(--units-8) var(--units-8) var(--units-8);
+  }
+
+   @container app (min-width: 1024px) {
+    max-width: 954px;
+   }
+}
+
+main {
+  min-height: 90vh;
+}
+
+main h1 {
+  font-weight: 600;
+}
+
+/* DF-2 — the boot state.
+ *
+ * #page-content-wrapper is no longer hidden while the Fact Graph boots, so the page is readable
+ * from the first frame. What cannot be readable that early is any element whose *condition* the
+ * graph has not answered yet: painted optimistically it would appear and then be taken away, and on
+ * a knockout screen that means telling a taxpayer they are ineligible before anything has decided
+ * they are. So conditional elements start hidden and showOrHideAllElements() clears this gate at
+ * the end of its first pass, which is the moment every one of them has its real answer.
+ *
+ * The gate is a class on <body>, written by the generator into the document. A rule that had to be
+ * added by a script would be added after first paint, which is the one frame it exists to cover. */
+body.fg-conditions-pending [condition][operator],
+/* The flow's own Back and Next belong to the same set. On a transpiled flow the whole screen sits
+ * inside one gated wrapper, so painting the buttons on their own puts two controls under an empty
+ * page and then shoves them down when the screen arrives — 0.089 of layout shift on a Direct File
+ * page, against 0.0003 once they wait with it. They are also not answerable yet in their own right:
+ * fg-navigator rewrites both to the next and previous *live* page. */
+body.fg-conditions-pending .form-actions {
+  display: none;
+}
+
+/* Zero-height, so the spinner it holds is out of flow and its removal moves nothing. `position:
+ * relative` is on this box rather than on <main> deliberately: making <main> a containing block
+ * would re-parent every absolutely positioned descendant USWDS has in there. */
+.loading-region {
+  position: relative;
+  height: 0;
+}
+
+#loading-spinner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2rem;
+  height: 2rem;
+}
+
+#loading-spinner.hidden { display: none; }
+
+.header-bottom-border {
+  border-bottom: 2px solid var(--base-lighter);
+  display: block;
+  margin: var(--units-3) 0;
+  padding-bottom: var(--units-3);
+  opacity: 1;
+}
+
+#heading-your-withholding {
+  margin-bottom: var(--units-4);
+}
+
+.flow h2,
+.flow h3:not(.usa-alert__heading, .fg-estimate__heading, details > summary > h3),
+.flow h4:not(.usa-alert__heading, details > summary > h4),
+.flow h5:not(.usa-alert__heading, details > summary > h5) {
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.flow h2 {
+  font-size: var(--font-size-10);
+
+  @container app (min-width: 640px) {
+    font-size: var(--font-size-11);
+  }
+
+  @container app (min-width: 880px) {
+    font-size: var(--font-size-12);
+  }
+}
+
+.flow h3:not(.usa-alert__heading, .fg-estimate__heading, details > summary > h3),
+.flow h4:not(.usa-alert__heading, .fg-estimate__heading, details > summary > h4),
+.fg-collection-item__fields h5 {
+  border-top: 2px solid var(--base-lighter);
+  font-size: var(--font-size-8);
+  padding-top: var(--flow-spacing);
+  margin: var(--flow-spacing--offset) 0 var(--flow-spacing--sm);
+
+  @container app (min-width: 640px) {
+    font-size: var(--font-size-10);
+  }
+
+  @container app (min-width: 880px) {
+    font-size: var(--font-size-11);
+  }
+}
+
+.flow h3.border-top-0,
+.flow h4.border-top-0 {
+  border-top: 0;
+}
+
+/* This makes it so if there a conditional fg-set that is hidden before the first h4
+   in a fg-collection-item, the h4 does not get the top border and padding */
+.fg-collection-item__fields fg-set.hidden:first-child + h5:first-of-type {
+  border: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.flow h4:not(.usa-alert__heading, details > summary > h4),
+.flow h5:not(.usa-alert__heading, details > summary > h5) {
+  font-size: var(--font-size-8);
+
+  @container app (min-width: 640px) {
+    font-size: var(--font-size-9);
+  }
+
+  @container app (min-width: 880px) {
+    font-size: var(--font-size-10);
+  }
+}
+
+/* Set max width for all flow content equal to .usa-prose */
+.flow p,
+.flow table,
+.flow .usa-hint,
+.flow ul,
+.flow ol,
+.flow h3:not(.usa-alert__heading),
+.flow h4:not(.usa-alert__heading),
+.flow h5:not(.usa-alert__heading) {
+  max-width: 68ex;
+}

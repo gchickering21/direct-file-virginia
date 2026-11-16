@@ -1,0 +1,167 @@
+<!doctype html>
+<!-- The start page: the one link to give someone who has never seen this.
+
+     A plain static page, served from website-static/ at {basePath}/resources/start/, outside the
+     flow. It is not a flow page because FlowSpec routes every page as /category/subcategory/topic
+     under one of Direct File's five categories, and a front door is none of those. Every link here
+     is relative, so the page works at any base path (make dev, make demo, the hosted site).
+
+     The household cards are drawn from ../data/virginia-demos.json, the one list of the demos, so
+     a demo added there appears here without an edit; the list in <noscript> and the fallback below
+     it are the same four by hand, for a browser with scripts off or a fetch that fails. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Start here: a Virginia return on Direct File</title>
+  <link rel="icon" type="image/ico" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../styles/main.css">
+  <style>
+    /* The page's own layout. The masthead and the demonstration strip take their look from
+       styles/components/virginia.css, the same classes the Virginia screens use. */
+    .va-start { max-width: 64rem; margin: 0 auto; padding: 0 1.5rem 3rem; }
+    .va-start h1 { font-family: var(--va-serif); color: var(--va-navy); font-size: 2rem; line-height: 1.2; margin: 2rem 0 0.75rem; max-width: 40rem; }
+    .va-start h2 { font-family: var(--va-serif); color: var(--va-navy); font-size: 1.4rem; margin: 2.5rem 0 0.5rem; }
+    .va-start p { max-width: 44rem; line-height: 1.55; }
+    .va-start .va-start__lede { font-size: 1.125rem; color: #1b1b1b; }
+    .va-start__cards { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .va-card { border: 1px solid var(--va-line); border-top: 4px solid var(--va-navy); border-radius: 4px; padding: 1rem 1.25rem 1.25rem; background: #fff; display: flex; flex-direction: column; }
+    .va-card__n { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--va-muted); margin: 0; }
+    .va-card__name { font-family: var(--va-serif); color: var(--va-navy); font-size: 1.25rem; margin: 0.15rem 0 0.1rem; }
+    .va-card__who { margin: 0 0 0.6rem; color: var(--va-muted); }
+    .va-card__shows { margin: 0 0 1rem; flex: 1; }
+    .va-card__result { display: inline-block; background: var(--va-orange-tint); color: var(--va-navy); font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 3px; margin: 0 0 0.9rem; }
+    .va-card__actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .va-card__actions .usa-button { margin: 0; }
+    .va-start ol li, .va-start ul li { max-width: 44rem; line-height: 1.5; margin-bottom: 0.4rem; }
+    .va-start__tools { list-style: none; padding: 0; }
+    .va-start__tools li { padding: 0.6rem 0; border-bottom: 1px solid var(--va-line); }
+    .va-start__tools strong { color: var(--va-navy); }
+    .va-start__footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--va-line); color: var(--va-muted); font-size: 0.9rem; }
+    .va-start__fallback { padding-left: 1.25rem; }
+  </style>
+</head>
+<body>
+  <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+  <header class="va-masthead">
+    <p class="va-demo-strip"><strong>Demonstration</strong> <span>A class prototype. Not a Virginia Tax service. Nothing is filed.</span></p>
+    <div class="va-masthead__bar">
+      <div class="va-masthead__inner">
+        <div class="va-masthead__brand">
+          <svg class="va-masthead__emblem" viewBox="0 0 100 100" width="44" height="44" aria-hidden="true" focusable="false">
+            <g transform="translate(50 50)">
+              <g id="va-petal">
+                <path d="M0 -6 C 14 -14, 18 -36, 4 -44 C 2 -40, -2 -40, -4 -44 C -18 -36, -14 -14, 0 -6 Z" fill="currentColor"/>
+                <path d="M-3 -43 C -1 -40, 1 -40, 3 -43" stroke="#e57200" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+              <use href="#va-petal" transform="rotate(90)"/>
+              <use href="#va-petal" transform="rotate(180)"/>
+              <use href="#va-petal" transform="rotate(270)"/>
+              <circle r="8" fill="#e57200"/>
+              <circle r="3" fill="#13294b"/>
+            </g>
+          </svg>
+          <div>
+            <p class="va-masthead__kicker">Commonwealth of Virginia</p>
+            <p class="va-masthead__name">Virginia State Return</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="va-masthead__rule"></div>
+  </header>
+
+  <main id="main-content" class="va-start">
+    <div>
+      <h1>A Virginia state return, computed from the federal one, on the IRS's published code</h1>
+      <p class="va-start__lede">The IRS built Direct File, published its source into the public domain, and suspended it in 2025. This prototype adds a Virginia return (Form 760) on top of that code. Most of the return is already filled in from the federal answers; the filer corrects what is wrong, answers four questions nobody reports for them, and sees the return.</p>
+      <p>Pick a household below. Each opens on the Virginia intro with that person's federal return already answered. Click <strong>Next</strong> through the screens, or jump straight to the return. Opening a household replaces whatever is in this browser tab's session.</p>
+    </div>
+
+    <h2 id="households">Pick a household</h2>
+    <div id="va-households">
+      <ul class="va-start__fallback">
+        <li><a href="../../your-taxes/virginia/virginia-intro/?demo=1">Riley Rappahannock</a>, Richmond, single, $33k: the plain case. Owes $698.</li>
+        <li><a href="../../your-taxes/virginia/virginia-intro/?demo=2">Morgan Shenandoah</a>, Charlottesville, 65, $56k: the age deduction and its phase-out. Owes $1,522.</li>
+        <li><a href="../../your-taxes/virginia/virginia-intro/?demo=3">Jordan Elizabeth</a>, Norfolk, head of household, $20k: the refundable earned income credit, claimed without a question. Refund $505.</li>
+        <li><a href="../../your-taxes/virginia/virginia-intro/?demo=4">Taylor York</a>, Williamsburg, single, active duty, $27k: the military pay subtraction; a ZIP that crosses three localities. Refund $151.</li>
+      </ul>
+    </div>
+
+    <h2>What to look for</h2>
+    <ol>
+      <li><strong>What Virginia already has.</strong> The second screen groups what is known by where it came from: Virginia Tax's own records, the W-2 the employer filed, the federal return. Nothing on it was typed.</li>
+      <li><strong>A correction, and what it changed.</strong> Say something is wrong, change a W-2, and the next screen shows what moved and by how much.</li>
+      <li><strong>Four questions, then the return.</strong> Locality (proposed from the ZIP code), military pay, Commonwealth Savers, untaxed purchases. Then Form 760 line by line, with a Change link on every answer and a "why this number" under the lines that need one.</li>
+      <li><strong>The same in Spanish.</strong> Every Virginia screen is translated: <a href="../../es/your-taxes/virginia/virginia-intro/?demo=1">Riley's return, en español</a>.</li>
+    </ol>
+
+    <h2>Look under the hood</h2>
+    <ul class="va-start__tools">
+      <li><strong>Browse All</strong>: every screen in the flow, federal and Virginia, with the condition that shows or hides it. <a href="../../all-screens/">Open the list</a> (built into the developer site; a plain production build leaves it out).</li>
+      <li id="va-explorer-item" hidden><strong>The Fact Explorer</strong>: the whole dictionary, federal and Virginia, drawn as one graph: every fact, what it reads and who reads it. The IRS's own tool, built over this site. <a href="../../../../fact-explorer/direct-file">Open the Fact Explorer</a> (a large page; give it a moment).</li>
+      <li><strong>The fact dictionary</strong>: every rule the engine runs, federal and Virginia, as one XML file. The Virginia facts are the ones whose paths begin with <code>/va</code>. <a href="../fact-dictionary.xml">Open it</a>.</li>
+      <li id="va-workbench-item"><strong>The Rules Workbench</strong>: Form 760 line by line with the statute beside each, where policy staff change a figure or a rule in plain language and watch worked examples rerun. <span id="va-workbench-where"><a href="../../workbench/">Open the read-only copy</a>: the lines, the values by year, the examples and the reports, built into this site. Editing needs the live one, on your own machine: <code>make workbench</code>.</span></li>
+      <li><strong>The federal return</strong>: the port of Direct File's own interview, untouched. <a href="../../">Start from the first federal screen</a>.</li>
+      <li><strong>The proof</strong>: what the checks found for this build. Fifty households against an independent model of the rules, axe over every screen in both languages, the test suite. <a href="../proof/">Open the proof page</a>.</li>
+      <li id="va-mockups-item" hidden><strong>The design mockups</strong>, the pages this was built from: <a href="../../mockups/law-to-screen.html">law to screen</a>, a change followed from an Act to the filer's screen; <a href="../../mockups/rules-workbench.html">the rules workbench</a>; <a href="../../mockups/virginia-theme.html">the Virginia theme</a>. Course material, not part of the handoff.</li>
+      <li><strong>The code</strong>: <a href="https://github.com/gchickering21/direct-file-virginia">github.com/gchickering21/direct-file-virginia</a>, public domain.</li>
+    </ul>
+
+    <h2>Read</h2>
+    <p>The write-up, rendered on GitHub. Start with the brief if you have five minutes, the architecture page if you want to know how it works, the handoff if you are a state.</p>
+    <ul class="va-start__tools">
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/handoff/BRIEF.md">The brief</a>: one page for the Commonwealth. The question, what was built, what it proves, what it leaves out.</li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/docs/architecture.md">How the pieces fit</a>: the layers and the path from an edit to a screen, as two diagrams, and what each check proves.</li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/README.md">The README</a>, <a href="https://github.com/gchickering21/direct-file-virginia/blob/main/GETTING_STARTED.md">Getting started</a> and <a href="https://github.com/gchickering21/direct-file-virginia/blob/main/CONTRIBUTING.md">Contributing</a>: running it, changing it.</li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/tree/main/virginia/direct-file/docs/adr">The decision records</a>: the scope and the integration rule (001), the extended scope and the IRS files touched (002), the layout for growth (003).</li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/handoff/README.md">The handoff</a>, with <a href="https://github.com/gchickering21/direct-file-virginia/blob/main/handoff/POLICY_MAP.md">the policy map</a> (one row per rule: Form 760 line, Code section, facts, hand-check values) and <a href="https://github.com/gchickering21/direct-file-virginia/blob/main/handoff/FORM_760_FIELD_MAP.md">the Form 760 field map</a> (every field on the form and where it would come from).</li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/report/PLAN.md">The plan</a>, <a href="https://github.com/gchickering21/direct-file-virginia/blob/main/report/NOTES.md">the dated working notes</a> and <a href="https://github.com/gchickering21/direct-file-virginia/blob/main/report/SOURCES.md">the sources</a>: the course material.</li>
+      <li><a href="https://github.com/gchickering21/direct-file-virginia/blob/main/docs/hosting.md">How this site is hosted</a>, for free, and what the hosted copy has and lacks.</li>
+    </ul>
+
+    <h2>How it works, in three sentences</h2>
+    <p>The rules are XML facts in the IRS's Fact Graph, compiled to JavaScript and run entirely in this browser: no server holds your answers, and nothing leaves the page. The screens are the IRS's Form Builder turning Flow XML into static HTML, one question per page. Virginia is ten small rule modules and fourteen screens beside the federal ones, reading only the facts the federal return already exports to states, with every rule naming its section of the Virginia Code.</p>
+
+    <footer class="va-start__footer">
+      <p>A Georgetown University class project (Digital Public Infrastructure, fall 2026). Public domain, CC0. Not branded as, or endorsed by, the IRS or Virginia Tax. The households are invented.</p>
+    </footer>
+  </main>
+
+  <script>
+    // The cards, from the manifest. On any failure the hand-written list above stays.
+    (async () => {
+      try {
+        const r = await fetch('../data/virginia-demos.json');
+        if (!r.ok) return;
+        const demos = (await r.json()).demos;
+        if (!Array.isArray(demos) || !demos.length) return;
+        const money = n => '$' + Number(n).toLocaleString('en-US');
+        const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const card = d => `
+          <li class="va-card">
+            <p class="va-card__n">Household ${esc(d.n)}</p>
+            <p class="va-card__name">${esc(d.name)}</p>
+            <p class="va-card__who">${esc(d.place)}, ${esc(d.household)}</p>
+            <p class="va-card__shows">${esc(d.shows)}</p>
+            <p class="va-card__result">${d.result.kind === 'owes' ? 'Owes' : 'Refund'} ${money(d.result.amount)}</p>
+            <p class="va-card__actions">
+              <a class="usa-button" href="../../your-taxes/virginia/virginia-intro/?demo=${esc(d.n)}">Open the return</a>
+              <a class="usa-link" href="../../es/your-taxes/virginia/virginia-intro/?demo=${esc(d.n)}" lang="es">en español</a>
+            </p>
+          </li>`;
+        document.getElementById('va-households').innerHTML = `<ul class="va-start__cards">${demos.map(card).join('')}</ul>`;
+      } catch (e) { console.warn('start page: the household cards stay as the plain list:', e.message); }
+    })();
+    // The mockups are copied in by make site-demo, so a development build has none: show the item only when they are there.
+    fetch('../../mockups/law-to-screen.html', { method: 'HEAD' }).then(r => { if (r.ok) document.getElementById('va-mockups-item').hidden = false; }).catch(() => {});
+    // Likewise the Fact Explorer, built in by stack/fact-explorer.sh beside the site.
+    fetch('../../../../fact-explorer/data/apps.json', { method: 'HEAD' }).then(r => { if (r.ok) document.getElementById('va-explorer-item').hidden = false; }).catch(() => {});
+    // The live Workbench is a local Node server, so it is linked only where it can be running; the
+    // read-only copy is built into the hosted site (make site-demo), not into make dev or make demo.
+    if (['localhost', '127.0.0.1'].includes(location.hostname)) {
+      document.getElementById('va-workbench-where').innerHTML = '<a href="http://localhost:3011">Open the Workbench</a> (start it first: <code>make workbench</code>).';
+    }
+  </script>
+</body>
+</html>
